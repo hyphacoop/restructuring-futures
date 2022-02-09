@@ -10,12 +10,12 @@ From the grant:
 
 This project has a [Code of Conduct](https://docs.google.com/document/d/1KlvsinjNGPpF25aKxWJpG8jv8aHk7uLguIbmciX16xo/edit?usp=sharing). The Restructuring Futures project team is dedicated to providing a harassment-free environment for everyone, regardless of gender, gender identity and expression, sexual orientation, disability, physical appearance, body size, race, age, religion or technical skill level.
 
-In order to try and remove obstacles to participation, we have adopted an explicitly-documented code to communicate our expectations for conduct within the community. We expect all people engaging with the project to have read the code. If you have any questions please email [project.rsfutures@hypha.coop](mailto:project.rsfutures@hypha.coop) or to report a violation please email Udit directly: [udit@hypha.coop](mailto:udit@hypha.coop].
+In order to try and remove obstacles to participation, we have adopted an explicitly-documented code to communicate our expectations for conduct within the community. We expect all people engaging with the project to have read the code. If you have any questions please email [project.rsfutures@hypha.coop](mailto:project.rsfutures@hypha.coop) or to report a violation please email Udit directly: [udit@hypha.coop](mailto:udit@hypha.coop).
 
 
 ## Curious? Want to know more?
 
-We're still in the phase where we are more quiet about this work, thought Ukai and Lai are leading though residencies that engage witm members. You can email [project.rsfutures@hypha.coop](mailto:project.rsfutures@hypha.coop) to get ahold of all of us at Hypha working on this!
+We're still in the phase where we are more quiet about this work, thought Ukai and Lai are leading though residencies that engage with community members. You can email [project.rsfutures@hypha.coop](mailto:project.rsfutures@hypha.coop) to get ahold of all of us at Hypha!
 
 ## License
 
