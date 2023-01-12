@@ -1,9 +1,8 @@
 # ReStructuring Futures (RSF) 
 
-A public notebook for [Restructuring Futures](https://www.ukai.ca/counterfoil/restructuring-futures), an experimental collaboration between the [Laboratory for Artistic Intelligence](https://artisticintelligence.com/) and [Ukai Projects](https://www.ukai.ca/) supported by a grant from the [2020-2021 Digital Strategies Fund](https://canadacouncil.ca/funding/strategic-funds/digital-strategy-fund) at Canada Council for the Arts. 
+A public notebook for [Restructuring Futures](https://www.ukai.ca/counterfoil/restructuring-futures), an experimental collaboration between Hypha Worker Co-op, [UKAI Projects](https://www.ukai.ca/) and the [Laboratory for Artistic Intelligence](https://artisticintelligence.com/) supported by a grant from the [2020-2021 Digital Strategies Fund](https://canadacouncil.ca/funding/strategic-funds/digital-strategy-fund) at Canada Council for the Arts. 
 
-From the grant:
-> To research and prototype tools, processes, and systems to envision and operate a virtual artist-run centre within alternative digital economies and emergent cooperative frameworks. We will convene a think tank to look at new platforms by alternative technologists which have been built on a different set of values than tools like Zoom/Facebook/Instagram. Based on the think tank discussions, Ukai and the Lab will work with partners to iterate some proposed solutions. Ad hoc, imperfect, but working solutions are the goal -- much like the way artists ‘hack’ together vibrant, alternative art spaces and communities in overlooked spaces offline.
+"Restructuring Futures is ostensibly about building infrastructure to support creative and cultural collaboration that is resilient to volatile conditions." More on the laest phase of the project [here](https://localdisturbances.substack.com/p/the-arts-has-a-fever?r=f3tud). 
 
 
 ## Code of Conduct
@@ -15,7 +14,7 @@ In order to try and remove obstacles to participation, we have adopted an explic
 
 ## Curious? Want to know more?
 
-We're still in the phase where we are more quiet about this work, thought Ukai and Lai are leading though residencies that engage with community members. You can email [project.rsfutures@hypha.coop](mailto:project.rsfutures@hypha.coop) to get ahold of all of us at Hypha!
+You can email [project.rsfutures@hypha.coop](mailto:project.rsfutures@hypha.coop) to get ahold of all of us at Hypha!
 
 ## License
 
