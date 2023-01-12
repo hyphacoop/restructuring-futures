@@ -4,6 +4,8 @@ A public notebook for [Restructuring Futures](https://www.ukai.ca/counterfoil/re
 
 "Restructuring Futures is ostensibly about building infrastructure to support creative and cultural collaboration that is resilient to volatile conditions." More on the latest phase of the project [here](https://localdisturbances.substack.com/p/the-arts-has-a-fever?r=f3tud). 
 
+The prototype from Phase 1 [lives here](https://github.com/hyphacoop/crispy-couscous).
+
 
 ## Code of Conduct
 
