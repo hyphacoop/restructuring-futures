@@ -1,8 +1,8 @@
 import * as Earthstar from "https://cdn.earthstar-project.org/js/earthstar.web.v10.0.1.js";
 
 const shareKeypair = {
-    "shareAddress": "+time.bcf7dnfnkdpr7426bmtvlsiwoz6hbof7mdkpglei3ijhxm6krsa2a",
-    "secret": "bi7zyrigu53wp666nfnguxl3exagkj7v4a3eqn4hqqz7wyrakvola"
+    "shareAddress": "+chatroom.bysngmyrejrpvraagr6yrvf4ccej5khaa6sg7lklj5si3gmtympla",
+    "secret": "bpou5uwcajfwthskak2dhrgtzoyv5vcxkohf2c4w4omhmqekw6npq"
 }
 
 
@@ -132,7 +132,7 @@ renderMessages();
 
 const peer = new Earthstar.Peer();
 peer.addReplica(replica);
-const syncStatus = peer.sync("https://western-shade-umbrella.glitch.me/", true);
+const syncStatus = peer.sync("https://pacific-festive-azimuth.glitch.me/", true);
 
 
 syncStatus.onStatusChange((newStatus) => {

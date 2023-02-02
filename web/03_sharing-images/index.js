@@ -7,9 +7,8 @@ import * as Earthstar from "https://cdn.earthstar-project.org/js/earthstar.web.v
 
 // Use the values for shareKeypair which were logged to your console.
 const shareKeypair = {
-    
-        shareAddress: "+chatroom.b4fjzm5q4qkk363ax4uax7dcixgacevwfgm7jlasngrbp5ufmh7za",
-        secret: "bz4vyqt3np4cq3shygcm2zd3qljtdwrczr2usl3l3dar5gup6wouq"
+  "shareAddress": "+chatroom.bghrat2j2szeym5ql7egdppduxjhytfoqsryfa4axea7y4gnphvsq",
+  "secret": "bbicfwgfwtrldnnezqfw2o5h4vajzj6uvqkhnuinmtryrnqi4gofq"
 
 };
 
@@ -117,7 +116,7 @@ renderAttachments();
 const peer = new Earthstar.Peer();
 peer.addReplica(replica);
 
-const syncer = peer.sync("https://abstracted-mire-starburst.glitch.me/", true);
+const syncer = peer.sync("https://pacific-festive-azimuth.glitch.me/", true);
 const statusText = document.getElementById("status-text");
 
 syncer.onStatusChange((newStatus) => {

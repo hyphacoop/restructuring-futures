@@ -7,10 +7,8 @@ import * as Earthstar from "https://cdn.earthstar-project.org/js/earthstar.web.v
 
 // Use the values for shareKeypair which were logged to your console.
 const shareKeypair = {
-    
-        shareAddress: "+chatroom.b4fjzm5q4qkk363ax4uax7dcixgacevwfgm7jlasngrbp5ufmh7za",
-        secret: "bz4vyqt3np4cq3shygcm2zd3qljtdwrczr2usl3l3dar5gup6wouq"
-
+    "shareAddress": "+voicenotes.bovdw3b3ehwpa3stsnh3vep5hmsg5uj3wsqdwyzkuue5r5yiurzbq",
+    "secret": "babvkyto6yq4f6d7xdehh5cmkp6fq362bph6hxypmjxzgtot3c4jq"
 };
 
 // function to generate a valid pseudo-random id
@@ -55,13 +53,13 @@ async function renderVoiceNotes() {
 
 
 	for (const doc of voiceDocs) {
-		const note = document.createElement("li");
+		const note = document.createElement("div");
         const attachment = await replica.getAttachment(doc);
         if (attachment === undefined) {
             console.log("undefined voice attachment")
             continue;
         } 
-        const docdata = await attachment.bytes();
+        const docdata = await attachment.bytes();   
         let bytes = new Uint8Array(docdata.length);
         for (var i = 0; i < docdata.length; i++) {
             bytes[i] = docdata[i];
@@ -84,7 +82,8 @@ async function renderVoiceNotes() {
         const blob = URL.createObjectURL(new Blob([bytes], {type: type}));
         console.log("voice attachment ", attachment);
         const a = document.createElement('a');
-        a.href = blob;
+        a.src = blob;
+        a.target = "_blank";
         a.innerHTML = new Date();
         note.append(a);
 		voiceNotes.append(note);
@@ -103,7 +102,7 @@ renderVoiceNotes();
 const peer = new Earthstar.Peer();
 peer.addReplica(replica);
 
-const syncer = peer.sync("https://abstracted-mire-starburst.glitch.me/");
+const syncer = peer.sync("https://pacific-festive-azimuth.glitch.me/");
 const statusText = document.getElementById("status-text");
 
 syncer.onStatusChange((newStatus) => {
