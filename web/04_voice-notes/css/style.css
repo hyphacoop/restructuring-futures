@@ -1,6 +1,9 @@
 /* Media Queries */
 
 /* Small Devices*/
+
+a { color: black;}
+a:hover { background-color: black; color:white;}
 html {
     font-family: sans-serif;    
 }
