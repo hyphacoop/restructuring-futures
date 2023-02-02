@@ -6,6 +6,10 @@ A public notebook for [Restructuring Futures](https://www.ukai.ca/counterfoil/re
 
 The prototype from Phase 1 [lives here](https://github.com/hyphacoop/crispy-couscous).
 
+## Building with Earthstar
+
+Github pages is used to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/)
+
 
 ## Code of Conduct
 

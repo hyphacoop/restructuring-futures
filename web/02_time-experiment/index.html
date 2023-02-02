@@ -1,27 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-    <title>Time experiment</title>
+    <title>Ephemeral chat experiment</title>
+    <meta name="viewport" content="width=device-width">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/time.css">
     <script src="scripts/time.js" type="module" async></script>
 </head>
 <body>
     <div id="main">
-        <h1>Time experiment</h1>
+        <h1>Ephemeral chat experiment</h1>
         <div id="identity">
             <div>Your username: </div>
             <div id="userID"></div>
         </div>
         <div id="statusText"></div>
         <div id="chat">
-            <h2>Chat</h2>
+            <h2>Chat history</h2>
             <ul id="messages"></ul>
             <form id="message-form">
-                <h2>Text</h2>
-                <h3>Messages disappear after 10 minutes</h3>
+                <h2>Text input</h2>
+                <h3>Without interactions, messages disappear after 10 minutes</h3>
+                <h4>Transparent message containers will fade away in no time.</h4>
                 <input id="message-input" type="text" name="message-input">
                 <br>
-                <button id="sendButton">Send</button>
+                <button id="sendButton" class="timeBtn">Send</button>
             </form>
+        </div>
+        <div id="footer">
+            <p>
+                Built with <a href="https://earthstar-project.org/">Earthstar</a>
+            </p>
         </div>
     </div>
     <script>

@@ -33,6 +33,9 @@
         /*horizontal centering*/
         align-items: center;
     }
+    .fa {
+        font-size: 70px !important;
+    }
     .start-recording-button {
         font-size: 70px !important;
         color: #435f7a;
@@ -310,3 +313,11 @@
 /* Extra Large devices */
 
 @media (min-width: 1200px) {}
+
+.image_view {
+    max-width: 100%;
+}
+
+.img_container {
+    max-width:50px;
+}

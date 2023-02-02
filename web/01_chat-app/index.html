@@ -3,10 +3,10 @@
     <head>
         <meta charset="utf-8">
         <title>My Chat App</title>
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/font-awesome.min.css">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
         <style>
             li {
                 list-style: none;
@@ -71,6 +71,21 @@
         </style>
     </head>
     <body>
+        <div>
+            <h1>Earthstar experiment</h1>
+        </div>
+        <div>
+        <div id="status">
+            <p>Status</p>
+            <div id="current-status">
+                <p>Currently <strong id="status-text">alone</strong></p>
+            </div>
+            <div id="current-id">
+                <p>ID: <strong id="id-text">unknown</strong></p>
+
+            </div>
+        </div>
+
         <div id="chat">
             <h2>Chat</h2>
             <ul id="messages"></ul>
@@ -106,15 +121,32 @@
                     Delete chat if things got out of control
                     <button id="delete_button">Panic delete</button>
                 </p>
-
             </div>
+
+            <div>
+                <p>
+                    <input id="fileInput" type="file"/>
+                    <button id="uploadButton">upload</button>
+                </p>
+            </div>
+            
+        </div>
+        
+        <div id="voice" style="float: inline-start;">
+            <h2>Voice notes</h2>
+            <ul id="voice-notes"></ul>
+        </div>
+
+        <div id="files" style="float: inline-end; width: 50%;">
+            <h2>Attachments</h2>
+            <ul id="file-attachments"></ul>
         </div>
         <div id="identity-info" style="clear:both;overflow-wrap: anywhere;">
             <p>User Identity Info</p>
         </div>
-        <!--
+        
                 <div class="audio-recording-container">
-                    <h1 class="title">Audio Recording API Demo</h1>
+                    <h1 class="title">Audio recording in the browser</h1>
                     <i class="start-recording-button fa fa-microphone" aria-hidden="true"></i>
                     <div class="recording-contorl-buttons-container hide">
                         <i class="cancel-recording-button fa fa-times-circle-o" aria-hidden="true"></i>
