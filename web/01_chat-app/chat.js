@@ -292,13 +292,9 @@ renderAttachments();
 
 const peer = new Earthstar.Peer();
 peer.addReplica(replica);
-peer.sync("https://abstracted-mire-starburst.glitch.me/", true);
 
-const otherPeer = new Earthstar.Peer();
-otherPeer.addReplica(replica);
-otherPeer.sync("http://localhost:8000/", true);
 
-const syncer = peer.sync("https://abstracted-mire-starburst.glitch.me/");
+const syncer = peer.sync("https://pacific-festive-azimuth.glitch.me/");
 const statusText = document.getElementById("status-text");
 
 syncer.onStatusChange((newStatus) => {
@@ -489,10 +485,6 @@ function startAudioRecording() {
         console.log("type: ", typeof uint);
         return uint;
     }
-    // get file from disk to uint8array
-    async function getAsByteArray(file) {
-        return new Uint8Array(await readFile(file))
-    }
 
     // read file from disk
     function readFile(file) {
@@ -561,25 +553,10 @@ try {
         }
 
         console.log('Audio sent to server.')
-} catch (error) {
-    console.log("Error uploading audio to server: ", error);
+    } catch (error) {
+        console.log("Error uploading audio to server: ", error);
+    }
 }
-    // from blob to array
-    //let audioAsArray = new Uint8Array([audioAsblob]);
-    //console.log("Audio as array", audioAsArray);
-
-
-     // convert blob to file
-/*      let audioAsFile = new File([audioAsblob], "audio.ogg", {
-        type: "audio/ogg",
-        lastModified: Date.now()
-    }); */
-    //console.log("Audio as file", audioAsFile);
-
-
-}
-
-
 /** Stop the currently started audio recording & sends it
  */
 function stopAudioRecording() {
