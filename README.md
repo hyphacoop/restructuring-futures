@@ -8,7 +8,7 @@ The prototype from Phase 1 [lives here](https://github.com/hyphacoop/crispy-cous
 
 ## Building with Earthstar
 
-Github pages is used to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/)
+Github pages are used to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/)
 
 
 ## Code of Conduct
