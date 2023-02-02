@@ -3,6 +3,9 @@
     margin: 1rem;
 }
 
+#main {
+    min-height: 100vh;
+}
 svg {
     width: 22px;
     height: 22px;
@@ -27,19 +30,46 @@ li {
     color: white;
     border-radius: 1rem;
     margin: 0.25rem 0rem;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
 }
 
+li div:first-child {
+    padding:10px;
+  }
+
 button.timeBtn {
-    background-color:#333;
     border-radius: 0.5rem;
-    color: white;
     padding: 0.25rem 0.5rem;
-    border: 1px dashed white;
+    border-width: 1px;
+    border-style: dashed;
     font-family: monospace;
-    float: right;
-    margin: -0.15rem;
+    margin: 0.15rem 0.25rem;
+}
+.addtimeBtn {
+    background-color: green;
+    color: white;
+    border-color: white;
+}
+.rmtimeBtn {
+    background-color: red;
+    color: black;
+    border-color: black;
 }
 
 #message-form {
-    margin-top:5rem;
+    margin-top:2rem;
 }
+
+input {
+    width:100%;
+}
+
+#footer {
+    position:absolute;
+    bottom: 15px;
+    right: 15px;
+}
+
