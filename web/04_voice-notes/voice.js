@@ -79,10 +79,11 @@ async function renderVoiceNotes() {
         } else if (blobtype[-1] === "webm") {
             type = "audio/webm";
         }
+        console.log("type ", type);
         const blob = URL.createObjectURL(new Blob([bytes], {type: type}));
         console.log("voice attachment ", attachment);
         const a = document.createElement('a');
-        a.src = blob;
+        a.href = blob;
         a.target = "_blank";
         a.innerHTML = new Date();
         note.append(a);
