@@ -158,7 +158,9 @@ renderMessages();
 const peer = new Earthstar.Peer();
 peer.addReplica(replica);
 const syncStatus = peer.sync("https://western-shade-umbrella.glitch.me/", true);
-
+const otherPeer = new Earthstar.Peer();
+peer.addReplica(replica);
+const otherSyncStatus = peer.sync("https://pacific-festive-azimuth.glitch.me/", true);
 
 syncStatus.onStatusChange((newStatus) => {
     console.log(newStatus);
@@ -168,7 +170,16 @@ const statusText = document.getElementById("statusText");
 
 syncStatus.isDone().then(() => {
     console.log("Sync complete");
+    statusText.innerHTML += "Sync Complete";
 }).catch((err) => {
     console.error("Sync failed", err);
-    statusText.innerHTML = "Sync failed" + JSON.stringify(err);
+    statusText.innerHTML += "Sync failed" + JSON.stringify(err);
+});
+
+
+otherSyncStatus.isDone().then(() => {
+    console.log("Sync complete");
+}).catch((err) => {
+    console.error("Sync failed", err);
+    statusText.innerHTML += "Sync failed" + JSON.stringify(err);
 });
