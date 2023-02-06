@@ -334,6 +334,7 @@ html {
     border-radius:1rem;
     color: lightgreen;
     transition: all 1s ease;
+    width: fit-content;
 }
 #voice-notes div div:hover {
     text-decoration: underline;
