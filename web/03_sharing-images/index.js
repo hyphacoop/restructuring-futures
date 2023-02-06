@@ -118,12 +118,23 @@ peer.addReplica(replica);
 
 const syncer = peer.sync("https://pacific-festive-azimuth.glitch.me/", true);
 const statusText = document.getElementById("status-text");
-
+const otherSyncer = peer.sync("https://earthstar-server.fly.dev/sync", true);
 syncer.onStatusChange((newStatus) => {
   console.log(newStatus);
 });
 
 syncer.isDone().then(() => {
+  console.log("Sync complete");
+}).catch((err) => {
+  console.error("Sync failed", err);
+  statusText.innerHTML = "Sync failed" + JSON.stringify(err);
+});
+
+otherSyncer.onStatusChange((newStatus) => {
+  console.log(newStatus);
+});
+
+otherSyncer.isDone().then(() => {
   console.log("Sync complete");
 }).catch((err) => {
   console.error("Sync failed", err);
