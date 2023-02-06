@@ -326,3 +326,16 @@ html {
 .img_container {
     max-width:50px;
 }
+
+#voice-notes div div {
+    background-color: black;
+    padding:0.5rem 1rem;
+    border-radius:1rem;
+    color: lightgreen;
+    transition: all 1s ease;
+}
+#voice-notes div div:hover {
+    text-decoration: underline;
+    border-radius:0;
+
+}
