@@ -1,80 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>My Chat App</title>
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/reset.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="icon" type="image/x-icon" href="favicon.ico">
-        <style>
-            li {
-                list-style: none;
 
-            }
-            ul {
-                padding: 0.25rem;
+<head>
+    <meta charset="utf-8">
+    <title>My Chat App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <style>
+        li {
+            list-style: none;
 
-            }
-            #chat,
-            #identity {
-                padding: 1rem;
-            }
-            p {
-                margin: 1rem;
-            }
-            h2 {
-                margin: 1rem;
-                font-size: medium;
-            }
-            #id-input {
-                margin-left: 1rem;
-            }
-            #chat {
-                width: 50%;
-                float: left;
-            }
-            #identity {
-                width: 50%;
-                float: left;
-            }
-            strong {
-                font-weight: bolder;
-            }
-            #identity-info {
-                padding: 1rem;
-                font-size: 1.25rem;
-            }
-            * {
-                margin: 0.25rem;
-            }
-            li {
-                margin: 0.25rem;
-            }
-/*              li::before {
+        }
+
+        ul {
+            padding: 0.25rem;
+
+        }
+
+        #chat,
+        #identity {
+            padding: 1rem;
+        }
+
+        p {
+            margin: 1rem;
+        }
+
+        h2 {
+            margin: 1rem;
+            font-size: medium;
+        }
+
+        #id-input {
+            margin-left: 1rem;
+        }
+
+        #chat {
+            width: 50%;
+            float: left;
+        }
+
+        #identity {
+            width: 50%;
+            float: left;
+        }
+
+        strong {
+            font-weight: bolder;
+        }
+
+        #identity-info {
+            padding: 1rem;
+            font-size: 1.25rem;
+        }
+
+        * {
+            margin: 0.25rem;
+        }
+
+        li {
+            margin: 0.25rem;
+        }
+
+        /*              li::before {
                 content: '*';
                 position: absolute;
                 left: 0.5rem;
             }  */
-            h2 {
-                font-size: 1.25rem;
-            }
-            #message-form {
-                margin-left:0.5rem;
-              }
+        h2 {
+            font-size: 1.25rem;
+        }
 
-              svg {
-                width: 20px;
-                height: 20px;
-                margin-bottom: -5px;
-              }
-        </style>
-    </head>
-    <body>
-        <div>
-            <h1>Earthstar experiment</h1>
-        </div>
-        <div>
+        #message-form {
+            margin-left: 0.5rem;
+        }
+
+        svg {
+            width: 20px;
+            height: 20px;
+            margin-bottom: -5px;
+        }
+
+
+        body {
+            background-color: black;
+            color: lightgreen;
+            margin: 10px;
+            font-family: sans-serif;
+        }
+
+        input {
+            background-color: transparent;
+            border-style: dashed;
+            border-color: lightgreen;
+            width: 100%;
+            color: lightgreen;
+            padding: 0.25rem;
+        }
+
+        input::placeholder {
+            color: rgb(59, 255, 59);
+            font-style: italic;
+        }
+
+        input:focus-visible {
+            outline-style: dotted;
+            outline-color: white;
+            outline-width: thick;
+            border-color:transparent;
+        }
+
+        button {
+            background-color: transparent;
+            border-style: dotted;
+            border-radius: 1rem;
+            border-color: #f2f27a;
+            color: lightgreen;
+            padding: 0.5rem;
+            transition: all 0.5s ease-in-out;
+        }
+
+        button:hover {
+            background-color: lightgreen;
+            color: black;
+        }
+        button:active {
+            border-width: thick;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Earthstar experiment</h1>
+    </div>
+    <div>
         <div id="status">
             <p>Status</p>
             <div id="current-status">
@@ -90,7 +152,7 @@
             <h2>Chat</h2>
             <ul id="messages"></ul>
             <form id="message-form">
-                <input id="message-input" type="text" name="message-input">
+                <input placeholder="Insert your text here" id="message-input" type="text" name="message-input">
                 <br>
                 <button id="secondsButton">Send [deleted in 10 seconds]</button>
                 <br>
@@ -105,13 +167,13 @@
                 Generate a random ID
                 <button id="randomID">Generate</button>
             </p>
-            
+
             <p>
                 Create an ID (must be 4 char)
-                <form id="id-form">
-                    <input id="id-input" type="text" name="id-input">
-                    <button>Create</button>
-                </form>
+            <form id="id-form">
+                <input placeholder="Create a 4 character Identity" id="id-input" type="text" name="id-input">
+                <button>Create</button>
+            </form>
             </p>
 
 
@@ -125,13 +187,13 @@
 
             <div class="d-none">
                 <p>
-                    <input id="fileInput" type="file"/>
+                    <input id="fileInput" type="file" />
                     <button id="uploadButton">upload</button>
                 </p>
             </div>
-            
+
         </div>
-        
+
         <div id="voice" class="d-none">
             <h2>Voice notes</h2>
             <ul id="voice-notes"></ul>
@@ -144,39 +206,42 @@
         <div id="identity-info" style="clear:both;overflow-wrap: anywhere;">
             <p>User Identity Info</p>
         </div>
-        
-                <div class="audio-recording-container d-none">
-                    <h1 class="title">Audio recording in the browser</h1>
-                    <i class="start-recording-button fa fa-microphone" aria-hidden="true"></i>
-                    <div class="recording-contorl-buttons-container hide">
-                        <i class="cancel-recording-button fa fa-times-circle-o" aria-hidden="true"></i>
-                        <div class="recording-elapsed-time">
-                            <i class="red-recording-dot fa fa-circle" aria-hidden="true"></i>
-                            <p class="elapsed-time"></p>
-                        </div>
-                        <i class="stop-recording-button fa fa-stop-circle-o" aria-hidden="true"></i>
-                    </div>
-                    <div class="text-indication-of-audio-playing-container">
-                        <p class="text-indication-of-audio-playing hide">Audio is playing<span>.</span><span>.</span><span>.</span></p>
-                    </div>
+
+        <div class="audio-recording-container d-none">
+            <h1 class="title">Audio recording in the browser</h1>
+            <i class="start-recording-button fa fa-microphone" aria-hidden="true"></i>
+            <div class="recording-contorl-buttons-container hide">
+                <i class="cancel-recording-button fa fa-times-circle-o" aria-hidden="true"></i>
+                <div class="recording-elapsed-time">
+                    <i class="red-recording-dot fa fa-circle" aria-hidden="true"></i>
+                    <p class="elapsed-time"></p>
                 </div>
-                <div class="overlay hide">
-                    <div class="browser-not-supporting-audio-recording-box">
-                        <p>To record audio, use browsers like Chrome and Firefox that support audio recording.</p>
-                        <button type="button" class="close-browser-not-supported-box">Ok.</button>
-                    </div>
-                </div>
-            
-                <audio controls class="audio-element hide">
-                </audio>
+                <i class="stop-recording-button fa fa-stop-circle-o" aria-hidden="true"></i>
+            </div>
+            <div class="text-indication-of-audio-playing-container">
+                <p class="text-indication-of-audio-playing hide">Audio is
+                    playing<span>.</span><span>.</span><span>.</span></p>
+            </div>
+        </div>
+        <div class="overlay hide">
+            <div class="browser-not-supporting-audio-recording-box">
+                <p>To record audio, use browsers like Chrome and Firefox that support audio recording.</p>
+                <button type="button" class="close-browser-not-supported-box">Ok.</button>
+            </div>
+        </div>
+
+        <audio controls class="audio-element hide">
+        </audio>
         <script src="chat.js" type="module" async></script>
         <script>
             window.jdenticon_config = {
                 replaceMode: "observe"
             };
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async
+            integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M"
+            crossorigin="anonymous"></script>
 
-    </body>
+</body>
+
 </html>
-
