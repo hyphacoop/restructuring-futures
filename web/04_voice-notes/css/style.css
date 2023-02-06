@@ -329,6 +329,7 @@ html {
 
 #voice-notes div div {
     background-color: black;
+    margin:0.5rem;
     padding:0.5rem 1rem;
     border-radius:1rem;
     color: lightgreen;
