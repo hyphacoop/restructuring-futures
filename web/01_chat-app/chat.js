@@ -241,6 +241,7 @@ idForm.addEventListener("submit", async (event) => {
         console.log(newAuthorKeypair);
         console.groupEnd();
         authorKeypair = newAuthorKeypair;
+        document.getElementById("id-text").innerHTML = authorKeypair.address.slice(1, 5);
         document.getElementById("identity-info").innerHTML += 
         '<br>***<br>Address: ' + authorKeypair.address + '<br>Secret: ' + authorKeypair.secret;
      } else if (Earthstar.isErr(newAuthorKeypair)) {
