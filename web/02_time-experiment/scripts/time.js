@@ -158,28 +158,40 @@ renderMessages();
 const peer = new Earthstar.Peer();
 peer.addReplica(replica);
 const syncStatus = peer.sync("https://western-shade-umbrella.glitch.me/", true);
-const otherPeer = new Earthstar.Peer();
-peer.addReplica(replica);
+
 const otherSyncStatus = peer.sync("https://pacific-festive-azimuth.glitch.me/", true);
 
+const otherSyncer = peer.sync("https://earthstar-server.fly.dev/sync", true);
+
 syncStatus.onStatusChange((newStatus) => {
-    console.log(newStatus);
+    console.log('western-shade-umbrella' + newStatus);
 });
 
 const statusText = document.getElementById("statusText");
 
 syncStatus.isDone().then(() => {
-    console.log("Sync complete");
+    console.log("Sync complete w western-shade-umbrella");
     statusText.innerHTML += "Sync Complete";
 }).catch((err) => {
-    console.error("Sync failed", err);
+    console.error("Sync failed w western-shade-umbrella", err);
     statusText.innerHTML += "Sync failed" + JSON.stringify(err);
 });
 
 
 otherSyncStatus.isDone().then(() => {
-    console.log("Sync complete");
+    console.log("Sync complete w pacific-festive-azimuth");
 }).catch((err) => {
-    console.error("Sync failed", err);
+    console.error("Sync failed w pacific-festive-azimuth", err);
     statusText.innerHTML += "Sync failed" + JSON.stringify(err);
 });
+
+otherSyncer.onStatusChange((newStatus) => {
+    console.log(newStatus);
+  });
+  
+  otherSyncer.isDone().then(() => {
+    console.log("Sync complete w earthstar-server.fly.dev");
+  }).catch((err) => {
+    console.error("Sync failed w earthstar-server.fly.dev", err);
+    statusText.innerHTML = "Sync failed" + JSON.stringify(err);
+  });
