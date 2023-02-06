@@ -277,16 +277,10 @@ randomButton.addEventListener("click", async (event) => {
 cache.onCacheUpdated(() => {
 	renderMessages();
 });
-voiceCache.onCacheUpdated(() => {
-    renderVoiceNotes();
-});
-fileCache.onCacheUpdated(() => {
-    renderAttachments();
-});
+
 
 renderMessages();
-renderVoiceNotes();
-renderAttachments();
+
 
 
 
@@ -296,6 +290,8 @@ peer.addReplica(replica);
 
 const syncer = peer.sync("https://pacific-festive-azimuth.glitch.me/");
 const statusText = document.getElementById("status-text");
+
+const otherSyncer = peer.sync("https://earthstar-server.fly.dev/sync", true);
 
 syncer.onStatusChange((newStatus) => {
   console.log(newStatus);
@@ -309,7 +305,18 @@ syncer.isDone().then(() => {
   statusText.innerHTML = "Sync failed" + JSON.stringify(err);
 });
 
-
+otherSyncer.onStatusChange((newStatus) => {
+    console.log("Sync complete w earthstar-server.fly.dev")
+    console.log(newStatus);
+    console.log("End sync status data from earthstar-server.fly.dev")
+  });
+  
+  otherSyncer.isDone().then(() => {
+    console.log("Sync complete w earthstar-server.fly.dev");
+  }).catch((err) => {
+    console.error("Sync failed", err);
+    statusText.innerHTML = "Sync failed w earthstar-server.fly" + JSON.stringify(err);
+  });
 
 
 //Model 
