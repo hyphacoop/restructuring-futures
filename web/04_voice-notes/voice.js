@@ -82,10 +82,13 @@ async function renderVoiceNotes() {
         console.log("type ", type);
         const blob = URL.createObjectURL(new Blob([bytes], {type: type}));
         console.log("voice attachment ", attachment);
-        const a = document.createElement('a');
-        a.href = blob;
-        a.target = "_blank";
-        a.innerHTML = new Date();
+        const a = document.createElement('div');
+        // a.href = blob;
+        a.onclick = function () {
+            window.open(blob, '_blank', 'height=200,width=500');
+        };
+        const alias = doc.author.slice(1, 5);
+        a.innerHTML = 'from: ' + alias + ' at ' + new Date(doc.timestamp / 1000);
         note.append(a);
 		voiceNotes.append(note);
 
