@@ -321,3 +321,7 @@
 .img_container {
     max-width:50px;
 }
+
+.d-none {
+    display: none;
+}
