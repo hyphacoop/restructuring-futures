@@ -88,7 +88,7 @@ async function renderVoiceNotes() {
             window.open(blob, '_blank', 'height=200,width=500');
         };
         const alias = doc.author.slice(1, 5);
-        a.innerHTML = 'from: ' + alias + ' at ' + new Date(doc.timestamp / 1000);
+        a.innerHTML = 'from: ' + alias + ' on ' + new Date(doc.timestamp / 1000);
         note.append(a);
 		voiceNotes.append(note);
 
