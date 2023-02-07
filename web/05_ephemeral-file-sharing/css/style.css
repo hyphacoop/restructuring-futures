@@ -1,0 +1,50 @@
+html {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f2f2f2;
+}
+#file-attachments {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+
+input {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.image_view {
+    max-height:50px;
+}
+.img_container {
+    max-height:50px;
+}
+
+
+button.basicBtn {
+    border-radius: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    border-width: 1px;
+    border-style: dashed;
+    font-family: monospace;
+    margin: 0.15rem 0.25rem;
+}
+.addtimeBtn {
+    background-color: green;
+    color: white;
+    border-color: white;
+}
+.rmtimeBtn {
+    background-color: rgb(255,255,0);
+    color: black;
+    border-color: black;
+}
+.deleteBtn {
+    background-color: red;
+    color: black;
+    border-color: black;
+}
