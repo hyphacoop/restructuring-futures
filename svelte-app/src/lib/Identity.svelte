@@ -1,0 +1,89 @@
+<script>
+    import * as Earthstar from "earthstar";
+    import { onMount } from "svelte";
+
+    import authorKeypair from "../store/identity.js";
+
+    let identityDetails;
+
+    authorKeypair.subscribe(value => {
+		identityDetails = value;
+	});
+
+
+    // download identity file as json
+    function Download() {
+        let element = document.createElement("a");
+        let file = new Blob([JSON.stringify(currentIdentity)], {
+            type: "text/plain",
+        });
+        let filename = currentIdentity.address + ".json";
+        element.href = URL.createObjectURL(file);
+        element.download = filename;
+        element.style.display = "none";
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
+    }
+
+
+    // Function to generate a 4 char pseudo-random ID
+    function RandomId() {
+        var result = "";
+        var alphaCharacter = "abcdefghijklmnopqrstuvwxyz";
+        var alphaLength = alphaCharacter.length;
+        var allCharacters = "abcdefghijklmnopqrstuvwxyz0123456789";
+        var allLength = allCharacters.length;
+        result += alphaCharacter.charAt(
+            Math.floor(Math.random() * alphaLength)
+        );
+        for (var i = 0; i < 3; i++) {
+            result += allCharacters.charAt(
+                Math.floor(Math.random() * allLength)
+            );
+        }
+        return result;
+    }
+
+    // Create a new author keypair with the random id.
+    export async function generateID() {
+        let identityKeypair = await Earthstar.Crypto.generateAuthorKeypair(
+            RandomId()
+        );
+        // @ts-ignore
+        let authorAddress = identityKeypair.address;
+        // @ts-ignore
+        let authorSecret = identityKeypair.secret;
+
+        authorKeypair.set({
+                    address: authorAddress,
+                    secret: authorSecret,
+                });
+    }
+$: currentAddress = identityDetails.address;
+$: currentSecret = identityDetails.secret;
+$: currentIdentity = identityDetails;
+$: currentAlias = currentAddress.slice(0, 5);
+
+
+</script>
+
+<div>
+    {#await generateID() then data}
+        <h3>Identity</h3>
+        Your alias is <b>{currentAlias}</b>
+        <br />
+
+        <br />
+        <b>Address:</b> {currentAddress}
+        <br />
+        <b>Secret</b>: {currentSecret}<br />
+
+        <button on:click={() => Download()}>
+            Download your identity file
+        </button>
+       
+    {/await}
+    <button on:click={() => generateID()}>
+        Generate another random ID
+    </button>
+</div>
