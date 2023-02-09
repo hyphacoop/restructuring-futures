@@ -1,4 +1,4 @@
-import * as Earthstar from "https://cdn.earthstar-project.org/js/earthstar.web.v10.0.1.js";
+import * as Earthstar from "https://cdn.earthstar-project.org/js/earthstar.web.v10.0.0.js";
 
 // if a fresh start is needed, uncomment the following lines to obtain a new chatroom share address and secret
 //const NEWshareKeypair = await Earthstar.Crypto.generateShareKeypair("chatroom");
@@ -33,7 +33,7 @@ console.log("authorKeypair ", authorKeypair)
 // print authorKeypair to page
 document.getElementById("id-text").innerHTML = authorKeypair.address.slice(1, 5);
 
-// print 
+// Create a new replica. This is where we'll store our documents.
 const replica = new Earthstar.Replica({
 	driver: new Earthstar.ReplicaDriverWeb(shareKeypair.shareAddress),
 	shareSecret: shareKeypair.secret,
