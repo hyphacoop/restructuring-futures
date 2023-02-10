@@ -4,8 +4,8 @@
   import shareKeypair from "./store/share.js";
 
   import Identity from "./lib/Identity.svelte";
-  import Imagesharing from "./lib/Imagesharing.svelte";
-  import RenderImages from "./lib/RenderImages.svelte";
+  import FileSharing from "./lib/FileSharing.svelte";
+  import DocContainer from "./lib/DocContainer.svelte";
 
   let shareDetails;
 
@@ -45,15 +45,15 @@
         Show details
       </button>
       {#if !imageView}
-      <Imagesharing />
+      <FileSharing />
       {:else}
-      <RenderImages />
+      <DocContainer />
       {/if}
       <button class="topright" on:click={() => (imageView = !imageView)}>
         {#if imageView}
-          Upload images
+          Upload file
         {:else}
-          Show images
+          Show file
         {/if}
       </button>
     {/if}
