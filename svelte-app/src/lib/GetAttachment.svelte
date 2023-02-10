@@ -1,6 +1,8 @@
 <script>
 
     import replica from "../store/replica";
+    import SvelteMarkdown from 'svelte-markdown';
+    // import PdfViewer from 'svelte-pdf';
 
     let replicaDetails;
 
@@ -14,6 +16,17 @@
     let attachmentStatus = false;
     let dnone = true;
     let filetype = undefined;
+    let mimetype;
+
+    function uint8ToBase64(arr) {
+        btoa(
+            Array(arr.length)
+                .fill('')
+                .map((_, i) => String.fromCharCode(arr[i]))
+                .join('')
+        );
+    }
+
 
     async function getAttachment(doc) {
         const attachment = await replicaDetails.replica.getAttachment(doc);
@@ -27,19 +40,35 @@
                 bytes[i] = docdata[i];
             }
             console.log("bytes ", bytes);
-            if  (fileExtension === "txt") {
+            if (fileExtension === "docx") {
+                filetype = "docx";
+                attachmentBytes = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+            }
+            else if (fileExtension === "md") {
+                filetype = "markdown";
+                attachmentBytes = String.fromCharCode(...bytes);
+            }
+            else if (fileExtension === "pdf") {
+                filetype = "pdf";
+                attachmentBytes = uint8ToBase64(bytes);
+            }
+            else if (fileExtension === "txt") {
                 filetype = "text";
                 filetype = filetype;
                 console.log(filetype);
-                attachmentBytes = String.fromCharCode(...bytes);
+                //attachmentBytes = String.fromCharCode(...bytes);
+                var decoder = new TextDecoder('utf-8');
+                attachmentBytes = decoder.decode(Uint8Array.from(bytes));
+            // "Hello, ä¸­å½!"
                 console.log('Bytes to string: ', attachmentBytes);
 
             } else if (fileExtension === ("png" || "jpg") || ("jpeg" || "gif")) {
                 filetype = "image";
+                mimetype = "image/" + fileExtension;
                 filetype = filetype;
                 console.log(filetype);
                 attachmentBytes = URL.createObjectURL(
-                    new Blob([bytes], { type: 'image/png' } /* (1) */)
+                    new Blob([bytes], { type: mimetype } /* (1) */)
                 );
             }        
           return attachmentBytes;
@@ -68,13 +97,13 @@
         let filename = doc.path.split("/")[doc.path.split("/").length - 1];
         console.log('type of file' , typeof file)
         element.href = file;
-        element.download = filename;
+        element.download = filename.slice(1);
         element.style.display = "none";
         document.body.appendChild(element); // Required for this to work in FireFox
         element.click();
     }
 
-$: console.log("type", doc.path);
+$: console.log("type", filetype);
 $: console.log(doc.path.split(".").length - 1);
 </script>
 
@@ -107,6 +136,12 @@ Attachment size: {doc.attachmentSize / 1000} kb
             <img src={data} alt={doc.text} />
         {:else if filetype === "text"}
             <p>{data}</p>
+        {:else if filetype === "markdown"}
+            <SvelteMarkdown source={data} />
+        {:else if filetype === "pdf"}
+            <p>Pdf preview to come</p>
+        {:else}
+            <p>This file is not supported.</p>
         {/if}
         <p>
         <button on:click={() => Download()}>

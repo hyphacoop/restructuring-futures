@@ -97,7 +97,7 @@
   <input
     style="display:none"
     type="file"
-    accept=".jpg, .jpeg, .png, .gif, .txt"
+    accept=".jpg, .jpeg, .png, .gif, .txt, .pdf, .md"
     on:change={(e) => onFileSelected(e)}
     bind:this={fileinput}
   />
