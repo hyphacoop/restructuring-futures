@@ -1,8 +1,8 @@
 import { readable } from 'svelte/store'
 
 const shareKeypair = readable({
-    "shareAddress": "+filesharing.bizqtpoj7py6hf2evdvzhoc6fmuq2b35sviz2ibsuarzqjn6ptnca",
-    "secret": "br7jjvhzedght32voqqrad3gjsvadxllgxioat7itqykcrstdssfa"
-  });
+  "shareAddress": "+filesharing.b5measwv2ezjdw7zfrsgqpxlln4yvs5cvcefompv4gypg2ueflr3a",
+  "secret": "bkhu7fomnhbgqnecjnwstunaued7kxlvvazit43u7afizdfpvo4kq"
+});
 
 export default shareKeypair
