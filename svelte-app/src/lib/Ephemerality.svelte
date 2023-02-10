@@ -18,34 +18,56 @@
         replicaDetails = r;
     });
 
-    export let image;
-    let deletionTime = image.deleteAfter;
+    export let doc;
+    let deletionTime = doc.deleteAfter;
 
     async function add() {
-        deletionTime += 1000000;
+        deletionTime += 60000000;
         const result = await replicaDetails.replica.set(authorDetails, {
-                path: image.path,
+                path: doc.path,
                 deleteAfter: deletionTime
             });
             console.log("result ", result);
     }
 
     async function remove() {
-        deletionTime -= 1000000;
+        deletionTime -= 60000000;
         const result = await replicaDetails.replica.set(authorDetails, {
-                path: image.path,
+                path: doc.path,
                 deleteAfter: deletionTime
             });
             console.log("result ", result);
     }
-    
+    $: currentTime = Date.now();
+    $: timeInMinutes = Math.trunc(((deletionTime / 1000) - currentTime) / 60000);
+
 </script>
 
-<div>
+<div id="flexcontainer">
     <button on:click={add}>
         +
     </button>
     <button on:click={remove}>
         -
     </button>
+    <p>{timeInMinutes} minutes left until deletion</p>
 </div>
+
+<style>
+#flexcontainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+}
+#flexcontainer > * {
+    margin:0.25rem;
+}
+
+button {
+    padding:0.5rem 1rem;
+}
+
+</style>
