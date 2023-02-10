@@ -68,7 +68,9 @@ $: currentAlias = currentAddress.slice(0, 5);
 </script>
 
 <div>
-    {#await generateID() then data}
+    {#await generateID()}
+        <h2>Loading Identity details</h2>
+    {:then data}
         <h3>Identity</h3>
         Your alias is <b>{currentAlias}</b>
         <br />
