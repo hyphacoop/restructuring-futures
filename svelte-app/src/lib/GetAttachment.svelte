@@ -44,6 +44,15 @@
                 filetype = "docx";
                 attachmentBytes = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
             }
+            else if (fileExtension === ("mp3" || "wav") || ("webm") || ("ogg")) {
+                filetype = "audio";
+                mimetype = "audio/" + fileExtension;
+                filetype = filetype;
+                console.log(filetype);
+                attachmentBytes = URL.createObjectURL(
+                    new Blob([bytes], { type: mimetype })
+                );
+            }
             else if (fileExtension === "md") {
                 filetype = "markdown";
                 attachmentBytes = String.fromCharCode(...bytes);
@@ -136,6 +145,8 @@ Attachment size: {doc.attachmentSize / 1000} kb
             <img src={data} alt={doc.text} />
         {:else if filetype === "text"}
             <p>{data}</p>
+        {:else if filetype === "audio"}
+            <audio src={data} controls />
         {:else if filetype === "markdown"}
             <SvelteMarkdown source={data} />
         {:else if filetype === "pdf"}
@@ -160,5 +171,8 @@ Attachment size: {doc.attachmentSize / 1000} kb
     }
     .dnone {
         display: none;
+    }
+    audio {
+        border-radius: 0.5rem;
     }
 </style>
