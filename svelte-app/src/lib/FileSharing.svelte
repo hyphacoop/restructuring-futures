@@ -1,7 +1,6 @@
 <script>
   import * as Earthstar from "../assets/scripts/earthstar";
   import authorKeypair from "../store/identity";
-  import shareKeypair from "../store/share";
   import replica from "../store/replica";
 
 
@@ -27,16 +26,22 @@
   }
 
   async function onFileSelected(e) {
-    let image = e.target.files[0];
-    let removeSpace = image.name.replace(/\s+/g, '_');
+    let fileAttachment = e.target.files[0];
+    let removeSpace = fileAttachment.name.replace(/\s+/g, '_');
     let safeName = removeSpace.replace(/[@·,\/#!$%\^&\*;:{}=\-`~()]/g, "");
-    console.log('safeName', safeName);
-    let fileReady = await readFileAsync(image);
+    let extension = safeName.split('.').pop();
+    let fileNoExt = safeName.split('.')[safeName.split('.').length - 2];
+    let finalName;
+    if (extension === "JPG") {
+      extension = "jpeg";
+    }
+    
+    finalName = fileNoExt + "." + extension;
+    let fileReady = await readFileAsync(fileAttachment);
     let deletionTime = (Date.now() + 3600000) * 1000;
-    console.log('fileReady', fileReady);
     let fileUint8 = new Uint8Array(fileReady);
     result = await $replica.replica.set($authorKeypair, {
-      path: `/documents/${Date.now()}/!${safeName}`,
+      path: `/documents/${Date.now()}/!${finalName}`,
       text:
         'from ' +
         $authorKeypair.address.slice(1, 5) +
