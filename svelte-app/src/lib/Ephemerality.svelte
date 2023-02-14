@@ -56,14 +56,14 @@
 
     <div id="flexcontainer">
         <button on:click={add}>
-            +
+            ➕
         </button>
         <button on:click={remove}>
-            -
+            ➖
         </button>
         <p>{Math.trunc(((deletionTime / 1000) - ($elapsed * 1000 + (time))) / 1000)} seconds left until deletion</p>
         <button on:click={() => deleteDoc()}>
-            x
+            🗑️
         </button>
     </div>
 
