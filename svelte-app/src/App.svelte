@@ -18,8 +18,12 @@
   const peer = new Earthstar.Peer();
   peer.addReplica($replica.replica);
   const sync = peer.sync("https://earthstar-server.fly.dev/sync", true);
+  const syncAgain = peer.sync("https://languid-sand-parallelogram.glitch.me/", true);
 
   sync.onStatusChange((newStatus) => {
+    console.log(newStatus);
+  });
+  syncAgain.onStatusChange((newStatus) => {
     console.log(newStatus);
   });
 
