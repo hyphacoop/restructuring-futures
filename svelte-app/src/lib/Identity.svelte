@@ -59,6 +59,12 @@
                     secret: authorSecret,
                 });
     }
+
+    onMount(() => {
+        generateID();
+    });
+
+
 $: currentAddress = identityDetails.address;
 $: currentSecret = identityDetails.secret;
 $: currentIdentity = identityDetails;
@@ -86,6 +92,6 @@ $: currentAlias = currentAddress.slice(0, 5);
        
     {/await}
     <button on:click={() => generateID()}>
-        Generate another random ID
+        Generate new Identity
     </button>
 </div>
