@@ -2,72 +2,66 @@
     import * as Earthstar from "../assets/scripts/earthstar";
     import { onMount } from "svelte";
 
-    import authorKeypair from "../store/identity";
-    import shareKeypair from "../store/share";
+
     import replica from "../store/replica";
 
     import Ephemerality from "./Ephemerality.svelte";
     import GetAttachment from "./GetAttachment.svelte";
 
-    let shareDetails;
-    let authorDetails;
-    let replicaDetails;
-    let images = [];
-    let doc = {};
-
-    shareKeypair.subscribe((r) => {
-        shareDetails = r;
-    });
-
-    authorKeypair.subscribe((r) => {
-        authorDetails = r;
-    });
-
-    replica.subscribe((r) => {
-        replicaDetails = r;
-    });
+    let documents = [];
 
     // @ts-ignore
-    const cache = new Earthstar.ReplicaCache(replicaDetails.replica);
+    const cache = new Earthstar.ReplicaCache($replica.replica);
 
-    // fetch images from the cache
-    const fetchImages = (async () => {
-        images = cache.queryDocs({
+    // fetch documents from the cache
+    const fetchDocs = (async () => {
+        documents = cache.queryDocs({
             filter: {
-                pathStartsWith: "/images",
+                pathStartsWith: "/documents",
             }
         });
-        console.log('imageDocs', images);
+        console.log('Docs', documents);
     });
 
     cache.onCacheUpdated(() => {
-	    fetchImages();
+	    fetchDocs();
     });
     
     onMount(() => {
-        fetchImages();
+        fetchDocs();
     });
 
-    $: images = images
+    function updateUI() {
+
+        setTimeout(() => {
+            fetchDocs();
+        }, 1000);
+        
+        console.log('UI updated');
+    }
+
+    $: documents = documents
 
 </script>
 
 <div>
     <h2>Files</h2>
     <ul>
-        {#if images.length === 0}
+        {#if documents.length === 0}
             <li>No files yet</li>
         {:else}
-            {#await images}
+            {#await documents}
                 <li>Loading...</li>
-            {:then images}
-                {#each images as doc}
+            {:then documents}
+                {#each documents as doc, i}
+                
                     <li>
                        {doc.text} 
                        
-                       <GetAttachment {doc} />
+                        <GetAttachment {doc} />
+                        
+                        <Ephemerality {doc} on:update={updateUI} />
 
-                       <Ephemerality {doc} />
                     </li>
                 {/each}
             {/await}
