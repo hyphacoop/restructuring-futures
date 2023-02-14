@@ -4,23 +4,8 @@
   import shareKeypair from "../store/share";
   import replica from "../store/replica";
 
-  let shareDetails;
-  let authorDetails;
-  let replicaDetails;
+
   let src = 'images/insert-picture-icon.png'
-
-  shareKeypair.subscribe((r) => {
-    shareDetails = r;
-  });
-
-  authorKeypair.subscribe((r) => {
-    authorDetails = r;
-  });
-
-  replica.subscribe((r) => {
-    replicaDetails = r;
-  });
-
 
 
   let fileinput;
@@ -50,11 +35,11 @@
     let deletionTime = (Date.now() + 3600000) * 1000;
     console.log('fileReady', fileReady);
     let fileUint8 = new Uint8Array(fileReady);
-    result = await replicaDetails.replica.set(authorDetails, {
-      path: `/images/${Date.now()}/!${safeName}`,
+    result = await $replica.replica.set($authorKeypair, {
+      path: `/documents/${Date.now()}/!${safeName}`,
       text:
         'from ' +
-        authorDetails.address.slice(1, 5) +
+        $authorKeypair.address.slice(1, 5) +
         " on " +
         new Date().toLocaleString(),
       attachment: fileUint8,
@@ -102,7 +87,18 @@
     bind:this={fileinput}
   />
 {#if result}
-  <p>{result.kind}</p>
+  <p>
+    <strong>
+      {result.kind}
+    </strong>
+  </p>
+  {#if result.kind === 'success'}
+    <p>
+    <button on:click>
+      See uploaded file
+    </button>  
+    </p>
+  {/if}
 {/if}
 
 </div>
