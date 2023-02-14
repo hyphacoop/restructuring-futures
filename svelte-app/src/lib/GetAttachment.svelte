@@ -4,19 +4,16 @@
     import SvelteMarkdown from 'svelte-markdown';
     // import PdfViewer from 'svelte-pdf';
 
-    let replicaDetails;
-
-    replica.subscribe((r) => {
-        replicaDetails = r;
-    });
 
     export let doc;
     let attachmentBytes;
     let promise;
     let attachmentStatus = false;
     let dnone = true;
-    let filetype = undefined;
+    let filetype;
     let mimetype;
+    let fileExtension = doc.path.split(".")[doc.path.split(".").length - 1];
+    let isVisible = false;
 
     function uint8ToBase64(arr) {
         btoa(
@@ -29,32 +26,36 @@
 
 
     async function getAttachment(doc) {
-        const attachment = await replicaDetails.replica.getAttachment(doc);
+        const attachment = await $replica.replica.getAttachment(doc);
         if (attachment !== undefined) {
+            console.log("fileExtension", fileExtension);
             const docdata = await attachment.bytes();
             console.log("docdata", docdata);
-            let fileExtension = doc.path.split(".")[doc.path.split(".").length - 1]
-            console.log("fileExtension", fileExtension)
+            
+
             let bytes = new Uint8Array(docdata.length);
             for (var i = 0; i < docdata.length; i++) {
                 bytes[i] = docdata[i];
             }
             console.log("bytes ", bytes);
             if (fileExtension === "docx") {
+                
                 filetype = "docx";
+                filetype = filetype;
                 attachmentBytes = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
             }
-            else if (fileExtension === ("mp3" || "wav") || ("webm") || ("ogg")) {
+            else if (fileExtension === (("mp3" || "wav") || ("webm") || ("ogg"))) {
                 filetype = "audio";
                 mimetype = "audio/" + fileExtension;
                 filetype = filetype;
-                console.log(filetype);
+                console.log(filetype + mimetype);
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: mimetype })
                 );
             }
             else if (fileExtension === "md") {
                 filetype = "markdown";
+                filetype = filetype;
                 attachmentBytes = String.fromCharCode(...bytes);
             }
             else if (fileExtension === "pdf") {
@@ -68,10 +69,10 @@
                 //attachmentBytes = String.fromCharCode(...bytes);
                 var decoder = new TextDecoder('utf-8');
                 attachmentBytes = decoder.decode(Uint8Array.from(bytes));
-            // "Hello, ä¸­å½!"
+
                 console.log('Bytes to string: ', attachmentBytes);
 
-            } else if (fileExtension === ("png" || "jpg") || ("jpeg" || "gif")) {
+            } else if (fileExtension === (("png" || "jpg") || ("jpeg" || "gif"))) {
                 filetype = "image";
                 mimetype = "image/" + fileExtension;
                 filetype = filetype;
@@ -112,58 +113,64 @@
         element.click();
     }
 
-$: console.log("type", filetype);
-$: console.log(doc.path.split(".").length - 1);
+
+$: console.log(doc.path.split(".")[doc.path.split(".").length - 1]);
 </script>
 
-
-<p>
-Attachment type: {doc.path.split(".")[doc.path.split(".").length - 1]}
-<br>
-Attachment size: {doc.attachmentSize / 1000} kb
-</p>
-<p>
-{#if !attachmentStatus}
-    <button on:click={handleClick(doc)}>
-        Get attachment
-    </button>
-{:else}
-    <button on:click={() => (dnone = !dnone)}>
-        {#if !dnone}
-            Hide attachment
-        {:else}
-            Show attachment
-        {/if}
-    </button>
-{/if}
-</p>
-{#await promise}
-    Loading attachment...
-{:then data} 
-    {#if !dnone}
-        {#if filetype === "image"}
-            <img src={data} alt={doc.text} />
-        {:else if filetype === "text"}
-            <p>{data}</p>
-        {:else if filetype === "audio"}
-            <audio src={data} controls />
-        {:else if filetype === "markdown"}
-            <SvelteMarkdown source={data} />
-        {:else if filetype === "pdf"}
-            <p>Pdf preview to come</p>
-        {:else}
-            <p>This file is not supported.</p>
-        {/if}
-        <p>
-        <button on:click={() => Download()}>
-            Download attachment
+<button on:click={() => isVisible = !isVisible}>
+    {isVisible ? '🔒' : '🔓'}
+</button>
+{#if isVisible}
+    <p>
+    Attachment type: {doc.path.split(".")[doc.path.split(".").length - 1]}
+    <br>
+    Attachment size: {doc.attachmentSize / 1000} kb
+    </p>
+    <p>
+    {#if !attachmentStatus}
+        <button on:click={handleClick(doc)}>
+            Get attachment
         </button>
-        </p>
     {:else}
-    <img class="dnone" src={data} alt={doc.text} />
+        <button on:click={() => (dnone = !dnone)}>
+            {#if !dnone}
+                Hide attachment
+            {:else}
+                Show attachment
+            {/if}
+        </button>
     {/if}
-{/await}
+    </p>
+    {#await promise}
+        Loading attachment...
+    {:then data} 
+        {#if !dnone}
+            {#if filetype === "image"}
+                <img src={data} alt={doc.text} />
+            {:else if filetype === "text"}
+                <p>{data}</p>
+            {:else if filetype === "audio"}
+                <audio src={data} controls />
+            {:else if filetype === "markdown"}
+            <div class="markdown">
+                <SvelteMarkdown source={data} />
+            </div>
+            {:else if filetype === "pdf"}
+                <p>Pdf preview to come</p>
+            {:else}
+                <p>This file is not supported.</p>
+            {/if}
+            <p>
+            <button on:click={() => Download()}>
+                Download attachment
+            </button>
+            </p>
+        {:else}
+        <img class="dnone" src={data} alt={doc.text} />
+        {/if}
+    {/await}
 
+{/if}
 <style>
     img {
         max-height: 80vh;
@@ -174,5 +181,13 @@ Attachment size: {doc.attachmentSize / 1000} kb
     }
     audio {
         border-radius: 0.5rem;
+    }
+    .markdown {
+        max-height: 80vh;
+        max-width: 60vw;
+        overflow: scroll;
+        text-align: left;
+        background-color: #f5f5f5;
+        padding: 1rem;
     }
 </style>
