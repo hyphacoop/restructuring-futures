@@ -7,24 +7,19 @@
   import FileSharing from "./lib/FileSharing.svelte";
   import DocContainer from "./lib/DocContainer.svelte";
 
-  let shareDetails;
 
-  shareKeypair.subscribe((response) => {
-    shareDetails = response;
-  });
 
-  let IDcreated = false;
-  let showHide = false;
-  let topleft = false;
-  let imageView = false;
+  let IDcreated = true;
+  let showDetails = true;
+  let imageView = true;
 
 </script>
 
 <main>
   <div>
-    <div class:showHide>
+    <div class:showDetails>
       <h3>Current Share Details</h3>
-      <p><b>Address:</b> {shareDetails.shareAddress} <b>Secret:</b> {shareDetails.secret}</p>
+      <p><b>Address:</b> {$shareKeypair.shareAddress} <b>Secret:</b> {$shareKeypair.secret}</p>
     </div>
 
     {#if !IDcreated}
@@ -32,20 +27,20 @@
         Generate new Identity
       </button>
     {/if}
-    {#if IDcreated && !showHide}
-      <button on:click={() => (showHide = !showHide)}>
-        {#if showHide}
+    {#if IDcreated && !showDetails}
+      <button on:click={() => (showDetails = !showDetails)}>
+        {#if showDetails}
           Show details
         {:else}
           Hide details
         {/if}
       </button>
-    {:else if IDcreated && showHide}
-      <button class="topleft" on:click={() => (showHide = !showHide)}>
+    {:else if IDcreated && showDetails}
+      <button class="topleft" on:click={() => (showDetails = !showDetails)}>
         Show details
       </button>
       {#if !imageView}
-      <FileSharing />
+      <FileSharing on:click={() => (imageView = !imageView)} />
       {:else}
       <DocContainer />
       {/if}
@@ -58,7 +53,7 @@
       </button>
     {/if}
   </div>
-  <div class:showHide>
+  <div class:showDetails>
     {#if IDcreated}
       <Identity />
     {/if}
@@ -76,7 +71,7 @@
     max-width: 600px;
     margin: 0 auto;
   }
-  .showHide {
+  .showDetails {
     display: none;
   }
   .topleft {
