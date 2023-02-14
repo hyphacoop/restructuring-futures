@@ -44,7 +44,7 @@
                 filetype = filetype;
                 attachmentBytes = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
             }
-            else if (fileExtension === (("mp3" || "wav") || ("webm") || ("ogg"))) {
+            else if (fileExtension === "mp3" || ("wav" || ("webm") || ("ogg"))) {
                 filetype = "audio";
                 mimetype = "audio/" + fileExtension;
                 filetype = filetype;
@@ -72,13 +72,20 @@
 
                 console.log('Bytes to string: ', attachmentBytes);
 
-            } else if (fileExtension === (("png" || "jpg") || ("jpeg" || "gif"))) {
+            } else if (fileExtension === "png" || ("gif" || ("jpeg" || "jpg"))) {
                 filetype = "image";
+                console.log('this is an image')
+                console.log('fileExtension ' + fileExtension)
+                if (fileExtension == "jpg") {
+                    fileExtension = "jpeg";
+                    console.log('fileExtension ' + fileExtension + ' changed to jpeg')
+                }
                 mimetype = "image/" + fileExtension;
                 filetype = filetype;
-                console.log(filetype);
+                mimetype = mimetype;
+                console.log('mimetype ' + mimetype );
                 attachmentBytes = URL.createObjectURL(
-                    new Blob([bytes], { type: mimetype } /* (1) */)
+                    new Blob([bytes], { type: mimetype } )
                 );
             }        
           return attachmentBytes;
@@ -102,7 +109,7 @@
                 );
             console.log('attachmentBytes is now a blob')
         }
-        console.log('type of attachmentBytes' , typeof attachmentBytes)
+        console.log('type of attachmentBytes ' , typeof attachmentBytes)
         let file = attachmentBytes;
         let filename = doc.path.split("/")[doc.path.split("/").length - 1];
         console.log('type of file' , typeof file)
@@ -157,14 +164,17 @@ $: console.log(doc.path.split(".")[doc.path.split(".").length - 1]);
             </div>
             {:else if filetype === "pdf"}
                 <p>Pdf preview to come</p>
-            {:else}
-                <p>This file is not supported.</p>
+
             {/if}
-            <p>
-            <button on:click={() => Download()}>
-                Download attachment
-            </button>
-            </p>
+            
+                {#if attachmentBytes !== undefined}
+                    <p>
+                        <button on:click={() => Download()}>
+                            Download attachment
+                        </button>
+                    </p>
+                {/if}
+
         {:else}
         <img class="dnone" src={data} alt={doc.text} />
         {/if}
