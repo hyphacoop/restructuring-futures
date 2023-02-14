@@ -2,6 +2,7 @@
   import * as Earthstar from "./assets/scripts/earthstar";
 
   import shareKeypair from "./store/share.js";
+  import replica from "./store/replica.js";
 
   import Identity from "./lib/Identity.svelte";
   import FileSharing from "./lib/FileSharing.svelte";
@@ -12,6 +13,22 @@
   let IDcreated = true;
   let showDetails = true;
   let imageView = true;
+
+  // new peer & syncing with server
+  const peer = new Earthstar.Peer();
+  peer.addReplica($replica.replica);
+  const sync = peer.sync("https://earthstar-server.fly.dev/sync", true);
+
+  sync.onStatusChange((newStatus) => {
+    console.log(newStatus);
+  });
+
+  sync.isDone().then(() => {
+    console.log("Sync complete");
+    }).catch((err) => {
+    console.error("Sync failed", err);
+});
+  
 
 </script>
 
