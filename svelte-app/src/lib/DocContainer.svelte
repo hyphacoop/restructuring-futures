@@ -53,9 +53,9 @@
             {#await documents}
                 <li>Loading...</li>
             {:then documents}
-                {#each documents as doc, i}
+                {#each documents as doc (doc.textHash)}
                 
-                    <li>
+                    <li id={doc.textHash}>
                        {doc.text} 
                        
                         <GetAttachment {doc} />
