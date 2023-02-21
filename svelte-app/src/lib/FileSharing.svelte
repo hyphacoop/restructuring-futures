@@ -3,6 +3,9 @@
   import authorKeypair from "../store/identity";
   import replica from "../store/replica";
 
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
 
   let src = 'images/insert-picture-icon.png'
 
@@ -32,7 +35,7 @@
     let extension = safeName.split('.').pop();
     let fileNoExt = safeName.split('.')[safeName.split('.').length - 2];
     let finalName;
-    if (extension === "JPG") {
+    if (extension === "JPG" || extension === "jpg") {
       extension = "jpeg";
     }
     
@@ -43,7 +46,7 @@
     result = await $replica.replica.set($authorKeypair, {
       path: `/documents/${Date.now()}/!${finalName}`,
       text:
-        'from ' +
+        'Shared by ' +
         $authorKeypair.address.slice(1, 5) +
         " on " +
         new Date().toLocaleString(),
@@ -54,6 +57,7 @@
     if (Earthstar.isErr(result)) {
       console.error(result);
     }
+    dispatch('success');
     return result;
   }
 
@@ -97,13 +101,6 @@
       {result.kind}
     </strong>
   </p>
-  {#if result.kind === 'success'}
-    <p>
-    <button on:click>
-      See uploaded file
-    </button>  
-    </p>
-  {/if}
 {/if}
 
 </div>
