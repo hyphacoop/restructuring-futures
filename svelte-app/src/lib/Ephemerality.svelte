@@ -19,7 +19,9 @@
 
     async function add() {
         deletionTime += 60000000;
+        let alias = $authorKeypair.address.slice(1, 5);
         const result = await $replica.replica.set($authorKeypair, {
+                text: doc.text + "<br> lifespan extended by " + alias + " on " + new Date().toLocaleString(),
                 path: doc.path,
                 deleteAfter: deletionTime
             });
@@ -27,8 +29,10 @@
     }
 
     async function remove() {
+        let alias = $authorKeypair.address.slice(1, 5);
         deletionTime -= 60000000;
         const result = await $replica.replica.set($authorKeypair, {
+                text: doc.text + "<br> lifespan shortened by " + alias + " on " + new Date().toLocaleString(),
                 path: doc.path,
                 deleteAfter: deletionTime
             });
