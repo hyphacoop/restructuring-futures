@@ -6,9 +6,7 @@
 
   import Identity from "./lib/Identity.svelte";
   import FileSharing from "./lib/FileSharing.svelte";
-  import DocContainer from "./lib/DocContainer.svelte";
-
-
+  import AllDocs from "./lib/AllDocs.svelte";
 
   let IDcreated = true;
   let showDetails = true;
@@ -61,9 +59,9 @@
         Show details
       </button>
       {#if !imageView}
-      <FileSharing on:click={() => (imageView = !imageView)} />
+      <FileSharing on:success={() => (imageView = !imageView)} />
       {:else}
-      <DocContainer />
+      <AllDocs />
       {/if}
       <button class="topright" on:click={() => (imageView = !imageView)}>
         {#if imageView}
