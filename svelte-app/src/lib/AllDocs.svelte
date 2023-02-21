@@ -2,11 +2,9 @@
     import * as Earthstar from "../assets/scripts/earthstar";
     import { onMount } from "svelte";
 
-
     import replica from "../store/replica";
 
-    import Ephemerality from "./Ephemerality.svelte";
-    import GetAttachment from "./GetAttachment.svelte";
+    import SingleDoc from "./SingleDoc.svelte";
 
     let documents = [];
 
@@ -21,6 +19,8 @@
             }
         });
         console.log('Docs', documents);
+
+     
     });
 
     cache.onCacheUpdated(() => {
@@ -40,32 +40,32 @@
         console.log('UI updated');
     }
 
-    $: documents = documents
+    $: documents = documents;
 
 </script>
 
 <div>
     <h2>Files</h2>
+    
     <ul>
-        {#if documents.length === 0}
+         {#if documents.length === 0}
             <li>No files yet</li>
         {:else}
             {#await documents}
                 <li>Loading...</li>
             {:then documents}
-                {#each documents as doc (doc.textHash)}
+
+                 {#each documents as doc (doc.textHash)}
                 
                     <li id={doc.textHash}>
-                       {doc.text} 
-                       
-                        <GetAttachment {doc} />
-                        
-                        <Ephemerality {doc} on:update={updateUI} />
+
+                        <SingleDoc {doc} on:update={updateUI} />
 
                     </li>
-                {/each}
-            {/await}
-        {/if}
+                {/each} 
+
+           {/await}
+        {/if} 
     </ul>
 </div>
 
@@ -77,7 +77,7 @@
     }
     li {
         text-align: center;
-        border: 2px dotted #999;
+        background-color:#f3f3f3;
         padding: 1em;
         border-radius: 15px;
         margin:1rem;
