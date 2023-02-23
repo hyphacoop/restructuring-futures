@@ -10,7 +10,7 @@ The prototype from Phase 1 [lives here](https://github.com/hyphacoop/crispy-cous
 
 We use github pages to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/)
 
-If you want to run the [svelte app](tree/main/svelte-app) locally, you can run the following commands in your terminal after downloading [node](https://nodejs.org/en/).
+If you want to run the [svelte app](https://github.com/hyphacoop/restructuring-futures/tree/main/svelte-app) locally, you can run the following commands in your terminal after downloading [node](https://nodejs.org/en/).
 
 ```
 cd svelte-app
