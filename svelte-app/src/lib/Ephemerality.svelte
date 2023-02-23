@@ -20,23 +20,40 @@
     async function add() {
         deletionTime += 60000000;
         let alias = $authorKeypair.address.slice(1, 5);
+        let removeChar = doc.path.split('!');
+        let studioPath = removeChar[0].replace('/documents', '/studio') + removeChar[1];
+        
         const result = await $replica.replica.set($authorKeypair, {
                 text: doc.text + "<br> lifespan extended by " + alias + " on " + new Date().toLocaleString(),
                 path: doc.path,
                 deleteAfter: deletionTime
             });
             console.log("result ", result);
+        const studio = await $replica.replica.set($authorKeypair, {
+            text: doc.text + "<br> lifespan extended by " + alias + " on " + new Date().toLocaleString(),
+            path: studioPath,
+        });
+        console.log('studioPath', studioPath)
+        console.log("result c", result);
+        console.log("result s", studio);
+
     }
 
     async function remove() {
         let alias = $authorKeypair.address.slice(1, 5);
+        let studioPath = doc.path.replace('/documents', '/studio')
         deletionTime -= 60000000;
         const result = await $replica.replica.set($authorKeypair, {
                 text: doc.text + "<br> lifespan shortened by " + alias + " on " + new Date().toLocaleString(),
                 path: doc.path,
                 deleteAfter: deletionTime
             });
-            console.log("result ", result);
+        const studio = await $replica.replica.set($authorKeypair, {
+            text: doc.text + "<br> lifespan shortened by " + alias + " on " + new Date().toLocaleString(),
+            path: studioPath,
+        });
+            console.log("result c", result);
+            console.log("result s", studio);
     }
 
     async function deleteDoc() {
@@ -47,7 +64,7 @@
             deleteAfter: (Date.now() + 1000) * 1000
         });
 
-        console.log("result ", result);
+        console.log("result delete", result);
     }
 
 </script>
