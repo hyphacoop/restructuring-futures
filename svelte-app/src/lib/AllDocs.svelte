@@ -2,28 +2,26 @@
     import * as Earthstar from "../assets/scripts/earthstar";
     import { onMount } from "svelte";
 
-    import replica from "../store/replica";
-
+    import cache from "../store/cache";
     import SingleDoc from "./SingleDoc.svelte";
 
     let documents = [];
 
-    // @ts-ignore
-    const cache = new Earthstar.ReplicaCache($replica.replica);
-
     // fetch documents from the cache
     const fetchDocs = (async () => {
-        documents = cache.queryDocs({
+        documents = $cache.cache.queryDocs({
             filter: {
                 pathStartsWith: "/documents",
             }
+        
         });
+        documents = documents.filter(doc => doc.path.split('/').length <= 4);
         console.log('Docs', documents);
 
      
     });
 
-    cache.onCacheUpdated(() => {
+    $cache.cache.onCacheUpdated(() => {
 	    fetchDocs();
     });
     
@@ -32,12 +30,9 @@
     });
 
     function updateUI() {
-
         setTimeout(() => {
             fetchDocs();
         }, 1000);
-        
-        console.log('UI updated');
     }
 
     $: documents = documents;
@@ -47,39 +42,40 @@
 <div>
     <h2>Files</h2>
     
-    <ul>
-         {#if documents.length === 0}
-            <li>No files yet</li>
+    <div class='flex'>
+        {#if documents.length === 0}
+            <p>No files yet</p>
         {:else}
             {#await documents}
-                <li>Loading...</li>
+                <p>Loading...</p>
             {:then documents}
 
                  {#each documents as doc (doc.textHash)}
                 
-                    <li id={doc.textHash}>
+                    <div id={doc.textHash}>
 
                         <SingleDoc {doc} on:update={updateUI} />
 
-                    </li>
+                    </div>
                 {/each} 
 
            {/await}
         {/if} 
-    </ul>
+                </div>
 </div>
 
 <style>
-    ul {
-        list-style: none;
-        padding: 0;
-        text-align: left;
-    }
-    li {
-        text-align: center;
-        background-color:#f3f3f3;
-        padding: 1em;
-        border-radius: 15px;
-        margin:1rem;
-    }
+.flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1em;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.flex div {
+    background-color: #f9f9f9;
+}
 </style>
