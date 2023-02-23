@@ -2,6 +2,7 @@
     import * as Earthstar from "../assets/scripts/earthstar";
     import { onMount } from "svelte";
 
+    import replica from "../store/replica";
     import cache from "../store/cache";
     import SingleDoc from "./SingleDoc.svelte";
 
@@ -11,7 +12,7 @@
     const fetchDocs = (async () => {
         documents = $cache.cache.queryDocs({
             filter: {
-                pathStartsWith: "/documents",
+                pathStartsWith: "/studio",
             }
         
         });
@@ -33,6 +34,8 @@
         setTimeout(() => {
             fetchDocs();
         }, 1000);
+        
+        console.log('UI updated');
     }
 
     $: documents = documents;
@@ -40,42 +43,41 @@
 </script>
 
 <div>
-    <h2>Files</h2>
+    <h2>Studio</h2>
     
-    <div class='flex'>
+    <ul>
         {#if documents.length === 0}
-            <p>No files yet</p>
+            <li>No files yet</li>
         {:else}
             {#await documents}
-                <p>Loading...</p>
+                <li>Loading...</li>
             {:then documents}
 
                  {#each documents as doc (doc.textHash)}
                 
-                    <div id={doc.textHash}>
+                    <li id={doc.textHash}>
 
-                        <SingleDoc {doc} on:update={updateUI} />
+                        <SingleDoc {doc} on:update={updateUI} studio={true}/>
 
-                    </div>
+                    </li>
                 {/each} 
 
            {/await}
         {/if} 
-                </div>
+    </ul>
 </div>
 
 <style>
-.flex {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 1em;
-    max-width: 600px;
-    margin: 0 auto;
-}
-.flex div {
-    background-color: #f9f9f9;
-}
+    ul {
+        list-style: none;
+        padding: 0;
+        text-align: left;
+    }
+    li {
+        text-align: center;
+        background-color:#f9f9f9;
+        padding: 1em;
+        border-radius: 15px;
+        margin:1rem;
+    }
 </style>

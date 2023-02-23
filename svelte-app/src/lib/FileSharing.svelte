@@ -9,9 +9,11 @@
 
   let src = 'images/insert-picture-icon.png'
 
+  export let inStudio;
 
   let fileinput;
   let result;
+  let studio;
 
   function readFileAsync(file) {
     return new Promise((resolve, reject) => {
@@ -29,33 +31,62 @@
   }
 
   async function onFileSelected(e) {
+    // from the file selected
     let fileAttachment = e.target.files[0];
+    // remove spaces from file name
     let removeSpace = fileAttachment.name.replace(/\s+/g, '_');
+    // remove special characters from file name
     let safeName = removeSpace.replace(/[@·,\/#!$%\^&\*;:{}=\-`~()]/g, "");
+    // get file extension
     let extension = safeName.split('.').pop();
+    // get file name without extension
     let fileNoExt = safeName.split('.')[safeName.split('.').length - 2];
+    // set final file name
     let finalName;
+    // if file extension is jpg, change to jpeg
     if (extension === "JPG" || extension === "jpg") {
       extension = "jpeg";
     }
-    
+    // assemble final file name
     finalName = fileNoExt + "." + extension;
+    // get timestamp
+    let timestamp = Date.now();
+    // read file
     let fileReady = await readFileAsync(fileAttachment);
+    // set deletion time
     let deletionTime = (Date.now() + 3600000) * 1000;
+    // set file to Uint8Array
     let fileUint8 = new Uint8Array(fileReady);
-    result = await $replica.replica.set($authorKeypair, {
-      path: `/documents/${Date.now()}/!${finalName}`,
+    // if not in studio, write file to the commons
+    if (!inStudio) {
+      result = await $replica.replica.set($authorKeypair, {
+        path: `/documents/${timestamp}/!${finalName}`,
+        text:
+          'Shared by ' +
+          $authorKeypair.address.slice(1, 5) +
+          " on " +
+          new Date().toLocaleString(),
+        attachment: fileUint8,
+        deleteAfter: deletionTime
+      });
+    }
+    // if in studio, remove ephemeral path and write file to studio
+    studio = await $replica.replica.set($authorKeypair, {
+      path: `/studio/${timestamp}/${finalName}`,
       text:
         'Shared by ' +
         $authorKeypair.address.slice(1, 5) +
         " on " +
         new Date().toLocaleString(),
       attachment: fileUint8,
-      deleteAfter: deletionTime
     });
     console.log("Result: ", result);
     if (Earthstar.isErr(result)) {
       console.error(result);
+    }
+    console.log("Studio: ", studio);
+    if (Earthstar.isErr(studio)) {
+      console.error(studio);
     }
     dispatch('success');
     return result;
