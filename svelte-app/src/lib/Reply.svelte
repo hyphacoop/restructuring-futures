@@ -8,7 +8,10 @@
 
     function handleClick() {
         showDetails = !showDetails;
+
     }
+
+
 
 </script>
 
@@ -20,7 +23,7 @@
         </button>
         
 {#if showDetails}
-        <ShowReply {doc} />
+        <ShowReply {doc} on:success/>
         <SendReply {doc} on:success />        
 {/if}     
     </div>
