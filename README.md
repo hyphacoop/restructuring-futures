@@ -1,6 +1,6 @@
 # ReStructuring Futures (RSF) 
 
-A public notebook for [Restructuring Futures](https://www.ukai.ca/counterfoil/restructuring-futures), an experimental collaboration between Hypha Worker Co-op, [UKAI Projects](https://www.ukai.ca/) and the [Laboratory for Artistic Intelligence](https://artisticintelligence.com/) supported by a grant from the [2020-2021 Digital Strategies Fund](https://canadacouncil.ca/funding/strategic-funds/digital-strategy-fund) at Canada Council for the Arts. 
+A public notebook for Restructuring Futures, an experimental collaboration between Hypha Worker Co-op, [UKAI Projects](https://www.ukai.ca/) and the [Laboratory for Artistic Intelligence](https://artisticintelligence.com/) supported by a grant from the [2020-2021 Digital Strategies Fund](https://canadacouncil.ca/funding/strategic-funds/digital-strategy-fund) at Canada Council for the Arts. 
 
 "Restructuring Futures is ostensibly about building infrastructure to support creative and cultural collaboration that is resilient to volatile conditions." More on the latest phase of the project [here](https://localdisturbances.substack.com/p/the-arts-has-a-fever?r=f3tud). 
 
