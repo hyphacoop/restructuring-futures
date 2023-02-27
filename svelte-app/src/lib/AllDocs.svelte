@@ -40,7 +40,7 @@
 </script>
 
 <div>
-    <h2>Files</h2>
+    <h2>Commons</h2>
     
     <div class='flex'>
         {#if documents.length === 0}
@@ -77,5 +77,14 @@
 }
 .flex div {
     background-color: #f9f9f9;
+    padding:1rem;
+    margin: 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
 }
 </style>
