@@ -46,7 +46,7 @@
 
 </script>
 
-    <h3>Replies</h3>
+    <button on:click={() => getReplies()}>Replies</button>
 
         {#if replies === undefined}
             {getReplies()}
