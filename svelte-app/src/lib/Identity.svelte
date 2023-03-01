@@ -25,6 +25,37 @@
         element.click();
     }
 
+    // read identity file as json
+    function readFileAsync(file) {
+    return new Promise((resolve, reject) => {
+      let reader = new FileReader();
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+      reader.readAsBinaryString(file);
+    });
+  }
+    // select file and set keypair
+    async function onFileSelected(e) {
+    // from the file selected
+    let fileAttachment = e.target.files[0];
+    let fileReady = await readFileAsync(fileAttachment);
+    let keypairObject = JSON.parse(fileReady);
+    console.log(typeof keypairObject);
+    console.log('fileReady', fileReady);
+    // @ts-ignore
+    let authorAddress = keypairObject.address;
+    console.log('authorAddress', authorAddress)
+    // @ts-ignore
+    let authorSecret = keypairObject.secret;
+    console.log('authorSecret', authorSecret)
+    authorKeypair.set({
+                    address: authorAddress,
+                    secret: authorSecret,
+                });
+    value = authorAddress.slice(1, 5);
+    }
 
     // Function to generate a 4 char pseudo-random ID
     function RandomId() {
