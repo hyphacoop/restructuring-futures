@@ -1,5 +1,4 @@
 <script>
-    import * as Earthstar from "../assets/scripts/earthstar";
     import { onMount } from "svelte";
 
     import cache from "../store/cache";
