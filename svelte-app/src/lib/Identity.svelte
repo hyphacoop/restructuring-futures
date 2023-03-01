@@ -4,20 +4,17 @@
 
     import authorKeypair from "../store/identity.js";
 
-    let identityDetails;
-
-    authorKeypair.subscribe(value => {
-		identityDetails = value;
-	});
-
+    let fileinput;
+    let value = RandomId();
+    let error;
 
     // download identity file as json
     function Download() {
         let element = document.createElement("a");
-        let file = new Blob([JSON.stringify(currentIdentity)], {
+        let file = new Blob([JSON.stringify($authorKeypair)], {
             type: "text/plain",
         });
-        let filename = currentIdentity.address + ".json";
+        let filename = $authorKeypair.address + ".json";
         element.href = URL.createObjectURL(file);
         element.download = filename;
         element.style.display = "none";
@@ -98,19 +95,20 @@
         } else if (isSpecialChar(value)) {
             error = "ID must not contain special characters";
         } else {
-        let identityKeypair = await Earthstar.Crypto.generateAuthorKeypair(
+            let identityKeypair = await Earthstar.Crypto.generateAuthorKeypair(
                     value
-        );
-        // @ts-ignore
-        let authorAddress = identityKeypair.address;
-        // @ts-ignore
-        let authorSecret = identityKeypair.secret;
+                );
+            // @ts-ignore
+            let authorAddress = identityKeypair.address;
+            // @ts-ignore
+            let authorSecret = identityKeypair.secret;
 
-        authorKeypair.set({
-                    address: authorAddress,
-                    secret: authorSecret,
-                });
-    }
+            authorKeypair.set({
+                        address: authorAddress,
+                        secret: authorSecret,
+                    });
+            error = null;
+            }
     }
 
     onMount(() => {
@@ -118,9 +116,8 @@
     });
 
 
-$: currentAddress = identityDetails.address;
-$: currentSecret = identityDetails.secret;
-$: currentIdentity = identityDetails;
+$: currentAddress = $authorKeypair.address;
+$: currentSecret = $authorKeypair.secret;
 $: currentAlias = currentAddress.slice(0, 5);
 
 
@@ -130,21 +127,110 @@ $: currentAlias = currentAddress.slice(0, 5);
     {#await generateID()}
         <h2>Loading Identity details</h2>
     {:then data}
-        <h3>Identity</h3>
-        Your alias is <b>{currentAlias}</b>
-        <br />
+        <h1>Identity Keypair</h1>
+        <h2>Your alias is <b>{currentAlias}</b></h2>
 
-        <br />
-        <b>Address:</b> {currentAddress}
-        <br />
-        <b>Secret</b>: {currentSecret}<br />
+    {/await}
+    <div>
+        <p> 
+            You can
 
+            <button on:click={() => generateID('r')}>
+                generate a new random identity
+            </button>
+
+        or customize your alias in the box below:
+        </p>
+        <textarea 
+            spellcheck="false"
+            maxlength="4" 
+            bind:value 
+            on:change={() => generateID()}
+            ></textarea>
+        <blockquote>
+            {#if error === "ID must be 4 characters long"}
+            <i>
+                It must begin with a letter and <strong>needs to be 4 characters long</strong> and can only contain letters and numbers. 
+            </i>
+            
+            {:else if error === "ID must start with a letter"}
+            <i>
+                <strong>It must begin with a letter.</strong> It needs to be 4 characters long and can only contain letters and numbers.
+            </i>
+            {:else if error === "ID must not contain special characters"}
+            <i>
+                <strong>
+                    ID must not contain special characters.
+                </strong>
+                <br>
+                It must begin with a letter. It needs to be 4 characters long and can only contain letters and numbers.
+            </i>
+            {:else}
+            It must begin with a letter. It needs to be 4 characters long and can only contain letters and numbers.
+            {/if}
+        </blockquote>
+
+    </div>
+    <p>
+        Your identity file is a JSON file that contains your address and secret. You can download it and reuse it later.
+    </p>
+
+    <input
+        style="display:none"
+        type="file"
+        accept=".json, .txt"
+        on:change={(e) => onFileSelected(e)}
+        bind:this={fileinput}
+    />
+    <div class="flex">
+        <p>
+            <b>
+                Address:
+            </b> 
+            {currentAddress}
+        <br>
+            <b>
+                Secret:
+            </b> 
+            {currentSecret}
+        </p>
+    </div>
+
+    <div class='flex'>
         <button on:click={() => Download()}>
             Download your identity file
         </button>
-       
-    {/await}
-    <button on:click={() => generateID()}>
-        Generate new Identity
-    </button>
+
+        <button on:click={() => {fileinput.click()}}>
+            Upload an identity file
+        </button>
+    </div>
 </div>
+<style>
+    textarea {
+        width: 4ch;
+        height: 1.5rem;
+        font-size:1.3rem;
+        resize: none;
+        padding:0.25rem;
+        border-radius: 0.5rem;
+    }
+    .flex {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin:0.5rem;
+    }
+    button {
+        text-decoration:underline;
+        background: none;
+        padding:0.25rem;}
+    button:hover {
+        cursor:pointer;
+        color:white;
+        text-decoration: none;
+        background-color: black;
+        border: 1px solid black;
+    }
+</style>
