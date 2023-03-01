@@ -10,8 +10,8 @@
   import AllDocs from "./lib/AllDocs.svelte";
   import Studio from "./lib/Studio.svelte";
 
-  let IDcreated = true;
-  let showDetails = true;
+  let IDcreated = false;
+  let showDetails = false;
   let imageView = true;
 
   // new peer & syncing with server
@@ -40,10 +40,10 @@
 
 <main>
   <div>
-    <div class:showDetails>
+    <!--<div class:showDetails>
       <h3>Current Share Details</h3>
       <p><b>Address:</b> {$shareKeypair.shareAddress} <b>Secret:</b> {$shareKeypair.secret}</p>
-    </div>
+    </div>-->
 
     {#if !IDcreated}
       <button on:click={() => (IDcreated = !IDcreated)}>
@@ -51,7 +51,7 @@
       </button>
     {/if}
     {#if IDcreated && !showDetails}
-      <button on:click={() => (showDetails = !showDetails)}>
+      <button class="topleft" on:click={() => (showDetails = !showDetails)}>
         {#if showDetails}
           Show details
         {:else}
@@ -96,7 +96,7 @@
     justify-content: center;
     text-align: center;
     padding: 1em;
-    max-width: 600px;
+    max-width: 80vw;
     margin: 0 auto;
   }
   .showDetails {
