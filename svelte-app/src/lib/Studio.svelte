@@ -2,28 +2,27 @@
     import * as Earthstar from "../assets/scripts/earthstar";
     import { onMount } from "svelte";
 
-
     import replica from "../store/replica";
-
-    import Ephemerality from "./Ephemerality.svelte";
-    import GetAttachment from "./GetAttachment.svelte";
+    import cache from "../store/cache";
+    import SingleDoc from "./SingleDoc.svelte";
 
     let documents = [];
 
-    // @ts-ignore
-    const cache = new Earthstar.ReplicaCache($replica.replica);
-
     // fetch documents from the cache
     const fetchDocs = (async () => {
-        documents = cache.queryDocs({
+        documents = $cache.cache.queryDocs({
             filter: {
-                pathStartsWith: "/documents",
+                pathStartsWith: "/studio",
             }
+        
         });
+        documents = documents.filter(doc => doc.path.split('/').length <= 4);
         console.log('Docs', documents);
+
+     
     });
 
-    cache.onCacheUpdated(() => {
+    $cache.cache.onCacheUpdated(() => {
 	    fetchDocs();
     });
     
@@ -32,7 +31,6 @@
     });
 
     function updateUI() {
-
         setTimeout(() => {
             fetchDocs();
         }, 1000);
@@ -40,12 +38,13 @@
         console.log('UI updated');
     }
 
-    $: documents = documents
+    $: documents = documents;
 
 </script>
 
 <div>
-    <h2>Files</h2>
+    <h2>Studio</h2>
+    
     <ul>
         {#if documents.length === 0}
             <li>No files yet</li>
@@ -53,19 +52,18 @@
             {#await documents}
                 <li>Loading...</li>
             {:then documents}
-                {#each documents as doc (doc.textHash)}
+
+                 {#each documents as doc (doc.textHash)}
                 
                     <li id={doc.textHash}>
-                       {doc.text} 
-                       
-                        <GetAttachment {doc} />
-                        
-                        <Ephemerality {doc} on:update={updateUI} />
+
+                        <SingleDoc {doc} on:update={updateUI} studio={true}/>
 
                     </li>
-                {/each}
-            {/await}
-        {/if}
+                {/each} 
+
+           {/await}
+        {/if} 
     </ul>
 </div>
 
@@ -77,7 +75,7 @@
     }
     li {
         text-align: center;
-        border: 2px dotted #999;
+        background-color:#f9f9f9;
         padding: 1em;
         border-radius: 15px;
         margin:1rem;

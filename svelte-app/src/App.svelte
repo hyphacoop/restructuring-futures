@@ -6,9 +6,9 @@
 
   import Identity from "./lib/Identity.svelte";
   import FileSharing from "./lib/FileSharing.svelte";
-  import DocContainer from "./lib/DocContainer.svelte";
-
-
+  import Voice from "./lib/Voice.svelte";
+  import AllDocs from "./lib/AllDocs.svelte";
+  import Studio from "./lib/Studio.svelte";
 
   let IDcreated = true;
   let showDetails = true;
@@ -33,6 +33,8 @@
     console.error("Sync failed", err);
 });
   
+    const urlParams = new URLSearchParams(window.location.search);
+    const inStudio = urlParams.has('studio');
 
 </script>
 
@@ -61,9 +63,14 @@
         Show details
       </button>
       {#if !imageView}
-      <FileSharing on:click={() => (imageView = !imageView)} />
+      <div class='flex-row'>
+      <FileSharing on:success={() => (imageView = !imageView)} {inStudio}/>
+      <Voice on:upload={() => (imageView = !imageView)} {inStudio}/>
+      </div>
+      {:else if inStudio} 
+      <Studio />
       {:else}
-      <DocContainer />
+      <AllDocs />
       {/if}
       <button class="topright" on:click={() => (imageView = !imageView)}>
         {#if imageView}
@@ -104,5 +111,12 @@
     position: absolute;
     top: 8px;
     right: 16px;
+  }
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 </style>

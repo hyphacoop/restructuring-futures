@@ -32,7 +32,7 @@
                 filetype = "markdown";
                 filetype = filetype;
                 attachmentBytes = String.fromCharCode(...bytes);
-            } else if (fileExtension == "mp3" || fileExtension == "ogg") {
+            } else if (fileExtension == "mp3" || (fileExtension == "ogg" || fileExtension == "webm")) {
                 filetype = "audio";
                 mimetype = "audio/" + fileExtension;
                 filetype = filetype;
@@ -101,14 +101,9 @@
 </script>
 
 <button on:click={() => (isVisible = !isVisible)}>
-    {isVisible ? "🔒" : "🔓"}
+    {isVisible ? "📎" : "📎"}
 </button>
 {#if isVisible}
-    <p>
-        Attachment type: {doc.path.split(".")[doc.path.split(".").length - 1]}
-        <br />
-        Attachment size: {doc.attachmentSize / 1000} kb
-    </p>
     <p>
         {#if !attachmentStatus}
             <button on:click={handleClick(doc)}> Get attachment </button>
