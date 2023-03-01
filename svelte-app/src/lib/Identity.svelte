@@ -57,6 +57,15 @@
     value = authorAddress.slice(1, 5);
     }
 
+    // function to check if string starts with a number
+    function isNumber(str) {
+        return /[0-9]/.test(str);
+    }
+
+    function isSpecialChar(str) {
+        return /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(str);
+    }
+
     // Function to generate a 4 char pseudo-random ID
     function RandomId() {
         var result = "";
