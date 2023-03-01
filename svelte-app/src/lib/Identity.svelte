@@ -84,10 +84,22 @@
         return result;
     }
 
-    // Create a new author keypair with the random id.
-    export async function generateID() {
+    // Create a new author keypair from the alias.
+    export async function generateID(r) {
+        if (r == 'r') {
+                    value = RandomId();
+                }
+        let firstChar = value.slice(0,1);
+        if (isNumber(firstChar)) {
+            console.log('firstChar', firstChar)
+            error = "ID must start with a letter";
+        } else if (value.length !== 4) {
+            error = "ID must be 4 characters long";
+        } else if (isSpecialChar(value)) {
+            error = "ID must not contain special characters";
+        } else {
         let identityKeypair = await Earthstar.Crypto.generateAuthorKeypair(
-            RandomId()
+                    value
         );
         // @ts-ignore
         let authorAddress = identityKeypair.address;
@@ -98,6 +110,7 @@
                     address: authorAddress,
                     secret: authorSecret,
                 });
+    }
     }
 
     onMount(() => {
