@@ -95,37 +95,38 @@
   $: result = result;
 
 </script>
-
 <div>
-  <img
-    class="upload"
-    {src}
-    alt="Comics icons created by Freepik - Flaticon"
-    on:click={() => {
-      fileinput.click();
-    }}
-    on:keypress={() => {
-      fileinput.click();
-    }}
-  />
-  <div
-    class="uploadText"
-    on:click={() => {
-      fileinput.click();
-    }}
-    on:keypress={() => {
-      fileinput.click();
-    }}
-  >
-    Upload file
-  </div>
-  <input
-    style="display:none"
-    type="file"
-    accept=".jpg, .jpeg, .png, .gif, .txt, .pdf, .md, .webm, .mp3, .ogg, .wav"
-    on:change={(e) => onFileSelected(e)}
-    bind:this={fileinput}
-  />
+  <div>
+    <img
+      class="upload"
+      {src}
+      alt="Comics icons created by Freepik - Flaticon"
+      on:click={() => {
+        fileinput.click();
+      }}
+      on:keypress={() => {
+        fileinput.click();
+      }}
+    />
+    <div
+      class="uploadText"
+      on:click={() => {
+        fileinput.click();
+      }}
+      on:keypress={() => {
+        fileinput.click();
+      }}
+    >
+      Upload file
+    </div>
+    <input
+      style="display:none"
+      type="file"
+      accept=".jpg, .jpeg, .png, .gif, .txt, .pdf, .md, .webm, .mp3, .ogg, .wav"
+      on:change={(e) => onFileSelected(e)}
+      bind:this={fileinput}
+    />
+</div>
 {#if result}
   <p>
     <strong>
@@ -137,6 +138,9 @@
 </div>
 
 <style>
+      div {
+        margin:0.5rem;
+    }
   .upload {
     height: 50px;
     width: 50px;
