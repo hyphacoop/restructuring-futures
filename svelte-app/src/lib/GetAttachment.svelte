@@ -32,7 +32,7 @@
                 filetype = "markdown";
                 filetype = filetype;
                 attachmentBytes = String.fromCharCode(...bytes);
-            } else if (fileExtension == "mp3" || fileExtension == "ogg") {
+            } else if (fileExtension == "mp3" || (fileExtension == "ogg" || fileExtension == "webm")) {
                 filetype = "audio";
                 mimetype = "audio/" + fileExtension;
                 filetype = filetype;
