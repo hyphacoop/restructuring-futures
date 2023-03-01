@@ -6,6 +6,7 @@
 
   import Identity from "./lib/Identity.svelte";
   import FileSharing from "./lib/FileSharing.svelte";
+  import Voice from "./lib/Voice.svelte";
   import AllDocs from "./lib/AllDocs.svelte";
   import Studio from "./lib/Studio.svelte";
 
@@ -62,7 +63,10 @@
         Show details
       </button>
       {#if !imageView}
+      <div class='flex-row'>
       <FileSharing on:success={() => (imageView = !imageView)} {inStudio}/>
+      <Voice on:upload={() => (imageView = !imageView)} {inStudio}/>
+      </div>
       {:else if inStudio} 
       <Studio />
       {:else}
@@ -107,5 +111,12 @@
     position: absolute;
     top: 8px;
     right: 16px;
+  }
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 </style>
