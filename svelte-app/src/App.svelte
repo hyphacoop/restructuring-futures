@@ -46,7 +46,7 @@
     </div>-->
 
     {#if !IDcreated}
-      <button on:click={() => (IDcreated = !IDcreated)}>
+      <button class='wrdfnt' on:click={() => (IDcreated = !IDcreated)}>
         Generate new Identity
       </button>
     {/if}
@@ -89,6 +89,9 @@
 </main>
 
 <style>
+  .wrdfnt {
+    font-family: 'Fungal Grow 100 Thickness 500';
+  }
   main {
     display: flex;
     flex-direction: column;
