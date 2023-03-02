@@ -1,4 +1,4 @@
-import * as Earthstar from "../assets/scripts/earthstar";
+import * as Earthstar from 'earthstar';
 import { readable } from 'svelte/store'
 import replica from "./replica";
 

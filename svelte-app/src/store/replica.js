@@ -1,6 +1,7 @@
-import * as Earthstar from "../assets/scripts/earthstar";
+import * as Earthstar from 'earthstar';
+import { ReplicaDriverWeb } from "earthstar/browser";
 import { readable } from 'svelte/store'
-import shareKeypair from "../store/share";
+import shareKeypair from "./share.js";
 
 let shareDetails;
 
@@ -10,7 +11,7 @@ shareKeypair.subscribe(value => {
 
 const replica = new Earthstar.Replica({
     // @ts-ignore
-    driver: new Earthstar.ReplicaDriverWeb(shareDetails.shareAddress),
+    driver: new ReplicaDriverWeb(shareDetails.shareAddress),
     // @ts-ignore
     shareSecret: shareDetails.secret,
 });
