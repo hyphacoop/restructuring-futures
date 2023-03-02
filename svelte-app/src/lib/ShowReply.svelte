@@ -52,7 +52,7 @@
             {getReplies()}
         {:else if showReplies}
         <ul>
-            {#each replies as doc (doc.textHash)}
+            {#each replies as doc (doc.signature)}
 
             <li id={doc.textHash}>
 
