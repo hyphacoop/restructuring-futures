@@ -18,24 +18,39 @@
 
     $: console.log("studio", studio);
 
-    if (title !== undefined && title.includes("<br>")) {
+    $: if (title !== undefined && title.includes("<br>")) {
         timespan = title.split("<br>").pop();
         title = title;
         extended = true;
     }
 </script>
-
+<main 
+    on:click|self={() => (showDetails = !showDetails)}
+    on:keypress|self={() => (showDetails = !showDetails)}>
+{#if showDetails}
 <button
     on:click={() => (showDetails = !showDetails)}
-    on:keypress={() => (showDetails = !showDetails)}
->
+    on:keypress|self={() => (showDetails = !showDetails)} >
+
     <Gravatar
         style="margin-bottom:-3px;"
         email={doc.text}
         size="18"
         default="retro"
     />
-</button>
+
+        </button>
+
+        {:else}
+        <p on:click={() => (showDetails = !showDetails)}
+            on:keypress={() => (showDetails = !showDetails)} >
+        <Gravatar
+        style="margin-bottom:-3px;"
+        email={doc.text}
+        size="18"
+        default="retro"
+    /></p>
+    {/if}
 {#if title}
     <h3>{@html title}</h3>
 {:else if extended}
@@ -64,7 +79,7 @@
         {/if}
     </div>
 {/if}
-
+</main>
 <style>
     .flex {
         display: flex;
@@ -73,5 +88,17 @@
         justify-content: space-between;
         align-items: center;
         align-content: center;
+        max-width: min-content;
+        
+    }
+    main {
+        color: #1a1a1a;
+        background-color: #f9f9f9;
+        margin:2rem;
+        padding:1rem;
+        border:2px solid transparent;
+    }
+    main:hover {
+        border:2px solid #111111;
     }
 </style>
