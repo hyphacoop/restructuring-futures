@@ -17,7 +17,7 @@
         let fileExtension = doc.path.split('.').pop();
         console.log("fileExtension 1st", fileExtension);
         if (attachment !== undefined) {
-            console.log("fileExtension inside getAttach", fileExtension);
+
             const docdata = await attachment.bytes();
             console.log("docdata", docdata);
 
