@@ -63,6 +63,7 @@
 <style>
     input {
         background-color: #ffffff;
+        color:black;
         padding: 1em;
         border-radius: 15px;
         border: 1px solid #888888;
