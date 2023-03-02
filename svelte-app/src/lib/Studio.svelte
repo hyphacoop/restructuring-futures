@@ -45,39 +45,36 @@
 <div>
     <h2>Studio</h2>
     
-    <ul>
+    <div class='flex'>
         {#if documents.length === 0}
-            <li>No files yet</li>
+            <p>No files yet</p>
         {:else}
             {#await documents}
-                <li>Loading...</li>
+                <p>Loading...</p>
             {:then documents}
 
                  {#each documents as doc (doc.textHash)}
                 
-                    <li id={doc.textHash}>
+                    <div id={doc.textHash}>
 
                         <SingleDoc {doc} on:update={updateUI} studio={true}/>
 
-                    </li>
+                    </div>
                 {/each} 
 
            {/await}
         {/if} 
-    </ul>
+                </div>
 </div>
 
 <style>
-    ul {
-        list-style: none;
-        padding: 0;
-        text-align: left;
+    .flex {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
     }
-    li {
-        text-align: center;
-        background-color:#f9f9f9;
-        padding: 1em;
-        border-radius: 15px;
-        margin:1rem;
+    .flex div {
+        margin:2rem;
     }
 </style>
