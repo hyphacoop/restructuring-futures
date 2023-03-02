@@ -88,7 +88,7 @@
         justify-content: space-between;
         align-items: center;
         align-content: center;
-        max-width: min-content;
+        max-width: max-content;
         
     }
     main {
