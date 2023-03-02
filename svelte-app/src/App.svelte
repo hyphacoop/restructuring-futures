@@ -1,5 +1,5 @@
 <script>
-  import * as Earthstar from "./assets/scripts/earthstar";
+  import * as Earthstar from 'earthstar';
 
   import shareKeypair from "./store/share.js";
   import replica from "./store/replica.js";
