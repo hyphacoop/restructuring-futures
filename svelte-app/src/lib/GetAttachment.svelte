@@ -162,11 +162,13 @@
         border-radius: 0.5rem;
     }
     .markdown {
-        max-height: 80vh;
-        max-width: 60vw;
+        max-height: 15rem;
+        max-width: 100%;
         overflow: scroll;
         text-align: left;
         background-color: #f5f5f5;
-        padding: 1rem;
+        padding: 0.5rem;
+        color:black;
+        overflow: auto;
     }
 </style>
