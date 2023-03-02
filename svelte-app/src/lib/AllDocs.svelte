@@ -70,14 +70,14 @@
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 1em;
+    padding: 0;
     max-width: 600px;
-    margin: 0 auto;
+    margin: 0;
 }
 .flex div {
-    background-color: #f9f9f9;
-    padding:1rem;
-    margin: 1rem;
+    background-color: transparent;
+    padding:0;
+    margin: 0;
     border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
