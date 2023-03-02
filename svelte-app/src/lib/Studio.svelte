@@ -1,5 +1,5 @@
 <script>
-    import * as Earthstar from "../assets/scripts/earthstar";
+    import * as Earthstar from 'earthstar';
     import { onMount } from "svelte";
 
     import replica from "../store/replica";

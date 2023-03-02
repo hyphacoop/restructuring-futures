@@ -1,5 +1,5 @@
 <script>
-    import * as Earthstar from "earthstar";
+    import * as Earthstar from 'earthstar';
     import { onMount } from "svelte";
 
     import authorKeypair from "../store/identity.js";
