@@ -1,12 +1,14 @@
 <script>
     import * as Earthstar from 'earthstar';
     import { onMount } from "svelte";
+    import { fly } from 'svelte/transition';
 
     import authorKeypair from "../store/identity.js";
 
     let fileinput;
     let value = RandomId();
     let error;
+    let showWarning = false;
 
     // download identity file as json
     function Download() {
@@ -84,7 +86,7 @@
     // Create a new author keypair from the alias.
     export async function generateID(r) {
         if (r == 'r') {
-                    value = RandomId();
+            value = RandomId();
                 }
         let firstChar = value.slice(0,1);
         if (isNumber(firstChar)) {
@@ -108,6 +110,7 @@
                         secret: authorSecret,
                     });
             error = null;
+            showWarning = false
             }
     }
 
@@ -131,48 +134,9 @@ $: currentAlias = currentAddress.slice(0, 5);
         <h2>Your alias is <b>{currentAlias}</b></h2>
 
     {/await}
-    <div>
-        <p> 
-            You can
-
-            <button on:click={() => generateID('r')}>
-                generate a new random identity
-            </button>
-
-        or customize your alias in the box below:
-        </p>
-        <textarea 
-            spellcheck="false"
-            maxlength="4" 
-            bind:value 
-            on:change={() => generateID()}
-            ></textarea>
-        <blockquote>
-            {#if error === "ID must be 4 characters long"}
-            <i>
-                It must begin with a letter and <strong>needs to be 4 characters long</strong> and can only contain letters and numbers. 
-            </i>
-            
-            {:else if error === "ID must start with a letter"}
-            <i>
-                <strong>It must begin with a letter.</strong> It needs to be 4 characters long and can only contain letters and numbers.
-            </i>
-            {:else if error === "ID must not contain special characters"}
-            <i>
-                <strong>
-                    ID must not contain special characters.
-                </strong>
-                <br>
-                It must begin with a letter. It needs to be 4 characters long and can only contain letters and numbers.
-            </i>
-            {:else}
-            It must begin with a letter. It needs to be 4 characters long and can only contain letters and numbers.
-            {/if}
-        </blockquote>
-
-    </div>
+    
     <p>
-        Your identity file is a JSON file that contains your address and secret. You can download it and reuse it later.
+        Your identity is represented by a keypair that contains your address and secret. 
     </p>
 
     <input
@@ -195,7 +159,9 @@ $: currentAlias = currentAddress.slice(0, 5);
             {currentSecret}
         </p>
     </div>
-
+<p>
+    You can download it and reuse it later.
+</p>
     <div class='flex'>
         <button on:click={() => Download()}>
             Download your identity file
@@ -205,6 +171,49 @@ $: currentAlias = currentAddress.slice(0, 5);
             Upload an identity file
         </button>
     </div>
+    
+    <p> 
+        You can
+
+        <button on:click={() => generateID('r')}>
+            generate another identity
+        </button>
+
+    or customize your alias in the box below:
+    </p>
+    <textarea 
+        spellcheck="false"
+        maxlength="4" 
+        bind:value 
+        on:focus={() => {showWarning = true}}
+        on:keypress={() => generateID()}
+        ></textarea>
+        <div>
+       
+            {#if showWarning}
+            <blockquote transition:fly="{{ y: 200, duration: 2000 }}">
+                {#if error === "ID must be 4 characters long"}
+                <i>
+                    A valid id <strong>needs to be 4 characters long</strong>. 
+                </i>
+                
+                {:else if error === "ID must start with a letter"}
+                <i>
+                    <strong>A valid alias must begin with a letter.</strong> It needs to be 4 characters long and can only contain letters and numbers.
+                </i>
+                {:else if error === "ID must not contain special characters"}
+                <i>
+                    <strong>
+                        Special characters are not allowed.
+                    </strong>
+                    <br>
+                </i>
+                {:else}
+                Press enter to generate a new keypair.
+                {/if}
+            </blockquote>
+            {/if}
+        </div>
 </div>
 <style>
     textarea {
@@ -223,6 +232,7 @@ $: currentAlias = currentAddress.slice(0, 5);
         margin:0.5rem;
     }
     button {
+        font-family: 'Fungal Grow 100 Thickness 500';
         text-decoration:underline;
         background: none;
         padding:0.25rem;}
@@ -232,5 +242,8 @@ $: currentAlias = currentAddress.slice(0, 5);
         text-decoration: none;
         background-color: black;
         border: 1px solid black;
+    }
+    h1 {
+        font-family: 'Fungal Grow 500 Thickness 500';
     }
 </style>
