@@ -8,9 +8,10 @@ The prototype from Phase 1 [lives here](https://github.com/hyphacoop/crispy-cous
 
 ## Building with Earthstar
 
-We use github pages to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/)
+We use github pages to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/).
+The active prototype can be found at [hyphacoop.github.io/restructuring-futures](https://hyphacoop.github.io/restructuring-futures/)
 
-If you want to run the [svelte app](https://github.com/hyphacoop/restructuring-futures/tree/main/svelte-app) locally, you can run the following commands in your terminal after downloading [node](https://nodejs.org/en/).
+If you want to run the [svelte app](https://github.com/hyphacoop/restructuring-futures/tree/main/svelte-app) locally, you can run the following commands in your terminal after downloading [node](https://nodejs.org/en/) and cloning this github repository.
 
 ```
 cd svelte-app
@@ -18,6 +19,11 @@ npm install
 npm run dev
 ```
 
+With gh-pages, it is possible to quickly build and deploy with the following commands:
+```
+npm run build
+npm run deploy
+```
 
 ## Code of Conduct
 
