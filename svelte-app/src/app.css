@@ -50,7 +50,8 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 1px dashed #222222;
+  margin:0.25em;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
@@ -60,7 +61,10 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-style: solid;
+}
+button:active {
+  border-style: dotted;
 }
 button:focus,
 button:focus-visible {
@@ -231,4 +235,3 @@ button:focus-visible {
   font-style: normal;
   font-display: swap;
 }
-
