@@ -5,10 +5,13 @@
 
     import authorKeypair from "../store/identity.js";
 
-    let fileinput;
-    let value = RandomId();
+    import UploadId from './UploadId.svelte';
+
+    let value;
     let error;
     let showWarning = false;
+    let newAlias;
+    let uploadWarning = false;
 
     // download identity file as json
     function Download() {
@@ -24,38 +27,6 @@
         element.click();
     }
 
-    // read identity file as json
-    function readFileAsync(file) {
-    return new Promise((resolve, reject) => {
-      let reader = new FileReader();
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = reject;
-      reader.readAsBinaryString(file);
-    });
-  }
-    // select file and set keypair
-    async function onFileSelected(e) {
-    // from the file selected
-    let fileAttachment = e.target.files[0];
-    let fileReady = await readFileAsync(fileAttachment);
-    let keypairObject = JSON.parse(fileReady);
-    console.log(typeof keypairObject);
-    console.log('fileReady', fileReady);
-    // @ts-ignore
-    let authorAddress = keypairObject.address;
-    console.log('authorAddress', authorAddress)
-    // @ts-ignore
-    let authorSecret = keypairObject.secret;
-    console.log('authorSecret', authorSecret)
-    authorKeypair.set({
-                    address: authorAddress,
-                    secret: authorSecret,
-                });
-    value = authorAddress.slice(1, 5);
-    }
-
     // function to check if string starts with a number
     function isNumber(str) {
         return /[0-9]/.test(str);
@@ -67,15 +38,15 @@
 
     // Function to generate a 4 char pseudo-random ID
     function RandomId() {
-        var result = "";
-        var alphaCharacter = "abcdefghijklmnopqrstuvwxyz";
-        var alphaLength = alphaCharacter.length;
-        var allCharacters = "abcdefghijklmnopqrstuvwxyz0123456789";
-        var allLength = allCharacters.length;
+        let result = "";
+        let alphaCharacter = "abcdefghijklmnopqrstuvwxyz";
+        let alphaLength = alphaCharacter.length;
+        let allCharacters = "abcdefghijklmnopqrstuvwxyz0123456789";
+        let allLength = allCharacters.length;
         result += alphaCharacter.charAt(
             Math.floor(Math.random() * alphaLength)
         );
-        for (var i = 0; i < 3; i++) {
+        for (let i = 0; i < 3; i++) {
             result += allCharacters.charAt(
                 Math.floor(Math.random() * allLength)
             );
@@ -114,38 +85,47 @@
             }
     }
 
-    onMount(() => {
-        generateID();
-    });
+    function handleAlias(event) {
+        console.log('event', event)
+        newAlias = event.detail;
+        value = newAlias;
+        uploadWarning = false;
+    }
 
-
+    function handleError() {
+        uploadWarning = true;
+    }
 $: currentAddress = $authorKeypair.address;
 $: currentSecret = $authorKeypair.secret;
 $: currentAlias = currentAddress.slice(0, 5);
+$: console.log($authorKeypair.address.length)
 
+
+onMount(() => {
+        if ($authorKeypair.address.length === 0) {
+            console.log('help');
+            generateID('r');
+        } else {
+            currentAddress = $authorKeypair.address;
+            currentSecret = $authorKeypair.secret;
+        }
+    });
 
 </script>
 
 <div>
-    {#await generateID()}
-        <h2>Loading Identity details</h2>
-    {:then data}
-        <h1>Identity Keypair</h1>
-        <h2>Your alias is <b>{currentAlias}</b></h2>
 
-    {/await}
-    
+    {#if $authorKeypair.address.length !== 0}
+
+            <h1>Identity Keypair</h1>
+            <h2>Your alias is <b>{currentAlias}</b></h2>
+           
+    {/if}
     <p>
         Your identity is represented by a keypair that contains your address and secret. 
     </p>
 
-    <input
-        style="display:none"
-        type="file"
-        accept=".json, .txt"
-        on:change={(e) => onFileSelected(e)}
-        bind:this={fileinput}
-    />
+
     <div class="flex">
         <p>
             <b>
@@ -167,9 +147,7 @@ $: currentAlias = currentAddress.slice(0, 5);
             Download your identity file
         </button>
 
-        <button on:click={() => {fileinput.click()}}>
-            Upload an identity file
-        </button>
+        <UploadId on:alias={handleAlias} on:error={handleError} identityPg={true}/>
     </div>
     
     <p> 
@@ -213,6 +191,11 @@ $: currentAlias = currentAddress.slice(0, 5);
                 {/if}
             </blockquote>
             {/if}
+            {#if uploadWarning === true}
+            <blockquote transition:fly="{{ y: 200, duration: 2000 }}">
+                <strong>Please upload a valid identity file</strong>
+            </blockquote>
+            {/if}
         </div>
 </div>
 <style>
@@ -233,6 +216,7 @@ $: currentAlias = currentAddress.slice(0, 5);
     }
     button {
         font-family: 'Fungal Grow 100 Thickness 500';
+        border:1px solid transparent;
         text-decoration:underline;
         background: none;
         padding:0.25rem;}
