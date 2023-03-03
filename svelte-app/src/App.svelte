@@ -1,6 +1,8 @@
 <script>
   import * as Earthstar from 'earthstar';
 
+  import { fly } from 'svelte/transition';
+
   import shareKeypair from "./store/share.js";
   import replica from "./store/replica.js";
 
@@ -9,10 +11,12 @@
   import Voice from "./lib/Voice.svelte";
   import AllDocs from "./lib/AllDocs.svelte";
   import Studio from "./lib/Studio.svelte";
+  import UploadId from './lib/UploadId.svelte';
 
   let IDcreated = false;
   let showDetails = false;
   let imageView = true;
+  let showWarning = false;
 
   // new peer & syncing with server
   const peer = new Earthstar.Peer();
@@ -32,6 +36,15 @@
     }).catch((err) => {
     console.error("Sync failed", err);
 });
+
+  function handleUpload(event) {
+    IDcreated = true;
+    showDetails = true;
+  }
+
+  function handleError(event) {
+    showWarning = true;
+  }
   
     const urlParams = new URLSearchParams(window.location.search);
     const inStudio = urlParams.has('studio');
@@ -46,9 +59,17 @@
     </div>-->
 
     {#if !IDcreated}
+    <div class='flex-row'>
       <button class='wrdfnt' on:click={() => (IDcreated = !IDcreated)}>
         Generate new Identity
       </button>
+      <UploadId on:alias={handleUpload} on:error={handleError}/>
+    </div>
+      {#if showWarning === true}
+      <blockquote transition:fly="{{ y: 200, duration: 2000 }}">
+          Please upload a valid identity file
+      </blockquote>
+      {/if}
     {/if}
     {#if IDcreated && !showDetails}
       <button class="topleft" on:click={() => (showDetails = !showDetails)}>
