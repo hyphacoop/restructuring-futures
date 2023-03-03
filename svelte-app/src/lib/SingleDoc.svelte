@@ -1,6 +1,6 @@
 <script>
     import Gravatar from "svelte-gravatar";
-
+    import { fade } from "svelte/transition";
     import Ephemerality from "./Ephemerality.svelte";
     import GetAttachment from "./GetAttachment.svelte";
     import DocDetails from "./DocDetails.svelte";
@@ -14,51 +14,59 @@
     export let title = undefined;
 
     let extended = false;
-    let timespan = undefined;
-
-    $: console.log("studio", studio);
+    let content = undefined;
 
     $: if (title !== undefined && title.includes("<br>")) {
-        timespan = title.split("<br>").pop();
+        content = title.split("<br>");
+        title = content.shift();
         title = title;
         extended = true;
     }
+
 </script>
 <main 
+    class:replies="{attachment === false}"
     on:click|self={() => (showDetails = !showDetails)}
     on:keypress|self={() => (showDetails = !showDetails)}>
-{#if showDetails}
-<button
-    on:click={() => (showDetails = !showDetails)}
-    on:keypress|self={() => (showDetails = !showDetails)} >
-
-    <Gravatar
-        style="margin-bottom:-3px;"
-        email={doc.text}
-        size="18"
-        default="retro"
-    />
-
-        </button>
-
-        {:else}
-        <p on:click={() => (showDetails = !showDetails)}
-            on:keypress={() => (showDetails = !showDetails)} >
-        <Gravatar
-        style="margin-bottom:-3px;"
-        email={doc.text}
-        size="18"
-        default="retro"
-    /></p>
+    {#if !showDetails}
+        <div class="flex row">
+            <p on:click={() => (showDetails = !showDetails)}
+                on:keypress={() => (showDetails = !showDetails)} >
+            <Gravatar
+            style="margin-bottom:-3px;"
+            email={doc.text}
+            size="18"
+            default="retro"
+        /></p>
+        
+            {#if title !== undefined}
+            <h3>{@html title}</h3>
+            {#if extended}
+                <ul>
+                    {#each content as item}
+                    <li>
+                        {@html item}
+                    </li>
+                    {/each}
+                </ul>
+                {/if}
+            {/if}
+            </div>
     {/if}
-{#if title}
-    <h3>{@html title}</h3>
-{:else if extended}
-    <h3>{@html title}</h3>
-    <h4>{@html timespan}</h4>
-{/if}
 {#if showDetails}
     <div class="flex">
+        <button
+        on:click={() => (showDetails = !showDetails)}
+        on:keypress|self={() => (showDetails = !showDetails)} >
+
+        <Gravatar
+            style="margin-bottom:-3px;"
+            email={doc.text}
+            size="18"
+            default="retro"
+        />
+
+            </button>
         {#if attachment}
             <div>
                 <GetAttachment {doc} />
@@ -85,7 +93,7 @@
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        justify-content: space-between;
+        
         align-items: center;
         align-content: center;
         max-width: max-content;
@@ -96,9 +104,38 @@
         background-color: #f9f9f9;
         margin:2rem;
         padding:1rem;
-        border:2px solid transparent;
+        border: 1px solid tansparent;
+        border-radius: 0.5rem;
     }
     main:hover {
-        border:2px solid #111111;
+        border:1px dotted #111111;
+    }
+    li {
+        list-style: none;
+        font-size: 0.75rem;
+    }
+    button {
+        border-color:#111111;
+        border-style: dashed;
+    }
+    button:hover {
+        border-color:#111111;
+        border-style: solid;
+    }
+    .replies {
+        display: flex;
+        background-color: white;
+        margin:0.5rem;
+        padding:0.5rem;
+    }
+    .replies:hover {
+        background-color:transparent;
+        border:0px solid transparent;
+    }
+    .replies p {
+        margin:1rem;
+    }
+    .row {
+        flex-direction: row;
     }
 </style>

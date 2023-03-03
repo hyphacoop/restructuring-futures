@@ -45,7 +45,7 @@
     }
 
 </script>
-
+<div>
     <button on:click={() => getReplies()}>Replies</button>
 
         {#if replies === undefined}
@@ -62,6 +62,8 @@
             {/each} 
         </ul>
         {/if} 
+
+</div>
 <style>
     ul {
         list-style: none;
