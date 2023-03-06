@@ -105,8 +105,6 @@
     .flex {
         display: flex;
         flex-direction: column;
-        flex-wrap: wrap;
-        
         align-items: center;
         align-content: center;
         max-width: max-content;
@@ -125,10 +123,10 @@
     main:hover {
         border:1px dotted #111111;
     }
-    li {
+    /* li {
         list-style: none;
         font-size: 0.75rem;
-    }
+    } */ 
     button {
         border-color:#111111;
         border-style: dashed;
@@ -142,6 +140,8 @@
         background-color: white;
         margin:0.5rem;
         padding:0.5rem;
+        max-width: 850px;
+        width: max-content;
     }
     .replies:hover {
         background-color:transparent;
@@ -149,6 +149,9 @@
     }
     .replies p {
         margin:1rem;
+    }
+    .replies h3 {
+        max-width: 100%;
     }
     .row {
         flex-direction: row;
