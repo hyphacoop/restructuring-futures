@@ -45,16 +45,19 @@
 
     <h3>Upload artifact</h3>
     {#if fileSelection}
-      <p>Select file</p>
+
       <div class='flex-row'>
         
         <FileSharing xy={start} {inStudio} on:success />
         <Voice xy={start} {inStudio} on:upload />
 
       </div>
+
     {/if}
     {#if showGrid}
+
       <h4>Select location</h4>
+
       <div
         class="container"
         style="grid-template-rows: {row}; grid-template-columns: {col};"
@@ -87,6 +90,10 @@
       background: #fff;
       width: 100px;
       height: 100px;
+    }
+
+    .container div:hover {
+      background: #ccc;
     }
   
     div.active {
