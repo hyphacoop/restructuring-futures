@@ -124,7 +124,7 @@
             {#if filetype == "image"}
                 <img src={data} alt={doc.text} />
             {:else if filetype == "text"}
-                <p>{data}</p>
+                <p>{@html data}</p>
             {:else if filetype == "audio"}
                 <audio src={data} controls />
             {:else if filetype == "markdown"}
