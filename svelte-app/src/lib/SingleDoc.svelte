@@ -50,6 +50,10 @@
         
             {#if title !== undefined}
             <h3>{@html title}</h3>
+
+            <!-- Display ephemeral interaction log-->
+
+            <!-- Currently hidden
             {#if extended}
                 <ul>
                     {#each content as item}
@@ -58,7 +62,7 @@
                     </li>
                     {/each}
                 </ul>
-                {/if}
+                {/if}-->
             {/if}
             </div>
     {/if}
