@@ -68,6 +68,6 @@
         border-radius: 15px;
         border: 1px solid #888888;
         margin: 1rem;
-        width: fit-content;
+        width: 80%;
     }
 </style>
