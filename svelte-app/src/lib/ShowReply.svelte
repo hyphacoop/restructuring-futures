@@ -18,7 +18,7 @@
                 pathStartsWith: newPath[0],
             }
         });
-        replies = replies.filter(doc => doc.path.split('/').length > 4);
+        replies = replies.filter(doc => doc.path.split('/').length > 6);
         showReplies = true;
     });
 
@@ -74,7 +74,7 @@
 </div>
 <div>
     {#if showWarning}
-    <p>There are no replies to this post.</p>
+    <p>There are no replies yet.</p>
 {:else}
 
 <!--Button to show replies-->
