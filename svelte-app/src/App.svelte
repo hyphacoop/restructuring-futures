@@ -7,11 +7,10 @@
   import replica from "./store/replica.js";
 
   import Identity from "./lib/Identity.svelte";
-  import FileSharing from "./lib/FileSharing.svelte";
-  import Voice from "./lib/Voice.svelte";
-  import AllDocs from "./lib/AllDocs.svelte";
   import Studio from "./lib/Studio.svelte";
   import UploadId from './lib/UploadId.svelte';
+  import GridView from './lib/GridView.svelte';
+  import GridUpload from './lib/GridUpload.svelte';
 
   let IDcreated = false;
   let showDetails = false;
@@ -80,14 +79,16 @@
         {$authorKeypair.address.slice(0, 5)}
       </button>
       {#if !imageView}
-      <div class='flex-row'>
-      <FileSharing on:success={() => (imageView = !imageView)} {inStudio}/>
-      <Voice on:upload={() => (imageView = !imageView)} {inStudio}/>
+      <div class='flex'>
+        <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio}/>
+
+
       </div>
       {:else if inStudio} 
       <Studio />
       {:else}
-      <AllDocs />
+      <GridView />
+      <!--<AllDocs />-->
       {/if}
       <button class="topright" on:click={() => (imageView = !imageView)}>
         {#if imageView}
