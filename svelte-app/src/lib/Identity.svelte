@@ -206,6 +206,7 @@ onMount(() => {
         resize: none;
         padding:0.25rem;
         border-radius: 0.5rem;
+        text-align: center;
     }
     .flex {
         display: flex;
