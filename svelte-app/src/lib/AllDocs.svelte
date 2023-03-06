@@ -39,7 +39,7 @@
 </script>
 
 <div>
-    <h2>Commons</h2>
+    <h2>The Commons</h2>
     
     <div class='flex'>
         {#if documents.length === 0}
@@ -64,6 +64,10 @@
 </div>
 
 <style>
+    h2 {
+        text-align: center;
+        font-family: "Fungal Grow 900 Thickness 1000";
+    }
 .flex {
     display: flex;
     flex-direction: row;
