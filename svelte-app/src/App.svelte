@@ -117,19 +117,18 @@
     justify-content: center;
     text-align: center;
     padding: 1em;
-    max-width: 80vw;
     margin: 0 auto;
   }
   .showDetails {
     display: none;
   }
   .topleft {
-    position: absolute;
+    position: fixed;
     top: 8px;
     left: 16px;
   }
   .topright {
-    position: absolute;
+    position: fixed;
     top: 8px;
     right: 16px;
   }
