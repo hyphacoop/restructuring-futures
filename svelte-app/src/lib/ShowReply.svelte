@@ -9,6 +9,7 @@
 
     let replies = [];
     let showReplies = true;
+    let showWarning = false;
 
     const getReplies = (async () => {
         let newPath = doc.path.split('!');
@@ -36,6 +37,9 @@
 
     $: if (replies.length >= 1) {
         showReplies = true;
+        showWarning = false;
+    } else {
+        showWarning = true;
     }
 
     function updateUI() {
@@ -44,9 +48,13 @@
         }, 1000);
     }
 
+    onMount(() => {
+        getReplies();
+    });
+
 </script>
 <div>
-    <button on:click={() => getReplies()}>Replies</button>
+    
 
         {#if replies === undefined}
             {getReplies()}
@@ -63,6 +71,15 @@
         </ul>
         {/if} 
 
+</div>
+<div>
+    {#if showWarning}
+    <p>There are no replies to this post.</p>
+{:else}
+
+<!--Button to show replies-->
+    <!--<button on:click={() => getReplies()}>See Replies</button>-->
+    {/if}
 </div>
 <style>
     ul {
