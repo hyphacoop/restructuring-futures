@@ -98,12 +98,11 @@
 $: currentAddress = $authorKeypair.address;
 $: currentSecret = $authorKeypair.secret;
 $: currentAlias = currentAddress.slice(0, 5);
-$: console.log($authorKeypair.address.length)
+$: value = currentAlias.slice(1,5);
 
 
 onMount(() => {
         if ($authorKeypair.address.length === 0) {
-            console.log('help');
             generateID('r');
         } else {
             currentAddress = $authorKeypair.address;
@@ -159,13 +158,14 @@ onMount(() => {
 
     or customize your alias in the box below:
     </p>
-    <textarea 
+    <input type="text"
         spellcheck="false"
         maxlength="4" 
         bind:value 
+        on:keypress={() => {showWarning = true}}
         on:focus={() => {showWarning = true}}
         on:keypress={() => generateID()}
-        ></textarea>
+        >
         <div>
        
             {#if showWarning}
@@ -199,8 +199,8 @@ onMount(() => {
         </div>
 </div>
 <style>
-    textarea {
-        width: 4ch;
+    input {
+        width: 5ch;
         height: 1.5rem;
         font-size:1.3rem;
         resize: none;
