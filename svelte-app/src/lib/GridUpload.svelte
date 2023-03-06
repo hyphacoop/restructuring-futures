@@ -56,7 +56,7 @@
     {/if}
     {#if showGrid}
 
-      <h4>Select location</h4>
+      <h4>Select location on map</h4>
 
       <div
         class="container"
