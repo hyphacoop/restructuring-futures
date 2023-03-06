@@ -113,6 +113,8 @@
         padding:1rem;
         border: 1px solid transparent;
         border-radius: 0.5rem;
+        width:fit-content;
+        height: fit-content;
     }
     main:hover {
         border:1px dotted #111111;
@@ -137,7 +139,7 @@
     }
     .replies:hover {
         background-color:transparent;
-        border:0px solid transparent;
+        border:1px solid transparent;
     }
     .replies p {
         margin:1rem;
