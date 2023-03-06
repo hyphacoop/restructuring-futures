@@ -10,6 +10,7 @@
   let src = 'images/insert-picture-icon.png'
 
   export let inStudio;
+  export let xy = [0, 0];
 
   let fileinput;
   let result;
@@ -60,7 +61,7 @@
     // if not in studio, write file to the commons
     if (!inStudio) {
       result = await $replica.replica.set($authorKeypair, {
-        path: `/documents/${timestamp}/!${finalName}`,
+        path: `/documents/${xy[1]}/${xy[0]}/${timestamp}/!${finalName}`,
         text:
           'Shared by ' +
           $authorKeypair.address.slice(1, 5) +
@@ -72,7 +73,7 @@
     }
     // if in studio, remove ephemeral path and write file to studio
     studio = await $replica.replica.set($authorKeypair, {
-      path: `/studio/${timestamp}/${finalName}`,
+      path: `/studio/${xy[1]}/${xy[0]}/${timestamp}/${finalName}`,
       text:
         'Shared by ' +
         $authorKeypair.address.slice(1, 5) +

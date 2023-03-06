@@ -13,6 +13,7 @@
   let media = [];
   let mediaRecorder = null;
   let recording = false;
+  export let xy = [0, 0];
 
   let src = 'images/Speaker_Icon.png'
 
@@ -58,7 +59,7 @@
         let alias = $authorKeypair.address.slice(1, 5);
         if (!inStudio) {
         uploadResult = await $replica.replica.set($authorKeypair, {
-            path: `/documents/${timestamp}/!${alias}${timestamp}.${extension}`,
+            path: `/documents/${xy[1]}/${xy[0]}/${timestamp}/!${alias}${timestamp}.${extension}`,
             text:
             'Voice note shared by ' +
             $authorKeypair.address.slice(1, 5) +
@@ -70,7 +71,7 @@
         }
         // if in studio, remove ephemeral path and write file to studio
         studioResult = await $replica.replica.set($authorKeypair, {
-        path: `/studio/${timestamp}/${alias}${timestamp}.${extension}`,
+        path: `/studio/${xy[1]}/${xy[0]}/${timestamp}/${alias}${timestamp}.${extension}`,
         text:
             'Voice note shared by ' +
             $authorKeypair.address.slice(1, 5) +
