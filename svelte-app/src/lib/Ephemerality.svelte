@@ -12,6 +12,7 @@
 
     let time = Date.now();
     let ephemeral = false;
+    let timestamp = 0;
 
 
     export let doc;
@@ -67,8 +68,9 @@
         console.log("result delete", result);
     }
 
-</script>
+    $: timestamp = ($elapsed) + (time /1000) - (doc.timestamp / 1000000);
 
+</script>
 <button on:click={() => ephemeral = !ephemeral}>
     {ephemeral ? '⌛' : '⏳'}
  </button>
@@ -79,10 +81,19 @@
         <button on:click={add}>
             ➕
         </button>
+        
         <button on:click={remove}>
             ➖
         </button>
-        <p>{Math.trunc(((deletionTime / 1000) - ($elapsed * 1000 + (time))) / 1000)} seconds left until deletion</p>
+        
+        <p>
+            last interaction was {Math.trunc(timestamp)} seconds ago
+        </p>
+        
+        <p>
+            {Math.trunc(((deletionTime / 1000) - ($elapsed * 1000 + (time))) / 1000)} seconds left until deletion
+        </p>
+        
         <button on:click={() => deleteDoc()}>
             🗑️
         </button>
@@ -100,6 +111,7 @@
 }
 #flexcontainer > * {
     margin:0.25rem;
+    width: max-content;
 }
 
 button {
