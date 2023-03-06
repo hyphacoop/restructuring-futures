@@ -15,14 +15,21 @@
 
     let extended = false;
     let content = undefined;
+    let reaction = 48;
 
     $: if (title !== undefined && title.includes("<br>")) {
         content = title.split("<br>");
         title = content.shift();
         title = title;
         extended = true;
+        console.log("content", content)
+        reaction = content.length * 2 + 48;
+    } else if (doc.text.includes("<br>")) {
+        content = doc.text.split("<br>");
+        reaction = content.length * 3 + 32;
     }
 
+    $: console.log("reaction", reaction)
 </script>
 <main 
     class:replies="{attachment === false}"
@@ -35,7 +42,7 @@
             <Gravatar
             style="margin-bottom:-3px;"
             email={doc.text}
-            size="18"
+            size={reaction}
             default="retro"
         /></p>
         
@@ -104,7 +111,7 @@
         background-color: #f9f9f9;
         margin:2rem;
         padding:1rem;
-        border: 1px solid tansparent;
+        border: 1px solid transparent;
         border-radius: 0.5rem;
     }
     main:hover {
