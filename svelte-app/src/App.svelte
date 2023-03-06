@@ -3,7 +3,7 @@
 
   import { fly } from 'svelte/transition';
 
-  import shareKeypair from "./store/share.js";
+  import authorKeypair from "./store/identity.js";
   import replica from "./store/replica.js";
 
   import Identity from "./lib/Identity.svelte";
@@ -72,16 +72,12 @@
       {/if}
     {/if}
     {#if IDcreated && !showDetails}
-      <button class="topleft" on:click={() => (showDetails = !showDetails)}>
-        {#if showDetails}
-          Show details
-        {:else}
+      <button class="topright" on:click={() => (showDetails = !showDetails)}>
           Hide details
-        {/if}
       </button>
     {:else if IDcreated && showDetails}
       <button class="topleft" on:click={() => (showDetails = !showDetails)}>
-        Show details
+        {$authorKeypair.address.slice(0, 5)}
       </button>
       {#if !imageView}
       <div class='flex-row'>
