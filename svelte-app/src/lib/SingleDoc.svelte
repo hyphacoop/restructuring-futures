@@ -27,6 +27,8 @@
     } else if (doc.text.includes("<br>")) {
         content = doc.text.split("<br>");
         reaction = content.length * 3 + 32;
+    } else if (!attachment) {
+        reaction = 18;
     }
 
     $: console.log("reaction", reaction)
