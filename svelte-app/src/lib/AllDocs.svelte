@@ -1,8 +1,16 @@
 <script>
+
+    // This Component was used to display all docs before the integration of the GridView component
+    // This component is no longer used but is kept as a reference for future development
+
+
+
     import { onMount } from "svelte";
 
     import cache from "../store/cache";
     import SingleDoc from "./SingleDoc.svelte";
+
+    export let inStudio = undefined;
 
     let documents = [];
 
@@ -14,7 +22,7 @@
             }
         
         });
-        documents = documents.filter(doc => doc.path.split('/').length <= 4);
+        documents = documents.filter(doc => doc.path.split('/').length <= 6);
         console.log('Docs', documents);
 
      
@@ -40,7 +48,6 @@
 
 <div>
     <h2>The Commons</h2>
-    
     <div class='flex'>
         {#if documents.length === 0}
             <p>No files yet</p>
@@ -53,7 +60,7 @@
                 
                     <div id={doc.textHash}>
 
-                        <SingleDoc {doc} on:update={updateUI} />
+                        <SingleDoc {doc} on:update={updateUI} {inStudio} />
 
                     </div>
                 {/each} 
