@@ -8,6 +8,8 @@
 
     let documents = [];
 
+    export let inStudio;
+
     // fetch documents from the cache
     const fetchDocs = (async () => {
         documents = $cache.cache.queryDocs({
@@ -16,7 +18,7 @@
             }
         
         });
-        documents = documents.filter(doc => doc.path.split('/').length <= 4);
+        documents = documents.filter(doc => doc.path.split('/').length <= 6);
         console.log('Docs', documents);
 
      
@@ -57,7 +59,7 @@
                 
                     <div id={doc.textHash}>
 
-                        <SingleDoc {doc} on:update={updateUI} studio={true}/>
+                        <SingleDoc {doc} on:update={updateUI} studio={true} {inStudio}/>
 
                     </div>
                 {/each} 

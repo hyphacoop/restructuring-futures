@@ -11,6 +11,8 @@
 
   let documents = [];
 
+  export let inStudio;
+
   // fetch documents from the cache
   const fetchDocs = async () => {
     documents = $cache.cache.queryDocs({
@@ -58,7 +60,7 @@
 
                     <div id={doc.textHash}>
 
-                        <SingleDoc {doc} on:update={updateUI} />
+                        <SingleDoc {doc} on:update={updateUI} {inStudio}/>
 
                     </div>
                     {:else}

@@ -85,10 +85,9 @@
 
       </div>
       {:else if inStudio} 
-      <Studio />
+      <Studio {inStudio} />
       {:else}
-      <GridView />
-      <!--<AllDocs />-->
+      <GridView {inStudio} />
       {/if}
       <button class="topright" on:click={() => (imageView = !imageView)}>
         {#if imageView}
