@@ -96,7 +96,7 @@
       background: #ccc;
     }
   
-    div.active {
+    .container div.active {
       background: orange;
     }
 
