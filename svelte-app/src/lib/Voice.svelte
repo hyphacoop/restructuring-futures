@@ -7,17 +7,19 @@
 
   const dispatch = createEventDispatcher();
   import { onMount } from "svelte";
+  import Studio from './Studio.svelte';
 
   let uploadResult;
   let studioResult;
   let media = [];
   let mediaRecorder = null;
   let recording = false;
-  export let xy = [0, 0];
+  export let xy = undefined;
 
   let src = 'images/Speaker_Icon.png'
 
   export let inStudio;
+  export let doc = undefined;
 
   function readFile(file) {
         return new Promise((resolve, reject) => {
@@ -45,6 +47,7 @@
       mediaRecorder.ondataavailable = (e) => media.push(e.data);
       mediaRecorder.onstop = async function (e) {
         let timestamp = Date.now();
+        let dateShared = new Date().toLocaleString()
         let deletionTime = (timestamp + 3600000) * 1000;
         let mimeType = mediaRecorder.mimeType;
         if (mimeType === '') {
@@ -57,33 +60,64 @@
         const uInt8 = new Uint8Array(await readFile(blob));
         console.log('mime', mimeType);
         let alias = $authorKeypair.address.slice(1, 5);
-        if (!inStudio) {
-        uploadResult = await $replica.replica.set($authorKeypair, {
-            path: `/documents/${xy[1]}/${xy[0]}/${timestamp}/!${alias}${timestamp}.${extension}`,
-            text:
-            'Voice note shared by ' +
-            $authorKeypair.address.slice(1, 5) +
-            " on " +
-            timestamp.toLocaleString(),
-            attachment: uInt8,
-            deleteAfter: deletionTime
-        });
-        }
-        // if in studio, remove ephemeral path and write file to studio
-        studioResult = await $replica.replica.set($authorKeypair, {
-        path: `/studio/${xy[1]}/${xy[0]}/${timestamp}/${alias}${timestamp}.${extension}`,
-        text:
-            'Voice note shared by ' +
-            $authorKeypair.address.slice(1, 5) +
-            " on " +
-            timestamp.toLocaleString(),
-        attachment: uInt8,
-        });
-        dispatch('upload');
-        console.log("Upload Result: ", uploadResult);
-        console.log("Studio Result: ", studioResult);
-        media = [];
-        };
+        // use grid path if xy is defined
+        if (xy !== undefined && xy !== 'reply') {
+          // if not in studio, upload to ephemeral path
+          if (!inStudio) {
+          uploadResult = await $replica.replica.set($authorKeypair, {
+              path: `/documents/${xy[1]}/${xy[0]}/${timestamp}/!${alias}${timestamp}.${extension}`,
+              text:
+              'Voice note shared by ' +
+              alias +
+              " on " +
+              dateShared,
+              attachment: uInt8,
+              deleteAfter: deletionTime
+          });
+          }
+          // if in studio, remove ephemeral path and write file to studio
+          studioResult = await $replica.replica.set($authorKeypair, {
+          path: `/studio/${xy[1]}/${xy[0]}/${timestamp}/${alias}${timestamp}.${extension}`,
+          text:
+              'Voice note shared by ' +
+              alias +
+              " on " +
+              dateShared,
+          attachment: uInt8,
+          });
+          dispatch('upload');
+          console.log("Upload Result: ", uploadResult);
+          console.log("Studio Result: ", studioResult);
+          media = [];
+          // if it is a reply, use the reply path
+          } else if (xy == 'reply') {
+            let newPath = doc.path.split("!");
+            let studioPath = newPath[0].replace('/documents', '/studio');
+            const result = await $replica.replica.set($authorKeypair, {
+              text: alias + ' replied with voice' +
+              "<br>Shared on " +
+              dateShared,
+              path: newPath[0] + timestamp + "/" + "!reply-by-" + alias + '.' + extension,
+              deleteAfter: deletionTime,
+              attachment: uInt8,
+          });
+          const studio = await $replica.replica.set($authorKeypair, {
+              text:  alias + ' replied with voice' +
+              "<br>Shared on " +
+              dateShared,
+              path:
+                  studioPath +
+                  timestamp +
+                  "/" +
+                  "reply-by-" + alias + '.' + extension,
+              attachment: uInt8,
+          });
+          console.log("result ", result);
+          console.log("studio ", studio);
+          dispatch("success");
+          return result;
+          }
+      };
     } else {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorder = new MediaRecorder(stream);
