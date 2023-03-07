@@ -23,18 +23,17 @@
         let alias = $authorKeypair.address.slice(1, 5);
         let removeChar = doc.path.split('!');
         let studioPath = removeChar[0].replace('/documents', '/studio') + removeChar[1];
-        
         const result = await $replica.replica.set($authorKeypair, {
                 text: doc.text + "<br> lifespan extended by " + alias + " on " + new Date().toLocaleString(),
                 path: doc.path,
                 deleteAfter: deletionTime
             });
-            console.log("result ", result);
         const studio = await $replica.replica.set($authorKeypair, {
             text: doc.text + "<br> lifespan extended by " + alias + " on " + new Date().toLocaleString(),
             path: studioPath,
         });
-        console.log('studioPath', studioPath)
+        console.log('studioPath', studioPath);
+        console.log('doc.path', doc.path);
         console.log("result c", result);
         console.log("result s", studio);
 
@@ -42,7 +41,9 @@
 
     async function remove() {
         let alias = $authorKeypair.address.slice(1, 5);
-        let studioPath = doc.path.replace('/documents', '/studio')
+        let removeChar = doc.path.split('!');
+        let studioPath = removeChar[0].replace('/documents', '/studio') + removeChar[1];
+        console.log('studioPath', studioPath)
         deletionTime -= 60000000;
         const result = await $replica.replica.set($authorKeypair, {
                 text: doc.text + "<br> lifespan shortened by " + alias + " on " + new Date().toLocaleString(),
@@ -59,12 +60,18 @@
 
     async function deleteDoc() {
         dispatch('update');
-
+        let alias = $authorKeypair.address.slice(1, 5);
+        let removeChar = doc.path.split('!');
+        let studioPath = removeChar[0].replace('/documents', '/studio') + removeChar[1];
         const result = await $replica.replica.set($authorKeypair, {
             path: doc.path,
             deleteAfter: (Date.now() + 1000) * 1000
         });
-
+        const studio = await $replica.replica.set($authorKeypair, {
+            text: doc.text + "<br> deleted by " + alias + " on " + new Date().toLocaleString(),
+            path: studioPath,
+        });
+        console.log("studio 'delete'", studio);
         console.log("result delete", result);
     }
 
@@ -72,7 +79,7 @@
 
 </script>
 <button on:click={() => ephemeral = !ephemeral}>
-    {ephemeral ? '⌛' : '⏳'}
+    {ephemeral ? '⌛Ephemeral' : '⏳Ephemeral'}
  </button>
  
  {#if ephemeral}

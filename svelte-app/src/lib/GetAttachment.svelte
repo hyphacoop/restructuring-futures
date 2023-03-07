@@ -101,7 +101,7 @@
 </script>
 
 <button on:click={() => (isVisible = !isVisible)}>
-    {isVisible ? "📎" : "📎"}
+    {isVisible ? "📎Attachment" : "📎Attachment"}
 </button>
 {#if isVisible}
     <p>
@@ -170,5 +170,8 @@
         padding: 0.5rem;
         color:black;
         overflow: auto;
+    }
+    button {
+        width: max-content;
     }
 </style>

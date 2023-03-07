@@ -4,6 +4,7 @@
 
   export let doc;
   export let attachment = true;
+  export let isReply = false;
   let showDetails = false;
   let title = undefined;
   let content;
@@ -17,7 +18,7 @@
   }
 </script>
 
-<button on:click={() => (showDetails = !showDetails)}> 📄 </button>
+<button on:click={() => (showDetails = !showDetails)}> 📄Details </button>
 {#if showDetails}
   <h2>Details</h2>
   <div>
@@ -51,7 +52,7 @@
       {:else}
         <h4>{@html doc.text}</h4>
       {/if}
-    {#if !attachment}
+    {#if isReply || !attachment}
     <div>
       <ul>
         <li><b>path:</b> {doc.path}</li>
@@ -76,5 +77,6 @@
   div ul {
     padding:0.25rem;
     word-break: break-all;
+    width: max-content;
     }
 </style>

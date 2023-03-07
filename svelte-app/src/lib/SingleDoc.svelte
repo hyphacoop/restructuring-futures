@@ -11,7 +11,10 @@
     export let doc;
     export let studio = false;
     export let attachment = true;
+    export let reply = true;
     export let title = undefined;
+    export let inStudio;
+    export let isReply = false;
 
     let extended = false;
     let content = undefined;
@@ -27,14 +30,14 @@
     } else if (doc.text.includes("<br>")) {
         content = doc.text.split("<br>");
         reaction = content.length * 3 + 32;
-    } else if (!attachment) {
+    } else if (isReply) {
         reaction = 18;
     }
 
     $: console.log("reaction", reaction)
 </script>
-<main 
-    class:replies="{attachment === false}"
+<div class='main' 
+    class:replies="{isReply === true}"
     on:click|self={() => (showDetails = !showDetails)}
     on:keypress|self={() => (showDetails = !showDetails)}>
     {#if !showDetails}
@@ -78,7 +81,7 @@
             size="18"
             default="retro"
         />
-
+        Artifact
             </button>
         {#if attachment}
             <div>
@@ -86,11 +89,11 @@
             </div>
         {/if}
         <div>
-            <DocDetails {doc} {attachment} />
+            <DocDetails {doc} {attachment} {isReply} />
         </div>
-        {#if attachment}
+        {#if reply}
             <div>
-                <Reply {doc} />
+                <Reply {doc} {inStudio}/>
             </div>
         {/if}
         {#if !studio}
@@ -100,7 +103,7 @@
         {/if}
     </div>
 {/if}
-</main>
+</div>
 <style>
     .flex {
         display: flex;
@@ -110,7 +113,7 @@
         max-width: max-content;
         
     }
-    main {
+    .main {
         color: #1a1a1a;
         background-color: #f9f9f9;
         margin:2rem;
@@ -120,7 +123,7 @@
         width:fit-content;
         height: fit-content;
     }
-    main:hover {
+    .main:hover {
         border:1px dotted #111111;
     }
     /* li {
