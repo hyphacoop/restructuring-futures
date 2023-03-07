@@ -2,7 +2,10 @@
     import replica from "../store/replica";
     import authorKeypair from "../store/identity";
 
+    import Voice from "./Voice.svelte";
+
     import { createEventDispatcher } from "svelte";
+  import Reply from "./Reply.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -11,6 +14,9 @@
     }
 
     let result;
+    let txt = false;
+    let voice = false;
+
 
     async function sendReply() {
         let alias = $authorKeypair.address.slice(1, 5);
@@ -40,19 +46,60 @@
     }
 
     export let doc;
+    export let inStudio;
+
     let text = "Reply here";
+    let lgth = text.length;
     let deletionTime = (Date.now() + 3600000) * 1000;
+
+    $: if (result !== undefined && result.kind == "success") {
+        text = "Send another reply";
+        text = text;
+    }
+
+    function txtReply() {
+        txt = !txt;
+        voice = false;
+    }
+
+    function voiceReply() {
+        txt = false;
+        voice = !voice;
+    }
+
+
+    $: if (text !== undefined) {
+        lgth = text.length;
+    }
 </script>
 
 <div>
+    <button
+        on:click={txtReply}>
+        📝
+    </button>
+    
+    <button
+        on:click={voiceReply}
+        >
+        🔊
+    </button>
+
+    {#if txt}
     <p>
-        <input bind:value={text} />
+        <input bind:value={text} style="width: {lgth}ch" />
     </p>
     <p>
         <button disabled={isUnchanged(text)} on:click={sendReply}>
             Send Reply
         </button>
     </p>
+    {/if}
+    {#if voice}
+    <p>
+        <Voice xy="reply" {doc} {inStudio} />
+    </p>
+    {/if}
     <p>
         {#if result}
             <span>{result.kind}</span>
@@ -68,6 +115,5 @@
         border-radius: 15px;
         border: 1px solid #888888;
         margin: 1rem;
-        width: 80%;
     }
 </style>
