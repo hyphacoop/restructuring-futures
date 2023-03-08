@@ -48,7 +48,7 @@
       mediaRecorder.onstop = async function (e) {
         let timestamp = Date.now();
         let dateShared = new Date().toLocaleString()
-        let deletionTime = (timestamp + 3600000) * 1000;
+        let deletionTime = (timestamp + 14400000) * 1000;
         let mimeType = mediaRecorder.mimeType;
         if (mimeType === '') {
           mimeType = 'audio/ogg; codecs=opus';

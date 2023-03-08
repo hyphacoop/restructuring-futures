@@ -55,7 +55,7 @@
     // read file
     let fileReady = await readFileAsync(fileAttachment);
     // set deletion time
-    let deletionTime = (Date.now() + 3600000) * 1000;
+    let deletionTime = (Date.now() + 14400000) * 1000;
     // set file to Uint8Array
     let fileUint8 = new Uint8Array(fileReady);
     // if not in studio, write file to the commons
