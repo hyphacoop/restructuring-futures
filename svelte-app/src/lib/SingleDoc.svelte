@@ -15,6 +15,7 @@
     export let title = undefined;
     export let inStudio;
     export let isReply = false;
+    export let disabled = false;
 
     let extended = false;
     let content = undefined;
@@ -36,74 +37,87 @@
 
     $: console.log("reaction", reaction)
 </script>
-<div class='main' 
-    class:replies="{isReply === true}"
-    on:click|self={() => (showDetails = !showDetails)}
-    on:keypress|self={() => (showDetails = !showDetails)}>
-    {#if !showDetails}
-        <div class="flex row">
-            <p on:click={() => (showDetails = !showDetails)}
-                on:keypress={() => (showDetails = !showDetails)} >
-            <Gravatar
-            style="margin-bottom:-3px;"
-            email={doc.text}
-            size={reaction}
-            default="retro"
-        /></p>
-        
-            {#if title !== undefined}
-            <h3>{@html title}</h3>
-
-            <!-- Display ephemeral interaction log-->
-
-            <!-- Currently hidden
-            {#if extended}
-                <ul>
-                    {#each content as item}
-                    <li>
-                        {@html item}
-                    </li>
-                    {/each}
-                </ul>
-                {/if}-->
-            {/if}
-            </div>
-    {/if}
-{#if showDetails}
-    <div class="flex">
-        <button
-        on:click={() => (showDetails = !showDetails)}
-        on:keypress|self={() => (showDetails = !showDetails)} >
-
+{#if disabled}
+    <div class='main disabled' 
+        class:replies="{isReply === true}">
         <Gravatar
-            style="margin-bottom:-3px;"
-            email={doc.text}
-            size="18"
-            default="retro"
-        />
-        Artifact
-            </button>
-        {#if attachment}
-            <div>
-                <GetAttachment {doc} />
-            </div>
-        {/if}
-        <div>
-            <DocDetails {doc} {attachment} {isReply} />
-        </div>
-        {#if reply}
-            <div>
-                <Reply {doc} {inStudio}/>
-            </div>
-        {/if}
-        {#if !studio}
-            <div>
-                <Ephemerality {doc} on:update />
-            </div>
-        {/if}
+        style="margin-bottom:-3px;"
+        email={doc.text}
+        size={reaction}
+        default="retro"
+    />
     </div>
-{/if}
-</div>
+{:else}
+    <div class='main' 
+        class:replies="{isReply === true}"
+        on:click|self={() => (showDetails = !showDetails)}
+        on:keypress|self={() => (showDetails = !showDetails)}>
+        {#if !showDetails}
+            <div class="flex row">
+                <p on:click={() => (showDetails = !showDetails)}
+                    on:keypress={() => (showDetails = !showDetails)} >
+                <Gravatar
+                style="margin-bottom:-3px;"
+                email={doc.text}
+                size={reaction}
+                default="retro"
+            /></p>
+            
+                {#if title !== undefined}
+                <h3>{@html title}</h3>
+
+                <!-- Display ephemeral interaction log-->
+
+                <!-- Currently hidden
+                {#if extended}
+                    <ul>
+                        {#each content as item}
+                        <li>
+                            {@html item}
+                        </li>
+                        {/each}
+                    </ul>
+                    {/if}-->
+                {/if}
+                </div>
+        {/if}
+    {#if showDetails}
+        <div class="flex">
+            <button
+            on:click={() => (showDetails = !showDetails)}
+            on:keypress|self={() => (showDetails = !showDetails)} >
+
+            <Gravatar
+                style="margin-bottom:-3px;"
+                email={doc.text}
+                size="18"
+                default="retro"
+            />
+            Artifact
+                </button>
+            {#if attachment}
+                <div>
+                    <GetAttachment {doc} />
+                </div>
+            {/if}
+            <div>
+                <DocDetails {doc} {attachment} {isReply} />
+            </div>
+            {#if reply}
+                <div>
+                    <Reply {doc} {inStudio}/>
+                </div>
+            {/if}
+            {#if !studio}
+                <div>
+                    <Ephemerality {doc} on:update />
+                </div>
+            {/if}
+        </div>
+    {/if}
+    </div>
+{/if}   
+
 <style>
     .flex {
         display: flex;
@@ -158,5 +172,8 @@
     }
     .row {
         flex-direction: row;
+    }
+    .disabled {
+        opacity: 0.5;
     }
 </style>
