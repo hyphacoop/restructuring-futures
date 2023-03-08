@@ -75,7 +75,7 @@
         console.log("result delete", result);
     }
 
-    $: timestamp = ($elapsed) + (time /1000) - (doc.timestamp / 1000000);
+    $: timestamp = (($elapsed) + (time /1000) - (doc.timestamp / 1000000)) / 60;
 
 </script>
 <button on:click={() => ephemeral = !ephemeral}>
