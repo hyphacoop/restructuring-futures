@@ -86,23 +86,23 @@
 
     <div id="flexcontainer">
         <button on:click={add}>
-            ➕
+            ➕Extend
         </button>
         
         <button on:click={remove}>
-            ➖
+            ➖Shorten 
         </button>
         
         <p>
-            last interaction was {Math.trunc(timestamp)} seconds ago
+            last interaction was {Math.trunc(timestamp)} {timestamp<=1?"minute":"minutes"} ago
         </p>
         
         <p>
-            {Math.trunc(((deletionTime / 1000) - ($elapsed * 1000 + (time))) / 1000)} seconds left until deletion
+            {Math.trunc(((deletionTime / 1000) - ($elapsed * 1000 + (time))) / 60000)} minutes left until deletion
         </p>
         
         <button on:click={() => deleteDoc()}>
-            🗑️
+            🗑️Delete
         </button>
     </div>
 
