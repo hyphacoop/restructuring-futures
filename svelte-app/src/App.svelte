@@ -8,6 +8,7 @@
 
   import Identity from "./lib/Identity.svelte";
   import Studio from "./lib/Studio.svelte";
+  import Oracle from "./lib/Oracle.svelte";
   import UploadId from './lib/UploadId.svelte';
   import GridView from './lib/GridView.svelte';
   import GridUpload from './lib/GridUpload.svelte';
@@ -47,6 +48,7 @@
   
     const urlParams = new URLSearchParams(window.location.search);
     const inStudio = urlParams.has('studio');
+    const oracle = urlParams.has('oracle');
 
 </script>
 
@@ -86,12 +88,14 @@
       </div>
       {:else if inStudio} 
       <Studio {inStudio} />
+      {:else if oracle}
+      <Oracle {inStudio}/>
       {:else}
       <GridView {inStudio} />
       {/if}
       <button class="topright" on:click={() => (imageView = !imageView)}>
         {#if imageView}
-          Upload file
+          Place an artefact
         {:else}
           Show file
         {/if}

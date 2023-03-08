@@ -11,10 +11,12 @@
 
   export let inStudio;
   export let xy = [0, 0];
+  export let oracle = false;
 
   let fileinput;
   let result;
   let studio;
+  let offering;
 
   function readFileAsync(file) {
     return new Promise((resolve, reject) => {
@@ -58,6 +60,18 @@
     let deletionTime = (Date.now() + 14400000) * 1000;
     // set file to Uint8Array
     let fileUint8 = new Uint8Array(fileReady);
+    if (oracle) {
+      offering = await $replica.replica.set($authorKeypair, {
+        path: `/oracle/${timestamp}/!${finalName}`,
+        text:
+          'Offering by ' +
+          $authorKeypair.address.slice(1, 5) +
+          " on " +
+          new Date().toLocaleString(),
+        attachment: fileUint8,
+        deleteAfter: deletionTime
+      });
+    } else {
     // if not in studio, write file to the commons
     if (!inStudio) {
       result = await $replica.replica.set($authorKeypair, {
@@ -81,6 +95,7 @@
         new Date().toLocaleString(),
       attachment: fileUint8,
     });
+  }
     console.log("Result: ", result);
     if (Earthstar.isErr(result)) {
       console.error(result);
@@ -98,28 +113,42 @@
 </script>
 <div>
   <div>
-    <img
-      class="upload"
-      {src}
-      alt="Comics icons created by Freepik - Flaticon"
+    {#if oracle}
+      <button
+      class='wrdbtn'
       on:click={() => {
         fileinput.click();
       }}
       on:keypress={() => {
         fileinput.click();
-      }}
-    />
-    <div
-      class="uploadText"
-      on:click={() => {
-        fileinput.click();
-      }}
-      on:keypress={() => {
-        fileinput.click();
-      }}
-    >
-      Upload file
-    </div>
+      }}>
+        make an offering to the oracle
+      </button>
+    {:else}
+      <img
+        class="upload"
+        {src}
+        alt="Comics icons created by Freepik - Flaticon"
+        on:click={() => {
+          fileinput.click();
+        }}
+        on:keypress={() => {
+          fileinput.click();
+        }}
+      />
+      <div
+        class="uploadText"
+        on:click={() => {
+          fileinput.click();
+        }}
+        on:keypress={() => {
+          fileinput.click();
+        }}
+      >
+        Upload file
+      </div>
+    {/if}
+
     <input
       style="display:none"
       type="file"
@@ -150,4 +179,10 @@
   .uploadText {
     cursor: pointer;
   }	
+  .wrdbtn {
+    font-family: 'Fungal Grow 300 Thickness 500';
+  }
+  .wrdbtn:hover {
+    font-family: 'Fungal Grow 100 Thickness 500'
+  }
 </style>
