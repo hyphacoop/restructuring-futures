@@ -76,13 +76,13 @@
 <div>
     <button
         on:click={txtReply}>
-        📝
+        📝Text reply
     </button>
     
     <button
         on:click={voiceReply}
         >
-        🔊
+        🔊Voice reply
     </button>
 
     {#if txt}
