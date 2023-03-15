@@ -1,6 +1,7 @@
 <script>
     import replica from "../store/replica";
     import SvelteMarkdown from "svelte-markdown";
+  import { ValidationError } from "earthstar";
     // import PdfViewer from 'svelte-pdf';
 
     export let doc;
@@ -15,7 +16,7 @@
     async function getAttachment(doc) {
         const attachment = await $replica.replica.getAttachment(doc);
         let fileExtension = doc.path.split('.').pop();
-        console.log("fileExtension 1st", fileExtension);
+
         if (attachment !== undefined) {
 
             const docdata = await attachment.bytes();
@@ -25,9 +26,7 @@
             for (var i = 0; i < docdata.length; i++) {
                 bytes[i] = docdata[i];
             }
-            console.log("bytes ", bytes);
-            console.log("fileExtension 2 ", fileExtension);
-            console.log("typeof fileExtension " + typeof fileExtension);
+
             if (fileExtension === "md") {
                 filetype = "markdown";
                 filetype = filetype;
@@ -51,14 +50,14 @@
                 attachmentBytes = decoder.decode(Uint8Array.from(bytes));
             } else if (fileExtension == "png" || (fileExtension == "gif" || fileExtension == "jpeg")) {
                 filetype = "image";
-                console.log("img fileExtension " + fileExtension);
+
                 console.log("this is an image");
                 console.log("fileExtension " + fileExtension);
 
                 mimetype = "image/" + fileExtension;
                 filetype = filetype;
                 mimetype = mimetype;
-                console.log("mimetype " + mimetype);
+
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: mimetype })
                 );
