@@ -4,6 +4,7 @@
     import { fly } from 'svelte/transition';
 
     import authorKeypair from "../store/identity.js";
+    import sharedSettings from '../store/settings.js';
 
     import UploadId from './UploadId.svelte';
 
@@ -12,6 +13,7 @@
     let showWarning = false;
     let newAlias;
     let uploadWarning = false;
+    const settings = new Earthstar.SharedSettings();
 
     // download identity file as json
     function Download() {
@@ -81,7 +83,14 @@
                         secret: authorSecret,
                     });
             error = null;
-            showWarning = false
+            showWarning = false;
+
+            // @ts-ignore
+            settings.author = identityKeypair;
+
+            sharedSettings.set({
+                        settings
+                    });
             }
     }
 
@@ -112,12 +121,12 @@ onMount(() => {
 
 </script>
 
-<div>
+<div class="id">
 
     {#if $authorKeypair.address.length !== 0}
 
             <h1>Identity Keypair</h1>
-            <h2>Your alias is <b>{currentAlias}</b></h2>
+            <h2><b>{currentAlias}</b></h2>
            
     {/if}
     <p>
@@ -158,6 +167,8 @@ onMount(() => {
 
     or customize your alias in the box below:
     </p>
+    <p>
+    Your alias is 
     <input type="text"
         spellcheck="false"
         maxlength="4" 
@@ -166,6 +177,7 @@ onMount(() => {
         on:focus={() => {showWarning = true}}
         on:keypress={() => generateID()}
         >
+    </p>
         <div>
        
             {#if showWarning}
@@ -230,5 +242,12 @@ onMount(() => {
     }
     h1 {
         font-family: 'Fungal Grow 500 Thickness 500';
+    }
+    h2 {
+        font-family: 'Fungal Grow 900 Thickness 500';
+    }
+    .id {
+        width: -moz-available;
+word-break: break-word;
     }
 </style>
