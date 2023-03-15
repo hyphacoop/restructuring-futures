@@ -10,17 +10,18 @@
   let grid = [4, 8];
 
   $: col = `repeat(${grid[1]}, 1fr)`;
-  $: row = `repeat(${grid[0]}, minmax(25%, auto))`;
+  $: row = `repeat(${grid[0]}, 1fr)`;
 
   let documents = [];
   let oracle = true;
   let hours = [ 10800000000, 7200000000, 3600000000, 0];
-  let convertedTime = $time.getTime() * 1000;
-
+  let lunarphase = [ 1918080000000, 1278720000000, 639360000000, 0];
+  let usTime = $time.getTime() * 1000;
+  let colorCycle = [ "#b5d1c0", "#d3e3d9", "#f9dfdd", "#fff5d9"]
 
   export let inStudio;
 
-  // fetch documents from the cache
+  // fetch documents 
   const fetchDocs = async () => {
     documents = $cache.cache.queryDocs({
       filter: {
@@ -55,29 +56,32 @@
         {#if documents.length === 0}
             <p>No files yet</p>
         {:else}
-          {#each hours as hour (hour)}
+          {#each hours as hour, k (k)}
           <div
           class="container"
-          style="grid-template-rows: {row}; grid-template-columns: {col};"
-        >
+          style="grid-template-rows: {row}; grid-template-columns: {col}; background-color: {colorCycle[k]};"
+          >         
+          {#each documents as doc (doc.textHash+doc.timestamp)}
             {#each { length: grid[0] } as _, i (i)}
               {#each { length: grid[1] } as _, j (j)}
-                  
-                {#each documents as doc (doc.textHash)}
+                {#if doc.path.split('/')[2] == j && doc.path.split('/')[3] == i}  
 
-                    {#if doc.path.split('/')[2] == j && doc.path.split('/')[3] == i}           
+                      <div id={doc.textHash+doc.timestamp}>
+                          {#if hour == hours[0]}
 
-                    <div id={doc.textHash}>
-
-                        {#if (convertedTime > (doc.deleteAfter - hour)) && (convertedTime > (doc.deleteAfter - (hour - 3600000000)))}
-                        <SingleDoc {doc} on:update={updateUI} {inStudio} disabled={true} />
-                        {:else}
-                        <SingleDoc {doc} on:update={updateUI} {inStudio} />
-                        {/if}
-
+                            {#if usTime < (doc.deleteAfter - hour) == false}
+                            <SingleDoc {doc} on:update={updateUI} {inStudio} disabled={true} />
+                            {:else}
+                              <SingleDoc {doc} on:update={updateUI} {inStudio} />
+                            {/if}
+                          {:else}
+                            {#if (usTime < (doc.deleteAfter - hour) && (usTime > (doc.deleteAfter - (hour + 3600000000)))) == false}
+                              <SingleDoc {doc} on:update={updateUI} {inStudio} disabled={true} />
+                            {:else}
+                              <SingleDoc {doc} on:update={updateUI} {inStudio} />
+                            {/if}
+                          {/if}
                       </div>
-                    {:else}
-                    <div></div>
                     {/if}
                 {/each}
               {/each}
@@ -99,12 +103,11 @@
     display: grid;
     border-radius: 2px;
     width: 100%;
-    height: 90%;
+    min-height: 100vh;
     grid-gap: 0px;
   }
 
   .container div {
-    background: #fff;
     height:min-content;
     width: min-content;
   }
