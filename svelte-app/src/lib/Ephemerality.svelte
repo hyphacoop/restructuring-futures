@@ -19,7 +19,7 @@
     let deletionTime = doc.deleteAfter;
 
     async function add() {
-        deletionTime += 60000000;
+        deletionTime += 3600000000;
         let alias = $authorKeypair.address.slice(1, 5);
         let removeChar = doc.path.split('!');
         let studioPath = removeChar[0].replace('/documents', '/studio') + removeChar[1];
@@ -44,7 +44,7 @@
         let removeChar = doc.path.split('!');
         let studioPath = removeChar[0].replace('/documents', '/studio') + removeChar[1];
         console.log('studioPath', studioPath)
-        deletionTime -= 60000000;
+        deletionTime -= 3600000000;
         const result = await $replica.replica.set($authorKeypair, {
                 text: doc.text + "<br> lifespan shortened by " + alias + " on " + new Date().toLocaleString(),
                 path: doc.path,
