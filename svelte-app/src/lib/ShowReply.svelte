@@ -27,10 +27,7 @@
 
 
     $cache.cache.onCacheUpdated(() => {
-        console.log('oncacheupdated');
-        console.log('oncacheupdated replies', replies)
             getReplies();
-            console.log('oncacheupdated after getreplies', replies)
             replies = replies;
     });
 
