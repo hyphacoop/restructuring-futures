@@ -12,11 +12,19 @@
   import UploadId from './lib/UploadId.svelte';
   import GridView from './lib/GridView.svelte';
   import GridUpload from './lib/GridUpload.svelte';
+  import StatusPanel from './lib/StatusPanel.svelte';
+  import ShareSettings from './lib/ShareSettings.svelte';
+
 
   let IDcreated = false;
   let showDetails = false;
   let imageView = true;
   let showWarning = false;
+  let showPanel = false;
+  let addShare = false;
+
+  let status = undefined;
+
 
   // new peer & syncing with server
   const peer = new Earthstar.Peer();
@@ -25,10 +33,14 @@
   const syncAgain = peer.sync("https://languid-sand-parallelogram.glitch.me/", true);
 
   sync.onStatusChange((newStatus) => {
+    status = newStatus;
     console.log(newStatus);
+    status = status;
   });
   syncAgain.onStatusChange((newStatus) => {
+    status = newStatus;
     console.log(newStatus);
+    status = status;
   });
 
   sync.isDone().then(() => {
@@ -50,15 +62,50 @@
     const inStudio = urlParams.has('studio');
     const oracle = urlParams.has('oracle');
 
+  function handlePanel() {
+    showPanel = !showPanel;
+    addShare = false;
+    showDetails = true;
+    if (showPanel) {
+      imageView = false;
+    } else {
+      imageView = true;
+    }    
+  }
+
+  function handleDetails() {
+    showDetails = !showDetails;
+    showPanel = false;
+    addShare = false;
+    if (!showDetails) {
+      imageView = false;
+    } else {
+      imageView = true;
+    }
+  }
+
+  function handleShare() {
+    addShare = !addShare;
+  }
+
+  function handleView() {
+    imageView = !imageView;
+    showPanel = false;
+  }
+
+$: console.log('IDcreated', IDcreated);
+$: console.log('showPanel', showPanel);
+$: console.log('showDetails', showDetails);
+$: console.log('imageView', imageView);
+$: console.log('inStudio', inStudio);
+$: console.log('oracle', oracle);
+
 </script>
 
 <main>
-  <div>
-    <!--<div class:showDetails>
-      <h3>Current Share Details</h3>
-      <p><b>Address:</b> {$shareKeypair.shareAddress} <b>Secret:</b> {$shareKeypair.secret}</p>
-    </div>-->
+  <div style="width: 100%;">
 
+    <!-- Landing page prompts user to create or reuse ID -->
     {#if !IDcreated}
     <div class='flex-row'>
       <button class='wrdfnt' on:click={() => (IDcreated = !IDcreated)}>
@@ -72,16 +119,18 @@
       </blockquote>
       {/if}
     {/if}
+
+    <!-- Identity created, show details -->
     {#if IDcreated && !showDetails}
-      <button class="topright" on:click={() => (showDetails = !showDetails)}>
-          Hide details
+      <button class="topleft" on:click={handleDetails}>
+          Hide identity details
       </button>
     {:else if IDcreated && showDetails}
-      <button class="topleft" on:click={() => (showDetails = !showDetails)}>
+      <button class="topleft" on:click={handleDetails}>
         {$authorKeypair.address.slice(0, 5)}
       </button>
-      {#if !imageView}
-      <div class='flex'>
+      {#if !imageView && !showPanel}
+      <div>
         <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio}/>
 
 
@@ -90,26 +139,65 @@
       <Studio {inStudio} />
       {:else if oracle}
       <Oracle {inStudio}/>
-      {:else}
+      {:else if !showPanel}
       <GridView {inStudio} />
       {/if}
-      <button class="topright" on:click={() => (imageView = !imageView)}>
+
+
+      <button class="topright" on:click={handleView}>
         {#if imageView}
           Place an artefact
         {:else}
-          Show file
+          Explore the commons
         {/if}
       </button>
+      {#if status !== undefined}
+      <button class="bottomleft" on:click={handlePanel}>
+        {#if !showPanel}
+          Show status panel
+        {:else}
+          Hide status panel
+        {/if}
+      </button>
+      {/if}
+      <div class="bottomright">
+         {#if addShare}
+        <div>
+         <ShareSettings />
+        </div>
+        {/if}
+      <button on:click={handleShare}>
+               {#if !addShare}
+          Add a share
+        {:else}
+          Hide share settings
+        {/if}
+      </button>
+      </div>
     {/if}
   </div>
-  <div class:showDetails>
+
+
     {#if IDcreated}
+    <div class:showDetails>
       <Identity />
+    </div>
     {/if}
-  </div>
+
+
+  {#if showPanel}
+    <div>
+     <StatusPanel {status} />
+    </div>
+  {/if}
+
+
 </main>
 
 <style>
+  button {
+    width: auto;
+  }
   .wrdfnt {
     font-family: 'Fungal Grow 100 Thickness 500';
   }
@@ -141,5 +229,15 @@
     align-items: center;
     justify-content: center;
     text-align: center;
+  }
+  .bottomleft {
+    position: fixed;
+    bottom: 8px;
+    left: 16px;
+  }
+  .bottomright {
+    position: fixed;
+    bottom: 8px;
+    right: 16px;
   }
 </style>
