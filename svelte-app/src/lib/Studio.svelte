@@ -55,9 +55,9 @@
                 <p>Loading...</p>
             {:then documents}
 
-                 {#each documents as doc (doc.textHash)}
+                 {#each documents as doc (doc.textHash+doc.timestamp)}
                 
-                    <div id={doc.textHash}>
+                    <div id={doc.textHash+doc.timestamp}>
 
                         <SingleDoc {doc} on:update={updateUI} studio={true} {inStudio}/>
 
