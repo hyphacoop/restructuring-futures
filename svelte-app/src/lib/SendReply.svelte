@@ -5,7 +5,7 @@
     import Voice from "./Voice.svelte";
 
     import { createEventDispatcher } from "svelte";
-  import Reply from "./Reply.svelte";
+
 
     const dispatch = createEventDispatcher();
 
@@ -71,6 +71,8 @@
     $: if (text !== undefined) {
         lgth = text.length;
     }
+
+    $: console.log('result', result);
 </script>
 
 <div>
