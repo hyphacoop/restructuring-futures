@@ -1,7 +1,7 @@
 import * as Earthstar from "https://cdn.earthstar-project.org/js/earthstar.web.v10.0.1.js";
 
 // if a fresh start is needed, uncomment the following lines to obtain a new chatroom share address and secret
-const NEWshareKeypair = await Earthstar.Crypto.generateShareKeypair("commons");
+const NEWshareKeypair = await Earthstar.Crypto.generateShareKeypair("studio");
 console.log(NEWshareKeypair)
 
 
