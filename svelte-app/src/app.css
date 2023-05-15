@@ -1,28 +1,7 @@
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
 
 body {
   margin: 0;
@@ -30,11 +9,6 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
 }
 
 .card {
@@ -48,190 +22,214 @@ h1 {
   text-align: center;
 }
 
+/* Fluid font size variables, for browsers that support clamp */
+@supports (font-size: clamp(1rem, 1vw, 1rem)) {
+    :root {
+      --font-size-sm: clamp(0.9rem, -0.34vw + 0.97rem, 0.7rem);
+          --font-size-base: clamp(1.13rem, 0vw + 1.13rem, 1.13rem);
+          --font-size-md: clamp(1.41rem, 0.69vw + 1.27rem, 1.82rem);
+          --font-size-lg: clamp(1.76rem, 1.98vw + 1.36rem, 2.95rem);
+          --font-size-xl: clamp(2.2rem, 4.28vw + 1.34rem, 4.77rem);
+          --font-size-xxl: clamp(2.75rem, 8.27vw + 1.09rem, 7.71rem);
+          --font-size-xxxl: clamp(3.43rem, 15.07vw + 0.42rem, 12.48rem);
+    }
+  }
+  /* Fallback variables for browsers that don't support clamp */
+  @supports not (font-size: clamp(1rem, 1vw, 1rem)) {
+    :root {
+      --font-size-sm: 0.9rem;
+          --font-size-base: 1.13rem;
+          --font-size-md: 1.41rem;
+          --font-size-lg: 1.76rem;
+          --font-size-xl: 2.2rem;
+          --font-size-xxl: 2.75rem;
+          --font-size-xxxl: 3.43rem;
+    }
+    @media screen and (min-width: 1280px) {
+      :root {
+        --font-size-sm: 0.7rem;
+              --font-size-base: 1.13rem;
+              --font-size-md: 1.82rem;
+              --font-size-lg: 2.95rem;
+              --font-size-xl: 4.77rem;
+              --font-size-xxl: 7.71rem;
+              --font-size-xxxl: 12.48rem;
+      }
+    }
+  }
+
+  /* can convert to hsl and manage this with % variables if prefered; i put hex because i already have these colours*/
+:root {
+  --dark-text-blue: #00495A;
+  --dark-text-red: #71302b;
+  --paper-red: #f9dfdd;
+  --soft-red: #ed9f99;
+  --vivid-red: #e15f55;
+  --paper-blue: #cce9f0;
+  --soft-blue: #66bdd2;
+  --vivid-blue: #0091b4;
+  --paper-green: #f0f6f2;
+  --soft-green: #d3e3d9;
+  --vivid-green: #b5d1c0;
+  --paper-yellow: #fff5d9;
+  --soft-yellow: #fee28d;
+  --vivid-yellow: #fdcf41;
+}
+
+/*heading font when offline: https://github.com/Interstices-/GapSans; if online, use Citizen OT(adobe font) */
+@font-face {
+  font-family: 'gap_sansregular';
+  src: url('assets/fonts/gapsans-webfont.eot');
+  src: url('assets/fonts/gapsans-webfont.eot?#iefix') format('embedded-opentype'),
+       url('assets/fonts/gapsans-webfont.woff2') format('woff2'),
+       url('assets/fonts/gapsans-webfont.woff') format('woff'),
+       url('assets/fonts/gapsans-webfont.ttf') format('truetype'),
+       url('assets/fonts/gapsans-webfont.svg#gap_sansregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'gap_sansblack';
+  src: url('assets/fonts/gapsansblack-webfont.eot');
+  src: url('assets/fonts/gapsansblack-webfont.eot?#iefix') format('embedded-opentype'),
+       url('assets/fonts/gapsansblack-webfont.woff2') format('woff2'),
+       url('assets/fonts/gapsansblack-webfont.woff') format('woff'),
+       url('assets/fonts/gapsansblack-webfont.ttf') format('truetype'),
+       url('assets/fonts/gapsansblack-webfont.svg#gap_sansblack') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+@font-face {
+  font-family: 'gap_sansbold';
+  src: url('assets/fonts/gapsansbold-webfont.eot');
+  src: url('assets/fonts/gapsansbold-webfont.eot?#iefix') format('embedded-opentype'),
+       url('assets/fonts/gapsansbold-webfont.woff2') format('woff2'),
+       url('assets/fonts/gapsansbold-webfont.woff') format('woff'),
+       url('assets/fonts/gapsansbold-webfont.ttf') format('truetype'),
+       url('assets/fonts/gapsansbold-webfont.svg#gap_sansbold') format('svg');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: Gap_sansregular, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  line-height: 1;
+}
+
+.bold-heading {
+  font-family: Gap_sansblack, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;;
+}
+
+.oblique-heading {
+  font-family: Gap_sansregular, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-style: oblique 6deg;
+  padding-right: 0.5ch;
+}
+/*Gill Sans when offline, if online use Brandon Grotesque (adobe font)*/
+p {
+  font-family: 'brandon-grotesque', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  line-height: 1.5;
+  max-width: 72ch;
+}
+
+h1 {
+    font-size: var(--font-size-xxxl);
+}
+
+h2 {
+  font-size: var(--font-size-xxl);
+  }
+h3 {
+  font-size: var(--font-size-xl);
+}
+h4 {
+  font-size: var(--font-size-lg);
+}
+h5 {
+  font-size: var(--font-size-md);
+}
+h6 {
+  font-size: var(--font-size-base);
+}
+
+small {
+  font-size: var(--font-size-sm);
+}
+
+div {
+  margin:1rem;
+}
+
 button {
-  border-radius: 8px;
-  border: 1px dashed #222222;
-  margin:0.25em;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  padding: 0.6rem;
+  font-family: Gap_sansregular, Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  color: var(--dark-text-red);
+  font-size: var(--font-size-base);
+  border: var(--dark-text-red) 1px solid;
+  min-width: 6rem;
 }
+
 button:hover {
-  border-style: solid;
-}
-button:active {
-  border-style: dotted;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+cursor: pointer;
+box-shadow: 0 2px var(--dark-text-red);
+transform: translateY(-1px);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.utility {
+  background-color: white;
 }
 
-@font-face {
-  font-family: 'Fungal Grow 100 Thickness 500';
-  src: url('assets/fonts/Fungal-Grow100Thickness500.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow100Thickness500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Fungal Grow 200 Thickness 500';
-  src: url('assets/fonts/Fungal-Grow200Thickness500.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow200Thickness500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.utility:active {
+  box-shadow: 0 1px var(--dark-text-red);
+  transform: translateY(1px);
 }
 
-@font-face {
-  font-family: 'Fungal Grow 200 Thickness 1000';
-  src: url('assets/fonts/Fungal-Grow200Thickness1000.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow200Thickness1000.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.phase1 {
+  background-color: var(--paper-yellow);
 }
 
-@font-face {
-  font-family: 'Fungal Grow 300 Thickness 500';
-  src: url('assets/fonts/Fungal-Grow300Thickness500.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow300Thickness500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.phase1:active {
+  background-color: var(--soft-yellow);
+  box-shadow: 0 1px var(--dark-text-red);
+  transform: translateY(1px);
 }
 
-@font-face {
-  font-family: 'Fungal Grow 300 Thickness 1000';
-  src: url('assets/fonts/Fungal-Grow300Thickness1000.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow300Thickness1000.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.phase2 {
+  background-color: var(--paper-green);
 }
 
-@font-face {
-  font-family: 'Fungal Grow 400 Thickness 500';
-  src: url('assets/fonts/Fungal-Grow400Thickness500.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow400Thickness500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.phase2:active {
+  background-color: var(--soft-green);
+  box-shadow: 0 1px var(--dark-text-red);
+  transform: translateY(1px);
 }
 
-@font-face {
-  font-family: 'Fungal Grow 400 Thickness 1000';
-  src: url('assets/fonts/Fungal-Grow400Thickness1000.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow400Thickness1000.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.phase3 {
+  background-color: var(--paper-red) ;
 }
 
-@font-face {
-  font-family: 'Fungal Grow 500 Thickness 500';
-  src: url('assets/fonts/Fungal-Grow500Thickness500.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow500Thickness500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.phase3:active {
+  background-color: var(--soft-red);
+  box-shadow: 0 1px var(--dark-text-red);
+  transform: translateY(1px);
 }
 
-@font-face {
-  font-family: 'Fungal Grow 500 Thickness 1000';
-  src: url('assets/fonts/Fungal-Grow500Thickness1000.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow500Thickness1000.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.phase4 {
+  background-color: var(--paper-blue);
 }
 
-@font-face {
-  font-family: 'Fungal Grow 600 Thickness 500';
-  src: url('assets/fonts/Fungal-Grow600Thickness500.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow600Thickness500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+.phase4:active {
+  background-color: var(--soft-blue);
+  box-shadow: 0 1px var(--dark-text-red);
+  transform: translateY(1px);
 }
 
-@font-face {
-  font-family: 'Fungal Grow 600 Thickness 1000';
-  src: url('assets/fonts/Fungal-Grow600Thickness1000.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow600Thickness1000.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Fungal Grow 700 Thickness 500';
-  src: url('assets/fonts/Fungal-Grow700Thickness500.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow700Thickness500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Fungal Grow 700 Thickness 1000';
-  src: url('assets/fonts/Fungal-Grow700Thickness1000.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow700Thickness1000.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Fungal Grow 800 Thickness 500';
-  src: url('assets/fonts/Fungal-Grow800Thickness500.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow800Thickness500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Fungal Grow 800 Thickness 1000';
-  src: url('assets/fonts/Fungal-Grow800Thickness1000.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow800Thickness1000.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Fungal Grow 900 Thickness 500';
-  src: url('assets/fonts/Fungal-Grow900Thickness500.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow900Thickness500.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Fungal Grow 900 Thickness 1000';
-  src: url('assets/fonts/Fungal-Grow900Thickness1000.woff2') format('woff2'),
-      url('assets/fonts/Fungal-Grow900Thickness1000.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
