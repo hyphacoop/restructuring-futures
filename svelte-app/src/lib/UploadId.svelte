@@ -8,6 +8,7 @@
 
     let fileinput;
     let alias;
+    let src = 'images/upload-img.png';
 
     export let identityPg = false;
 
@@ -64,28 +65,44 @@
 />
 
 <button 
-    class:identity-view="{identityPg === true}"
+    class='phase1 tooltip px-8 pb-8'
     on:click={() => {fileinput.click()}}>
-    Upload an identity file
+    
+    Upload ID
+    <br>
+    <br>
+    <img {src} alt="upload id is a mouse " />
+    <span class="tooltiptext">It is a JSON file</span>
 </button>
 
 <style>
     button {
-        font-family: 'Fungal Grow 100 Thickness 500';
+        text-align: start;
     }
-    .identity-view {
-        font-family: 'Fungal Grow 100 Thickness 500';
-        text-decoration:underline;
-        border:1px solid transparent;
-        background: none;
-        padding:0.25rem;}
-    .identity-view:hover {
-        cursor:pointer;
-        color:white;
-        text-decoration: none;
-        background-color: black;
-        border: 1px solid black;
-    }
+    .tooltip {
+  position: relative;
+  display: inline-block;
+}
 
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: var(--dark-text-red);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  top: 110%; /* Position the tooltip above the button */
+  left: 50%;
+  margin-left: -60px; /* Use half of the width to center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
 </style>
-
