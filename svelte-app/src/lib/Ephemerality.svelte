@@ -44,7 +44,7 @@
         let removeChar = doc.path.split('!');
         let studioPath = removeChar[0].replace('/documents', '/studio') + removeChar[1];
         console.log('studioPath', studioPath)
-        deletionTime -= 3600000000;
+        deletionTime -= 86400000000;
         const result = await $replica.replica.set($authorKeypair, {
                 text: doc.text + "<br> lifespan shortened by " + alias + " on " + new Date().toLocaleString(),
                 path: doc.path,

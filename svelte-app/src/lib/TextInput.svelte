@@ -18,7 +18,7 @@
   
     async function submitText() {
       let timestamp = Date.now();
-      let deletionTime = (Date.now() + 14400000) * 1000;
+      let deletionTime = (Date.now() + 2548800000) * 1000;
   
       // we convert text to Uint8Array, which is used in earthstar as an attachment
       let textAsBlob = new Blob([inputArea.value], { type: "text/markdown" });

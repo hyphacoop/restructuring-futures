@@ -1,8 +1,9 @@
 <script>
     import FileSharing from "./FileSharing.svelte";
     import Voice from "./Voice.svelte";
+    import TextInput from "./TextInput.svelte";
   
-    export let grid = [4, 8];
+    export let grid = [9, 16];
   
     $: col = `repeat(${grid[1]}, 1fr)`;
     $: row = `repeat(${grid[0]}, 1fr)`;
@@ -43,11 +44,11 @@
   </script>
   
 
-    <h3>Upload artifact</h3>
+    <h3 class="mt-12">Upload artifact</h3>
     {#if fileSelection}
 
       <div class='flex-row'>
-        
+        <TextInput xy={start} on:success />
         <FileSharing xy={start} {inStudio} on:success />
         <Voice xy={start} {inStudio} on:upload />
 
@@ -88,8 +89,8 @@
   
     .container div {
       background: #fff;
-      width: 100px;
-      height: 100px;
+      width: 50px;
+      height: 50px;
     }
 
     .container div:hover {

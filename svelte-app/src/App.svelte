@@ -10,6 +10,7 @@
   import Studio from "./lib/Studio.svelte";
   import Oracle from "./lib/Oracle.svelte";
   import UploadId from './lib/UploadId.svelte';
+  import ValidateId from './lib/ValidateId.svelte';
   import GridView from './lib/GridView.svelte';
   import GridUpload from './lib/GridUpload.svelte';
   import StatusPanel from './lib/StatusPanel.svelte';
@@ -57,7 +58,7 @@
   function handleError(event) {
     showWarning = true;
   }
-  
+
     const urlParams = new URLSearchParams(window.location.search);
     const inStudio = urlParams.has('studio');
     const oracle = urlParams.has('oracle');
@@ -77,11 +78,7 @@
     showDetails = !showDetails;
     showPanel = false;
     addShare = false;
-    if (!showDetails) {
-      imageView = false;
-    } else {
-      imageView = true;
-    }
+    imageView = true;
   }
 
   function handleShare() {
@@ -103,32 +100,35 @@ $: console.log('oracle', oracle);
 </script>
 
 <main>
-  <div style="width: 100%;">
-
+  <!-- Main APP -->
+    
     <!-- Landing page prompts user to create or reuse ID -->
-    {#if !IDcreated}
-    <div class='flex-row'>
-      <button class='wrdfnt' on:click={() => (IDcreated = !IDcreated)}>
-        Generate new Identity
-      </button>
-      <UploadId on:alias={handleUpload} on:error={handleError}/>
+      {#if !IDcreated && !showDetails}
+      <div class="my-12">
+      <div class="flex flex-col lg:flex-row items-center mx-2 justify-between my-12">
+      <div class='flex flex-col items-start mx-6 my-12'>
+
+        <ValidateId on:validated={handleUpload} on:error={handleError} />
+
+         <div class='mb-8'>
+        <UploadId on:alias={handleUpload} on:error={handleError}/>
+      </div>
+      </div>
+      
+        
+        <button class='phase1' on:click={() => (IDcreated = !IDcreated)}>
+          Generate new Identity
+        </button>
+      </div>
     </div>
       {#if showWarning === true}
       <blockquote transition:fly="{{ y: 200, duration: 2000 }}">
-          Please upload a valid identity file
+          There was an error with your identity file
       </blockquote>
       {/if}
     {/if}
 
-    <!-- Identity created, show details -->
-    {#if IDcreated && !showDetails}
-      <button class="topleft" on:click={handleDetails}>
-          Hide identity details
-      </button>
-    {:else if IDcreated && showDetails}
-      <button class="topleft" on:click={handleDetails}>
-        {$authorKeypair.address.slice(0, 5)}
-      </button>
+    <!-- If ID is created, show the main app -->
       {#if !imageView && !showPanel}
       <div>
         <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio}/>
@@ -140,17 +140,20 @@ $: console.log('oracle', oracle);
       {:else if oracle}
       <Oracle {inStudio}/>
       {:else if !showPanel}
-      <GridView {inStudio} />
+      <div class="w-full">
+        
+        {#if IDcreated}
+        <div class:showDetails class="py-12">
+          <Identity />
+        </div>
+        {/if}
+
+        <GridView {inStudio} {showDetails} {IDcreated} on:view={handleView} on:details={handleDetails} />
+      
+        </div>
+   
       {/if}
 
-
-      <button class="topright" on:click={handleView}>
-        {#if imageView}
-          Place an artefact
-        {:else}
-          Explore the commons
-        {/if}
-      </button>
       {#if status !== undefined}
       <button class="bottomleft" on:click={handlePanel}>
         {#if !showPanel}
@@ -160,12 +163,17 @@ $: console.log('oracle', oracle);
         {/if}
       </button>
       {/if}
+
+      
+              <!-- This is currently in the way 
       <div class="bottomright">
          {#if addShare}
         <div>
          <ShareSettings />
         </div>
         {/if}
+
+
       <button on:click={handleShare}>
                {#if !addShare}
           Add a share
@@ -173,16 +181,10 @@ $: console.log('oracle', oracle);
           Hide share settings
         {/if}
       </button>
+
       </div>
-    {/if}
-  </div>
+      -->
 
-
-    {#if IDcreated}
-    <div class:showDetails>
-      <Identity />
-    </div>
-    {/if}
 
 
   {#if showPanel}
@@ -198,17 +200,15 @@ $: console.log('oracle', oracle);
   button {
     width: auto;
   }
-  .wrdfnt {
-    font-family: 'Fungal Grow 100 Thickness 500';
-  }
+
   main {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 1em;
     margin: 0 auto;
+    min-width: 100vw;
   }
   .showDetails {
     display: none;
@@ -222,13 +222,6 @@ $: console.log('oracle', oracle);
     position: fixed;
     top: 8px;
     right: 16px;
-  }
-  .flex-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
   }
   .bottomleft {
     position: fixed;

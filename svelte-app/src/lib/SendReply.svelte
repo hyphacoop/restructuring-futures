@@ -116,6 +116,6 @@
         padding: 1em;
         border-radius: 15px;
         border: 1px solid #888888;
-        margin: 1rem;
+        margin: 0rem;
     }
 </style>

@@ -121,21 +121,21 @@ onMount(() => {
 
 </script>
 
-<div class="id">
+<div class="id mt-8">
 
     {#if $authorKeypair.address.length !== 0}
 
-            <h1>Identity Keypair</h1>
-            <h2><b>{currentAlias}</b></h2>
+            <h4>Your current Identity Keypair:</h4>
+            <h4 class='my-4'><b>{currentAlias}</b></h4>
            
     {/if}
-    <p>
-        Your identity is represented by a keypair that contains your address and secret. 
-    </p>
+    <div>
+        Your identity is represented by the keypair seen below. It contains your address and secret. 
+    </div>
 
 
-    <div class="flex">
-        <p>
+    <div class="my-6">
+        <div>
             <b>
                 Address:
             </b> 
@@ -145,29 +145,19 @@ onMount(() => {
                 Secret:
             </b> 
             {currentSecret}
-        </p>
+        </div>
     </div>
-<p>
-    You can download it and reuse it later.
-</p>
-    <div class='flex'>
-        <button on:click={() => Download()}>
-            Download your identity file
-        </button>
 
-        <UploadId on:alias={handleAlias} on:error={handleError} identityPg={true}/>
-    </div>
-    
-    <p> 
+    <div> 
         You can
 
-        <button on:click={() => generateID('r')}>
+        <button class="phase1" on:click={() => generateID('r')}>
             generate another identity
         </button>
 
-    or customize your alias in the box below:
-    </p>
-    <p>
+    or customize your alias in the box below.
+    </div>
+    <div class="my-4">
     Your alias is 
     <input type="text"
         spellcheck="false"
@@ -177,7 +167,22 @@ onMount(() => {
         on:focus={() => {showWarning = true}}
         on:keypress={() => generateID()}
         >
-    </p>
+    </div>
+
+    <div class='mt-6'>
+        You can download it and reuse it later.
+    </div>
+        <div class='flex items-center align-center flex-col'>
+            <button class='phase1' on:click={() => Download()}>
+                Download your identity file
+            </button>
+    
+            <!-- Removing upload button since it is now on the main page
+                <UploadId on:alias={handleAlias} on:error={handleError} identityPg={true}/>
+        -->
+            </div>
+        
+
         <div>
        
             {#if showWarning}
@@ -213,38 +218,14 @@ onMount(() => {
 <style>
     input {
         width: 5ch;
-        height: 1.5rem;
+        height: 1.75rem;
         font-size:1.3rem;
         resize: none;
-        padding:0.25rem;
-        border-radius: 0.5rem;
+        padding:0.5rem;
         text-align: center;
     }
-    .flex {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: space-around;
-        margin:0.5rem;
-    }
-    button {
-        font-family: 'Fungal Grow 100 Thickness 500';
-        border:1px solid transparent;
-        text-decoration:underline;
-        background: none;
-        padding:0.25rem;}
-    button:hover {
-        cursor:pointer;
-        color:white;
-        text-decoration: none;
-        background-color: black;
-        border: 1px solid black;
-    }
-    h1 {
-        font-family: 'Fungal Grow 500 Thickness 500';
-    }
-    h2 {
-        font-family: 'Fungal Grow 900 Thickness 500';
+    button { 
+        margin:0.5em;
     }
     .id {
         width: -moz-available;

@@ -57,7 +57,7 @@
     // read file
     let fileReady = await readFileAsync(fileAttachment);
     // set deletion time
-    let deletionTime = (Date.now() + 14400000) * 1000;
+    let deletionTime = (Date.now() + 2548800000) * 1000;
     // set file to Uint8Array
     let fileUint8 = new Uint8Array(fileReady);
     if (oracle) {
@@ -115,7 +115,6 @@
   <div>
     {#if oracle}
       <button
-      class='wrdbtn'
       on:click={() => {
         fileinput.click();
       }}
@@ -179,10 +178,4 @@
   .uploadText {
     cursor: pointer;
   }	
-  .wrdbtn {
-    font-family: 'Fungal Grow 300 Thickness 500';
-  }
-  .wrdbtn:hover {
-    font-family: 'Fungal Grow 100 Thickness 500'
-  }
 </style>

@@ -56,5 +56,9 @@
 <style>
     textarea {
         min-height: 9rem;
+        resize: both;
+    }
+    div {
+        margin: 1rem;
     }
 </style>
