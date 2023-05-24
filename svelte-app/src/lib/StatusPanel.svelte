@@ -29,15 +29,15 @@ $: if (attachments.length > 0) {
 
 </script>
 
-<div>
-    <div class='left-a'>
-      <h2>Status Panel & Current Share Details</h2>
+<div class='flex flex-col'>
+    <div class='flex flex-col items-center'>
+      <h3>Status Panel & Current Share Details</h3>
       <p><b>Address:</b> {$shareKeypair.shareAddress} </p>
       <p> <b>Secret:</b> {$shareKeypair.secret}</p>
     </div>
     {#if status !== undefined}
-    <div class="flex">
-        <div class="flex-col">
+    <div class="flex flex-col">
+        <div class="flex-col py-2">
         <h2>
             Status: <strong>{getDocStatus.status}</strong>
         </h2>    
@@ -45,7 +45,7 @@ $: if (attachments.length > 0) {
             Share <strong>{shareAlias}</strong>
         </h3>
     </div>
-        <div class="flex-col left-a">
+        <div class="flex-col items-center py-4">
         <h4>
             Documents
         </h4>
@@ -62,10 +62,10 @@ $: if (attachments.length > 0) {
     </div>
         {#if showattachments}
         
-                <h4 class='left-a'>
-                    {attachments.length} Attachments
+                <h4 class="py-4">
+                    {attachments.length} {attachments > 1 ? 'Attachments' : 'Attachment' }
                 </h4>
-                <div class="flex">
+                <div class="flex flex-col py-4">
             {#each attachments as attachment (attachment.hash)}
                     <div>
                         <h5>
@@ -95,15 +95,13 @@ $: if (attachments.length > 0) {
 
 </div>
 <style>
-    .left-a {
-        text-align: left;
-    }
+
     span.kind {
         text-transform: capitalize;
     }
-    .flex {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+
+    p { 
+        max-width: unset;
     }
+
 </style>
