@@ -213,24 +213,5 @@ $: console.log('oracle', oracle);
   .showDetails {
     display: none;
   }
-  .topleft {
-    position: fixed;
-    top: 8px;
-    left: 16px;
-  }
-  .topright {
-    position: fixed;
-    top: 8px;
-    right: 16px;
-  }
-  .bottomleft {
-    position: fixed;
-    bottom: 8px;
-    left: 16px;
-  }
-  .bottomright {
-    position: fixed;
-    bottom: 8px;
-    right: 16px;
-  }
+
 </style>
