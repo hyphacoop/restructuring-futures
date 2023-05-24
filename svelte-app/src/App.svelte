@@ -21,7 +21,6 @@
   let showDetails = false;
   let imageView = true;
   let showWarning = false;
-  let showPanel = false;
   let addShare = false;
 
   let status = undefined;
@@ -63,6 +62,7 @@
     const inStudio = urlParams.has('studio');
     const oracle = urlParams.has('oracle');
 
+    /*
   function handlePanel() {
     showPanel = !showPanel;
     addShare = false;
@@ -74,9 +74,10 @@
     }    
   }
 
+  */
+
   function handleDetails() {
     showDetails = !showDetails;
-    showPanel = false;
     addShare = false;
     imageView = true;
   }
@@ -87,11 +88,10 @@
 
   function handleView() {
     imageView = !imageView;
-    showPanel = false;
   }
 
 $: console.log('IDcreated', IDcreated);
-$: console.log('showPanel', showPanel);
+
 $: console.log('showDetails', showDetails);
 $: console.log('imageView', imageView);
 $: console.log('inStudio', inStudio);
@@ -129,7 +129,7 @@ $: console.log('oracle', oracle);
     {/if}
 
     <!-- If ID is created, show the main app -->
-      {#if !imageView && !showPanel}
+      {#if !imageView}
       <div>
         <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio}/>
 
@@ -139,12 +139,16 @@ $: console.log('oracle', oracle);
       <Studio {inStudio} />
       {:else if oracle}
       <Oracle {inStudio}/>
-      {:else if !showPanel}
+      {:else}
       <div class="w-full">
         
         {#if IDcreated}
-        <div class:showDetails class="py-12">
+        <div class:showDetails class="py-12 px-2 flex flex-row justify-center">
           <Identity />
+           <!-- Show StatusPanel only if there is a status (status !== undefined) -->
+           {#if status !== undefined}
+           <StatusPanel {status} />
+          {/if}
         </div>
         {/if}
 
@@ -153,7 +157,7 @@ $: console.log('oracle', oracle);
         </div>
    
       {/if}
-
+<!-- Removing the show status panel to move it with identity 
       {#if status !== undefined}
       <button class="bottomleft" on:click={handlePanel}>
         {#if !showPanel}
@@ -163,7 +167,7 @@ $: console.log('oracle', oracle);
         {/if}
       </button>
       {/if}
-
+-->
       
               <!-- This is currently in the way 
       <div class="bottomright">
@@ -186,12 +190,13 @@ $: console.log('oracle', oracle);
       -->
 
 
-
+<!--
   {#if showPanel}
     <div>
      <StatusPanel {status} />
     </div>
   {/if}
+-->
 
 
 </main>
