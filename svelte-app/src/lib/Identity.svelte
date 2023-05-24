@@ -217,8 +217,8 @@ onMount(() => {
 </div>
 <style>
     input {
-        width: 5ch;
-        height: 1.75rem;
+        width: 7ch;
+        height: 1.95rem;
         font-size:1.3rem;
         resize: none;
         padding:0.5rem;
