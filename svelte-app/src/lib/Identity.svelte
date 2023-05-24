@@ -228,7 +228,6 @@ onMount(() => {
         margin:0.5em;
     }
     .id {
-        width: -moz-available;
-word-break: break-word;
+        word-break: break-word;
     }
 </style>
