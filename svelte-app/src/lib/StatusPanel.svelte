@@ -29,21 +29,21 @@ $: if (attachments.length > 0) {
 
 </script>
 
-<div class='flex flex-col'>
+<div class='flex flex-col mt-8 px-8'>
     <div class='flex flex-col items-center'>
-      <h3>Status Panel & Current Share Details</h3>
+      <h4 class="mb-6">Status Panel & Current Share Details</h4>
       <p><b>Address:</b> {$shareKeypair.shareAddress} </p>
       <p> <b>Secret:</b> {$shareKeypair.secret}</p>
     </div>
     {#if status !== undefined}
     <div class="flex flex-col">
-        <div class="flex-col py-2">
-        <h2>
+        <div class="flex-col py-4">
+        <h4>
             Status: <strong>{getDocStatus.status}</strong>
-        </h2>    
-        <h3>
+        </h4>    
+        <h4>
             Share <strong>{shareAlias}</strong>
-        </h3>
+        </h4>
     </div>
         <div class="flex-col items-center py-4">
         <h4>
