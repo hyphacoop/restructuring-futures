@@ -63,13 +63,15 @@ $: row = 'repeat(' + grid[1] + ', 1fr)';
   function handleDetails() {
     dispatch('details');
   }
-
+  function toggleDetails() {
+    dispatch('toggle');
+  }
   $: documents = documents;
 </script>
 <div class="w-screen flex flex-row justify-end">
   {#if IDcreated}
-    <button class="topleft m-6" on:click={handleDetails}>
-      {#if showDetails}
+    <button class="topleft m-6" on:click={toggleDetails}>
+      {#if !showDetails}
       {$authorKeypair.address.slice(0, 5)}
       {:else}
      
