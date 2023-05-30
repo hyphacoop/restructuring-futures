@@ -15,13 +15,14 @@
   import GridUpload from './lib/GridUpload.svelte';
   import StatusPanel from './lib/StatusPanel.svelte';
   import ShareSettings from './lib/ShareSettings.svelte';
+  import UserSettings from './lib/UserSettings.svelte';
 
 
   let IDcreated = false;
   let showDetails = false;
   let imageView = true;
   let showWarning = false;
-  let addShare = false;
+  let showUserSettings = false;
 
   let status = undefined;
 
@@ -62,33 +63,18 @@
     const inStudio = urlParams.has('studio');
     const oracle = urlParams.has('oracle');
 
-    /*
-  function handlePanel() {
-    showPanel = !showPanel;
-    addShare = false;
-    showDetails = true;
-    if (showPanel) {
-      imageView = false;
-    } else {
-      imageView = true;
-    }    
-  }
-
-  */
-
   function handleDetails() {
     showDetails = !showDetails;
-    addShare = false;
     imageView = true;
-  }
-
-  function handleShare() {
-    addShare = !addShare;
   }
 
   function handleView() {
     imageView = !imageView;
   }
+
+  function toggleUserSettings() {
+  showUserSettings = !showUserSettings;
+}
 
 $: console.log('IDcreated', IDcreated);
 
@@ -140,63 +126,20 @@ $: console.log('oracle', oracle);
       {:else if oracle}
       <Oracle {inStudio}/>
       {:else}
-      <div class="w-full">
+
         
-        {#if IDcreated}
-        <div class:showDetails class="py-12 px-2 flex flex-row justify-center">
-          <Identity />
-           <!-- Show StatusPanel only if there is a status (status !== undefined) -->
-           {#if status !== undefined}
-           <StatusPanel {status} />
-          {/if}
+        {#if IDcreated && !showUserSettings}
+          <div class="w-full">
+          <GridView on:toggle={toggleUserSettings} {inStudio} {showDetails} {IDcreated} on:view={handleView} on:details={() => showUserSettings = true} />
+          </div>
+            {:else}
+            <div class="w-full">
+          <UserSettings {status} on:toggle={toggleUserSettings}/>
         </div>
         {/if}
 
-        <GridView {inStudio} {showDetails} {IDcreated} on:view={handleView} on:details={handleDetails} />
-      
-        </div>
    
       {/if}
-<!-- Removing the show status panel to move it with identity 
-      {#if status !== undefined}
-      <button class="bottomleft" on:click={handlePanel}>
-        {#if !showPanel}
-          Show status panel
-        {:else}
-          Hide status panel
-        {/if}
-      </button>
-      {/if}
--->
-      
-              <!-- This is currently in the way 
-      <div class="bottomright">
-         {#if addShare}
-        <div>
-         <ShareSettings />
-        </div>
-        {/if}
-
-
-      <button on:click={handleShare}>
-               {#if !addShare}
-          Add a share
-        {:else}
-          Hide share settings
-        {/if}
-      </button>
-
-      </div>
-      -->
-
-
-<!--
-  {#if showPanel}
-    <div>
-     <StatusPanel {status} />
-    </div>
-  {/if}
--->
 
 
 </main>
