@@ -65,7 +65,7 @@ $: if (attachments.length > 0) {
                 <h4 class="py-4">
                     {attachments.length} {attachments > 1 ? 'Attachments' : 'Attachment' }
                 </h4>
-                <div class="flex flex-col py-4">
+                <div class="flex flex-col py-4 h-50vh overflow-y-scroll">
             {#each attachments as attachment (attachment.hash)}
                     <div>
                         <h5>
@@ -103,5 +103,7 @@ $: if (attachments.length > 0) {
     p { 
         max-width: unset;
     }
-
+    .h-50vh {
+        height: 45vh;
+    }
 </style>
