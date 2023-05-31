@@ -35,7 +35,7 @@
     bind:value
   />
 
-  <button on:click={() => addServer(value)}> Submit server </button>
+  <button on:click={() => addServer(value)}> Add server </button>
 
   {#if showWarning}
     <p>
@@ -58,15 +58,14 @@
     height: 1.5rem;
     font-size: 1.3rem;
     resize: none;
-    padding: 0.25rem;
-    border-radius: 0.5rem;
+    margin: 0.25rem;
+    padding: 1rem 0.75rem;
     text-align: center;
   }
   button {
     width: 90%;
     margin: 0.25rem;
     padding: 0.25rem;
-    border-radius: 0.5rem;
     align-items: flex-end;
     text-align: center;
   }
