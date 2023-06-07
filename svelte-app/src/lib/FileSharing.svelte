@@ -124,19 +124,8 @@
         make an offering to the oracle
       </button>
     {:else}
-      <img
-        class="upload"
-        {src}
-        alt="Comics icons created by Freepik - Flaticon"
-        on:click={() => {
-          fileinput.click();
-        }}
-        on:keypress={() => {
-          fileinput.click();
-        }}
-      />
-      <div
-        class="uploadText"
+      <button
+        class="phase1"
         on:click={() => {
           fileinput.click();
         }}
@@ -144,8 +133,8 @@
           fileinput.click();
         }}
       >
-        Upload file
-      </div>
+        file
+      </button>
     {/if}
 
     <input

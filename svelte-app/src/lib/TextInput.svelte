@@ -50,20 +50,13 @@
   </script>
   <div>
     <div>
-        <img
-        class="input"
-        {src}
-        alt="Text input icon"
+
+        <button class="phase1"
         on:click={() => isModalOpen = !isModalOpen}
         on:keypress={() => isModalOpen = !isModalOpen}
-      />
-      <div
-        class="inputText"
-        on:click={() => isModalOpen = !isModalOpen}
-        on:keypress={() => isModalOpen = !isModalOpen}
-      >
-        Input Text
-      </div>
+        >
+        written text
+      </button>
     </div>
   
     {#if isModalOpen}

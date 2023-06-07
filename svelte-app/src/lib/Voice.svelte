@@ -134,19 +134,8 @@
 </script>
 <div>
     <div>
-        <img
-        class="upload"
-        {src}
-        alt="Speaker Icon"
-        on:click={() => {
-        handleRecording();
-        }}
-        on:keypress={() => {
-        handleRecording();
-        }}
-        />
-        <div
-          class="uploadText"
+        <button
+          class="phase1"
           on:click={() => {
           handleRecording();
           }}
@@ -159,7 +148,7 @@
           {:else}
               Record audio
           {/if}
-        </div>
+        </button>
     </div>
 </div>
 <style>
