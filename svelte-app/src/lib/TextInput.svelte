@@ -26,7 +26,7 @@
       let textUint8 = new Uint8Array(arrayBuffer);
   
       result = await $replica.replica.set($authorKeypair, {
-        path: `/documents/${xy[1]}/${xy[0]}/${timestamp}/!text.md`,
+        path: `/documents/${xy[0]}/${xy[1]}/${timestamp}/!text.md`,
         text:
           'Text input by ' +
           $authorKeypair.address.slice(1, 5) +

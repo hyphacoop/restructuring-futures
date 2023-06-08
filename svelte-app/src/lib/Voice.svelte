@@ -65,7 +65,7 @@
           // if not in studio, upload to ephemeral path
           if (!inStudio) {
           uploadResult = await $replica.replica.set($authorKeypair, {
-              path: `/documents/${xy[1]}/${xy[0]}/${timestamp}/!voice-note-by-${alias}.${extension}`,
+              path: `/documents/${xy[0]}/${xy[1]}/${timestamp}/!voice-note-by-${alias}.${extension}`,
               text:
               'Voice note shared by ' +
               alias +
@@ -77,7 +77,7 @@
           }
           // if in studio, remove ephemeral path and write file to studio
           studioResult = await $replica.replica.set($authorKeypair, {
-          path: `/studio/${xy[1]}/${xy[0]}/${timestamp}/voice-note-by-${alias}.${extension}`,
+          path: `/studio/${xy[0]}/${xy[1]}/${timestamp}/voice-note-by-${alias}.${extension}`,
           text:
               'Voice note shared by ' +
               alias +
