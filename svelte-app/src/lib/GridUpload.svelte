@@ -51,10 +51,13 @@
   is_active = Array(grid[0]).fill(0).map((_) => Array(grid[1]).fill(false));
 }
 </script>
-
+<div style="position:fixed;">
+<div style="position: relative;">
 {#if fileSelection}
   <div class="modal pb-6 " style={modalStyle}>
-    <div class="mt-6 brown text-left px-6">What artefact would you like to create?</div>
+    <div class="mt-6 brown text-left px-6">What artefact would you like to create? 
+      <br>
+      {start[1]}, {start[0]}</div>
 
     <div class="flex-col">
       <TextInput xy={start} on:success />
@@ -66,7 +69,7 @@
     </div>
   </div>
 {/if}
-
+<div class="w-4/5">
 <h4>Select location on map</h4>
 
 <div
@@ -83,24 +86,30 @@
     {/each}
   {/each}
 </div>
-
+</div>
+</div>
+</div>
 <!-- Displays coordinates of selected area 
       <strong>Coords:</strong> {start} {end[0] ? '-' : ''} {end} -->
 <style>
+  h4 { 
+    width:100%;
+    margin-top:-5vh;
+  }
   .container {
+    position: relative;
     display: grid;
     border: 1px solid #999;
     border-radius: 2px;
-    width: 100%;
-    height: 100%;
+    width: 80vw;
+    height: 80vh;
     grid-gap: 1px;
     background: #999;
+    z-index: 98;
   }
 
   .container div {
     background: #fff;
-    width: 50px;
-    height: 50px;
   }
 
   .container div:hover {
@@ -120,10 +129,12 @@
   }
 
   .modal {
+    margin-left:5%;
     position: absolute;
     width: 200px;
     background-color: #fff; 
     border: 1px solid #71302B;
+    z-index:99;
   }
   .brown {
     color: #71302B;
