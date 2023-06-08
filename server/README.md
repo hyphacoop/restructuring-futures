@@ -1,3 +1,5 @@
+Docker images are separated in two categories. Raspberry Pi and other operating systems. 
+
 To run the Dockerfile provided, you first need to ensure you have Docker installed on your machine. Once you've done that, you can follow the steps below to build and run your Docker image.
 
 Open Terminal: Open your terminal or command prompt and navigate to the directory where you've saved your Dockerfile.
@@ -19,6 +21,53 @@ Run your Docker Container: Now you can run your Docker container from your newly
  `docker run -p 8000:8000 -p 443:443 deno-server `
 
 This command tells Docker to run a new container from the deno-server image. The -p flags bind the ports inside the Docker container to ports on your machine, so you can access your Deno server.
+
+To test the server, you will need the IP address of the machine that is running the server.
+
+Here is how you can obtain this IP address based on your machine's OS:
+
+macOS:
+
+Open Terminal application (you can find it in Utilities inside the Applications folder or search for it in Spotlight).
+Type the following command and press Enter:
+
+`ifconfig | grep "inet " | grep -v 127.0.0.1`
+
+You'll see something like inet 192.168.1.100 netmask 0xffffff00 broadcast 192.168.1.255. The 192.168.1.100 part is your local IP address.
+
+Windows:
+
+Open Command Prompt or PowerShell (you can search for it in the Start menu).
+Type the following command and press Enter:
+
+`ipconfig`
+
+Look for "IPv4 Address" under the network interface you're currently using (e.g., Wireless LAN adapter Wi-Fi). That's your local IP address.
+
+Linux:
+
+Open a terminal window.
+Type the following command and press Enter:
+
+`hostname -I`
+
+Or
+
+`ip addr show`
+
+In the ip addr show command output, under your network interface (like eth0 or wlan0), look for inet and the accompanying address, e.g., 192.168.1.100/24. Here, 192.168.1.100 is your local IP address.
+
+Remember, these instructions provide the private IP address that your machine has been assigned in your local network. These addresses are usually not accessible from the Internet, but they can be used by other devices on the same local network to reach your machine.
+
+With this IP address, you can now test syncing.
+
+For this to work, you will need to have deno installed on your machine. You can find installation instructions [here](https://deno.com/manual@v1.11.3/getting_started/installation)
+
+In the terminal, navigate to the directory where is located the `sync_test.ts` file and input the following command:
+
+`deno run -A http://the-server's-ip-address:8000`
+
+Replace the `the-server's-ip-address` with the IP of the machine running the server.
 
 
 

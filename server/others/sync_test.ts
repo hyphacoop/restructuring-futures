@@ -19,7 +19,7 @@ const replica = new Earthstar.Replica({
 
 await replica.set(authorKeypair, {
         path: "/chat",
-        text: "Hello.",
+        text: "Hello world.",
 });
 
 const peer = new Earthstar.Peer();
@@ -27,7 +27,7 @@ const peer = new Earthstar.Peer();
 peer.addReplica(replica);
 
 // replace with your own server address
-const syncer = peer.sync("http://172.17.0.1");
+const syncer = peer.sync(Deno.args[0]);
 
 await syncer.isDone();
 
