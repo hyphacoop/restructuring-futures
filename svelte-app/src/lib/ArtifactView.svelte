@@ -14,7 +14,7 @@
         dispatch("close");
     }
 </script>
-<h2 class="mt-12">Title placeholder</h2>
+<h4 class="mt-12">Title placeholder</h4>
 
 <div class='flex flex-row justify-between w-full'>
 {#if attachment}
@@ -40,5 +40,6 @@
     .attachmentbox {
         width:70%;
         height:100%;
+        overflow: auto;
     }
 </style>
