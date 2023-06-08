@@ -5,6 +5,9 @@
     import DocDetails from "./DocDetails.svelte";
     import Reply from "./Reply.svelte";
 
+    import { createEventDispatcher } from "svelte";
+    const dispatch = createEventDispatcher();
+
     let images = [
   'icons/mountain-phase-0-02.png',
   'icons/mountain-phase-1-02.png',
@@ -72,11 +75,17 @@
 {:else}
     <div class='main' 
         class:replies="{isReply === true}"
-        on:click|self={() => (showDetails = !showDetails)}
+        on:click|self={() =>  {
+            showDetails = !showDetails;
+            dispatch('click', doc);
+        }}
         on:keypress|self={() => (showDetails = !showDetails)}>
         {#if !showDetails}
             <div class="flex row">
-                <p on:click={() => (showDetails = !showDetails)}
+                <p on:click={() => {
+                    showDetails = !showDetails;
+                    dispatch('click', doc);
+                }}
                     on:keypress={() => (showDetails = !showDetails)} >
               
                     <img 
@@ -88,7 +97,7 @@
                 /></p>
             
                 {#if title !== undefined}
-                <h3>{@html title}</h3>
+                <div>{@html title}</div>
 
                 <!-- Display ephemeral interaction log-->
 
