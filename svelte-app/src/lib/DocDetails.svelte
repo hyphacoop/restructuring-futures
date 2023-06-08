@@ -1,6 +1,8 @@
 <script>
   import { DocDriverIndexedDB } from "earthstar/browser";
 
+  import { onMount } from "svelte";
+
 
   export let doc;
   export let attachment = true;
@@ -10,6 +12,10 @@
   let content;
   let extended = false;
 
+  onMount(() => {
+    showDetails = true;
+  })
+
   $: if (doc.text !== undefined && doc.text.includes("<br>")) {
     content = doc.text.split("<br>");
     title = content.shift();
@@ -17,13 +23,12 @@
     extended = true;
   }
 </script>
-
+<div class='my-4'>
 <button on:click={() => (showDetails = !showDetails)}> 📄Details </button>
 {#if showDetails}
-  <h2>Details</h2>
   <div>
     {#if attachment}
-      <table>
+      <table class='my-4'>
         <tr>
           <td> Attachment type:</td>
           <td> 
@@ -37,9 +42,9 @@
       </table>
       {/if}
       {#if title !== undefined}
-        <h3>
+        <div>
           {@html title}
-        </h3>
+        </div>
         {#if extended}
           <ul>
             {#each content as item}
@@ -50,7 +55,7 @@
           </ul>
         {/if}
       {:else}
-        <h4>{@html doc.text}</h4>
+        <div class='my-4'>{@html doc.text}</div>
       {/if}
     {#if isReply || !attachment}
     <div>
@@ -64,7 +69,7 @@
     {/if}
   </div>
 {/if}
-
+</div>
 <style>
   li {
     text-align: left;

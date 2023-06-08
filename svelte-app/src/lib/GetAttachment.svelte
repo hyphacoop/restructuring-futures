@@ -1,8 +1,10 @@
 <script>
     import replica from "../store/replica";
     import SvelteMarkdown from "svelte-markdown";
-  import { ValidationError } from "earthstar";
+    import { ValidationError } from "earthstar";
     // import PdfViewer from 'svelte-pdf';
+
+    import { onMount } from 'svelte';
 
     export let doc;
     let attachmentBytes;
@@ -11,7 +13,7 @@
     let dnone = true;
     let filetype;
     let mimetype;
-    let isVisible = false;
+    let isVisible = true;
 
     async function getAttachment(doc) {
         const attachment = await $replica.replica.getAttachment(doc);
@@ -97,35 +99,34 @@
         document.body.appendChild(element); // Required for this to work in FireFox
         element.click();
     }
-</script>
 
+    onMount(() => {
+        promise = getAttachment(doc);
+        attachmentStatus = true;
+        dnone = false;
+    });
+</script>
+<!--
 <button on:click={() => (isVisible = !isVisible)}>
     {isVisible ? "📎Attachment" : "📎Attachment"}
 </button>
+-->
 {#if isVisible}
-    <p>
-        {#if !attachmentStatus}
-            <button on:click={handleClick(doc)}> Get attachment </button>
-        {:else}
-            <button on:click={() => (dnone = !dnone)}>
-                {#if !dnone}
-                    Hide attachment
-                {:else}
-                    Show attachment
-                {/if}
-            </button>
-        {/if}
-    </p>
     {#await promise}
         Loading attachment...
     {:then data}
         {#if !dnone}
+
+        <div class='flex flex-col justify-between h-full'>
+            <div class='my-12 w-full'>
             {#if filetype == "image"}
                 <img src={data} alt={doc.text} />
             {:else if filetype == "text"}
-                <p>{@html data}</p>
+                <p class='my-6 textbox'>
+                    {@html data}
+                </p>
             {:else if filetype == "audio"}
-                <audio src={data} controls />
+                <audio class='w-full' src={data} controls />
             {:else if filetype == "markdown"}
                 <div class="markdown">
                     <SvelteMarkdown source={data} />
@@ -135,23 +136,46 @@
             {:else}
                 <p>Attachment type not supported</p>
             {/if}
+            </div>
 
             {#if attachmentBytes !== undefined}
-                <p>
+            <div class='flex flex-row mb-4'>
+            <p class='mx-4'>
+                {#if !attachmentStatus}
+                    <button on:click={handleClick(doc)}> Get attachment </button>
+                {:else}
+                    <button on:click={() => (dnone = !dnone)}>
+                        {#if !dnone}
+                            Hide attachment
+                        {:else}
+                            Show attachment
+                        {/if}
+                    </button>
+                {/if}
+            </p>
+                <p class='mx-4'>
                     <button on:click={() => Download()}>
                         Download attachment
                     </button>
                 </p>
+            </div>
+
             {/if}
+        </div>
         {:else}
             <img class="dnone" src={data} alt={doc.text} />
+
         {/if}
     {/await}
 {/if}
 
 <style>
+    .textbox {
+        width:100%;
+        max-width:60vw;
+    }
     img {
-        max-height: 80vh;
+        max-height: 60vh;
         max-width: 60vw;
     }
     .dnone {
@@ -161,8 +185,8 @@
         border-radius: 0.5rem;
     }
     .markdown {
-        max-height: 15rem;
-        max-width: 100%;
+        max-height: 60vh;
+        max-width: 60vw;
         overflow: scroll;
         text-align: left;
         background-color: #f5f5f5;
