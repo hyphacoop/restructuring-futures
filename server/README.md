@@ -65,7 +65,7 @@ For this to work, you will need to have deno installed on your machine. You can 
 
 In the terminal, navigate to the directory where is located the `sync_test.ts` file and input the following command:
 
-`deno run -A http://the-server's-ip-address:8000`
+`deno run -A sync_test.ts http://the-server's-ip-address:8000`
 
 Replace the `the-server's-ip-address` with the IP of the machine running the server.
 
