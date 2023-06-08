@@ -94,17 +94,13 @@ $: console.log('oracle', oracle);
       <div class="flex flex-col lg:flex-row items-center mx-2 justify-between my-12">
       <div class='flex flex-col items-start mx-6 my-12'>
 
-        <ValidateId on:validated={handleUpload} on:error={handleError} />
+        <ValidateId on:validated={handleUpload} on:error={handleError} on:generateNewIdentity={() => (IDcreated = !IDcreated)} />
 
          <div class='mb-8'>
         <UploadId on:alias={handleUpload} on:error={handleError}/>
       </div>
       </div>
       
-        
-        <button class='phase1' on:click={() => (IDcreated = !IDcreated)}>
-          Generate new Identity
-        </button>
       </div>
     </div>
       {#if showWarning === true}
@@ -115,19 +111,8 @@ $: console.log('oracle', oracle);
     {/if}
 
     <!-- If ID is created, show the main app -->
-      {#if !imageView}
-      <div>
-        <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio}/>
 
 
-      </div>
-      {:else if inStudio} 
-      <Studio {inStudio} />
-      {:else if oracle}
-      <Oracle {inStudio}/>
-      {:else}
-
-        
         {#if IDcreated && !showUserSettings}
           <div class="w-full">
           <GridView on:toggle={toggleUserSettings} {inStudio} {showDetails} {IDcreated} on:view={handleView} on:details={() => showUserSettings = true} />
@@ -138,10 +123,7 @@ $: console.log('oracle', oracle);
         </div>
         {/if}
 
-   
-      {/if}
-
-
+       
 </main>
 
 <style>
