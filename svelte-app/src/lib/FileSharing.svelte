@@ -75,7 +75,7 @@
     // if not in studio, write file to the commons
     if (!inStudio) {
       result = await $replica.replica.set($authorKeypair, {
-        path: `/documents/${xy[1]}/${xy[0]}/${timestamp}/!${finalName}`,
+        path: `/documents/${xy[0]}/${xy[1]}/${timestamp}/!${finalName}`,
         text:
           'Shared by ' +
           $authorKeypair.address.slice(1, 5) +
@@ -87,7 +87,7 @@
     }
     // if in studio, remove ephemeral path and write file to studio
     studio = await $replica.replica.set($authorKeypair, {
-      path: `/studio/${xy[1]}/${xy[0]}/${timestamp}/${finalName}`,
+      path: `/studio/${xy[0]}/${xy[1]}/${timestamp}/${finalName}`,
       text:
         'Shared by ' +
         $authorKeypair.address.slice(1, 5) +
