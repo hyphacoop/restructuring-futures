@@ -11,11 +11,16 @@
   import { time } from "../store/time";
 
   import SingleDoc from "./SingleDoc.svelte";
+  import GridUpload from "./GridUpload.svelte";
+  import ArtifactView from './ArtifactView.svelte';
+  import ArtifactIcon from "./ArtifactIcon.svelte";
+  import DocDetails from "./DocDetails.svelte";
+
 
   let grid = [9, 16];
 
-  $: col = 'repeat(' + grid[0] + ', 1fr)';
-$: row = 'repeat(' + grid[1] + ', 1fr)';
+  $: col = 'repeat(' + grid[1] + ', minmax(min-content, 1fr))';
+  $: row = 'repeat(' + grid[0] + ', minmax(min-content, 1fr))';
 
   let documents = [];
   let oracle = true;
@@ -31,6 +36,29 @@ $: row = 'repeat(' + grid[1] + ', 1fr)';
   export let inStudio;
   export let showDetails = true;
   export let IDcreated = false;
+  export let attachment = true;
+  export let isReply = false;
+
+  let imageView = true;
+  let selectedDocument = null;
+  let selectedX, selectedY;
+
+$: if (selectedDocument) {
+    let splitPath = selectedDocument.path.split("/");
+    selectedX = splitPath[2];
+    selectedY = splitPath[3];
+    console.log('selectedX', selectedX);
+  console.log('selectedY', selectedY);
+  console.log('selectedDocument', selectedDocument);
+}
+  
+  function selectDocument(doc) {
+  selectedDocument = doc;
+  console.log('selecteddoc', doc);
+
+  }
+
+
 
   // fetch documents 
   const fetchDocs = async () => {
@@ -58,7 +86,8 @@ $: row = 'repeat(' + grid[1] + ', 1fr)';
   }
 
   function handleClick() {
-    dispatch('view');
+    imageView = !imageView;
+    selectedDocument = null;
   }
   function handleDetails() {
     dispatch('details');
@@ -66,66 +95,100 @@ $: row = 'repeat(' + grid[1] + ', 1fr)';
   function toggleDetails() {
     dispatch('toggle');
   }
+  function handleKeydown(e) {
+    // Check if key pressed is 'Escape' key
+    if(e.key === 'Escape'){
+        selectedDocument = null;
+    }
+  }
   $: documents = documents;
 </script>
-<div class="w-screen flex flex-row justify-end">
+<div class="w-screen flex flex-row justify-end h-[10vh]" on:click={() => selectedDocument = null} on:keydown={handleKeydown}>
   {#if IDcreated}
     <button class="topleft m-6" on:click={toggleDetails}>
       {#if !showDetails}
-      {$authorKeypair.address.slice(0, 5)}
+       {$authorKeypair.address.slice(0, 5)}
       {:else}
-     
-      Hide identity details
+       Hide details
       {/if}
     </button>
   {/if}
 </div>
-<div class="flex min-h-screen overflow-y-auto">
-  <div class="mx-1 mt-12 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] sticky top-0">
-    <button on:click={handleClick} class="mb-12">
-      Place an artefact
-    </button>
-  </div>
-  <div class="w-4/5 ml-auto">
+<div class="the-scroll flex min-h-screen overflow-y-auto">
+  <div class="mx-1 mt-12 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] fixed">
+
+    <p>{selectedDocument ? `Grid [${selectedX}, ${selectedY}]` : 'No document selected'}</p>
+
+    {#if selectedDocument}
     <div>
-      <!--
-        Disabling the oracle button until further notice
-        <FileSharing {oracle} {inStudio}/>
-        -->
+      <DocDetails doc={selectedDocument} {attachment} {isReply} />
+  </div>
+  {/if}
+    <button on:click={handleClick} class="mb-12">
+      {#if imageView}
+      Place an artefact
+      {:else}
+      Back to viewing
+      {/if}
+    </button>
+
+  </div>
+  <div class="w-4/5 mt-12 ml-auto">
+    <div class="my-grid-container-wrapper">
+      {#if selectedDocument}
+      <div class="artifact-overlay mt-[15vh] h-[80vh] w-4/5 fixed">
+        <ArtifactView {selectedDocument} on:close={() => selectedDocument = null} />
+      </div>
+      {:else if !imageView}
+
+      <div>
+        <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio}/>
+      </div>
+
+      {/if}
       <div class='flex flex-col w-screen'>
           {#if documents.length === 0}
               <p>No files yet</p>
           {:else}
-            {#each hours as hour, k (k)}
+            {#each lunarphase as phase, k (k)}
             <div
             class="my-grid-container w-screen"
             style="grid-template-rows: {row}; grid-template-columns: {col}; background-color: {colorCycle[k]};"
             >         
-            {#each documents as doc (doc.textHash+doc.timestamp)}
+
               {#each { length: grid[0] } as _, i (i)}
                 {#each { length: grid[1] } as _, j (j)}
-                  {#if doc.path.split('/')[2] == j && doc.path.split('/')[3] == i}  
-  
+                  <div class="grid-cell">
+                    {i},{j}
+                    {#if documents.find(doc => parseInt(doc.path.split('/')[2]) == i && parseInt(doc.path.split('/')[3]) == j)}
+                    {#each documents.filter(doc => parseInt(doc.path.split('/')[2]) == i && parseInt(doc.path.split('/')[3]) == j) as doc (doc.textHash+doc.timestamp)}
                         <div id={doc.textHash+doc.timestamp}>
-                            {#if hour == hours[0]}
-  
-                              {#if usTime < (doc.deleteAfter - hour) == false}
-                              <SingleDoc {doc} on:update={updateUI} {inStudio} disabled={true} />
+
+                              {#if phase == lunarphase[0]}
+    
+                                {#if usTime < (doc.deleteAfter - phase) == false}
+                                  <ArtifactIcon {doc} disabled={true} />
+                                  <!-- <SingleDoc {doc} on:update={updateUI} {inStudio} disabled={true} />-->
+                                {:else}
+                                  <!-- <SingleDoc {doc} on:update={updateUI} {inStudio} on:click={() => selectDocument(doc)} />-->
+                                  <ArtifactIcon {doc} on:click={() => selectDocument(doc)} />
+                                {/if}
                               {:else}
-                                <SingleDoc {doc} on:update={updateUI} {inStudio} />
+                                {#if (usTime < (doc.deleteAfter - phase) && (usTime > (doc.deleteAfter - (phase + 639360000000)))) == false}
+                                  <!-- <SingleDoc {doc} on:update={updateUI} {inStudio} disabled={true} />-->
+                                  <ArtifactIcon {doc} disabled={true} />
+                                {:else}
+                                  <!-- <SingleDoc {doc} on:update={updateUI} {inStudio} on:click={() => selectDocument(doc)} />-->
+                                  <ArtifactIcon {doc} on:click={() => selectDocument(doc)} />
+                                {/if}
                               {/if}
-                            {:else}
-                              {#if (usTime < (doc.deleteAfter - hour) && (usTime > (doc.deleteAfter - (hour + 3600000000)))) == false}
-                                <SingleDoc {doc} on:update={updateUI} {inStudio} disabled={true} />
-                              {:else}
-                                <SingleDoc {doc} on:update={updateUI} {inStudio} />
-                              {/if}
-                            {/if}
-                        </div>
-                      {/if}
+                          </div>
+                          {/each}
+                        {/if}
+                    </div>
                   {/each}
                 {/each}
-              {/each}
+
             </div>
             {/each}
           {/if}
@@ -135,20 +198,39 @@ $: row = 'repeat(' + grid[1] + ', 1fr)';
 </div>
 
 
-<!-- Displays coordinates of selected area 
-    <strong>Coords:</strong> {start} {end[0] ? '-' : ''} {end} -->
 <style>
+
+  .the-scroll {
+    overflow: auto;
+  }
   .my-grid-container {
     display: grid;
     border-radius: 2px;
     width: 80vw;
     min-height: 100vh;
-    grid-gap: 0px;
+    grid-gap: 4px;
   }
 
   .my-grid-container div {
-    height:100%;
     width: 100%;
     flex: 1 0 auto;
   }
+
+  .grid-cell {
+  border: 1px solid #ccc;
+}
+.my-grid-container-wrapper {
+  position: relative; /* this allows absolute positioning within */
+}
+
+.artifact-overlay {
+  top: 0;
+  left: 20vw;
+  z-index: 10; /* set this to be higher than the z-index of your grid view */
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 1); /* Optional: this will create a semi-transparent overlay effect */
+  margin-left:2px;
+}
 </style>
