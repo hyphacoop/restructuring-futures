@@ -175,7 +175,7 @@
         max-width:60vw;
     }
     img {
-        max-height: 60vh;
+        max-height: 50vh;
         max-width: 60vw;
     }
     .dnone {
@@ -185,7 +185,7 @@
         border-radius: 0.5rem;
     }
     .markdown {
-        max-height: 60vh;
+        max-height: 50vh;
         max-width: 60vw;
         overflow: scroll;
         text-align: left;
