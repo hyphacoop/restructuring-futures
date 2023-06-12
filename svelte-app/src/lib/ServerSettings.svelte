@@ -31,6 +31,7 @@
       return;
     } else {
       showWarning = false;
+      serverAdded = true;
       sharedSettings.set({
         settings,
       });
@@ -42,6 +43,7 @@
       peer.addReplica(replica);
       const syncer = peer.sync(value);
       await syncer.isDone();
+      syncComplete = true;
       console.log("Sync is done");
     }
   }
@@ -55,6 +57,22 @@
   />
 
   <button on:click={() => addServer(value)}> Add server </button>
+
+    {#if serverAdded}
+    <p>
+      <strong> 
+        Server was added successfully!
+      </strong>
+    </p>
+  {/if}
+
+  {#if syncComplete}
+    <p>
+      <strong> 
+        Sync is complete!
+      </strong>
+    </p>
+  {/if}
 
   {#if showWarning}
     <p>
