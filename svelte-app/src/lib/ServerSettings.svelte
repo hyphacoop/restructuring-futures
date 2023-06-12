@@ -2,16 +2,28 @@
   import * as Earthstar from "earthstar";
 
   import sharedSettings from "../store/settings";
-  
+  import replicaDetails from "../store/replica";
   import { onMount } from "svelte";
 
   let value = "Add a new server URL";
   let showWarning = false;
   let errorMsg = undefined;
 
-  const settings = new Earthstar.SharedSettings();
+  let settings;
+  let replica;
 
-  function addServer(value) {
+  // subscribe to sharedSettings store and keep local variable updated
+  sharedSettings.subscribe(($settings) => {
+    settings = $settings.settings;
+  });
+
+  // subscribe to replicaDetails store and keep local variable updated
+  replicaDetails.subscribe(($replicaDetails) => {
+    replica = $replicaDetails.replica;
+  });
+
+  
+  async function addServer(value) {
     let result = settings.addServer(value);
     if (Earthstar.isErr(result)) {
       showWarning = true;
@@ -24,6 +36,13 @@
       });
       console.log("You have", settings.servers.length, "servers");
       console.log("Your servers are", settings.servers);
+
+      // Sync with the newly added server
+      const peer = new Earthstar.Peer();
+      peer.addReplica(replica);
+      const syncer = peer.sync(value);
+      await syncer.isDone();
+      console.log("Sync is done");
     }
   }
 </script>
