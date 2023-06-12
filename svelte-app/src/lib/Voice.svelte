@@ -14,6 +14,19 @@
   let media = [];
   let mediaRecorder = null;
   let recording = false;
+  let audioURL = null;
+  let blob = null;
+  let mimeType = null;
+  let extension = null;
+  let alias = null;
+  let timestamp = null;
+  let dateShared = null;
+  let deletionTime = null;
+  let uploadPath = null;
+  let studioPath = null;
+  let newPath = null;
+  let result = null;
+
   export let xy = undefined;
 
   let src = 'images/Speaker_Icon.png'
@@ -31,7 +44,7 @@
           reader.addEventListener("error", reject)
       
           // Read file
-          reader.readAsArrayBuffer(file)
+          reader.readAsDataURL(file);
         })
       }
 
@@ -55,9 +68,26 @@
         }
         let noCodecs = mimeType.split(";")[0];
         let extension = noCodecs.split("/")[1];
-        const blob = new Blob(media, { type: mimeType });
+        blob = new Blob(media, { type: mimeType });
+        audioURL = URL.createObjectURL(blob);
         console.log('blob', blob)
-        const uInt8 = new Uint8Array(await readFile(blob));
+      }
+    } else {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorder = new MediaRecorder(stream);
+
+      mediaRecorder.start();
+
+      console.log('mediaRecorder', mediaRecorder);
+      console.log('mediaRecorder mime', mediaRecorder.mimeType);
+      console.log('recording');
+
+      recording = true;
+    }
+  }
+
+  async function handleUpload() {
+    const uInt8 = new Uint8Array(await readFile(blob));
         console.log('mime', mimeType);
         let alias = $authorKeypair.address.slice(1, 5);
         // use grid path if xy is defined
@@ -117,21 +147,30 @@
           dispatch("success");
           return result;
           }
-      };
-    } else {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorder = new MediaRecorder(stream);
+        };
 
-      mediaRecorder.start();
-
-      console.log('mediaRecorder', mediaRecorder);
-      console.log('mediaRecorder mime', mediaRecorder.mimeType);
-      console.log('recording');
-
-      recording = true;
-    }
+  function resetRecording() {
+    audioURL = null;  // clear blob url
+    media = [];  // clear recorded media
   }
+
 </script>
+
+
+  {#if audioURL}  <!-- Show only if audioURL is set -->
+  <div>
+    <h4>Review your recording:</h4>
+    <audio controls>
+      <source src="{audioURL}" type="audio/ogg">
+      Your browser does not support the audio element.
+    </audio>
+    <button on:click={resetRecording}>Record again</button>
+    <button on:click={handleUpload}>Upload</button>  <!-- You'll need to write the handleUpload() function -->
+  </div>
+  {:else}	
+   
+
+
 <div>
     <div>
         <button
@@ -151,17 +190,12 @@
         </button>
     </div>
 </div>
+
+{/if}
+
 <style>
     div {
         margin:0.5rem;
     }
-    .upload {
-      height: 50px;
-      width: 50px;
-      cursor: pointer;
-    }
-    .uploadText {
-      cursor: pointer;
-    }	
   </style>
   
