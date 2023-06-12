@@ -1,5 +1,6 @@
 <script>
 import shareKeypair from "../store/share";
+import sharedSettings from "../store/settings";
 
 export let status = undefined;
 
@@ -34,6 +35,16 @@ $: if (attachments.length > 0) {
       <h4 class="mb-6">Status Panel & Current Share Details</h4>
       <p><b>Address:</b> {$shareKeypair.shareAddress} </p>
       <p> <b>Secret:</b> {$shareKeypair.secret}</p>
+      {#if $sharedSettings.settings.servers.length > 0}
+      <div>
+        <p><b> {$sharedSettings.settings.servers.length === 1 ? 'Server:' : `${$sharedSettings.settings.servers.length} Servers:`}</b></p>
+        <ul>
+          {#each $sharedSettings.settings.servers as server, i (i)}
+            <li>{server}</li>
+          {/each}
+        </ul>
+      </div>
+    {/if}
     </div>
     {#if status !== undefined}
     <div class="flex flex-col">
