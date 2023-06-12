@@ -114,7 +114,7 @@
   input {
     width: 90%;
     height: 1.5rem;
-    font-size: 1.3rem;
+    font-size: 1rem;
     resize: none;
     margin: 0.25rem;
     padding: 1rem 0.75rem;

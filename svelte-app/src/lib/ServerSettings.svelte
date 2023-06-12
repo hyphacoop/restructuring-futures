@@ -128,14 +128,19 @@
     padding: 1rem;
     margin: 0.25rem;
   }
-  input {
+  input, select {
     width: 90%;
     height: 1.5rem;
-    font-size: 1.3rem;
-    resize: none;
+    font-size: 1rem;
     margin: 0.25rem;
-    padding: 1rem 0.75rem;
     text-align: center;
+  }
+  input {
+    padding: 1rem 0.75rem;
+  }
+  select {
+    height: auto;
+    padding: 0.3rem 1.2rem;
   }
   button {
     width: 90%;
