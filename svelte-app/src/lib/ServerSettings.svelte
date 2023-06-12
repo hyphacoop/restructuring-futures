@@ -6,8 +6,12 @@
   import { onMount } from "svelte";
 
   let value = "Add a new server URL";
+  let selectedServer;
+  let serverRemoved = false;
   let showWarning = false;
   let errorMsg = undefined;
+  let serverAdded = false;
+  let syncComplete = false;
 
   let settings;
   let replica;
@@ -47,6 +51,22 @@
       console.log("Sync is done");
     }
   }
+
+  function removeServer() {
+    let result = settings.removeServer(selectedServer);
+    if (Earthstar.isErr(result)) {
+      showWarning = true;
+      errorMsg = "Failed to remove server";
+    } else {
+      showWarning = false;
+      serverRemoved = true;
+      sharedSettings.set({
+        settings,
+      });
+      console.log("You have", settings.servers.length, "servers");
+      console.log("Your servers are", settings.servers);
+    }
+  }
 </script>
 
 <div>
@@ -83,6 +103,24 @@
   {/if}
 </div>
 
+<div>
+  <select bind:value={selectedServer}>
+    <option value="">Select a server to remove</option>
+    {#each settings.servers as server (server)}
+      <option value={server}>{server}</option>
+    {/each}
+  </select>
+
+  <button on:click={removeServer}>Remove server</button>
+
+  {#if serverRemoved}
+    <p>
+      <strong> 
+        Server was removed successfully!
+      </strong>
+    </p>
+  {/if}
+</div>
 
 <style>
   div {
