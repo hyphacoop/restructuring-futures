@@ -121,7 +121,7 @@ onMount(() => {
 
 </script>
 
-<div class="id mt-8">
+<div class="id mt-8 border-2 p-4">
 
     {#if $authorKeypair.address.length !== 0}
 

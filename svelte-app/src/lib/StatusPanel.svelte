@@ -4,33 +4,31 @@ import sharedSettings from "../store/settings";
 
 export let status = undefined;
 
-// takes from memory (store; the commons' share address)
-let shareID = $shareKeypair.shareAddress;
+let getDocStatus, attachments, sent, received, requested, showattachments = false;
+let shareAlias;
 
-// when the new status comes in after sync, update the status
-let getDocStatus = status[shareID].docs;
-let attachments = status[shareID].attachments;
 
-// show attachments if there are any
-let showattachments = false;
+// Subscribe to shareKeypair
+let shareID;
+shareKeypair.subscribe($share => {
+    shareID = $share.shareAddress;
+    shareAlias = shareID.slice(0, 8);
+});
 
-// get the counts
-let sent = getDocStatus.sentCount;
-let received = getDocStatus.receivedCount;
-let requested = getDocStatus.requestedCount;
-let shareAlias = shareID.slice(0, 8);
 
-// update the status
-$: status = status;
-
-// if there are attachments, show the attachments section
-$: if (attachments.length > 0) {
-    showattachments = true;
+// Update status-related variables reactively when status changes
+$: if (status && status[shareID]) {
+    getDocStatus = status[shareID].docs;
+    attachments = status[shareID].attachments;
+    sent = getDocStatus.sentCount;
+    received = getDocStatus.receivedCount;
+    requested = getDocStatus.requestedCount;
+    showattachments = attachments && attachments.length > 0;
 }
 
 </script>
 
-<div class='flex flex-col mt-8 px-8'>
+<div class='flex flex-col mt-8 px-8 border-2 p-4'>
     <div class='flex flex-col items-left'>
       <h4 class="mb-6">Status Panel & Current Share Details</h4>
       <p><b>Address:</b> {$shareKeypair.shareAddress} </p>

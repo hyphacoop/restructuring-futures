@@ -1,8 +1,8 @@
 <script>
     import { createInvitationURL } from "earthstar";
-    import sharedSettings from "../store/settings";
-    import shareKeypair from "../store/share";
-    import QRCode from "./QRJS.svelte";
+    import sharedSettings from "../../store/settings";
+    import shareKeypair from "../../store/share";
+    import QRCode from "../QRJS.svelte";
     import { onMount } from 'svelte';
     
     let squareSize;

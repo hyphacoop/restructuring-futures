@@ -3,9 +3,11 @@
     import StatusPanel from "./StatusPanel.svelte";
     import ShareSettings from "./ShareSettings.svelte";
     import ServerSettings from "./ServerSettings.svelte";
-    import InvitationUrl from "./InvitationURL.svelte";
+    import InvitationUrl from "./InvitationUrl.svelte";
   
     export let status;
+
+    let activeComponent = null;
 
     import { createEventDispatcher } from 'svelte';
   
@@ -24,24 +26,33 @@
 </div>
   <div class="flex min-h-screen overflow-y-auto">
     <div class="mx-1 mt-12 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] sticky top-0">
-      <div>
-        <ShareSettings />
-       </div> 
-      
-      <div>
-            <ServerSettings />
-        </div>
-        <div>
-            <InvitationUrl />
-    </div>
+      <button class:phase2={activeComponent === 'share'} class="my-1" on:click={() => activeComponent = 'share'}>Show Share Settings</button>
+<button class:phase2={activeComponent === 'server'} class="my-1" on:click={() => activeComponent = 'server'}>Show Server Settings</button>
+<button  class:phase2={activeComponent === 'invitation'} class="my-1" on:click={() => activeComponent = 'invitation'}>Show Invitation URL</button>
+
+{#if activeComponent === 'share'}
+  <div>
+    <ShareSettings />
+  </div> 
+{/if}
+
+{#if activeComponent === 'server'}
+  <div>
+    <ServerSettings />
+  </div> 
+{/if}
+
+{#if activeComponent === 'invitation'}
+  <div>
+    <InvitationUrl />
+  </div> 
+{/if}
     </div>
   <div class="py-12 px-2 flex flex-row justify-center w-4/5 items-start">
     <Identity />
-    
-    <!-- Show StatusPanel only if there is a status (status !== undefined) -->
-    {#if status !== undefined}
+ 
       <StatusPanel {status} />
-    {/if}
+    
 
   </div>
 
