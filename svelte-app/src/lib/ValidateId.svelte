@@ -2,9 +2,7 @@
     import * as Earthstar from 'earthstar';
     import authorKeypair from "../store/identity.js";
     import { createEventDispatcher } from 'svelte';
-    import sharedSettings from '../store/settings.js';
-
-    const settings = new Earthstar.SharedSettings();
+    import settings from '../store/settings.js';
 
     const dispatch = createEventDispatcher();
 
@@ -30,9 +28,6 @@
                     // @ts-ignore
                     settings.author = keypairObject;
 
-                    sharedSettings.set({
-                        settings
-                    });
                     dispatch('validated');
                 }
             } else {

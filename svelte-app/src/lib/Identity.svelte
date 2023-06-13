@@ -4,16 +4,14 @@
     import { fly } from 'svelte/transition';
 
     import authorKeypair from "../store/identity.js";
-    import sharedSettings from '../store/settings.js';
-
-    import UploadId from './UploadId.svelte';
+    import settings from '../store/settings.js';
 
     let value;
     let error;
     let showWarning = false;
     let newAlias;
     let uploadWarning = false;
-    const settings = new Earthstar.SharedSettings();
+
 
     // download identity file as json
     function Download() {
@@ -85,12 +83,9 @@
             error = null;
             showWarning = false;
 
-            // @ts-ignore
+            
             settings.author = identityKeypair;
-
-            sharedSettings.set({
-                        settings
-                    });
+            
             }
     }
 
@@ -110,14 +105,15 @@ $: currentAlias = currentAddress.slice(0, 5);
 $: value = currentAlias.slice(1,5);
 
 
-onMount(() => {
-        if ($authorKeypair.address.length === 0) {
-            generateID('r');
-        } else {
-            currentAddress = $authorKeypair.address;
-            currentSecret = $authorKeypair.secret;
-        }
-    });
+onMount(async () => {
+    if (settings.author) {
+        // if an author already exists, use it
+        authorKeypair.set(settings.author);
+    } else {
+        // if no author exists, generate a new one
+        generateID('r');
+    }
+});
 
 </script>
 

@@ -5,6 +5,9 @@
 
   import authorKeypair from "./store/identity.js";
   import replica from "./store/replica.js";
+  import settings from './store/settings.js';
+
+  import { onMount } from "svelte";
 
   import Identity from "./lib/Identity.svelte";
   import Studio from "./lib/Studio.svelte";
@@ -26,6 +29,17 @@
 
   let status = undefined;
 
+
+  onMount(async () => {
+    if (settings.author) {
+        // if an author already exists, use it
+        authorKeypair.set(settings.author);
+        IDcreated = true;
+    } else {
+        // if no author exists, generate a new one
+        IDcreated = false;
+    }
+});
 
   // new peer & syncing with server
   const peer = new Earthstar.Peer();

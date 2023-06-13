@@ -1,6 +1,6 @@
 <script>
 import shareKeypair from "../store/share";
-import sharedSettings from "../store/settings";
+import settings from "../store/settings";
 
 export let status = undefined;
 
@@ -10,6 +10,7 @@ let shareAlias;
 
 // Subscribe to shareKeypair
 let shareID;
+
 shareKeypair.subscribe($share => {
     shareID = $share.shareAddress;
     shareAlias = shareID.slice(0, 8);
@@ -35,11 +36,11 @@ $: if (status && status[shareID]) {
       <p> <b>Secret:</b> {$shareKeypair.secret}</p>
      
     </div>
-    {#if $sharedSettings.settings.servers.length > 0}
+    {#if settings.servers.length > 0}
     <div>
-      <p><b> {$sharedSettings.settings.servers.length === 1 ? 'Server:' : `${$sharedSettings.settings.servers.length} Servers:`}</b></p>
+      <p><b> {settings.servers.length === 1 ? 'Server:' : `${settings.servers.length} Servers:`}</b></p>
       <ul>
-        {#each $sharedSettings.settings.servers as server, i (i)}
+        {#each settings.servers as server, i (i)}
           <li>{server}</li>
         {/each}
       </ul>

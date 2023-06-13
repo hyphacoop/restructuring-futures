@@ -1,11 +1,11 @@
 <script>
   import * as Earthstar from "earthstar";
 
-  import sharedSettings from "../store/settings";
+  import settings from "../store/settings";
   import replicaDetails from "../store/replica";
   import { onMount } from "svelte";
 
-  let value = "Add a new server URL";
+  let value;
   let selectedServer;
   let serverRemoved = false;
   let showWarning = false;
@@ -13,13 +13,9 @@
   let serverAdded = false;
   let syncComplete = false;
 
-  let settings;
+
   let replica;
 
-  // subscribe to sharedSettings store and keep local variable updated
-  sharedSettings.subscribe(($settings) => {
-    settings = $settings.settings;
-  });
 
   // subscribe to replicaDetails store and keep local variable updated
   replicaDetails.subscribe(($replicaDetails) => {
@@ -36,9 +32,6 @@
     } else {
       showWarning = false;
       serverAdded = true;
-      sharedSettings.set({
-        settings,
-      });
       console.log("You have", settings.servers.length, "servers");
       console.log("Your servers are", settings.servers);
 
@@ -60,9 +53,6 @@
     } else {
       showWarning = false;
       serverRemoved = true;
-      sharedSettings.set({
-        settings,
-      });
       console.log("You have", settings.servers.length, "servers");
       console.log("Your servers are", settings.servers);
     }
@@ -74,6 +64,7 @@
     type="text"
     spellcheck="false"
     bind:value
+    placeholder="Add a new server URL"
   />
 
   <button on:click={() => addServer(value)}> Add server </button>
