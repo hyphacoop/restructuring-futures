@@ -60,12 +60,14 @@
     <button on:click={generateInvitationURL}>Generate Invitation URL</button>
     {#if invitationURL}
       <p class="py-2"><strong>Your invitation URL is: </strong>
-        <span class='break-all'>{invitationURL}</span> {#if copySuccess}
-        <span><strong>URL copied to clipboard!</strong></span>
-      {/if}</p>
+        <span class='break-all text-xs'>{invitationURL}</span>
+      </p>
+    {#if !copySuccess}
       <button on:click={copyToClipboard}>Copy URL to clipboard</button>
-     
-      <button on:click={toggleQR}>
+      {:else}
+      <button on:click={copyToClipboard}>URL copied to clipboard!</button>
+      {/if}
+      <button class='mt-2' on:click={toggleQR}>
         
         {#if showQR}
           Hide
