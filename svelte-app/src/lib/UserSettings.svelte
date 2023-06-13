@@ -3,6 +3,7 @@
     import StatusPanel from "./StatusPanel.svelte";
     import ShareSettings from "./ShareSettings.svelte";
     import ServerSettings from "./ServerSettings.svelte";
+    import InvitationUrl from "./InvitationURL.svelte";
   
     export let status;
 
@@ -23,12 +24,16 @@
 </div>
   <div class="flex min-h-screen overflow-y-auto">
     <div class="mx-1 mt-12 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] sticky top-0">
-        <div>
+      <div>
+        <ShareSettings />
+       </div> 
+      
+      <div>
             <ServerSettings />
         </div>
         <div>
-            <ShareSettings />
-           </div>
+            <InvitationUrl />
+    </div>
     </div>
   <div class="py-12 px-2 flex flex-row justify-center w-4/5 items-start">
     <Identity />
