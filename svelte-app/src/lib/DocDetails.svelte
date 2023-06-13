@@ -3,7 +3,6 @@
 
   import { onMount } from "svelte";
 
-
   export let doc;
   export let attachment = true;
   export let isReply = false;
@@ -14,7 +13,7 @@
 
   onMount(() => {
     showDetails = true;
-  })
+  });
 
   $: if (doc.text !== undefined && doc.text.includes("<br>")) {
     content = doc.text.split("<br>");
@@ -23,23 +22,31 @@
     extended = true;
   }
 </script>
-<div class='my-4'>
-<button on:click={() => (showDetails = !showDetails)}> 📄Details </button>
-{#if showDetails}
-  <div>
-    {#if attachment}
-      <table class='my-4'>
-        <tr>
-          <td> Attachment type:</td>
-          <td> 
-            <strong>
+
+<div class="my-4">
+  <button on:click={() => (showDetails = !showDetails)}>
+    {#if showDetails}
+      📄Hide details
+    {:else}
+      📄Show details
+    {/if}
+  </button>
+  {#if showDetails}
+    <div>
+      {#if attachment}
+        <table class="my-4">
+          <tr>
+            <td> Attachment type: </td>
+            <td>
+              <strong>
                 {doc.path.split(".")[doc.path.split(".").length - 1]}
-            </strong> 
-        </td>
-        </tr><tr
-          ><td> Attachment size:</td> <td>{doc.attachmentSize / 1000}</td> kb
-        </tr>
-      </table>
+              </strong>
+            </td>
+          </tr>
+          <tr
+            ><td> Attachment size:</td> <td>{doc.attachmentSize / 1000}</td> kb
+          </tr>
+        </table>
       {/if}
       {#if title !== undefined}
         <div>
@@ -55,21 +62,22 @@
           </ul>
         {/if}
       {:else}
-        <div class='my-4'>{@html doc.text}</div>
+        <div class="my-4">{@html doc.text}</div>
       {/if}
-    {#if isReply || !attachment}
-    <div>
-      <ul>
-        <li><b>path:</b> {doc.path}</li>
-        <li><b>author:</b> {doc.author}</li>
-        <li><b>share:</b> {doc.share}</li>
-        <li><b>timestamp:</b> {doc.timestamp / 1000}</li>
-      </ul>
+      {#if isReply || !attachment}
+        <div>
+          <ul>
+            <li><b>path:</b> {doc.path}</li>
+            <li><b>author:</b> {doc.author}</li>
+            <li><b>share:</b> {doc.share}</li>
+            <li><b>timestamp:</b> {doc.timestamp / 1000}</li>
+          </ul>
+        </div>
+      {/if}
     </div>
-    {/if}
-  </div>
-{/if}
+  {/if}
 </div>
+
 <style>
   li {
     text-align: left;
@@ -80,8 +88,8 @@
     width: 100%;
   }
   div ul {
-    padding:0.25rem;
+    padding: 0.25rem;
     word-break: break-all;
     width: max-content;
-    }
+  }
 </style>
