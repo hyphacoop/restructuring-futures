@@ -5,6 +5,9 @@ import GenerateShare from "./ShareSettings/GenerateShare.svelte";
 
 <div>
   <AddShare />
+
+  <!-- this is for me to generate shares from the app's UI  // currently hidden
   <GenerateShare />
+  -->
 </div>
 
