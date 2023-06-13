@@ -10,13 +10,25 @@
     export let reply = true;
     export let inStudio = false;
 
+    let artifactTitle;
+
+    $: {
+        if(selectedDocument){
+            artifactTitle = selectedDocument.text.split("#Title:")[1].split("#Notes:")[0].trim();
+        }
+    }
+
     function close() {
         dispatch("close");
     }
 
+
+
     $: console.log('selectedDocument in ArtifactView', selectedDocument);
 </script>
-<h4 class="mt-12">Title placeholder</h4>
+{#if artifactTitle}
+<h4 class="mt-12">{artifactTitle}</h4>
+{/if}
 
 <div class='flex flex-row justify-between w-full'>
 {#if attachment}

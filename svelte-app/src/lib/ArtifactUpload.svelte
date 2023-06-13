@@ -53,27 +53,29 @@
 
 </script>
 
-<div>
-    <h3>
+<div class='p-6'>
+    <div class="flex flex-row justify-start">
         <input
+            id='titleInput'
+            class="align-left"
             type="text"
             placeholder="Enter a title"
             bind:this={artifactTitle} />
-    </h3>
-    <div class="flex flex-row">
-        <input
-            type="text"
+        </div>
+    <div class="flex flex-row justify-between">
+        <textarea
+            id='mainInput'
             placeholder="Enter text"
-            bind:this={inputArea} />
-        <div>
-            <h4>Notes</h4>
+            bind:this={inputArea} ></textarea>
+        <div class="pr-6">
+            <h5 class='text-left'>Notes</h5>
             <input 
                 type="text"
                 placeholder="Enter optional notes"
                 bind:this={artifactNotes} />
         </div>
     </div>
-    <div>
+    <div class='flex flex-row justify-end my-6'>
         {#if filetype === 'text'}
             <button class="phase1" on:click={submitText}>
                 Submit
@@ -81,3 +83,18 @@
         {/if}
     </div>
 </div>
+<style>
+    #titleInput {
+        font-size: 1.5em;
+        font-weight: bold;
+        width: auto;
+        margin-bottom: 2rem;
+    }
+    #mainInput {
+        width: 60%;
+        min-height:40vh;
+        height: auto;
+        font-size: 1;
+        font-family: 'brandon-grotesque', 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    }
+</style>
