@@ -1,6 +1,6 @@
 <script>
     import { createInvitationURL } from "earthstar";
-    import sharedSettings from "../../store/settings";
+    import settings from "../../store/settings";
     import shareKeypair from "../../store/share";
     import QRCode from "../QRJS.svelte";
     import { onMount } from 'svelte';
@@ -18,11 +18,7 @@
     let copySuccess = false;
     let showQR = false;
   
-    // get the current shared settings and share keypair
-    let settings;
-    sharedSettings.subscribe(value => {
-      settings = value.settings;
-    });
+
   
     let shareDetails;
     shareKeypair.subscribe(value => {

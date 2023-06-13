@@ -60,7 +60,7 @@
       {start[1]}, {start[0]}</div>
 
     <div class="flex-col">
-      <TextInput xy={start} on:success />
+      <TextInput xy={start} on:success on:selected/>
       <FileSharing xy={start} {inStudio} on:success />
       <Voice xy={start} {inStudio} on:upload />
 

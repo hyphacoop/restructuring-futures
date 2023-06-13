@@ -13,6 +13,8 @@
     function close() {
         dispatch("close");
     }
+
+    $: console.log('selectedDocument in ArtifactView', selectedDocument);
 </script>
 <h4 class="mt-12">Title placeholder</h4>
 
@@ -40,6 +42,5 @@
     .attachmentbox {
         width:70%;
         height:100%;
-        overflow: auto;
     }
 </style>

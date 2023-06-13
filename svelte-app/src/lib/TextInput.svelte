@@ -8,8 +8,6 @@
   
     const dispatch = createEventDispatcher();
   
-    let src = 'images/text-icon.png' 
-  
     let isModalOpen = false;
     let inputArea;
     let result;
@@ -45,18 +43,35 @@
       return result;
     }
   
+    function selectUploadType() {
+      dispatch('selected', {
+			type: 'text',
+      location: xy
+		});
+    }
+
     $: result = result;
   
   </script>
   <div>
     <div>
 
-        <button class="phase1"
+
+      <button class="phase1"
+        on:click={selectUploadType}
+        >
+        written text
+      </button>
+
+        <!--<button class="phase1"
         on:click={() => isModalOpen = !isModalOpen}
         on:keypress={() => isModalOpen = !isModalOpen}
         >
         written text
-      </button>
+      </button>-->
+
+
+
     </div>
   
     {#if isModalOpen}

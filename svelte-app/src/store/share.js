@@ -2,8 +2,8 @@ import { readable } from 'svelte/store';
 
 const shareKeypair = readable({
 
-  "shareAddress": "+commons.b27bosxdl43cwmugqh2gg2ulaucikjxteaxkagkxhbmzcbvveb52a",
-  "secret": "b434ttewvnr63tiebyb3t3lqwen6wxajj7zh5w52jivgdnin5okga"
+    "shareAddress": "+commons.b7q4gt64yiefosdafnmhvtxz43akzk6gw54aesdahtf4kdgpbyeia",
+    "secret": "bigzorlvyjy5fy5a3kglfzcyfzramsic3cihj4rqphmd6x5wo5jcq"
 
 });
 

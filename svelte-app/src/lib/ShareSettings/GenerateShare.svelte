@@ -1,6 +1,6 @@
 <script>
     import * as Earthstar from "earthstar";
-    import sharedSettings from "../../store/settings";
+    import settings from "../../store/settings";
 
     import { onMount } from "svelte";
     
@@ -14,13 +14,12 @@
         try {
             const newKeypair = await Earthstar.Crypto.generateShareKeypair(shareName);
             console.log(newKeypair);
-            if ($sharedSettings.settings) {
-                const addShareResult = $sharedSettings.settings.addShare(newKeypair.shareAddress);
-                const addSecretResult = $sharedSettings.settings.addSecret(newKeypair.shareAddress, newKeypair.secret);
+            if (settings) {
+                const addShareResult = settings.addShare(newKeypair.shareAddress);
+                const addSecretResult = settings.addSecret(newKeypair.shareAddress, newKeypair.secret);
                 
                 // Check if results are not ValidationErrors
                 if (typeof addShareResult !== 'string' && typeof addSecretResult !== 'string') {
-                    sharedSettings.set({ settings: $sharedSettings.settings });
                     success = true;
                     error = null;
                 } else {

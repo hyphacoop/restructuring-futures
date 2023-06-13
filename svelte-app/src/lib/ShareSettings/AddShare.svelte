@@ -1,22 +1,16 @@
 <script>
     import * as Earthstar from "earthstar";
-    import sharedSettings from "../../store/settings";
+    import settings from "../../store/settings";
     import shareKeypair from "../../store/share";
   
     import { onMount } from "svelte";
   
-    let value = "Add a new share address";
-    let sValue = "Add the share's secret";
+    let value;
+    let sValue;
     let showWarning = false;
     let errorMsg = undefined;
     let showSecret = false;
     
-  
-    // get the current shared settings and share keypair
-    let settings;
-    sharedSettings.subscribe(value => {
-      settings = value.settings;
-    });
   
     function addShare(value) {
       if (Earthstar.isErr(Earthstar.checkShareIsValid(value))) {
@@ -26,9 +20,6 @@
       } else {
         showWarning = false;
         settings.addShare(value);
-        sharedSettings.set({
-          settings,
-        });
         showSecret = true;
         console.log(
           "You are currently signed in as",
@@ -56,9 +47,6 @@
       } else {
         showWarning = false;
         settings.addSecret(value, sValue);
-        sharedSettings.set({
-          settings,
-        });
         console.log(
           "You are currently signed in as",
           settings.author || "no-one!"
@@ -83,6 +71,7 @@
       type="text"
       spellcheck="false"
       bind:value
+      placeholder="Add a new share address"
     />
   
     <button on:click={() => addShare(value)}> Submit address </button>
@@ -93,6 +82,7 @@
     type="text"
     spellcheck="false"
     bind:value={sValue}
+    placeholder="Add the secret for this share"
   />
   
   <button on:click={() => addSecret()}> Submit address </button>

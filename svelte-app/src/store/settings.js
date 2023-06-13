@@ -1,10 +1,7 @@
 import * as Earthstar from 'earthstar';
-import { writable } from 'svelte/store'
 
+// Create a new instance of the SharedSettings class.
 const settings = new Earthstar.SharedSettings();
 
-const sharedSettings = writable({
-    settings
-});
-
-export default sharedSettings
+// Expose the settings object as the default export of this module.
+export default settings;

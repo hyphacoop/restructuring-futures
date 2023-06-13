@@ -14,7 +14,9 @@
   import GridUpload from "./GridUpload.svelte";
   import ArtifactView from './ArtifactView.svelte';
   import ArtifactIcon from "./ArtifactIcon.svelte";
+  import ArtifactUpload from "./ArtifactUpload.svelte";
   import DocDetails from "./DocDetails.svelte";
+
 
 
   let grid = [9, 16];
@@ -42,6 +44,9 @@
   let imageView = true;
   let selectedDocument = null;
   let selectedX, selectedY;
+  let uploadView = false;
+  let filetype = null;
+  let xy = [0, 0];
 
 $: if (selectedDocument) {
     let splitPath = selectedDocument.path.split("/");
@@ -49,7 +54,7 @@ $: if (selectedDocument) {
     selectedY = splitPath[3];
     console.log('selectedX', selectedX);
   console.log('selectedY', selectedY);
-  console.log('selectedDocument', selectedDocument);
+  console.log('selectedDocument in GridView', selectedDocument);
 }
   
   function selectDocument(doc) {
@@ -101,7 +106,15 @@ $: if (selectedDocument) {
         selectedDocument = null;
     }
   }
-  $: documents = documents;
+  function handleSelection(event) {
+      uploadView = true;
+      imageView = true;
+      selectedDocument = null;
+      filetype = event.detail.type;
+      xy = event.detail.location;
+      console.log('filetype', filetype);
+      console.log('xy', xy)
+  }
 </script>
 <div class="w-screen flex flex-row justify-end h-[10vh]" on:click={() => selectedDocument = null} on:keydown={handleKeydown}>
   {#if IDcreated}
@@ -142,9 +155,10 @@ $: if (selectedDocument) {
       {:else if !imageView}
 
       <div>
-        <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio}/>
+        <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio} on:selected={handleSelection}/>
       </div>
-
+      {:else if uploadView}
+        <ArtifactUpload {filetype} {xy} on:success={() => (imageView = !imageView)} />
       {/if}
       <div class='flex flex-col w-screen'>
           {#if documents.length === 0}

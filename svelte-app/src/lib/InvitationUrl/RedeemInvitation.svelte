@@ -1,18 +1,12 @@
 <script>
     import { parseInvitationURL } from 'earthstar';
-    import sharedSettings from "../../store/settings";
+    import settings from "../../store/settings";
     
     let invitationURL = '';
     let parsedInvitation;
     let error;
-    let settings;
     let success = false;
   
-
-     // Subscribe to the sharedSettings store to get the SharedSettings instance
-    sharedSettings.subscribe(value => {
-    settings = value.settings;
-    });
 
     const parseURL = async () => {
       try {
@@ -46,13 +40,13 @@
   };
 
   const processURL = async () => {
-    if (await parseURL()) {
+    //if (await parseURL()) {
       await redeemURL();
-    }
+    //}
   };
   </script>
   
-  <input type="text" bind:value={invitationURL} placeholder="Enter invitation URL" />
+  <input class="my-2" type="text" bind:value={invitationURL} placeholder="Enter invitation URL" />
   <button on:click={processURL}>Redeem Invitation URL</button>
   {#if error}
     <p>Error: {error.message}</p>
@@ -62,4 +56,10 @@
     <p>Parsed Invitation:</p>
     <pre>{JSON.stringify(parsedInvitation, null, 2)}</pre>
   {/if}
+
+  <style>
+    input {
+      width: 90%;
+    }
+  </style>
   

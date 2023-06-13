@@ -4,8 +4,6 @@
     import { ValidationError } from "earthstar";
     // import PdfViewer from 'svelte-pdf';
 
-    import { onMount } from 'svelte';
-
     export let doc;
     let attachmentBytes;
     let promise;
@@ -14,6 +12,9 @@
     let filetype;
     let mimetype;
     let isVisible = true;
+    let buttonText = 'Hide attachment';
+
+    $: buttonText = dnone ? 'Show attachment' : 'Hide attachment';
 
     async function getAttachment(doc) {
         const attachment = await $replica.replica.getAttachment(doc);
@@ -100,11 +101,15 @@
         element.click();
     }
 
-    onMount(() => {
+    $: {
+    if (doc) {
         promise = getAttachment(doc);
         attachmentStatus = true;
         dnone = false;
-    });
+        }
+    }
+
+    $: console.log("selectedDoc in GetAttachment", doc);
 </script>
 <!--
 <button on:click={() => (isVisible = !isVisible)}>
@@ -116,56 +121,46 @@
         Loading attachment...
     {:then data}
         {#if !dnone}
-
-        <div class='flex flex-col justify-between h-full'>
-            <div class='my-12 w-full'>
-            {#if filetype == "image"}
-                <img src={data} alt={doc.text} />
-            {:else if filetype == "text"}
-                <p class='my-6 textbox'>
-                    {@html data}
-                </p>
-            {:else if filetype == "audio"}
-                <audio class='w-full' src={data} controls />
-            {:else if filetype == "markdown"}
-                <div class="markdown">
-                    <SvelteMarkdown source={data} />
+            <div class='flex flex-col justify-between h-full'>
+                <div class='my-12 w-full'>
+                    {#if filetype == "image"}
+                        <img src={data} alt={doc.text} />
+                    {:else if filetype == "text"}
+                        <p class='my-6 textbox'>
+                            {@html data}
+                        </p>
+                    {:else if filetype == "audio"}
+                        <audio class='w-full' src={data} controls />
+                    {:else if filetype == "markdown"}
+                        <div class="markdown">
+                            <SvelteMarkdown source={data} />
+                        </div>
+                    {:else if filetype == "pdf"}
+                        <p>Pdf preview to come</p>
+                    {:else}
+                        <p>Attachment type not supported</p>
+                    {/if}
                 </div>
-            {:else if filetype == "pdf"}
-                <p>Pdf preview to come</p>
-            {:else}
-                <p>Attachment type not supported</p>
-            {/if}
             </div>
-
+        {/if}
             {#if attachmentBytes !== undefined}
             <div class='flex flex-row mb-4'>
-            <p class='mx-4'>
-                {#if !attachmentStatus}
-                    <button on:click={handleClick(doc)}> Get attachment </button>
-                {:else}
-                    <button on:click={() => (dnone = !dnone)}>
-                        {#if !dnone}
-                            Hide attachment
-                        {:else}
-                            Show attachment
-                        {/if}
-                    </button>
-                {/if}
-            </p>
+                <p class='mx-4'>
+                    {#if !attachmentStatus}
+                        <button on:click={handleClick(doc)}> Get attachment </button>
+                    {:else}
+                        <button on:click={() => (dnone = !dnone)}>
+                            {buttonText}
+                        </button>
+                    {/if}
+                </p>
                 <p class='mx-4'>
                     <button on:click={() => Download()}>
                         Download attachment
                     </button>
                 </p>
             </div>
-
             {/if}
-        </div>
-        {:else}
-            <img class="dnone" src={data} alt={doc.text} />
-
-        {/if}
     {/await}
 {/if}
 
