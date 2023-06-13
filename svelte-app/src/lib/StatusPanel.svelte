@@ -31,21 +31,22 @@ $: if (attachments.length > 0) {
 </script>
 
 <div class='flex flex-col mt-8 px-8'>
-    <div class='flex flex-col items-center'>
+    <div class='flex flex-col items-left'>
       <h4 class="mb-6">Status Panel & Current Share Details</h4>
       <p><b>Address:</b> {$shareKeypair.shareAddress} </p>
       <p> <b>Secret:</b> {$shareKeypair.secret}</p>
-      {#if $sharedSettings.settings.servers.length > 0}
-      <div>
-        <p><b> {$sharedSettings.settings.servers.length === 1 ? 'Server:' : `${$sharedSettings.settings.servers.length} Servers:`}</b></p>
-        <ul>
-          {#each $sharedSettings.settings.servers as server, i (i)}
-            <li>{server}</li>
-          {/each}
-        </ul>
-      </div>
-    {/if}
+     
     </div>
+    {#if $sharedSettings.settings.servers.length > 0}
+    <div>
+      <p><b> {$sharedSettings.settings.servers.length === 1 ? 'Server:' : `${$sharedSettings.settings.servers.length} Servers:`}</b></p>
+      <ul>
+        {#each $sharedSettings.settings.servers as server, i (i)}
+          <li>{server}</li>
+        {/each}
+      </ul>
+    </div>
+  {/if}
     {#if status !== undefined}
     <div class="flex flex-col">
         <div class="flex-col py-4">
