@@ -109,14 +109,6 @@
     div {
       margin:0.5rem;
     }
-    .input {
-      height: 50px;
-      width: 50px;
-      cursor: pointer;
-    }
-    .inputText {
-      cursor: pointer;
-    }	
     .modal {
     display: flex;
     flex-direction: column;
