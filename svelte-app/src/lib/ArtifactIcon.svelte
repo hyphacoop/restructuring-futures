@@ -36,7 +36,7 @@
     on:click={getClick}
     on:keypress={getClick}
     >
-        <img src={images[phase]} alt="document icon" />
+        <img src={images[phase]} alt="document icon, phase #{phase}" />
     </div>
 {/if}
 
