@@ -160,8 +160,8 @@
   {#if audioURL}  <!-- Show only if audioURL is set -->
   <div>
     <h4>Review your recording:</h4>
-    <audio controls>
-      <source src="{audioURL}" type="audio/ogg" class='auto-width'>
+    <audio controls class='auto-width'>
+      <source src="{audioURL}" type="audio/ogg">
       Your browser does not support the audio element.
     </audio>
     <button on:click={resetRecording}>Record again</button>
