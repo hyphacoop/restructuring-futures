@@ -135,7 +135,7 @@ $: if (selectedDocument) {
   {/if}
 </div>
 <div class="the-scroll flex min-h-screen overflow-y-auto">
-  <div class="mx-1 mt-12 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] fixed">
+  <div class="mx-1 mt-12 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] fixed z-50">
 
     <p>{selectedDocument ? `Grid [${selectedX}, ${selectedY}]` : 'No document selected'}</p>
 
@@ -153,7 +153,7 @@ $: if (selectedDocument) {
     </button>
 
   </div>
-  <div class="w-4/5 mt-12 ml-auto">
+  <div class="w-15/20 mt-12 ml-auto">
     <div class="my-grid-container-wrapper">
       {#if selectedDocument}
       <div class="artifact-overlay mt-[15vh] h-[80vh] w-4/5 fixed">
@@ -161,13 +161,13 @@ $: if (selectedDocument) {
       </div>
       {:else if !imageView}
 
-      <div>
+      <div class="relative" style="z-index:51;">
         <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio} on:selected={handleSelection}/>
       </div>
       {:else if uploadView}
         <ArtifactUpload {filetype} {xy} on:success={successfulUpload} />
       {/if}
-      <div class='flex flex-col w-screen'>
+      <div class='flex flex-col w-auto'>
           {#if documents.length === 0}
               <p>No files yet</p>
           {:else}
@@ -241,17 +241,18 @@ $: if (selectedDocument) {
   border: 1px solid #ccc;
 }
 .my-grid-container-wrapper {
-  position: relative; /* this allows absolute positioning within */
+  position: relative; 
+  z-index:50;
 }
 
 .artifact-overlay {
   top: 0;
   left: 20vw;
-  z-index: 10; /* set this to be higher than the z-index of your grid view */
+  z-index: 1;
   display: flex;
   align-items: start;
   flex-direction: column;
-  background-color: rgba(255, 255, 255, 1); /* Optional: this will create a semi-transparent overlay effect */
+  background-color: rgba(255, 255, 255, 1); 
   margin-left:2px;
 }
 </style>
