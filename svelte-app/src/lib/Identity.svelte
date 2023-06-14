@@ -117,7 +117,7 @@ onMount(async () => {
 
 </script>
 
-<div class="id mt-8 border-2 p-4">
+<div class="id mt-8 border-2 p-4 w-auto">
 
     {#if $authorKeypair.address.length !== 0}
 
@@ -222,8 +222,5 @@ onMount(async () => {
     }
     button { 
         margin:0.5em;
-    }
-    .id {
-        word-break: break-word;
     }
 </style>
