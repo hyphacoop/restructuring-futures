@@ -52,7 +52,7 @@
 }
 </script>
 <div style="position:fixed;">
-<div style="position: relative;">
+<div style="position: relative; z-index:52;">
 {#if fileSelection}
   <div class="modal pb-6 " style={modalStyle}>
     <div class="mt-6 brown text-left px-6">What artefact would you like to create? 
