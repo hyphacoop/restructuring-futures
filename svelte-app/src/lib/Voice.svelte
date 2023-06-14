@@ -161,7 +161,7 @@
   <div>
     <h4>Review your recording:</h4>
     <audio controls>
-      <source src="{audioURL}" type="audio/ogg">
+      <source src="{audioURL}" type="audio/ogg" class='auto-width'>
       Your browser does not support the audio element.
     </audio>
     <button on:click={resetRecording}>Record again</button>
@@ -196,6 +196,11 @@
 <style>
     div {
         margin:0.5rem;
+    }
+    .auto-width {
+      width: -webkit-fill-available; 
+      width: -moz-available;
+      width: 100%;
     }
   </style>
   
