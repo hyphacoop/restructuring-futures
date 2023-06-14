@@ -53,8 +53,9 @@
 
 </script>
 
-<div class='p-6'>
-    <div class="flex flex-row justify-start">
+<div class='h-[80vh] w-4/5 fixed'>
+    <div class='p-6 w-full h-full bg-white'>
+      <div class="flex flex-row justify-start">
         <input
             id='titleInput'
             class="align-left"
@@ -62,25 +63,26 @@
             placeholder="Enter a title"
             bind:this={artifactTitle} />
         </div>
-    <div class="flex flex-row justify-between">
-        <textarea
-            id='mainInput'
-            placeholder="Enter text"
-            bind:this={inputArea} ></textarea>
-        <div class="pr-6">
-            <h5 class='text-left'>Notes</h5>
-            <input 
-                type="text"
-                placeholder="Enter optional notes"
-                bind:this={artifactNotes} />
+        <div class="flex flex-row justify-between">
+            <textarea
+                id='mainInput'
+                placeholder="Enter text"
+                bind:this={inputArea} ></textarea>
+            <div class="pr-6">
+                <h5 class='text-left'>Notes</h5>
+                <input 
+                    type="text"
+                    placeholder="Enter optional notes"
+                    bind:this={artifactNotes} />
+            </div>
         </div>
-    </div>
-    <div class='flex flex-row justify-end my-6'>
-        {#if filetype === 'text'}
-            <button class="phase1" on:click={submitText}>
-                Submit
-            </button>
-        {/if}
+        <div class='flex flex-row justify-end my-6'>
+            {#if filetype === 'text'}
+                <button class="phase1" on:click={submitText}>
+                    Submit
+                </button>
+            {/if}
+        </div>
     </div>
 </div>
 <style>
