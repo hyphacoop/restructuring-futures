@@ -1,7 +1,7 @@
 <script>
     import * as Earthstar from 'earthstar';
-    import authorKeypair from "../store/identity";
-    import replica from "../store/replica";
+    import authorKeypair from "../../store/identity";
+    import replica from "../../store/replica";
 
     import { createEventDispatcher } from 'svelte';
 

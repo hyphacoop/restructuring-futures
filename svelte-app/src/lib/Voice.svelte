@@ -6,6 +6,7 @@
   import { createEventDispatcher } from 'svelte';
 
   const dispatch = createEventDispatcher();
+
   import { onMount } from "svelte";
   import Studio from './Studio.svelte';
 
@@ -28,8 +29,6 @@
   let result = null;
 
   export let xy = undefined;
-
-  let src = 'images/Speaker_Icon.png'
 
   export let inStudio;
   export let doc = undefined;
@@ -154,6 +153,13 @@
     media = [];  // clear recorded media
   }
 
+      function selectUploadType() {
+      dispatch('selected', {
+			type: 'audio',
+      location: xy
+		});
+    }
+
 </script>
 
 
@@ -169,9 +175,13 @@
   </div>
   {:else}	
    
+      <button class="phase1"
+        on:click={selectUploadType}
+        >
+        record audio
+      </button>
 
-
-<div>
+<!--<div>
     <div>
         <button
           class="phase1"
@@ -189,7 +199,7 @@
           {/if}
         </button>
     </div>
-</div>
+</div>-->
 
 {/if}
 

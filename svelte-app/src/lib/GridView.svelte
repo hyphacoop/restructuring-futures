@@ -12,9 +12,9 @@
 
   import SingleDoc from "./SingleDoc.svelte";
   import GridUpload from "./GridUpload.svelte";
-  import ArtifactView from './ArtifactView.svelte';
-  import ArtifactIcon from "./ArtifactIcon.svelte";
-  import ArtifactUpload from "./ArtifactUpload.svelte";
+  import View from './Artifacts/View.svelte';
+  import Icon from "./Artifacts/Icon.svelte";
+  import Upload from "./Artifacts/Upload.svelte";
   import DocDetails from "./DocDetails.svelte";
 
 
@@ -157,7 +157,7 @@ $: if (selectedDocument) {
     <div class="my-grid-container-wrapper">
       {#if selectedDocument}
       <div class="artifact-overlay mt-[15vh] h-[80vh] w-4/5 fixed">
-        <ArtifactView {selectedDocument} on:close={() => selectedDocument = null} />
+        <View {selectedDocument} on:close={() => selectedDocument = null} />
       </div>
       {:else if !imageView}
 
@@ -165,7 +165,7 @@ $: if (selectedDocument) {
         <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio} on:selected={handleSelection}/>
       </div>
       {:else if uploadView}
-        <ArtifactUpload {filetype} {xy} on:success={successfulUpload} />
+        <Upload {filetype} {xy} on:success={successfulUpload} />
       {/if}
       <div class='flex flex-col w-auto'>
           {#if documents.length === 0}
@@ -188,19 +188,19 @@ $: if (selectedDocument) {
                               {#if phase == lunarphase[0]}
     
                                 {#if usTime < (doc.deleteAfter - phase) == false}
-                                  <ArtifactIcon {doc} disabled={true} />
+                                  <Icon {doc} disabled={true} />
                                   <!-- <SingleDoc {doc} on:update={updateUI} {inStudio} disabled={true} />-->
                                 {:else}
                                   <!-- <SingleDoc {doc} on:update={updateUI} {inStudio} on:click={() => selectDocument(doc)} />-->
-                                  <ArtifactIcon {doc} on:click={() => selectDocument(doc)} />
+                                  <Icon {doc} on:click={() => selectDocument(doc)} />
                                 {/if}
                               {:else}
                                 {#if (usTime < (doc.deleteAfter - phase) && (usTime > (doc.deleteAfter - (phase + 639360000000)))) == false}
                                   <!-- <SingleDoc {doc} on:update={updateUI} {inStudio} disabled={true} />-->
-                                  <ArtifactIcon {doc} disabled={true} />
+                                  <Icon {doc} disabled={true} />
                                 {:else}
                                   <!-- <SingleDoc {doc} on:update={updateUI} {inStudio} on:click={() => selectDocument(doc)} />-->
-                                  <ArtifactIcon {doc} on:click={() => selectDocument(doc)} />
+                                  <Icon {doc} on:click={() => selectDocument(doc)} />
                                 {/if}
                               {/if}
                           </div>

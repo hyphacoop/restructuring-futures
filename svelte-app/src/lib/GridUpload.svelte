@@ -62,7 +62,7 @@
     <div class="flex-col">
       <TextInput xy={start} on:success on:selected/>
       <FileSharing xy={start} {inStudio} on:success />
-      <Voice xy={start} {inStudio} on:upload />
+      <Voice xy={start} {inStudio} on:upload on:selected/>
 
       <button class="phase1" on:click={close_modal}>Close</button>
 
@@ -129,7 +129,7 @@
   }
 
   .modal {
-    margin-left:5%;
+    margin-left:-10%;
     position: absolute;
     width: 200px;
     background-color: #fff; 

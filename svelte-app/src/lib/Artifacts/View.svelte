@@ -2,8 +2,8 @@
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
-    import GetAttachment from "./GetAttachment.svelte";
-    import Reply from "./Reply.svelte";
+    import GetAttachment from "../GetAttachment.svelte";
+    import Reply from "../Reply.svelte";
 
     export let selectedDocument;
     export let attachment = true;
