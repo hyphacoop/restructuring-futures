@@ -22,7 +22,7 @@
     "vite": "^4.0.0"
   },
   "dependencies": {
-    "earthstar": "^10.1.0",
+    "earthstar": "^10.2.1",
     "qrcode": "^1.5.3",
     "qrcodejs": "^1.0.0",
     "svelte-gravatar": "^1.0.3",
