@@ -60,8 +60,8 @@
       {start[1]}, {start[0]}</div>
 
     <div class="flex-col">
-      <TextInput xy={start} on:success on:selected/>
-      <FileSharing xy={start} {inStudio} on:success />
+      <TextInput xy={start} on:selected/>
+      <FileSharing xy={start} on:selected />
       <Voice xy={start} on:selected/>
 
       <button class="phase1" on:click={close_modal}>close</button>
