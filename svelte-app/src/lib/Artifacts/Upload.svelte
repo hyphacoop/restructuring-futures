@@ -1,5 +1,8 @@
 <script>
     import * as Earthstar from 'earthstar';
+
+    import Voice from "./Voice.svelte";
+
     import authorKeypair from "../../store/identity";
     import replica from "../../store/replica";
 
@@ -13,19 +16,20 @@
     let artifactNotes;
     let textContent;
     let result; 
+    let alias = null;
+
+    let timestamp = Date.now();
+    let deletionTime = (Date.now() + 2548800000) * 1000;
 
     const dispatch = createEventDispatcher();
 
     
     async function submitText() {
-      let timestamp = Date.now();
-      let deletionTime = (Date.now() + 2548800000) * 1000;
-  
       // we convert text to Uint8Array, which is used in earthstar as an attachment
       let textAsBlob = new Blob([inputArea.value], { type: "text/markdown" });
       let arrayBuffer = await textAsBlob.arrayBuffer();
       let textUint8 = new Uint8Array(arrayBuffer);
-        
+        let alias = $authorKeypair.address.slice(1, 5);
         if (artifactNotes) {
             textContent = '#Title: ' + artifactTitle.value + '#Notes: ' + artifactNotes.value;
         } else {
@@ -33,7 +37,7 @@
         }
 
       result = await $replica.replica.set($authorKeypair, {
-        path: `/documents/${xy[0]}/${xy[1]}/${timestamp}/!text.md`,
+        path: `/documents/${xy[0]}/${xy[1]}/${timestamp}/!text-input-by-${alias}.md`,
         text:
           'Text input by ' +
           $authorKeypair.address.slice(1, 5) +
@@ -51,6 +55,16 @@
       return result;
     }
 
+
+    function confirmUpload(event) {
+        console.log('event in Upload.svelte', event);
+        dispatch('success');
+    }
+
+
+
+$: console.log('filetype in Upload.svelte', filetype);
+$: console.log('filetype in Upload.svelte', filetype);
 </script>
 
 <div class='h-[80vh] w-4/5 fixed'>
@@ -64,10 +78,17 @@
             bind:this={artifactTitle} />
         </div>
         <div class="flex flex-row justify-between">
+            {#if filetype === 'text'}
             <textarea
                 id='mainInput'
                 placeholder="Enter text"
                 bind:this={inputArea} ></textarea>
+
+            {:else if filetype === 'audio'}
+
+                <Voice {xy} on:upload={confirmUpload} title={artifactTitle} notes={artifactNotes}/>
+
+            {/if}
             <div class="pr-6">
                 <h5 class='text-left'>Notes</h5>
                 <input 

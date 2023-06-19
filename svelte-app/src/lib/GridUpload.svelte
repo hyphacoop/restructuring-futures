@@ -62,9 +62,9 @@
     <div class="flex-col">
       <TextInput xy={start} on:success on:selected/>
       <FileSharing xy={start} {inStudio} on:success />
-      <Voice xy={start} {inStudio} on:upload on:selected/>
+      <Voice xy={start} on:selected/>
 
-      <button class="phase1" on:click={close_modal}>Close</button>
+      <button class="phase1" on:click={close_modal}>close</button>
 
     </div>
   </div>
