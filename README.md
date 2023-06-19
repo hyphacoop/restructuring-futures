@@ -11,6 +11,8 @@ The prototype from Phase 1 [lives here](https://github.com/hyphacoop/crispy-cous
 We use github pages to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/).
 The active prototype can be found at [hyphacoop.github.io/restructuring-futures](https://hyphacoop.github.io/restructuring-futures/)
 
+### Running the app locally
+
 If you want to run the [svelte app](https://github.com/hyphacoop/restructuring-futures/tree/main/svelte-app) locally, you can run the following commands in your terminal after downloading [node](https://nodejs.org/en/) and cloning this github repository.
 
 ```
@@ -18,6 +20,12 @@ cd svelte-app
 npm install
 npm run dev
 ```
+
+### Hosting a server
+
+The server folder contains instructions on how to run an earthstar server in order to host the shared database.
+
+### Deploying the application
 
 With gh-pages, it is possible to quickly build and deploy with the following commands:
 ```
