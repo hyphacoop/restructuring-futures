@@ -121,7 +121,7 @@
         Loading attachment...
     {:then data}
         {#if !dnone}
-            <div class='flex flex-col justify-between h-full'>
+            <div class='flex flex-col justify-between h-auto'>
                 <div class='my-12 w-full'>
                     {#if filetype == "image"}
                         <img src={data} alt={doc.text} />
