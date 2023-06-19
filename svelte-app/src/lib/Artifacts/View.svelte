@@ -14,7 +14,13 @@
 
     $: {
         if(selectedDocument){
-            artifactTitle = selectedDocument.text.split("#Title:")[1].split("#Notes:")[0].trim();
+            if (selectedDocument.text.includes('#Title:') && selectedDocument.text.includes('#Notes:')) {
+                artifactTitle = selectedDocument.text.split("#Title:")[1].split("#Notes:")[0].trim();
+            }  else {
+                // Handle the scenario when '#Title:' or '#Notes:' are not present
+                // This could be setting artifactTitle to some default value or empty string
+                artifactTitle = '';
+            }
         }
     }
 
