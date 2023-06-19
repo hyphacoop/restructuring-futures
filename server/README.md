@@ -61,7 +61,13 @@ Remember, these instructions provide the private IP address that your machine ha
 
 With this IP address, you can now test syncing.
 
-For this to work, you will need to have deno installed on your machine. You can find installation instructions [here](https://deno.com/manual@v1.11.3/getting_started/installation)
+If you don't want to download deno, you can use the web app to connect to the server.
+You have two options available
+
+1. Edit the .env file to include the server's IP address
+2. Use the web app's [*add a server*](https://github.com/hyphacoop/restructuring-futures#pointing-the-web-app-to-the-server) option
+
+To test the server with the sync script, you will need to have deno installed on your machine. You can find installation instructions [here](https://deno.com/manual@v1.11.3/getting_started/installation)
 
 In the terminal, navigate to the directory where is located the `sync_test.ts` file and input the following command:
 
