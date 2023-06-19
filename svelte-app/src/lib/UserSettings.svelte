@@ -17,8 +17,8 @@
     dispatch('toggle');
   }
   </script>
-  <div class="w-screen flex flex-row justify-end">
-      <button class="h-auto m-6" on:click={toggleDetails}>
+  <div class="w-screen flex flex-row justify-end h-[10vh]">
+      <button class="h-auto mr-6" on:click={toggleDetails}>
 
         Hide Details
   
