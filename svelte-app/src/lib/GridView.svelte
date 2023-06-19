@@ -238,7 +238,7 @@ $: if (selectedDocument) {
   }
 
   .grid-cell {
-  border: 1px solid #ccc;
+  border: 0px solid #ccc;
 }
 .my-grid-container-wrapper {
   position: relative; 
@@ -250,7 +250,7 @@ $: if (selectedDocument) {
   left: 20vw;
   z-index: 1;
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 1); 
   margin-left:2px;
