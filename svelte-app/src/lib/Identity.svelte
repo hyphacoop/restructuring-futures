@@ -117,7 +117,7 @@ onMount(async () => {
 
 </script>
 
-<div class="id mt-8 border-2 p-4 w-auto">
+<div class="id border-2 p-4 w-auto">
 
     {#if $authorKeypair.address.length !== 0}
 
