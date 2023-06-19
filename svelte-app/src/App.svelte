@@ -44,7 +44,7 @@
   // new peer & syncing with server
   const peer = new Earthstar.Peer();
   peer.addReplica($replica.replica);
-  const sync = peer.sync("https://earthstar-server.fly.dev/sync", true);
+  const sync = peer.sync(import.meta.env.VITE_SERVER_ADDRESS, true);
   const syncAgain = peer.sync("https://languid-sand-parallelogram.glitch.me/", true);
 
   sync.onStatusChange((newStatus) => {
