@@ -200,9 +200,7 @@
     .replies p {
         margin:1rem;
     }
-    .replies h3 {
-        max-width: 100%;
-    }
+
     .row {
         flex-direction: row;
     }

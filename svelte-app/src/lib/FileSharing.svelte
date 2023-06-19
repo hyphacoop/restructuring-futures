@@ -159,12 +159,4 @@
       div {
         margin:0.5rem;
     }
-  .upload {
-    height: 50px;
-    width: 50px;
-    cursor: pointer;
-  }
-  .uploadText {
-    cursor: pointer;
-  }	
 </style>

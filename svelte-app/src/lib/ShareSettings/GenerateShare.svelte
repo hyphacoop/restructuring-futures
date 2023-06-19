@@ -48,12 +48,6 @@
   
 
   <style>
-    div {
-      text-align: left;
-  
-      padding: 1rem;
-      margin: 0.25rem;
-    }
     input {
       width: 90%;
       height: 1.5rem;

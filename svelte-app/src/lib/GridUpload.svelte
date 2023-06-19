@@ -120,14 +120,6 @@
     background: #e15f55;
   }
 
-  .flex-row {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-
   .modal {
     margin-left:-10%;
     position: absolute;

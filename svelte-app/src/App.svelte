@@ -141,10 +141,6 @@ $: console.log('oracle', oracle);
 </main>
 
 <style>
-  button {
-    width: auto;
-  }
-
   main {
     display: flex;
     flex-direction: column;
@@ -154,8 +150,4 @@ $: console.log('oracle', oracle);
     margin: 0 auto;
     min-width: 100vw;
   }
-  .showDetails {
-    display: none;
-  }
-
 </style>

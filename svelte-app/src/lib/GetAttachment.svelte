@@ -173,9 +173,6 @@
         max-height: 50vh;
         max-width: 60vw;
     }
-    .dnone {
-        display: none;
-    }
     audio {
         border-radius: 0.5rem;
     }
