@@ -6,11 +6,6 @@ A public notebook for Restructuring Futures, an experimental collaboration betwe
 
 The prototype from Phase 1 [lives here](https://github.com/hyphacoop/crispy-couscous).
 
-## Building with Earthstar
-
-We use github pages to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/).
-The active prototype can be found at [hyphacoop.github.io/restructuring-futures](https://hyphacoop.github.io/restructuring-futures/)
-
 ### Running the app locally
 
 If you want to run the [svelte app](https://github.com/hyphacoop/restructuring-futures/tree/main/svelte-app) locally, you can run the following commands in your terminal after downloading [node](https://nodejs.org/en/) and cloning this github repository.
@@ -23,7 +18,13 @@ npm run dev
 
 ### Hosting a server
 
-The server folder contains instructions on how to run an earthstar server in order to host the shared database.
+The [server folder](https://github.com/hyphacoop/restructuring-futures/tree/main/server) contains instructions on how to run an earthstar server in order to host the shared database.
+
+### Pointing the web app to the server
+
+The server address can be manually added by users through the UI by clicking the top right button and then selecting the *Show Server Settings* button. Users can then input the server's ip address in the text input field.
+
+Alternatively, an admin can input the server address in the .env file in the svelte-app folder. You simply need to copy and rename the .env.example file found in the svelte-app folder and insert the server's address.
 
 ### Deploying the application
 
@@ -32,6 +33,11 @@ With gh-pages, it is possible to quickly build and deploy with the following com
 npm run build
 npm run deploy
 ```
+
+## Building with Earthstar
+
+We use github pages to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/).
+The active prototype can be found at [hyphacoop.github.io/restructuring-futures](https://hyphacoop.github.io/restructuring-futures/)
 
 ## Code of Conduct
 
