@@ -120,6 +120,7 @@
     {#await promise}
         Loading attachment...
     {:then data}
+    <div class='flex flex-row mb-4'>
         {#if !dnone}
             <div class='flex flex-col justify-between h-auto'>
                 <div class='my-12 w-full'>
@@ -144,7 +145,7 @@
             </div>
         {/if}
             {#if attachmentBytes !== undefined}
-            <div class='flex flex-row mb-4'>
+            <div class='flex flex-row mb-4 items-end pb-8'>
                 <p class='mx-4'>
                     {#if !attachmentStatus}
                         <button on:click={handleClick(doc)}> Get attachment </button>
@@ -161,6 +162,7 @@
                 </p>
             </div>
             {/if}
+            </div>
     {/await}
 {/if}
 
