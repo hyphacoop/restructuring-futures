@@ -2,6 +2,7 @@
     import * as Earthstar from 'earthstar';
 
     import Voice from "./Voice.svelte";
+    import File from "./File.svelte";
 
     import authorKeypair from "../../store/identity";
     import replica from "../../store/replica";
@@ -87,6 +88,10 @@ $: console.log('filetype in Upload.svelte', filetype);
             {:else if filetype === 'audio'}
 
                 <Voice {xy} on:upload={confirmUpload} title={artifactTitle} notes={artifactNotes}/>
+
+            {:else if filetype === 'file'}
+        
+                <File {xy} on:upload={confirmUpload} title={artifactTitle} notes={artifactNotes}/>
 
             {/if}
             <div class="pr-6">
