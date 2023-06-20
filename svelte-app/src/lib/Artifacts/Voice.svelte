@@ -22,6 +22,7 @@
     export let doc = undefined;
     export let title = undefined;
     export let notes = undefined;
+    export let isValid = true;
 
     async function handleRecording() {
         if (recording) {
@@ -36,13 +37,13 @@
             recording = false;
             mediaRecorder.ondataavailable = (e) => media.push(e.data);
             await new Promise((resolve) => {
-            mediaRecorder.onstop = function () {
-                blob = new Blob(media, { type: mimeType });
-                audioURL = URL.createObjectURL(blob);
-                console.log("blob", blob);
-                resolve();
-            };
-        });
+                mediaRecorder.onstop = function () {
+                    blob = new Blob(media, { type: mimeType });
+                    audioURL = URL.createObjectURL(blob);
+                    console.log("blob", blob);
+                    resolve();
+                };
+            });
         } else {
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: true,
@@ -134,13 +135,6 @@
         });
     }
 
-    async function deleteError() {
-        const result = await $replica.replica.set($authorKeypair, {
-            text: alias + " replied with voice" + "<br>Shared on " + dateShared,
-            path: "/documents/0/6/1687195506672/!voice-note-by-gd1m.ogg",
-            deleteAfter: 1687195978000000,
-        });
-    }
     async function resetRecording() {
         audioURL = null; // clear blob url
         media = []; // clear recorded media
@@ -152,23 +146,28 @@
     }
 </script>
 
-<button on:click={deleteError}> delete </button>
-
 {#if audioURL}
     <!-- Show only if audioURL is set -->
-    <div>
-        <h5>Review your recording</h5>
-        <audio controls class="auto-width my-6">
+    <div class="text-left m-2">
+        <h5 class="m-2">Review your recording</h5>
+        <audio controls class="auto-width my-6 mx-2">
             <source src={audioURL} type="audio/ogg" />
             Your browser does not support the audio element.
         </audio>
+        {#if !isValid}
+            <div>
+                The upload button is disabled because a title is required.
+            </div>
+        {/if}
         <button on:click={resetRecording}>Record again</button>
-        <button on:click={handleUpload}>Upload</button>
+        <button on:click={handleUpload} disabled={!isValid}>Upload</button>
     </div>
 {:else}
     <div class="text-left">
-        <h5>Record your voice note</h5>
-        <p>Click the button below to start recording. Click again to stop.</p>
+        <h5 class="m-2">Record your voice note</h5>
+        <div>
+            Click the button below to start recording. Click again to stop.
+        </div>
         <div>
             <div class="mt-6">
                 <button
@@ -199,5 +198,9 @@
         width: -webkit-fill-available;
         width: -moz-available;
         width: 100%;
+    }
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
     }
 </style>
