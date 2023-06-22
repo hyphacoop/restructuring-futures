@@ -36,9 +36,9 @@
 
   async function onFileSelected(e) {
     if (notes && title) {
-      textContent = "#Title: " + title.value + "#Notes: " + notes.value;
+      textContent = "#Title: " + title + "#Notes: " + notes;
     } else if (title) {
-      textContent = "#Title: " + title.value;
+      textContent = "#Title: " + title;
     } else {
       textContent = "";
     }

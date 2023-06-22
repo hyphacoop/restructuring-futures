@@ -62,9 +62,9 @@
 
     async function handleUpload() {
         if (notes && title) {
-            textContent = "#Title: " + title.value + "#Notes: " + notes.value;
+            textContent = "#Title: " + title + "#Notes: " + notes;
         } else if (title) {
-            textContent = "#Title: " + title.value;
+            textContent = "#Title: " + title;
         } else {
             textContent = "";
         }
@@ -142,7 +142,7 @@
     }
 
     $: if (title && notes) {
-        console.log("title and note", title.value, notes.value);
+        console.log("title and note", title, notes);
     }
 </script>
 
