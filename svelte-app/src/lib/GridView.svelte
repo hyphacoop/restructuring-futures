@@ -18,6 +18,10 @@
   import DocDetails from "./DocDetails.svelte";
 
 
+  import DownloadTool from "./DownloadTool.svelte"; 
+  import DeleteTool from "./DeleteTool.svelte"; 
+
+
 
   let grid = [9, 16];
 
@@ -35,7 +39,6 @@
   let usTime = $time.getTime() * 1000;
   let colorCycle = ["#fff5d9", "#d3e3d9","#F9DFDD", "#CCE9F0"]
 
-  export let inStudio;
   export let showDetails = true;
   export let IDcreated = false;
   export let attachment = true;
@@ -139,6 +142,11 @@ $: if (selectedDocument) {
        Hide details
       {/if}
     </button>
+    <!-- I created some utility function to delete and download the database -->
+    <!--
+    <DownloadTool />
+    <DeleteTool />
+    -->
   {/if}
 </div>
 <div class="the-scroll flex min-h-screen overflow-y-auto">
@@ -160,7 +168,7 @@ $: if (selectedDocument) {
     </button>
 
   </div>
-  <div class="w-15/20 mt-12 ml-auto">
+  <div class="w-15/20 mt-12 ml-[20vw]">
     <div class="my-grid-container-wrapper">
       {#if selectedDocument}
       <div class="artifact-overlay mt-[15vh] h-[80vh] w-4/5 fixed">
@@ -169,14 +177,14 @@ $: if (selectedDocument) {
       {:else if !imageView}
 
       <div class="relative" style="z-index:51;">
-        <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio} on:selected={handleSelection}/>
+        <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} on:selected={handleSelection}/>
       </div>
       {:else if uploadView}
         <Upload {filetype} {xy} on:success={successfulUpload} on:close={backToView}/>
       {/if}
       <div class='flex flex-col w-auto'>
           {#if documents.length === 0}
-              <p>No files yet</p>
+              <h3 class="p-6">No files yet</h3>
           {:else}
             {#each lunarphase as phase, k (k)}
             <div
