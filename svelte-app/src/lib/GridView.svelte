@@ -184,7 +184,9 @@ $: if (selectedDocument) {
       {/if}
       <div class='flex flex-col w-auto'>
           {#if documents.length === 0}
+            <div class="flex flex-col items-center justify-center align-middle h-[60vh]">
               <h3 class="p-6">No files yet</h3>
+            </div>
           {:else}
             {#each lunarphase as phase, k (k)}
             <div
