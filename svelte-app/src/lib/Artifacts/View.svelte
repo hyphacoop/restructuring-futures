@@ -8,7 +8,6 @@
     export let selectedDocument;
     export let attachment = true;
     export let reply = true;
-    export let inStudio = false;
 
     let artifactTitle;
 
@@ -43,8 +42,8 @@
     </div>
 {/if}
 {#if reply}
-<div>
-    <Reply doc={selectedDocument} {inStudio}/>
+<div class="mr-6">
+    <Reply doc={selectedDocument} />
 </div>
 {/if}
 </div>

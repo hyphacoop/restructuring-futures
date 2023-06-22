@@ -16,8 +16,6 @@
   let fileSelection = false;
   let clickedPos = ["0px", "0px"];
 
-  export let inStudio;
-
   function selectNupload(i, j) {
     start = [i, j];
 

@@ -10,7 +10,6 @@
     import cache from "../store/cache";
     import SingleDoc from "./SingleDoc.svelte";
 
-    export let inStudio = undefined;
 
     let documents = [];
 
@@ -60,7 +59,7 @@
                 
                     <div id={doc.textHash}>
 
-                        <SingleDoc {doc} on:update={updateUI} {inStudio} />
+                        <SingleDoc {doc} on:update={updateUI} />
 
                     </div>
                 {/each} 

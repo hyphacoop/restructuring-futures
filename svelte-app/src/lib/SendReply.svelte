@@ -46,7 +46,6 @@
     }
 
     export let doc;
-    export let inStudio;
 
     let text = "Reply here";
     let lgth = text.length;
@@ -99,7 +98,7 @@
     {/if}
     {#if voice}
     <p>
-        <Voice xy="reply" {doc} {inStudio} />
+        <Voice xy="reply" {doc} />
     </p>
     {/if}
     <p>
@@ -114,8 +113,6 @@
         background-color: #ffffff;
         color:black;
         padding: 1em;
-        border-radius: 15px;
-        border: 1px solid #888888;
         margin: 0rem;
     }
 </style>

@@ -3,16 +3,8 @@
     import SendReply from "./SendReply.svelte";
 
     export let doc;
-    export let inStudio;
 
-    let showDetails = false;
-
-
-    function handleClick() {
-        showDetails = !showDetails;
-
-    }
-
+    let showDetails = true;
 
 
 </script>
@@ -20,13 +12,14 @@
 
     
     <div>
-        <button on:click={handleClick}>
-            ↩️Reply
+        <!--<button class="phase1" on:click={handleClick}>
+            ↩️Replies
         </button>
+        -->
         
 {#if showDetails}
-        <ShowReply {doc} on:success {inStudio} />
-        <SendReply {doc} on:success {inStudio} />        
+        <ShowReply {doc} on:success />
+        <SendReply {doc} on:success />        
 {/if}     
     </div>
 

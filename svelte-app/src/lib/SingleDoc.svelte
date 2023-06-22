@@ -28,7 +28,6 @@
     export let attachment = true;
     export let reply = true;
     export let title = undefined;
-    export let inStudio;
     export let isReply = false;
     export let disabled = false;
 
@@ -138,7 +137,7 @@
             </div>
             {#if reply}
                 <div>
-                    <Reply {doc} {inStudio}/>
+                    <Reply {doc} />
                 </div>
             {/if}
             {#if !studio}
@@ -173,10 +172,6 @@
     .main:hover {
         border:1px dotted #111111;
     }
-    /* li {
-        list-style: none;
-        font-size: 0.75rem;
-    } */ 
     button {
         border-color:#111111;
         border-style: dashed;
@@ -187,10 +182,9 @@
     }
     .replies {
         display: flex;
-        background-color: white;
-        margin:0.5rem;
-        padding:0.5rem;
-        max-width: 850px;
+        margin:0.1rem;
+        padding:0.1rem;
+        max-width: 150px;
         width: max-content;
     }
     .replies:hover {
@@ -198,7 +192,7 @@
         border:1px solid transparent;
     }
     .replies p {
-        margin:1rem;
+        margin:0.1rem;
     }
 
     .row {

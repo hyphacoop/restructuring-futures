@@ -129,7 +129,7 @@ $: console.log('oracle', oracle);
 
         {#if IDcreated && !showUserSettings}
           <div class="w-full">
-          <GridView on:toggle={toggleUserSettings} {inStudio} {showDetails} {IDcreated} on:view={handleView} on:details={() => showUserSettings = true} />
+          <GridView on:toggle={toggleUserSettings} {showDetails} {IDcreated} on:view={handleView} on:details={() => showUserSettings = true} />
           </div>
             {:else}
             <div class="w-full">

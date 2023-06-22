@@ -6,7 +6,6 @@
     import SingleDoc from "./SingleDoc.svelte";
 
     export let doc;
-    export let inStudio;
 
     let replies = [];
     let showReplies = true;
@@ -63,9 +62,9 @@
             <li id={doc.textHash}>
 
                 {#if doc.text.includes('replied with voice')}
-                <SingleDoc isReply={true} title={doc.text} {doc} attachment={true} on:click={updateUI} {inStudio} on:update={updateUI} reply={false}  />
+                <SingleDoc isReply={true} title={doc.text} {doc} attachment={true} on:click={updateUI} on:update={updateUI} reply={false}  />
                 {:else}
-                <SingleDoc isReply={true} title={doc.text} {doc} attachment={false} on:click={updateUI} {inStudio} on:update={updateUI} reply={false} />
+                <SingleDoc isReply={true} title={doc.text} {doc} attachment={false} on:click={updateUI} on:update={updateUI} reply={false} />
                 {/if}
             </li>
             {/each} 
@@ -90,11 +89,10 @@
     }
     li {
         text-align: center;
-        background-color:#ffffff;
+        background-color:#D9D9D9;
         color:#222222;
         padding: 1em;
-        border-radius: 15px;
-        border: 1px solid #888888;
+        border-radius: 0;
         margin:1rem;
         width: fit-content;
 }
