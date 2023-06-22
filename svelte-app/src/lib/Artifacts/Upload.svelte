@@ -27,7 +27,7 @@
 
     async function submitText() {
         // we convert text to Uint8Array, which is used in earthstar as an attachment
-        let textAsBlob = new Blob([inputArea.value], { type: "text/markdown" });
+        let textAsBlob = new Blob([inputArea], { type: "text/markdown" });
         let arrayBuffer = await textAsBlob.arrayBuffer();
         let textUint8 = new Uint8Array(arrayBuffer);
         let alias = $authorKeypair.address.slice(1, 5);
