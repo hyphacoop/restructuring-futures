@@ -145,12 +145,13 @@ $: if (selectedDocument) {
     <!-- I created some utility function to delete and download the database -->
     <!--
     <DownloadTool />
+
     <DeleteTool />
-    -->
+        -->
   {/if}
 </div>
 <div class="the-scroll flex min-h-screen overflow-y-auto">
-  <div class="mx-1 mt-12 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] fixed z-50">
+  <div class="mx-1 mt-10 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] fixed z-50">
 
     <p>{selectedDocument ? `Grid [${selectedX}, ${selectedY}]` : 'No document selected'}</p>
 
@@ -168,7 +169,7 @@ $: if (selectedDocument) {
     </button>
 
   </div>
-  <div class="w-15/20 mt-12 ml-[20vw]">
+  <div class="w-[80vw] mt-11 ml-[20vw]">
     <div class="my-grid-container-wrapper">
       {#if selectedDocument}
       <div class="artifact-overlay mt-[15vh] h-[80vh] w-4/5 fixed">

@@ -99,8 +99,8 @@
     display: grid;
     border: 1px solid #999;
     border-radius: 2px;
-    width: 80vw;
-    height: 80vh;
+    width: 78vw;
+    height: 78vh;
     grid-gap: 1px;
     background: #999;
     z-index: 98;
