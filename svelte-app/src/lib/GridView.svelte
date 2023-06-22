@@ -122,6 +122,13 @@ $: if (selectedDocument) {
     filetype = null;
     xy = [0, 0];
   }
+  function backToView() {
+    uploadView = false;
+    imageView = true;
+    selectedDocument = null;
+    filetype = null;
+    xy = [0, 0];
+  }
 </script>
 <div class="w-screen flex flex-row justify-end h-[10vh]" on:click={() => selectedDocument = null} on:keydown={handleKeydown}>
   {#if IDcreated}
@@ -165,7 +172,7 @@ $: if (selectedDocument) {
         <GridUpload on:success={() => (imageView = !imageView)} on:upload={() => (imageView = !imageView)} {inStudio} on:selected={handleSelection}/>
       </div>
       {:else if uploadView}
-        <Upload {filetype} {xy} on:success={successfulUpload} />
+        <Upload {filetype} {xy} on:success={successfulUpload} on:close={backToView}/>
       {/if}
       <div class='flex flex-col w-auto'>
           {#if documents.length === 0}

@@ -74,9 +74,9 @@
     $: console.log("filetype in Upload.svelte", filetype);
     $: console.log("filetype in Upload.svelte", filetype);
 </script>
-
 <div class="h-[80vh] w-4/5 fixed">
-    <div class="p-6 w-full h-full bg-white">
+    <div class="p-6 w-full h-full bg-white" style="position: relative; z-index:9999; transform: translateZ(1000);">
+        <button class="close-button" on:click={() => dispatch('close')}>Close</button>
         <div class="flex flex-row justify-start">
             <input
                 id="titleInput"
@@ -158,5 +158,13 @@
     button:disabled {
         background-color: #ccc;
         cursor: not-allowed;
+    }
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        border: none;
+        background-color: transparent;
+        font-size: 1.5em;
     }
 </style>
