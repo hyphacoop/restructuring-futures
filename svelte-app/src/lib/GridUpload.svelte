@@ -3,7 +3,7 @@
   import Voice from "./Voice.svelte";
   import TextInput from "./TextInput.svelte";
 
-  export let grid = [9, 16];
+  export let grid = [6, 9];
 
   $: col = `repeat(${grid[1]}, 1fr)`;
   $: row = `repeat(${grid[0]}, 1fr)`;

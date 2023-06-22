@@ -23,7 +23,7 @@
 
 
 
-  let grid = [9, 16];
+  let grid = [6, 9];
 
   $: col = 'repeat(' + grid[1] + ', minmax(min-content, 1fr))';
   $: row = 'repeat(' + grid[0] + ', minmax(min-content, 1fr))';
