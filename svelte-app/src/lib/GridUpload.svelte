@@ -3,14 +3,29 @@
   import Voice from "./Voice.svelte";
   import TextInput from "./TextInput.svelte";
 
-  export let grid = [6, 9];
+  export let windowWidth;
 
-  $: col = `repeat(${grid[1]}, 1fr)`;
-  $: row = `repeat(${grid[0]}, 1fr)`;
-  $: is_active = Array(grid[0])
-    .fill(0)
-    .map((_) => Array(grid[1]).fill(false));
+  let grid;
+  let col;
+  let row;
+  let is_active;
 
+  $: {
+    if (windowWidth <= 768) {
+      // Assuming you want a 3x18 grid for mobile view
+      grid = [18, 3];
+    } else {
+      // Standard 6x9 grid for larger screens
+      grid = [6, 9];
+    }
+
+    col = `repeat(${grid[1]}, 1fr)`;
+    row = `repeat(${grid[0]}, 1fr)`;
+    is_active = Array(grid[0])
+      .fill(0)
+      .map((_) => Array(grid[1]).fill(false));
+  }
+  
   let start = [];
   let clicked = false;
   let fileSelection = false;
