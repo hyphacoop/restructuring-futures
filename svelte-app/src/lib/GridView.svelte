@@ -1,6 +1,7 @@
 <script>
   import FileSharing from "./FileSharing.svelte";
   import { onMount } from "svelte";
+  import { onDestroy } from "svelte";
 
   import { createEventDispatcher } from "svelte";
 
@@ -20,9 +21,6 @@
   import DeleteTool from "./DeleteTool.svelte";
 
   let grid = [6, 9];
-
-  $: col = "repeat(" + grid[1] + ", minmax(min-content, 1fr))";
-  $: row = "repeat(" + grid[0] + ", minmax(min-content, 1fr))";
 
   let documents = [];
 
@@ -44,6 +42,8 @@
   let uploadView = false;
   let filetype = null;
   let xy = [0, 0];
+  let col;
+  let row;
 
   $: if (selectedDocument) {
     let splitPath = selectedDocument.path.split("/");
@@ -115,6 +115,34 @@
     filetype = null;
     xy = [0, 0];
   }
+
+
+  let windowWidth;
+
+$: windowWidth = window.innerWidth;
+
+  $: {
+    if (windowWidth <= 768) {
+    col = "repeat(3, minmax(min-content, 1fr))";
+    row = "repeat(18, minmax(min-content, 1fr))";
+    console.log("col", col);
+    console.log("row", row);
+    console.log("windowWidth", windowWidth);
+    console.log('small screen');
+  } else {
+    col = "repeat(" + grid[1] + ", minmax(min-content, 1fr))";
+    row = "repeat(" + grid[0] + ", minmax(min-content, 1fr))";
+    
+  }
+}
+
+onMount(() => {
+  windowWidth = window.innerWidth;
+  window.addEventListener('resize', () => {
+    windowWidth = window.innerWidth;
+  });
+});
+
 </script>
 
 <div
@@ -147,7 +175,6 @@
         ? `Grid [${selectedX}, ${selectedY}]`
         : "No document selected"}
     </p>
-
     {#if selectedDocument}
       <div>
         <DocDetails doc={selectedDocument} {attachment} {isReply} />
@@ -170,6 +197,7 @@
       {:else if !imageView}
         <div class="relative" style="z-index:51;">
           <GridUpload
+            {windowWidth}
             on:success={() => (imageView = !imageView)}
             on:upload={() => (imageView = !imageView)}
             on:selected={handleSelection}
@@ -192,12 +220,7 @@
           </div>
         {:else}
           {#each lunarphase as phase, k (k)}
-            <div
-              class="my-grid-container w-screen"
-              style="grid-template-rows: {row}; grid-template-columns: {col}; background-color: {colorCycle[
-                k
-              ]};"
-            >
+          <div class="my-grid-container w-screen" style="grid-template-rows: {row}; grid-template-columns: {col}; background-color: {colorCycle[k]};">
               {#each { length: grid[0] } as _, i (i)}
                 {#each { length: grid[1] } as _, j (j)}
                   <div class="grid-cell">
