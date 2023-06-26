@@ -45,14 +45,8 @@
   const peer = new Earthstar.Peer();
   peer.addReplica($replica.replica);
   const sync = peer.sync(import.meta.env.VITE_SERVER_ADDRESS, true);
-  const syncAgain = peer.sync("https://languid-sand-parallelogram.glitch.me/", true);
 
   sync.onStatusChange((newStatus) => {
-    status = newStatus;
-    console.log(newStatus);
-    status = status;
-  });
-  syncAgain.onStatusChange((newStatus) => {
     status = newStatus;
     console.log(newStatus);
     status = status;
