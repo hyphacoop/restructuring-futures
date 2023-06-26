@@ -63,13 +63,13 @@
 {#if disabled}
     <div class='main disabled' 
         class:replies="{isReply === true}">
-        <img 
+        <!-- <img 
         style="margin-bottom:-3px;"
         src={images[phase]}
         alt="document icon"
         width={reaction}
         height={reaction}
-    />
+    /> -->
     </div>
 {:else}
     <div class='main' 
@@ -87,13 +87,13 @@
                 }}
                     on:keypress={() => (showDetails = !showDetails)} >
               
-                    <img 
+                  <!--   <img 
                     style="margin-bottom:-3px;"
                     src={images[phase]}
                     alt="document icon"
                     width={reaction}
                     height={reaction}
-                /></p>
+                /> --></p>
             
                 {#if title !== undefined}
                 <div>{@html title}</div>
