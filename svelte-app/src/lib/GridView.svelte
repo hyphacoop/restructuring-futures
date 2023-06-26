@@ -116,33 +116,30 @@
     xy = [0, 0];
   }
 
-
   let windowWidth;
 
-$: windowWidth = window.innerWidth;
+  $: windowWidth = window.innerWidth;
 
   $: {
     if (windowWidth <= 768) {
-    col = "repeat(3, minmax(min-content, 1fr))";
-    row = "repeat(18, minmax(min-content, 1fr))";
-    console.log("col", col);
-    console.log("row", row);
-    console.log("windowWidth", windowWidth);
-    console.log('small screen');
-  } else {
-    col = "repeat(" + grid[1] + ", minmax(min-content, 1fr))";
-    row = "repeat(" + grid[0] + ", minmax(min-content, 1fr))";
-    
+      col = "repeat(3, minmax(min-content, 1fr))";
+      row = "repeat(18, minmax(min-content, 1fr))";
+      console.log("col", col);
+      console.log("row", row);
+      console.log("windowWidth", windowWidth);
+      console.log("small screen");
+    } else {
+      col = "repeat(" + grid[1] + ", minmax(min-content, 1fr))";
+      row = "repeat(" + grid[0] + ", minmax(min-content, 1fr))";
+    }
   }
-}
 
-onMount(() => {
-  windowWidth = window.innerWidth;
-  window.addEventListener('resize', () => {
+  onMount(() => {
     windowWidth = window.innerWidth;
+    window.addEventListener("resize", () => {
+      windowWidth = window.innerWidth;
+    });
   });
-});
-
 </script>
 
 <div
@@ -220,7 +217,12 @@ onMount(() => {
           </div>
         {:else}
           {#each lunarphase as phase, k (k)}
-          <div class="my-grid-container w-screen" style="grid-template-rows: {row}; grid-template-columns: {col}; background-color: {colorCycle[k]};">
+            <div
+              class="my-grid-container w-screen"
+              style="grid-template-rows: {row}; grid-template-columns: {col}; background-color: {colorCycle[
+                k
+              ]};"
+            >
               {#each { length: grid[0] } as _, i (i)}
                 {#each { length: grid[1] } as _, j (j)}
                   <div class="grid-cell">
