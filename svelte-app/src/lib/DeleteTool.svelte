@@ -2,13 +2,13 @@
     
     import replica from "../store/replica";
     import authorKeypair from "../store/identity";
-    import cache from "../store/cache";
+    import cacheDetails from "../store/cache";
     
     let documents = [];
     let paths = [];
 
     const fetchDocs = async () => {
-        documents = $cache.cache.queryDocs({
+        documents = $cacheDetails.queryDocs({
             filter: {
                 pathStartsWith: "/documents",
             }

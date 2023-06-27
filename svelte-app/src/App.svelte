@@ -4,14 +4,12 @@
   import { fly } from "svelte/transition";
 
   import authorKeypair from "./store/identity.js";
-  import replica from "./store/replica.js";
+  import replicaDetails from "./store/replica.js";
   import settings from "./store/settings.js";
 
   import { onMount } from "svelte";
 
   import Identity from "./lib/Identity.svelte";
-  import Studio from "./lib/Studio.svelte";
-  import Oracle from "./lib/Oracle.svelte";
   import UploadId from "./lib/UploadId.svelte";
   import ValidateId from "./lib/ValidateId.svelte";
   import GridView from "./lib/GridView.svelte";
@@ -41,7 +39,7 @@
 
   // new peer & syncing with server
   const peer = new Earthstar.Peer();
-  peer.addReplica($replica.replica);
+  peer.addReplica($replicaDetails.replica);
   const sync = peer.sync(import.meta.env.VITE_SERVER_ADDRESS, true);
 
   sync.onStatusChange((newStatus) => {
@@ -80,12 +78,12 @@
     showUserSettings = !showUserSettings;
   }
 
-  $: console.log("IDcreated", IDcreated);
+  $: {
+    console.log("IDcreated", IDcreated);
+    console.log("showDetails", showDetails);
+    console.log("imageView", imageView);
+  }
 
-  $: console.log("showDetails", showDetails);
-  $: console.log("imageView", imageView);
-  $: console.log("inStudio", inStudio);
-  $: console.log("oracle", oracle);
 </script>
 
 <main>

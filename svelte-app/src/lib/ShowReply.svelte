@@ -1,6 +1,6 @@
 <script>
 
-    import cache from "../store/cache";
+    import cacheDetails from "../store/cache";
     import { onMount } from "svelte";
 
     import SingleDoc from "./SingleDoc.svelte";
@@ -13,7 +13,7 @@
 
     const getReplies = (async () => {
         let newPath = doc.path.split('!');
-        replies = await $cache.cache.queryDocs({
+        replies = await $cacheDetails.queryDocs({
             filter: {
                 pathStartsWith: newPath[0],
             }
@@ -25,7 +25,7 @@
 
 
 
-    $cache.cache.onCacheUpdated(() => {
+    $cacheDetails.onCacheUpdated(() => {
             getReplies();
             replies = replies;
     });

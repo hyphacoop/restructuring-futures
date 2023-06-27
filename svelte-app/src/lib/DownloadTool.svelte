@@ -1,7 +1,7 @@
 <script>
     import replica from "../store/replica";
     import authorKeypair from "../store/identity";
-    import cache from "../store/cache";
+    import cacheDetails from "../store/cache";
 
     import JSZip from "jszip";
 
@@ -10,7 +10,7 @@
     let archive = [];
 
     const fetchDocs = async () => {
-        documents = $cache.cache.queryDocs({
+        documents = $cacheDetails.queryDocs({
             filter: {
                 pathStartsWith: "/documents",
             },

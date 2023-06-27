@@ -8,7 +8,7 @@
   const dispatch = createEventDispatcher();
 
   import authorKeypair from "../store/identity";
-  import cache from "../store/cache";
+  import cacheDetails from "../store/cache";
   import { time } from "../store/time";
 
   import GridUpload from "./GridUpload.svelte";
@@ -45,6 +45,11 @@
   let col;
   let row;
 
+  // Use $cacheDetails to access the current value, or subscribe to changes.
+  cacheDetails.subscribe(value => {
+    console.log("Cache details changed:", value);
+});
+
   $: if (selectedDocument) {
     let splitPath = selectedDocument.path.split("/");
     selectedX = splitPath[2];
@@ -61,7 +66,7 @@
 
   // fetch documents
   const fetchDocs = async () => {
-    documents = $cache.cache.queryDocs({
+    documents = $cacheDetails.queryDocs({
       filter: {
         pathStartsWith: "/documents",
       },
@@ -70,7 +75,7 @@
     console.log("Docs", documents);
   };
 
-  $cache.cache.onCacheUpdated(() => {
+  $cacheDetails.onCacheUpdated(() => {
     fetchDocs();
   });
 
