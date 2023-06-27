@@ -1,17 +1,27 @@
 <script>
+import { get } from 'svelte/store';
 import settings from "../../store/settings";
 import shareKeypair from "../../store/share";
+
+let selectedShare = get(shareKeypair).shareAddress;
+
+shareKeypair.subscribe(value => {
+  selectedShare = value.shareAddress;
+});
+
+function updateShareKeypair(e) {
+  const shareAddress = e.target.value;
+  const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
+  shareKeypair.set({shareAddress, secret}); // set both shareAddress and secret
+}
 </script>
 
 <div>
-    <label for="share-switcher">Share Settings</label>
+    <label for="share-switcher">Select Workspace</label>
     <select
         id="share-switcher"
-        on:change="{(e) => {
-            const shareAddress = e.target.value;
-            const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
-            shareKeypair.set({shareAddress, secret}); // set both shareAddress and secret
-        }}"
+        bind:value="{selectedShare}"
+        on:change="{updateShareKeypair}"
         class="form-control"
     >
         {#each settings.shares as share (share)}
