@@ -120,7 +120,7 @@
     {#await promise}
         Loading attachment...
     {:then data}
-    <div class='flex flex-row mb-4'>
+    <div class='flex flex-row mb-4 flex-wrap'>
         {#if !dnone}
             <div class='flex flex-col justify-between h-auto'>
                 <div class='my-12 w-full'>
