@@ -74,67 +74,74 @@
     $: console.log("filetype in Upload.svelte", filetype);
     $: console.log("filetype in Upload.svelte", filetype);
 </script>
-<div class="h-[80vh] w-4/5 fixed">
-    <div class="p-6 w-full h-full bg-white" style="position: relative; z-index:9999; transform: translateZ(1000);">
-        <button class="close-button" on:click={() => dispatch('close')}>Close</button>
-        <div class="flex flex-row justify-start">
-            <input
-                id="titleInput"
-                class="align-left m-2"
-                type="text"
-                placeholder="Enter a title (required)"
-                bind:value={artifactTitle}
-            />
-        </div>
-        <div class="flex flex-row justify-between">
-            <div class="flex flex-col w-[50vw] items-start">
-                {#if filetype === "text"}
-                    <textarea
-                        id="mainInput"
-                        placeholder="Enter text"
-                        bind:value={inputArea}
+
+<div style="position:fixed; width: 79vw;">
+    <div style="position: relative; z-index:52;">
+        <div class="h-[80vh] w-full">
+            <div class="p-6 w-full h-full bg-white">
+                <button class="close-button" on:click={() => dispatch("close")}
+                    >Close</button
+                >
+                <div class="flex flex-row justify-start">
+                    <input
+                        id="titleInput"
+                        class="align-left m-2"
+                        type="text"
+                        placeholder="Enter a title (required)"
+                        bind:value={artifactTitle}
                     />
-                {:else if filetype === "audio"}
-                    <Voice
-                        {xy}
-                        on:upload={confirmUpload}
-                        title={artifactTitle}
-                        notes={artifactNotes}
-                        {isValid}
-                    />
-                {:else if filetype === "file"}
-                    <File
-                        {xy}
-                        on:upload={confirmUpload}
-                        title={artifactTitle}
-                        notes={artifactNotes}
-                        {isValid}
-                    />
-                {/if}
-            </div>
-            <div class="pr-6">
-                <h5 class="text-left">Notes</h5>
-                <input
-                    type="text"
-                    placeholder="Enter optional notes"
-                    bind:value={artifactNotes}
-                />
-            </div>
-        </div>
-        <div class="flex flex-row justify-end my-6">
-            <div class="flex flex-col">
-                {#if filetype === "text"}
-                    {#if !isValid}
-                        <div>Title is required.</div>
-                    {/if}
-                    <button
-                        class="phase1"
-                        on:click={submitText}
-                        disabled={!isValid}
-                    >
-                        Submit
-                    </button>
-                {/if}
+                </div>
+                <div class="flex flex-row justify-between">
+                    <div class="flex flex-col w-[50vw] items-start">
+                        {#if filetype === "text"}
+                            <textarea
+                                id="mainInput"
+                                placeholder="Enter text"
+                                bind:value={inputArea}
+                            />
+                        {:else if filetype === "audio"}
+                            <Voice
+                                {xy}
+                                on:upload={confirmUpload}
+                                title={artifactTitle}
+                                notes={artifactNotes}
+                                {isValid}
+                            />
+                        {:else if filetype === "file"}
+                            <File
+                                {xy}
+                                on:upload={confirmUpload}
+                                title={artifactTitle}
+                                notes={artifactNotes}
+                                {isValid}
+                            />
+                        {/if}
+                    </div>
+                    <div class="pr-6">
+                        <h5 class="text-left">Notes</h5>
+                        <input
+                            type="text"
+                            placeholder="Enter optional notes"
+                            bind:value={artifactNotes}
+                        />
+                    </div>
+                </div>
+                <div class="flex flex-row justify-end my-6">
+                    <div class="flex flex-col">
+                        {#if filetype === "text"}
+                            {#if !isValid}
+                                <div>Title is required.</div>
+                            {/if}
+                            <button
+                                class="phase1"
+                                on:click={submitText}
+                                disabled={!isValid}
+                            >
+                                Submit
+                            </button>
+                        {/if}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
