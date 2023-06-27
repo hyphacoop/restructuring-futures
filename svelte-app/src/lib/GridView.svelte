@@ -206,12 +206,14 @@
           />
         </div>
       {:else if uploadView}
+        <div class="relative" style="z-index:51;">
         <Upload
           {filetype}
           {xy}
           on:success={successfulUpload}
           on:close={backToView}
         />
+        </div>
       {/if}
       <div class="flex flex-col w-auto">
         {#if documents.length === 0}
