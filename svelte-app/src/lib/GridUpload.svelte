@@ -107,7 +107,7 @@
 <style>
   h4 { 
     width:100%;
-    margin-top:-8vh;
+    margin-top:-6.5vh;
   }
   .container {
     position: relative;
@@ -115,7 +115,7 @@
     border: 1px solid #999;
     border-radius: 2px;
     width: 78vw;
-    height: 78vh;
+    height: 80vh;
     grid-gap: 1px;
     background: #999;
     z-index: 98;
