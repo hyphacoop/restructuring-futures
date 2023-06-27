@@ -183,7 +183,7 @@
         max-width: 60vw;
         overflow: scroll;
         text-align: left;
-        background-color: #f5f5f5;
+        background-color: #ffffff;
         padding: 0.5rem;
         color:black;
         overflow: auto;
