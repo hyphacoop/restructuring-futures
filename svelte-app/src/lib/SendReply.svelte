@@ -28,19 +28,7 @@
             path: newPath[0] + timestamp + "/" + "!reply-by-" + alias,
             deleteAfter: deletionTime,
         });
-        const studio = await $replica.replica.set($authorKeypair, {
-            text: alias + " replied: " + text,
-            path:
-                "/studio/" +
-                studioPath[2] +
-                "/" +
-                timestamp +
-                "/" +
-                "reply-by-" +
-                alias,
-        });
         console.log("result ", result);
-        console.log("studio ", studio);
         dispatch("success");
         return result;
     }
@@ -49,7 +37,7 @@
 
     let text = "Reply here";
     let lgth = text.length;
-    let deletionTime = (Date.now() + 3600000) * 1000;
+    let deletionTime = doc.deleteAfter;
 
     $: if (result !== undefined && result.kind == "success") {
         text = "Send another reply";
