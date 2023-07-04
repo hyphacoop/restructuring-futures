@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <title>Ephemeral chat experiment</title>
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/time.css">
+    <script src="scripts/time.js" type="module" async></script>
+</head>
+<body>
+    <div id="main">
+        <h1>Ephemeral chat experiment</h1>
+        <div id="identity">
+            <div>Your username: </div>
+            <div id="userID"></div>
+        </div>
+        <div id="statusText"></div>
+        <div id="chat">
+            <h2>Chat history</h2>
+            <ul id="messages"></ul>
+            <form id="message-form">
+                <h2>Text input</h2>
+                <h3>Without interactions, messages disappear after 10 minutes</h3>
+                <h4>Transparent message containers will fade away in no time.</h4>
+                <input id="message-input" type="text" name="message-input">
+                <br>
+                <button id="sendButton" class="timeBtn">Send</button>
+            </form>
+        </div>
+        <div id="footer">
+            <p>
+                Built with <a href="https://earthstar-project.org/">Earthstar</a>
+            </p>
+        </div>
+    </div>
+    <script>
+        window.jdenticon_config = {
+            replaceMode: "observe"
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/jdenticon@3.2.0/dist/jdenticon.min.js" async integrity="sha384-yBhgDqxM50qJV5JPdayci8wCfooqvhFYbIKhv0hTtLvfeeyJMJCscRfFNKIxt43M" crossorigin="anonymous"></script>
+
+</body>
+</html>
