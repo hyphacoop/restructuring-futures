@@ -16,6 +16,7 @@
   import Icon from "./Artifacts/Icon.svelte";
   import Upload from "./Artifacts/Upload.svelte";
   import DocDetails from "./DocDetails.svelte";
+  import OrbitingReplies from "./OrbitingReplies.svelte";
 
   import DownloadTool from "./DownloadTool.svelte";
   import DeleteTool from "./DeleteTool.svelte";
@@ -236,21 +237,39 @@
                     {i},{j}
                     {#if documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
                       {#each documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
-                        <div id={doc.textHash + doc.timestamp}>
+                        <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
+                          
+                          
+
                           {#if phase == lunarphase[0]}
                             {#if usTime < doc.deleteAfter - phase == false}
+                            <OrbitingReplies {doc} disabled={true} />
+                            <div class="orbit-icon">
                               <Icon {doc} disabled={true} />
+                            </div>
                             {:else}
+                            <OrbitingReplies {doc} />
+                            <div class="orbit-icon">
                               <Icon
                                 {doc}
-                                on:click={() => selectDocument(doc)}
+                                on:click={() => selectDocument(doc)} 
                               />
+                            </div>
                             {/if}
                           {:else if (usTime < doc.deleteAfter - phase && usTime > doc.deleteAfter - (phase + 639360000000)) == false}
-                            <Icon {doc} disabled={true} />
+                            <OrbitingReplies {doc} disabled={true} />  
+                            <div class="orbit-icon">  
+                              <Icon {doc} disabled={true} />
+                            </div>
                           {:else}
-                            <Icon {doc} on:click={() => selectDocument(doc)} />
+                          <OrbitingReplies {doc} />
+                            <div class="orbit-icon">
+                              <Icon {doc} on:click={() => selectDocument(doc)} />
+                            </div>  
                           {/if}
+
+
+                        
                         </div>
                       {/each}
                     {/if}
@@ -266,6 +285,16 @@
 </div>
 
 <style>
+  .orbit-icon-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .orbit-icon {
+    position: relative;
+    z-index: 2;
+  }
+
   .the-scroll {
     overflow: auto;
   }
@@ -293,7 +322,7 @@
   .artifact-overlay {
     top: 0;
     left: 20vw;
-    z-index: 1;
+    z-index: 5;
     display: flex;
     align-items: flex-start;
     flex-direction: column;

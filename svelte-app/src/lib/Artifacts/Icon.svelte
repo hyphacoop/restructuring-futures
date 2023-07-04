@@ -41,6 +41,13 @@
 {/if}
 
 <style>
+    div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+    }
     img {
         max-width: 100px;
         max-height: 100px;

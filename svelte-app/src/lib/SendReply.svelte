@@ -16,12 +16,15 @@
     let result;
     let txt = false;
     let voice = false;
+    let text = "Reply here";
+    let lgth = text.length;
+  
 
 
     async function sendReply() {
         let alias = $authorKeypair.address.slice(1, 5);
         let newPath = doc.path.split("!");
-        let studioPath = doc.path.split("/");
+        let deletionTime = doc.deleteAfter;
         let timestamp = Date.now();
         const result = await $replica.replica.set($authorKeypair, {
             text: alias + " replied: " + text,
@@ -34,10 +37,6 @@
     }
 
     export let doc;
-
-    let text = "Reply here";
-    let lgth = text.length;
-    let deletionTime = doc.deleteAfter;
 
     $: if (result !== undefined && result.kind == "success") {
         text = "Send another reply";
