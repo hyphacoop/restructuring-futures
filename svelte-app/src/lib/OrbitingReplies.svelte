@@ -31,7 +31,7 @@
   onMount(fetchReplies);
 
   $: {
-    fetchReplies();
+    doc && fetchReplies();
   }
 </script>
 
