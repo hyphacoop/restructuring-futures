@@ -43,11 +43,11 @@
   });
 }, {threshold: 0.55});
 
-afterUpdate(() => {
-  lunarphase.forEach((_, k) => {
-    observer.observe(document.querySelector(`#section${k}`));
+  afterUpdate(() => {
+    lunarphase.forEach((_, k) => {
+      observer.observe(document.querySelector(`#section${k}`));
+    });
   });
-});
 
   export let showDetails = true;
   export let IDcreated = false;
@@ -98,8 +98,8 @@ afterUpdate(() => {
   });
 
   onMount(() => {
-    fetchDocs();
-  });
+  fetchDocs();
+});
 
   function handleClick() {
     imageView = !imageView;
@@ -310,7 +310,6 @@ afterUpdate(() => {
   .orbit-icon-container {
     position: relative;
     display: inline-block;
-    padding:1.5rem 0;
   }
 
   .orbit-icon {
