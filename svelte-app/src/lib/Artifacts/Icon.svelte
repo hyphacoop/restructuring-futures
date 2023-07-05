@@ -14,9 +14,22 @@
         "icons/mountain-phase-8-02.png",
     ];
 
+    let flowerImages = [
+        "icons/flower-phase-0-02.png",
+        "icons/flower-phase-1-02.png",
+        "icons/flower-phase-2-02.png",
+        "icons/flower-phase-3-02.png",
+        "icons/flower-phase-4-02.png",
+        "icons/flower-phase-5-02.png",
+        "icons/flower-phase-6-02.png",
+        "icons/flower-phase-7-02.png",
+        "icons/flower-phase-8-02.png",
+    ];
+
     export let doc;
     export let disabled = false;
 
+    let currentIcon;
     let deletionTime = doc.deleteAfter;
     let phase =
         Math.floor((deletionTime - Date.now()) / (2548800000000 / 9)) % 9;
@@ -25,18 +38,24 @@
         console.log('clicked');
         dispatch('click', doc);
     }
+
+    if (doc.path.endsWith('.md')) {
+        currentIcon = images;
+    } else {
+        currentIcon = flowerImages;
+    }
 </script>
 
 {#if disabled}
     <div>
-        <img src={images[phase]} alt="document icon" style="filter: blur(1px);" />
+        <img src={currentIcon[phase]} alt="document icon" style="filter: blur(1px);" />
     </div>
 {:else}
     <div 
     on:click={getClick}
     on:keypress={getClick}
     >
-        <img src={images[phase]} alt="document icon, phase #{phase}" />
+        <img src={currentIcon[phase]} alt="document icon, phase #{phase}" />
     </div>
 {/if}
 
