@@ -72,7 +72,7 @@
   /* ---------- Inner orbit - This is the circles closest to the central point ---------- */
   .inner-orbit {
     position: absolute;
-    border: 1px #4a437f7e dashed;
+    border: 1px #597cb8 dashed;
     border-radius: 100%;
     -webkit-animation: spin-right linear infinite;
     animation: spin-right linear infinite;
@@ -87,7 +87,7 @@
     height: 10px;
     width: 10px;
     border-radius: 100%;
-    background-color: #9f98e6;
+    background-color: #597cb8;
   }
 
   /* ---------- Animation ---------- */
