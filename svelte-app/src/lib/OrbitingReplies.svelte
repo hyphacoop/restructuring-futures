@@ -29,6 +29,10 @@
   };
 
   onMount(fetchReplies);
+
+  $: {
+    fetchReplies();
+  }
 </script>
 
 <div
