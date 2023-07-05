@@ -1,6 +1,6 @@
 <script>
   import FileSharing from "./FileSharing.svelte";
-  import { onMount } from "svelte";
+  import { onMount, afterUpdate } from "svelte";
   import { onDestroy } from "svelte";
 
   import { createEventDispatcher } from "svelte";
@@ -31,6 +31,23 @@
   // multiply x 1000 to convert to microseconds
   let usTime = $time.getTime() * 1000;
   let colorCycle = ["#fff5d9", "#d3e3d9", "#F9DFDD", "#CCE9F0"];
+  let observer;
+  let currentColor = colorCycle[0];
+
+  observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      let sectionIndex = parseInt(entry.target.getAttribute('id').replace('section', ''));
+      currentColor = colorCycle[sectionIndex % colorCycle.length];
+    }
+  });
+}, {threshold: 0.55});
+
+afterUpdate(() => {
+  lunarphase.forEach((_, k) => {
+    observer.observe(document.querySelector(`#section${k}`));
+  });
+});
 
   export let showDetails = true;
   export let IDcreated = false;
@@ -171,7 +188,11 @@
 </div>
 <div class="the-scroll flex min-h-screen overflow-y-auto">
   <div
-    class="mx-1 mt-10 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] fixed z-50"
+    class="mx-1 mt-10 w-1/5 side-bar flex flex-col p-8 h-[80vh] fixed z-50"
+    style="
+    background-color: {currentColor};
+    transition: background-color 1s ease;
+    "
   >
     <p>
       {selectedDocument
@@ -226,6 +247,7 @@
         {:else}
           {#each lunarphase as phase, k (k)}
             <div
+              id={`section${k}`}
               class="my-grid-container w-screen"
               style="grid-template-rows: {row}; grid-template-columns: {col}; background-color: {colorCycle[
                 k
