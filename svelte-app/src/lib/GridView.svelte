@@ -45,7 +45,10 @@
 
   afterUpdate(() => {
     lunarphase.forEach((_, k) => {
-      observer.observe(document.querySelector(`#section${k}`));
+      const element = document.querySelector(`#section${k}`);
+      if (element) {
+        observer.observe(element);
+      }
     });
   });
 
