@@ -42,6 +42,20 @@
   let observer;
   let currentColor = colorCycle[0];
 
+  function updateObserver() {
+  if (observer) {
+    observer.disconnect();
+  }
+
+  let threshold;
+  if (window.innerWidth <= 480) { // for small screens
+      threshold = 0.1;
+  } else if (window.innerWidth <= 768) { // for medium screens
+      threshold = 0.15;
+  } else { // for large screens
+      threshold = 0.5;
+  }
+
   observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if(entry.isIntersecting){
@@ -49,7 +63,8 @@
       currentColor = colorCycle[sectionIndex % colorCycle.length];
     }
   });
-}, {threshold: 0.55});
+  }, {threshold: threshold});
+
 
   afterUpdate(() => {
     lunarphase.forEach((_, k) => {
