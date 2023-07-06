@@ -85,7 +85,7 @@
                 <div class="flex flex-row justify-start">
                     <input
                         id="titleInput"
-                        class="align-left m-2"
+                        class="align-left my-2"
                         type="text"
                         placeholder="Enter a title (required)"
                         bind:value={artifactTitle}
