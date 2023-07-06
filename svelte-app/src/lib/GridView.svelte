@@ -57,12 +57,12 @@
   }
 
   observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      let sectionIndex = parseInt(entry.target.getAttribute('id').replace('section', ''));
-      currentColor = colorCycle[sectionIndex % colorCycle.length];
-    }
-  });
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        let sectionIndex = parseInt(entry.target.getAttribute('id').replace('section', ''));
+        currentColor = colorCycle[sectionIndex % colorCycle.length];
+      }
+    });
   }, {threshold: threshold});
 
 
@@ -101,9 +101,6 @@
     let splitPath = selectedDocument.path.split("/");
     selectedX = splitPath[2];
     selectedY = splitPath[3];
-    console.log("selectedX", selectedX);
-    console.log("selectedY", selectedY);
-    console.log("selectedDocument in GridView", selectedDocument);
   }
 
   function selectDocument(doc) {
@@ -174,16 +171,16 @@
 
   $: {
     if (windowWidth <= 768) {
+      
       col = "repeat(3, minmax(min-content, 1fr))";
       row = "repeat(18, minmax(min-content, 1fr))";
-      console.log("col", col);
-      console.log("row", row);
-      console.log("windowWidth", windowWidth);
-      console.log("small screen");
+
     } else {
       col = "repeat(" + grid[1] + ", minmax(min-content, 1fr))";
       row = "repeat(" + grid[0] + ", minmax(min-content, 1fr))";
+
     }
+    updateObserver();
   }
 
   onMount(() => {
@@ -192,6 +189,7 @@
       windowWidth = window.innerWidth;
     });
   });
+
 </script>
 
 <div
