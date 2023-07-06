@@ -74,11 +74,14 @@
       }
     });
   });
+}
 
-  export let showDetails = true;
-  export let IDcreated = false;
-  export let attachment = true;
-  export let isReply = false;
+
+  onDestroy(() => {
+    if (observer) {
+    observer.disconnect();
+  }
+});
 
   let imageView = true;
   let selectedDocument = null;
