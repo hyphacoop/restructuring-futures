@@ -270,9 +270,6 @@
           </div>
         {:else}
           {#each LUNAR_PHASE as phase, k (k)}
-          <h1>
-            {k}
-          </h1>
             <div
               id={`section${k}`}
               class="my-grid-container w-screen"
