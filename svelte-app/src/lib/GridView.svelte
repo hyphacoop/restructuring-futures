@@ -21,6 +21,14 @@
   import DownloadTool from "./DownloadTool.svelte";
   import DeleteTool from "./DeleteTool.svelte";
 
+
+
+
+  export let showDetails = true;
+  export let IDcreated = false;
+  export let attachment = true;
+  export let isReply = false;
+
   let grid = [6, 9];
 
   let documents = [];
