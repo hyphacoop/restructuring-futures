@@ -25,7 +25,6 @@
     });
     // Exclude the first reply (the document itself)
     replies = tempReplies.slice(1);
-    console.log("Replies", replies);
   };
 
   onMount(fetchReplies);
