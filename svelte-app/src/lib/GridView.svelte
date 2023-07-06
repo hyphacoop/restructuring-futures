@@ -21,8 +21,9 @@
   import DownloadTool from "./DownloadTool.svelte";
   import DeleteTool from "./DeleteTool.svelte";
 
-
-
+  import { calculateLunarPhase } from './utils/lunarPhase.js';
+  import { createObserver, observeElement, disconnectObserver } from './utils/scrollObserver.js';
+  import { LUNAR_PHASE, COLOR_CYCLE } from './utils/constants.js';
 
   export let showDetails = true;
   export let IDcreated = false;
@@ -31,57 +32,52 @@
 
   let grid = [6, 9];
 
-  let documents = [];
+  let gridState = Array(grid[0]).fill().map(() => Array(grid[1]).fill(false));
 
-  // durations in milliseconds
-  let lunarphase = [1918080000000, 1278720000000, 639360000000, 0];
+  let documents = [];
 
   // multiply x 1000 to convert to microseconds
   let usTime = $time.getTime() * 1000;
-  let colorCycle = ["#fff5d9", "#d3e3d9", "#F9DFDD", "#CCE9F0"];
+
+  let isMobile = false;
   let observer;
-  let currentColor = colorCycle[0];
+  let currentColor = COLOR_CYCLE[0];
 
   function updateObserver() {
-  if (observer) {
-    observer.disconnect();
+    disconnectObserver(observer);
+
+    let threshold;
+    if (window.innerWidth <= 480) { // for small screens
+        threshold = 0.1;
+    } else if (window.innerWidth <= 768) { // for medium screens
+        threshold = 0.15;
+    } else { // for large screens
+        threshold = 0.5;
+    }
+
+    const callback = (entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          let sectionIndex = parseInt(entry.target.getAttribute('id').replace('section', ''));
+          currentColor = COLOR_CYCLE[sectionIndex % COLOR_CYCLE.length];
+        }
+      });
+    };
+
+    observer = createObserver(callback, threshold);
   }
-
-  let threshold;
-  if (window.innerWidth <= 480) { // for small screens
-      threshold = 0.1;
-  } else if (window.innerWidth <= 768) { // for medium screens
-      threshold = 0.15;
-  } else { // for large screens
-      threshold = 0.5;
-  }
-
-  observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting){
-        let sectionIndex = parseInt(entry.target.getAttribute('id').replace('section', ''));
-        currentColor = colorCycle[sectionIndex % colorCycle.length];
-      }
-    });
-  }, {threshold: threshold});
-
 
   afterUpdate(() => {
-    lunarphase.forEach((_, k) => {
+    LUNAR_PHASE.forEach((_, k) => {
       const element = document.querySelector(`#section${k}`);
-      if (element) {
-        observer.observe(element);
-      }
+      observeElement(observer, element);
     });
   });
-}
 
 
   onDestroy(() => {
-    if (observer) {
-    observer.disconnect();
-  }
-});
+    disconnectObserver(observer);
+  });
 
   let imageView = true;
   let selectedDocument = null;
@@ -117,6 +113,7 @@
     });
     documents = documents.filter((doc) => doc.path.split("/").length <= 6);
     console.log("Docs", documents);
+    gridState = calculateLunarPhase(documents);
   };
 
   $cacheDetails.onCacheUpdated(() => {
@@ -171,14 +168,14 @@
 
   $: {
     if (windowWidth <= 768) {
-      
+      isMobile = true;
       col = "repeat(3, minmax(min-content, 1fr))";
       row = "repeat(18, minmax(min-content, 1fr))";
 
     } else {
+      isMobile = false;
       col = "repeat(" + grid[1] + ", minmax(min-content, 1fr))";
       row = "repeat(" + grid[0] + ", minmax(min-content, 1fr))";
-
     }
     updateObserver();
   }
@@ -248,7 +245,7 @@
       {:else if !imageView}
         <div class="relative" style="z-index:51;">
           <GridUpload
-            {windowWidth}
+            {windowWidth} 
             on:success={() => (imageView = !imageView)}
             on:upload={() => (imageView = !imageView)}
             on:selected={handleSelection}
@@ -272,13 +269,18 @@
             <h3 class="p-6">No files yet</h3>
           </div>
         {:else}
-          {#each lunarphase as phase, k (k)}
+          {#each LUNAR_PHASE as phase, k (k)}
+          <h1>
+            {k}
+          </h1>
             <div
               id={`section${k}`}
               class="my-grid-container w-screen"
-              style="grid-template-rows: {row}; grid-template-columns: {col}; background-color: {colorCycle[
-                k
-              ]};"
+              style={`background-color: ${COLOR_CYCLE[k]}; ${
+                isMobile
+                ? 'grid-template-columns: repeat(3, 1fr); grid-template-rows: auto;'
+                : `grid-template-columns: ${col}; grid-template-rows: ${row};`
+            }`}
             >
               {#each { length: grid[0] } as _, i (i)}
                 {#each { length: grid[1] } as _, j (j)}
@@ -311,47 +313,48 @@
                         {/if}
 
                     {:else}
-                  <div class="grid-cell">
-                    {i},{j}
-                    {#if documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
-                      {#each documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
-                        <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
-                          
-                          
+                    <div class="grid-cell">
+                      {i},{j}
+                      {#if documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
+                        {#each documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
+                          <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
+                            
+                            
 
-                          {#if phase == lunarphase[0]}
-                            {#if usTime < doc.deleteAfter - phase == false}
-                            <OrbitingReplies {doc} disabled={true} />
-                            <div class="orbit-icon">
-                              <Icon {doc} disabled={true} />
-                            </div>
+                            {#if phase == LUNAR_PHASE[0]}
+                              {#if usTime < doc.deleteAfter - phase == false}
+                              <OrbitingReplies {doc} disabled={true} />
+                              <div class="orbit-icon">
+                                <Icon {doc} disabled={true} />
+                              </div>
+                              {:else}
+                              <OrbitingReplies {doc} />
+                              <div class="orbit-icon">
+                                <Icon
+                                  {doc}
+                                  on:click={() => selectDocument(doc)} 
+                                />
+                              </div>
+                              {/if}
+                            {:else if (usTime < doc.deleteAfter - phase && usTime > doc.deleteAfter - (phase + 639360000000)) == false}
+                              <OrbitingReplies {doc} disabled={true} />  
+                              <div class="orbit-icon">  
+                                <Icon {doc} disabled={true} />
+                              </div>
                             {:else}
                             <OrbitingReplies {doc} />
-                            <div class="orbit-icon">
-                              <Icon
-                                {doc}
-                                on:click={() => selectDocument(doc)} 
-                              />
-                            </div>
+                              <div class="orbit-icon">
+                                <Icon {doc} on:click={() => selectDocument(doc)} />
+                              </div>  
                             {/if}
-                          {:else if (usTime < doc.deleteAfter - phase && usTime > doc.deleteAfter - (phase + 639360000000)) == false}
-                            <OrbitingReplies {doc} disabled={true} />  
-                            <div class="orbit-icon">  
-                              <Icon {doc} disabled={true} />
-                            </div>
-                          {:else}
-                          <OrbitingReplies {doc} />
-                            <div class="orbit-icon">
-                              <Icon {doc} on:click={() => selectDocument(doc)} />
-                            </div>  
-                          {/if}
 
 
-                        
-                        </div>
-                      {/each}
-                    {/if}
-                  </div>
+                          
+                          </div>
+                        {/each}
+                      {/if}
+                    </div>
+                  {/if}
                 {/each}
               {/each}
             </div>
@@ -361,6 +364,7 @@
     </div>
   </div>
 </div>
+
 
 <style>
   .orbit-icon-container {
