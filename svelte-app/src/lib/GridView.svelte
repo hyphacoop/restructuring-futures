@@ -47,10 +47,8 @@
     disconnectObserver(observer);
 
     let threshold;
-    if (window.innerWidth <= 480) { // for small screens
-        threshold = 0.1;
-    } else if (window.innerWidth <= 768) { // for medium screens
-        threshold = 0.15;
+    if (window.innerWidth <= 768) { // for smaller screens
+        threshold = 0.45;
     } else { // for large screens
         threshold = 0.5;
     }
