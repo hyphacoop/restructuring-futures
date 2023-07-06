@@ -282,6 +282,35 @@
             >
               {#each { length: grid[0] } as _, i (i)}
                 {#each { length: grid[1] } as _, j (j)}
+
+                    {#if isMobile}
+
+                        {#if gridState[j][i] && gridState[j][i].length > 0}
+                          <div id={`phase${k}_cell_${i}_${j}`} class="grid-cell">
+                            {i},{j}
+                            {#each gridState[j][i] as artifact}
+                              <div id={i + j + artifact.doc.textHash + artifact.doc.timestamp} class='orbit-icon-container'>
+                                {#if artifact.lunarPhase === k}
+                                  <OrbitingReplies doc={artifact.doc} />
+                                  <div class="orbit-icon">
+                                    <Icon doc={artifact.doc} 
+                                    on:click={() => selectDocument(artifact.doc)}/>
+                                  </div>
+
+                                {:else}
+
+                                  <OrbitingReplies doc={artifact.doc} disabled={true} />
+                                  <div class="orbit-icon">
+                                    <Icon doc={artifact.doc} disabled={true} />
+                                  </div>
+
+                                {/if}
+                              </div>
+                            {/each}
+                          </div>
+                        {/if}
+
+                    {:else}
                   <div class="grid-cell">
                     {i},{j}
                     {#if documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
