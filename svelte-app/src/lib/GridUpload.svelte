@@ -95,7 +95,15 @@
         class:active={is_active[i][j]}
         on:click={() => selectNupload(i, j)}
         on:keypress={() => selectNupload(i, j)}
-      />
+        style="
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      "
+    >
+        {i}, {j}
+      </div>
     {/each}
   {/each}
 </div>
