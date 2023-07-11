@@ -36,6 +36,8 @@
 
   let documents = [];
 
+  let replies = false;
+
   // multiply x 1000 to convert to microseconds
   let usTime = $time.getTime() * 1000;
 
@@ -290,7 +292,7 @@
                                 {#if artifact.lunarPhase === k}
                                   <OrbitingReplies doc={artifact.doc} />
                                   <div class="orbit-icon">
-                                    <Icon doc={artifact.doc} 
+                                    <Icon {replies} phase={k} doc={artifact.doc} 
                                     on:click={() => selectDocument(artifact.doc)}/>
                                   </div>
 
@@ -298,7 +300,7 @@
 
                                   <OrbitingReplies doc={artifact.doc} disabled={true} />
                                   <div class="orbit-icon">
-                                    <Icon doc={artifact.doc} disabled={true} />
+                                    <Icon {replies} {phase}  doc={artifact.doc} disabled={true} />
                                   </div>
 
                                 {/if}
@@ -320,12 +322,12 @@
                               {#if usTime < doc.deleteAfter - phase == false}
                               <OrbitingReplies {doc} disabled={true} />
                               <div class="orbit-icon">
-                                <Icon {doc} disabled={true} />
+                                <Icon {replies} {phase}  {doc} disabled={true} />
                               </div>
                               {:else}
                               <OrbitingReplies {doc} />
                               <div class="orbit-icon">
-                                <Icon
+                                <Icon {replies} {phase} 
                                   {doc}
                                   on:click={() => selectDocument(doc)} 
                                 />
@@ -334,12 +336,12 @@
                             {:else if (usTime < doc.deleteAfter - phase && usTime > doc.deleteAfter - (phase + 639360000000)) == false}
                               <OrbitingReplies {doc} disabled={true} />  
                               <div class="orbit-icon">  
-                                <Icon {doc} disabled={true} />
+                                <Icon {replies} {phase}  {doc} disabled={true} />
                               </div>
                             {:else}
                             <OrbitingReplies {doc} />
                               <div class="orbit-icon">
-                                <Icon {doc} on:click={() => selectDocument(doc)} />
+                                <Icon {replies} {phase}  {doc} on:click={() => selectDocument(doc)} />
                               </div>  
                             {/if}
 
