@@ -1,11 +1,12 @@
 <script>
   import { onMount } from "svelte";
+  import OrbitingIcon from "./Replies/OrbitingIcons.svelte";
   import cacheDetails from "../store/cache";
   export let doc = null;
   export let disabled = false;
 
   // The default diameter of the largest orbiting circles
-  const orbitDiameter = 260;
+  const orbitDiameter = 160;
 
   let replies = [];
 
@@ -42,20 +43,9 @@
     width: {orbitDiameter}px;
   "
 >
-  {#each replies as reply, index (reply.textHash + reply.timestamp)}
-    <div
-      class="inner-orbit"
-      style="
-    top: {orbitDiameter / 4 + index * 10}px;
-    left: {orbitDiameter / 4 + index * 10}px;
-    width: {orbitDiameter / 2 - index * 20}px;
-    height: {orbitDiameter / 2 - index * 20}px;
-    animation-duration: {5 + index}s;
-  "
-    >
-      <div class="inner-orbit-circles" />
-    </div>
-  {/each}
+{#each replies as reply, index (reply.textHash + reply.timestamp)}
+  <OrbitingIcon {doc} {index} {orbitDiameter}/>
+{/each}
 </div>
 
 <style>
@@ -75,9 +65,8 @@
   /* ---------- Inner orbit - This is the circles closest to the central point ---------- */
   .inner-orbit {
     position: absolute;
-    border: 1px #597cb8 dashed;
+    border: 1px #597cb834 dashed;
     border-radius: 100%;
-    -webkit-animation: spin-right linear infinite;
     animation: spin-right linear infinite;
   }
 
