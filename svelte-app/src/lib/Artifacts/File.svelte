@@ -14,6 +14,7 @@
   let studio;
   let offering;
   let textContent;
+  let errorMessage = '';
 
   export let title = undefined;
   export let notes = undefined;
@@ -86,12 +87,11 @@
     console.log("Result: ", result);
     if (Earthstar.isErr(result)) {
       console.error(result);
+      errorMessage = result.message;
+    } else {
+      console.log("Success!");
+      dispatch("upload");
     }
-    console.log("Studio: ", studio);
-    if (Earthstar.isErr(studio)) {
-      console.error(studio);
-    }
-    dispatch("upload");
     return result;
   }
 
