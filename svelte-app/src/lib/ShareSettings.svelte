@@ -6,16 +6,16 @@ import GenerateShare from "./ShareSettings/GenerateShare.svelte";
 </script>
 
 <div>
-  <AddShare />
+  <h4>Share Settings</h4>
   <ShareSwitcher />
   <GenerateShare />
+  <AddShare />
   <RemoveShare />
-  <!-- this is for me to generate and remove shares from the app's UI  // currently hidden
-
-
-  
-
-
-  -->
 </div>
 
+<style>
+  div {
+    margin-bottom: 3rem;
+    width: 100%;
+  }
+</style>
