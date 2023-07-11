@@ -29,7 +29,7 @@ $: if (status && status[shareID]) {
 
 </script>
 
-<div class='flex flex-col px-8 border-2 p-4 w-auto'>
+<div class='flex flex-col px-8 p-4 w-auto'>
     <div class='flex flex-col items-left'>
       <h4 class="mb-6">Status Panel & Current Share Details</h4>
       <p><b>Address:</b> {$shareKeypair.shareAddress} </p>

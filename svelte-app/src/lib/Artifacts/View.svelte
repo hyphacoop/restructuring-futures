@@ -32,7 +32,7 @@
     $: console.log('selectedDocument in ArtifactView', selectedDocument);
 </script>
 {#if artifactTitle}
-<h4 class="mt-12">{artifactTitle}</h4>
+<h4 class="mt-12 p-2">{artifactTitle}</h4>
 {/if}
 
 <div class='flex flex-row justify-between w-full'>

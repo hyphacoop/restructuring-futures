@@ -33,7 +33,6 @@ function updateShareKeypair(e) {
 <style>
     label {
         display: block;
-        margin-bottom: 0.5rem;
     }
     div {
         text-align: left;
@@ -41,11 +40,11 @@ function updateShareKeypair(e) {
         margin: 0.25rem;
     }
     select {
-        width: 100%;
-        padding: 0.5rem;
+        width: 90%;
         font-size: 1rem;
+        margin: 0.25rem;
+        padding: 0.5rem 0.75rem;
         border-radius: 0.25rem;
         border: 1px solid #ccc;
-        margin-bottom: 1rem;
     }
 </style>

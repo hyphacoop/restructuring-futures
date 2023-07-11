@@ -75,7 +75,7 @@
 
     {#if txt}
     <p>
-        <input bind:value={text} style="width: {lgth}ch" />
+        <textarea bind:value={text} style="width: 100%" />
     </p>
     <p>
         <button disabled={isUnchanged(text)} on:click={sendReply}>
@@ -96,10 +96,5 @@
 </div>
 
 <style>
-    input {
-        background-color: #ffffff;
-        color:black;
-        padding: 1em;
-        margin: 0rem;
-    }
+
 </style>

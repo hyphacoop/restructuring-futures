@@ -67,7 +67,10 @@
   </script>
   
   <div>
+    <label for='shareAddress' style='text-align:left;'>
+      Add an existing share address
     <input
+      id='shareAddress'
       type="text"
       spellcheck="false"
       bind:value
@@ -101,7 +104,6 @@
   <style>
     div {
       text-align: left;
-  
       padding: 1rem;
       margin: 0.25rem;
     }
