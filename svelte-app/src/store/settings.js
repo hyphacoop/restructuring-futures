@@ -1,7 +1,22 @@
 import * as Earthstar from 'earthstar';
+import { writable } from 'svelte/store';
 
 // Create a new instance of the SharedSettings class.
 const settings = new Earthstar.SharedSettings();
-
-// Expose the settings object as the default export of this module.
 export default settings;
+
+// Create a Svelte store that holds the shares
+export const shares = writable(settings.shares);
+
+export function removeShare(shareAddressToRemove) {
+    // Remove share from SharedSettings
+    const updatedShares = settings.removeShare(shareAddressToRemove);
+
+    if (Array.isArray(updatedShares)) {
+        // Update the shares from SharedSettings
+        shares.set(updatedShares);
+    } else {
+        // handle ValidationError here
+        console.error(updatedShares);
+    }
+}

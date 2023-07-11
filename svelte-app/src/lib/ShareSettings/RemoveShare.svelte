@@ -1,59 +1,69 @@
 <script>
-    import { get } from "svelte/store";
-    import settings from "../../store/settings";
-    import shareKeypair from "../../store/share";
+  import { get } from "svelte/store";
+  import { shares, removeShare } from "../../store/settings";
+  import shareKeypair from "../../store/share";
+
+  let selectedShare = get(shareKeypair).shareAddress;
+  let removalStatus = '';
+
+  shareKeypair.subscribe(value => {
+    selectedShare = value.shareAddress;
+  });
+
+  async function handleRemoveShare() {
+    if (!selectedShare) return;
+    
+    const shareAddressToRemove = selectedShare;
+
+    removeShare(shareAddressToRemove);
+
+    // Update the removal status
+    removalStatus = `Share ${shareAddressToRemove} has been removed.`;
   
-    let selectedShare = get(shareKeypair).shareAddress;
-    shareKeypair.subscribe(value => {
-      selectedShare = value.shareAddress;
-    });
-  
-    async function removeShare() {
-      if (!selectedShare) return;
-      
-      const shareAddressToRemove = selectedShare;
-  
-      await settings.removeShare(shareAddressToRemove);
-      
-      // After removing, if the removed share was the current one, unset it
-      const currentShare = get(shareKeypair).shareAddress;
-      if (currentShare === shareAddressToRemove) {
-        shareKeypair.set({ shareAddress: null, secret: null });
-      }
+    // After removing, if the removed share was the current one, unset it
+    const currentShare = get(shareKeypair).shareAddress;
+    if (currentShare === shareAddressToRemove) {
+      shareKeypair.set({ shareAddress: null, secret: null });
     }
-  </script>
-  <div>
-    <label for="share-switcher">Remove Workspace</label>
-  <select
-    id="share-selecter"
-    bind:value="{selectedShare}"
-    class="form-control"
-  >
-    {#each settings.shares as share (share)}
-      <option value={share}>{share}</option>
-    {/each}
-  </select>
-  
-  <button on:click="{removeShare}">
-    Remove Share
-  </button>
-  </div>
+  }
+
+  $: shares; // subscribe to changes in shares
+
+</script>
+<div>
+<label for="share-switcher">Remove Share / Workspace</label>
+<select id="share-selecter" bind:value="{selectedShare}" class="form-control">
+  {#each $shares as share (share)}
+    <option value={share}>{share}</option>
+  {/each}
+</select>
+<p>{removalStatus}</p>
+<button on:click="{handleRemoveShare}">
+  Remove Share
+</button>
+</div>
 <style>
   label {
     display: block;
-    margin-bottom: 0.5rem;
 }
 div {
     text-align: left;
     padding: 0 1rem;
-    margin: 0 0.25rem;
+    margin: 0.25rem;
 }
 select {
-    width: 100%;
-    padding: 0.5rem;
-    font-size: 1rem;
-    border-radius: 0.25rem;
-    border: 1px solid #ccc;
-    margin-bottom: 1rem;
+  width: 90%;
+  font-size: 1rem;
+  margin: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  border: 1px solid #ccc;
+}
+button {
+    width: 90%;
+    margin: 0.25rem;
+    padding: 0.25rem;
+    align-items: flex-end;
+    text-align: center;
 }
 </style>
