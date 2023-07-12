@@ -2,13 +2,49 @@
     import replica from "../store/replica";
     import authorKeypair from "../store/identity";
     import cacheDetails from "../store/cache";
+    import { onMount } from "svelte";
 
     import JSZip from "jszip";
 
     let documents = [];
     let paths = [];
     let archive = [];
+    let counter;
 
+    const fetchCounter = async () => {
+        let counterDocs = await $cacheDetails.queryDocs({
+            filter: {
+                pathStartsWith: "/counter",
+            },
+        });
+
+        if (counterDocs.length > 0) {
+            counter = counterDocs[0].text;
+        } else {
+            counter = "0";
+        }
+    };
+
+    onMount(async () => {
+        await fetchCounter();
+    });
+
+    
+    const incrementCounter = async () => {
+        await fetchCounter();
+        let count = counter;
+        let counterValue = count ? count : "0";
+        let counterNumber = parseInt(counterValue);
+        let newCounterNumber = counterNumber + 1;
+        let newCounterValue = newCounterNumber.toString();
+        let result = await $replica.replica.set($authorKeypair, {
+            path: "/counter/number",
+            text: newCounterValue,
+        });
+        console.log('new count', result);
+        counter = newCounterValue;
+    };
+  
     const fetchDocs = async () => {
         documents = $cacheDetails.queryDocs({
             filter: {
@@ -58,7 +94,12 @@
         await fetchDocs();
         await fetchAttachments(zip);
         await downloadArchive(zip);
+        await incrementCounter();
     };
 </script>
 
 <button on:click={createArchive}>Create Archive</button>
+
+{#if counter}
+    <p class='text-left'>This button was used {counter} {counter > 1 ? 'times' : 'time' }</p>
+{/if}
