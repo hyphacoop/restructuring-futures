@@ -20,3 +20,7 @@ export function removeShare(shareAddressToRemove) {
         console.error(updatedShares);
     }
 }
+
+export function updateShares(newShares) {
+    shares.set(newShares);
+}
