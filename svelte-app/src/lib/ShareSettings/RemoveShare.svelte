@@ -37,10 +37,12 @@
     <option value={share}>{share}</option>
   {/each}
 </select>
-<p>{removalStatus}</p>
+
 <button on:click="{handleRemoveShare}">
   Remove Share
 </button>
+<p>{removalStatus}</p>
+
 </div>
 <style>
   label {
