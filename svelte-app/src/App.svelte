@@ -41,6 +41,8 @@
   const peer = new Earthstar.Peer();
   peer.addReplica($replicaDetails.replica);
   const sync = peer.sync(import.meta.env.VITE_SERVER_ADDRESS, true);
+  const server = settings.addServer(import.meta.env.VITE_SERVER_ADDRESS);
+  console.log(server);
 
   sync.onStatusChange((newStatus) => {
     status = newStatus;
