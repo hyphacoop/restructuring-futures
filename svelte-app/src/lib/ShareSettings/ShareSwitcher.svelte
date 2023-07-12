@@ -1,6 +1,7 @@
 <script>
 import { get } from 'svelte/store';
 import settings from "../../store/settings";
+import { shares } from "../../store/settings";
 import shareKeypair from "../../store/share";
 
 let selectedShare = get(shareKeypair).shareAddress;
@@ -14,6 +15,11 @@ function updateShareKeypair(e) {
   const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
   shareKeypair.set({shareAddress, secret}); // set both shareAddress and secret
 }
+
+let shareList = [];
+shares.subscribe(value => {
+    shareList = value;
+});
 </script>
 
 <div>
@@ -24,7 +30,7 @@ function updateShareKeypair(e) {
         on:change="{updateShareKeypair}"
         class="form-control"
     >
-        {#each settings.shares as share (share)}
+        {#each shareList as share (share)}
             <option value={share}>{share}</option>
         {/each}
     </select>
