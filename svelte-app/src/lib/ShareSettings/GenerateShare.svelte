@@ -1,8 +1,7 @@
 <script>
   import * as Earthstar from "earthstar";
   import settings from "../../store/settings";
-
-  import { onMount } from "svelte";
+  import { updateShares } from "../../store/settings";
 
   let shareName = "";
   let error;
@@ -11,7 +10,7 @@
 
   const generateNewShareKeypair = async () => {
     try {
-      const newKeypair = await Earthstar.Crypto.generateShareKeypair(shareName);
+      newKeypair = await Earthstar.Crypto.generateShareKeypair(shareName);
       console.log(newKeypair);
       if (settings) {
         const addShareResult = settings.addShare(newKeypair.shareAddress);
@@ -27,6 +26,7 @@
         ) {
           success = true;
           error = null;
+          updateShares(settings.shares);
         } else {
           throw new Error("Error adding new share keypair");
         }
@@ -53,11 +53,14 @@
 {#if error}
   <p>Error: {error.message}</p>
 {:else if success}
-  <p>Successfully generated new share keypair!</p>
-  {#if newKeypair}
-    <p>{newKeypair.shareAddress}</p>
-    <p>{newKeypair.secret}</p>
-  {/if}
+  <div class='text-left'>
+    <p>Successfully generated new share keypair!</p>
+    {#if newKeypair}
+      <p>{newKeypair.shareAddress}</p>
+      <p>{newKeypair.secret}</p>
+    {/if}
+    <p>This new share has been added to your workspace.</p>
+  </div>
 {/if}
 
 <style>
