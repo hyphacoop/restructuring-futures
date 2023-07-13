@@ -14,6 +14,7 @@
     const speed = 2; // Adjust this to change the speed of rotation
 
     function animate() {
+      if (iconContainer) {
       angle += speed;
       const radians = angle * Math.PI / 180;
       const radius = (orbitDiameter / 4) - (index * 20); // adjust as needed
@@ -22,8 +23,9 @@
       iconContainer.style.transform = `translate(${x}px, ${y}px)`;
       requestAnimationFrame(animate);
     }
-
+  }
     animate();
+   
   });
 </script>
 
