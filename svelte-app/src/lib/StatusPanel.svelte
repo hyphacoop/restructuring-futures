@@ -30,7 +30,7 @@ $: if (status && status[shareID]) {
 
 </script>
 
-<div class='flex flex-col px-8 p-4 w-auto'>
+<div class='flex flex-col px-8 p-4 w-full text-left'>
     <div class='flex flex-col items-left'>
       <h4 class="mb-6">Status Panel & Current Share Details</h4>
 
@@ -105,7 +105,9 @@ $: if (status && status[shareID]) {
 
         {/if}
     {/if}
-    <DownloadTool />
+    <div class='my-4'>
+        <DownloadTool />
+    </div>
 </div>
 <style>
 
