@@ -143,7 +143,7 @@
         on:details={() => (showUserSettings = true)}
       />
     </div>
-  {:else}
+  {:else if IDcreated && showUserSettings}
     <div class="w-full">
       <UserSettings {status} on:toggle={toggleUserSettings} />
     </div>
