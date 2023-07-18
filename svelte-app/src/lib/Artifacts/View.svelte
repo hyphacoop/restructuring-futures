@@ -38,7 +38,7 @@
 <div class='flex flex-row justify-between w-full'>
 {#if attachment}
     <div class='attachmentbox'>
-        <GetAttachment doc={selectedDocument} />
+        <GetAttachment doc={selectedDocument} replies='false' />
     </div>
 {/if}
 {#if reply}
