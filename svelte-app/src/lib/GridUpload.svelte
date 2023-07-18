@@ -57,6 +57,9 @@
       a.map((_, j) => is_in_range([i, j], end))
     );
   }
+  function mapNumberToLetter(num) {
+    return String.fromCharCode(65 + num);
+}
 
   function close_modal() {
   fileSelection = false;
@@ -70,7 +73,7 @@
   <div class="modal pb-6 " style={modalStyle}>
     <div class="mt-6 brown text-left px-6">What artefact would you like to create? 
       <br>
-      {start[1]}, {start[0]}</div>
+      {mapNumberToLetter(start[1])}, {start[0] + 1}</div>
 
     <div class="flex-col">
       <TextInput xy={start} on:selected/>
@@ -102,7 +105,7 @@
         height: 100%;
       "
     >
-        {i}, {j}
+    {mapNumberToLetter(j)}, {i+1}
       </div>
     {/each}
   {/each}
@@ -115,7 +118,9 @@
 <style>
   h4 { 
     width:100%;
-    margin-top:-6.5vh;
+    position: absolute;
+    bottom: 100%;
+    text-align:left;
   }
   .container {
     position: relative;
