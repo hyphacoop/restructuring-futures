@@ -18,7 +18,6 @@
     let textContent = null;
 
     export let xy = undefined;
-
     export let doc = undefined;
     export let title = undefined;
     export let notes = undefined;
@@ -117,7 +116,7 @@
                     alias +
                     "." +
                     extension,
-                deleteAfter: deletionTime,
+                deleteAfter: doc.deleteAfter,
                 attachment: uInt8,
             });
             console.log("result ", result);
@@ -150,7 +149,7 @@
     <!-- Show only if audioURL is set -->
     <div class="text-left m-2">
         <h5 class="m-2">Review your recording</h5>
-        <audio controls class="auto-width my-6 mx-2">
+        <audio controls class="my-6 mx-2">
             <source src={audioURL} type="audio/ogg" />
             Your browser does not support the audio element.
         </audio>
@@ -163,13 +162,17 @@
         <button on:click={handleUpload} disabled={!isValid}>Upload</button>
     </div>
 {:else}
-    <div class="text-left">
+<div class="text-left">
+    <div>
+    {#if xy !== 'reply'}
+
         <h5 class="m-2">Record your voice note</h5>
         <div>
             Click the button below to start recording. Click again to stop.
         </div>
-        <div>
-            <div class="mt-6">
+
+    {/if}
+                <div class="mt-6">
                 <button
                     class="phase1 mt-6"
                     on:click={async () => {
@@ -191,6 +194,10 @@
 {/if}
 
 <style>
+    h5 {
+        word-break: break-word;
+        width:60%
+    }
     div {
         margin: 0.5rem;
     }
@@ -203,4 +210,8 @@
         background-color: #ccc;
         cursor: not-allowed;
     }
+    audio {
+        border-radius: 0.5rem;
+        width: 50%;
+        }
 </style>
