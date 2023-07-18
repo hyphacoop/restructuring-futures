@@ -11,19 +11,27 @@
 
 
     
-    <div>
+    
         <!--<button class="phase1" on:click={handleClick}>
             ↩️Replies
         </button>
         -->
         
 {#if showDetails}
-        <ShowReply {doc} on:success />
-        <SendReply {doc} on:success />        
-{/if}     
+<div>
+    <div class='replies mb-2'>
+            <ShowReply {doc} on:success />
     </div>
+        <SendReply {doc} on:success />       
+</div> 
+{/if}     
+
 
 
 <style>
-
+ .replies {
+    overflow-y: scroll;
+    height: auto;
+    max-height:40vh;
+ }
 </style>
