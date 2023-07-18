@@ -95,6 +95,7 @@
         border-radius: 0;
         margin:1rem;
         width: fit-content;
+        height:auto;
 }
 p.max-content {
     width:max-content;
