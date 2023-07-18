@@ -73,7 +73,7 @@
         QR code
       </button>
       {#if showQR}
-      <div id="qrcodeContainer" class="ml-1/5">
+      <div id="qrcodeContainer" class="ml-1/5 mb-12">
         <QRCode codeValue={invitationURL} {squareSize} />
       </div>
         {/if} 
