@@ -4,6 +4,8 @@
     import ShareSettings from "./ShareSettings.svelte";
     import ServerSettings from "./ServerSettings.svelte";
     import InvitationUrl from "./InvitationUrl.svelte";
+
+    import authorKeypair from "../store/identity";
   
     export let status;
 
@@ -18,9 +20,9 @@
   }
   </script>
   <div class="w-screen flex flex-row justify-end h-[10vh]">
-      <button class="h-auto mr-6" on:click={toggleDetails}>
+      <button class="h-auto mr-6 phase2" on:click={toggleDetails}>
 
-        Hide Details
+        {$authorKeypair.address.slice(0, 5)}
   
     </button>
 </div>
