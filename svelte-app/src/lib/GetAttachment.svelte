@@ -5,6 +5,7 @@
     // import PdfViewer from 'svelte-pdf';
 
     export let doc;
+    export let replies;
     let attachmentBytes;
     let promise;
     let attachmentStatus = false;
@@ -123,7 +124,7 @@
     <div class='flex flex-row mb-4 flex-wrap'>
         {#if !dnone}
             <div class='flex flex-col justify-between h-auto'>
-                <div class='my-12 w-full'>
+                <div class='mt-2 w-full'>
                     {#if filetype == "image"}
                         <img src={data} alt={doc.text} />
                     {:else if filetype == "text"}
@@ -131,7 +132,9 @@
                             {@html data}
                         </p>
                     {:else if filetype == "audio"}
+                    <div>
                         <audio class='w-full' src={data} controls />
+                    </div>
                     {:else if filetype == "markdown"}
                         <div class="markdown">
                             <SvelteMarkdown source={data} />
@@ -144,22 +147,22 @@
                 </div>
             </div>
         {/if}
-            {#if attachmentBytes !== undefined}
+            {#if attachmentBytes !== undefined && replies !== 'true'}
             <div class='flex flex-row mb-4 items-end pb-8'>
                 <p class='mx-4'>
                     {#if !attachmentStatus}
                         <button on:click={handleClick(doc)}> Get attachment </button>
-                    {:else}
+                  <!--   {:else}
                         <button on:click={() => (dnone = !dnone)}>
                             {buttonText}
-                        </button>
+                        </button> -->
                     {/if}
                 </p>
-                <p class='mx-4'>
+              <!--   <p class='mx-4'>
                     <button on:click={() => Download()}>
                         Download attachment
                     </button>
-                </p>
+                </p> -->
             </div>
             {/if}
             </div>
