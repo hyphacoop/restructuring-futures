@@ -17,6 +17,7 @@
   import StatusPanel from "./lib/StatusPanel.svelte";
   import ShareSettings from "./lib/ShareSettings.svelte";
   import UserSettings from "./lib/UserSettings.svelte";
+  import MouseBanner from "./lib/MouseBanner.svelte";
 
   let IDcreated = false;
   let showDetails = false;
@@ -64,6 +65,11 @@
     showDetails = true;
   }
 
+  function generateID() {
+    IDcreated = true;
+    showUserSettings = true;
+  }
+
   function handleError(event) {
     showWarning = true;
   }
@@ -99,26 +105,24 @@
       <div
         class="flex flex-col lg:flex-row items-center mx-16 justify-evenly my-12"
       >
-        <button class="phase1 mx-16 mt-12 text-2xl" on:click={generateID}
-          >Generate new Identity</button
-        >
-        <button
-          class="phase1 mx-16 mt-12 text-2xl"
-          on:click={() => (IDcreated = !IDcreated && showDetails === false)}
-          >Explore the commons</button
-        >
-      </div>
-          <ValidateId
-            on:validated={handleUpload}
-            on:error={handleError}
-            on:generateNewIdentity={() => (IDcreated = !IDcreated)}
-          />
+      <button class='phase1 mx-16 mt-12 text-2xl' on:click={generateID}>Generate new Identity</button>
+      <button class='phase1 mx-16 mt-12 text-2xl' on:click={() => (IDcreated = !IDcreated && showDetails === false)}>Explore the commons</button>
 
-          <div class="mb-8">
-            <UploadId on:alias={handleUpload} on:error={handleError} />
-          </div>
         </div>
+        <div
+        class="w-1/2 flex flex-col lg:flex-row items-center mx-2 justify-center my-12"
+      >
+      <div class="flex flex-row items-center mx-6 my-12">
+        <ValidateId
+          on:validated={handleUpload}
+          on:error={handleError}
+          on:generateNewIdentity={() => (IDcreated = !IDcreated)}
+        />
+          <UploadId on:alias={handleUpload} on:error={handleError} />
       </div>
+
+      </div>
+      <MouseBanner />
     </div>
     {#if showWarning === true}
       <blockquote transition:fly={{ y: 200, duration: 2000 }}>
@@ -147,6 +151,9 @@
 </main>
 
 <style>
+  h1 {
+    font-size: var(--font-size-xxl);
+}
   main {
     display: flex;
     flex-direction: column;
