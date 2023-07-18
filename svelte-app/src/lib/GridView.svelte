@@ -202,18 +202,14 @@
 >
   {#if IDcreated}
     <button class="h-auto mr-6" on:click={toggleDetails}>
-      {#if !showDetails}
         {$authorKeypair.address.slice(0, 5)}
-      {:else}
-        Hide details
-      {/if}
     </button>
     <!-- I created some utility function to delete and download the database -->
     <!--
     <DownloadTool />
-        
+
     <DeleteTool />
--->
+        -->
   {/if}
 </div>
 <div class="the-scroll flex min-h-screen overflow-y-auto">
