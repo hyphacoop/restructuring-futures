@@ -94,10 +94,20 @@
   <!-- Landing page prompts user to create or reuse ID -->
   {#if !IDcreated && !showDetails}
     <div class="my-12">
+      <h1>Eccentric Networks</h1>
+      <h4>Collaboration space for the unconnected</h4>
       <div
-        class="flex flex-col lg:flex-row items-center mx-2 justify-between my-12"
+        class="flex flex-col lg:flex-row items-center mx-16 justify-evenly my-12"
       >
-        <div class="flex flex-col items-start mx-6 my-12">
+        <button class="phase1 mx-16 mt-12 text-2xl" on:click={generateID}
+          >Generate new Identity</button
+        >
+        <button
+          class="phase1 mx-16 mt-12 text-2xl"
+          on:click={() => (IDcreated = !IDcreated && showDetails === false)}
+          >Explore the commons</button
+        >
+      </div>
           <ValidateId
             on:validated={handleUpload}
             on:error={handleError}
