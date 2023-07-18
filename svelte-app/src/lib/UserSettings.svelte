@@ -42,7 +42,7 @@
   </div> 
 {/if}
     </div>
-  <div class="py-12 px-2 flex flex-col xxl:flex-row justify-center w-4/5 items-start">
+  <div class="py-12 px-2 flex flex-col xl:flex-row justify-center w-4/5 items-start">
     
     
 {#if activeComponent === 'share'}
