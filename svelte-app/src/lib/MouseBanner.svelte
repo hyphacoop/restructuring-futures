@@ -1,5 +1,5 @@
 <script>
-    const src = '/images/upload-img.png';
+    const src = 'images/upload-img.png';
     const repetitions = 10; // number of times the pattern should be repeated
     let cells = Array(repetitions).fill().map(() => ({}));
 </script>
