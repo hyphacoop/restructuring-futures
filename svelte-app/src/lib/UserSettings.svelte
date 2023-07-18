@@ -9,7 +9,7 @@
   
     export let status;
 
-    let activeComponent = null;
+    let activeComponent = 'identity';
 
     import { createEventDispatcher } from 'svelte';
   
