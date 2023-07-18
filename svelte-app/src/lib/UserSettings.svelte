@@ -28,6 +28,9 @@
 </div>
   <div class="flex min-h-screen overflow-y-auto">
     <div class="mx-1 mt-12 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] sticky top-0">
+      <button class="my-1" on:click={toggleDetails}>Explore the commons</button>
+      <button  class:phase2={activeComponent === 'identity'} class="my-1" on:click={() => activeComponent = 'identity'}>Show Identity Info</button>
+      <button  class:phase2={activeComponent === 'status'} class="my-1" on:click={() => activeComponent = 'status'}>Show Status Panel</button>
       <button class:phase2={activeComponent === 'share'} class="my-1" on:click={() => activeComponent = 'share'}>Show Share Settings</button>
 <button class:phase2={activeComponent === 'server'} class="my-1" on:click={() => activeComponent = 'server'}>Show Server Settings</button>
 <button  class:phase2={activeComponent === 'invitation'} class="my-1" on:click={() => activeComponent = 'invitation'}>Show Invitation URL</button>
