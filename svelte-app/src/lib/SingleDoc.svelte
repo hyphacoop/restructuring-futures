@@ -75,12 +75,11 @@
     <div class='main' 
         class:replies="{isReply === true}"
         on:click|self={() =>  {
-            showDetails = !showDetails;
             dispatch('click', doc);
         }}
         on:keypress|self={() => (showDetails = !showDetails)}>
         {#if !showDetails}
-            <div class="flex row">
+            <div class="flex flex-col">
                 <p on:click={() => {
                     showDetails = !showDetails;
                     dispatch('click', doc);
@@ -97,7 +96,11 @@
             
                 {#if title !== undefined}
                 <div>{@html title}</div>
-
+                {#if attachment}
+                <div>
+                    <GetAttachment {doc} replies='true'/>
+                </div>
+            {/if}
                 <!-- Display ephemeral interaction log-->
 
                 <!-- Currently hidden
@@ -129,7 +132,7 @@
                 </button>
             {#if attachment}
                 <div>
-                    <GetAttachment {doc} />
+                    <GetAttachment {doc} replies='true'/>
                 </div>
             {/if}
             <div>
@@ -151,6 +154,9 @@
 {/if}   
 
 <style>
+    * {
+        word-break: break-word;
+    }
     .flex {
         display: flex;
         flex-direction: column;
@@ -166,8 +172,7 @@
         border: 1px solid transparent;
         border-radius: 0rem;
         width:fit-content;
-        height: fit-content;
-        max-height:15vh;
+        height: auto;
     }
     .main:hover {
         border:1px dotted #111111;
@@ -193,10 +198,6 @@
     }
     .replies p {
         margin:0.1rem;
-    }
-
-    .row {
-        flex-direction: row;
     }
     .disabled {
         opacity: 0.95;
