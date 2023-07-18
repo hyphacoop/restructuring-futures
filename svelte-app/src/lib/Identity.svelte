@@ -6,6 +6,9 @@
     import authorKeypair from "../store/identity.js";
     import settings from '../store/settings.js';
 
+    import ValidateId from './ValidateId.svelte';
+    import UploadId from './UploadId.svelte';
+
     let value;
     let error;
     let showWarning = false;
@@ -115,9 +118,11 @@ onMount(async () => {
     }
 });
 
+
+
 </script>
 
-<div class="id p-4 w-auto">
+<div class="p-4 w-full text-left">
 
     {#if $authorKeypair.address.length !== 0}
 
@@ -168,8 +173,8 @@ onMount(async () => {
     <div class='mt-6'>
         You can download it and reuse it later.
     </div>
-        <div class='flex items-center align-center flex-col'>
-            <button class='phase1' on:click={() => Download()}>
+        <div class='flex items-start align-left flex-col'>
+            <button class='phase1 w-auto' on:click={() => Download()}>
                 Download your identity file
             </button>
     
@@ -210,6 +215,21 @@ onMount(async () => {
             </blockquote>
             {/if}
         </div>
+<!--         <div
+        class="flex flex-col lg:flex-row items-center mx-2 justify-between my-12"
+      >
+        <div class="flex flex-col items-start mx-6 my-12">
+          <ValidateId
+            on:validated={handleUpload}
+            on:error={handleError}
+            on:generateNewIdentity={() => (IDcreated = !IDcreated)}
+          />
+
+          <div class="mb-8">
+            <UploadId on:alias={handleUpload} on:error={handleError} />
+          </div>
+        </div>
+        </div> -->
 </div>
 <style>
     input {
