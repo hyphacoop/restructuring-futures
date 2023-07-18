@@ -78,12 +78,12 @@
     width: 100%;
   }
   img {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 70px;
+    max-height: 70px;
   }
 
   .small-icon {
-    max-width: 40px;
-    max-height: 40px;
+    max-width: 30px;
+    max-height: 30px;
   }
 </style>
