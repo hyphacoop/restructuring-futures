@@ -42,7 +42,7 @@
   }
 </script>
 
-<div class="my-4">
+<div class="my-4 text-left">
   <button on:click={() => (showDetails = !showDetails)}>
     {#if showDetails}
       📄Hide details
@@ -81,10 +81,9 @@
           </ul>
         {/if}
       {:else}
-        <div class="my-4">{@html removeTitleContent(doc.text)}</div>
+        <div class="my-4 break-words">{@html removeTitleContent(doc.text)}</div>
       {/if}
-      {#if isReply || !attachment}
-        <div>
+        <div class="my-4 break-all">
           <ul>
             <li><b>path:</b> {doc.path}</li>
             <li><b>author:</b> {doc.author}</li>
@@ -92,7 +91,6 @@
             <li><b>timestamp:</b> {doc.timestamp / 1000}</li>
           </ul>
         </div>
-      {/if}
     </div>
   {/if}
 </div>
@@ -109,6 +107,6 @@
   div ul {
     padding: 0.25rem;
     word-break: break-all;
-    width: max-content;
+    width: auto;
   }
 </style>
