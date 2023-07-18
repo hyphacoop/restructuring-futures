@@ -81,7 +81,7 @@
 
   let imageView = true;
   let selectedDocument = null;
-  let selectedX, selectedY;
+  let selectedX, selectedY, scaledX, scaledY;
   let uploadView = false;
   let filetype = null;
   let xy = [0, 0];
@@ -97,6 +97,8 @@
     let splitPath = selectedDocument.path.split("/");
     selectedX = splitPath[2];
     selectedY = splitPath[3];
+    scaledX = Number(selectedX) + 1;
+    scaledY = mapNumberToLetter(Number(selectedY));
   }
 
   function selectDocument(doc) {
@@ -162,6 +164,8 @@
     xy = [0, 0];
   }
 
+ 
+
   let windowWidth;
 
   $: windowWidth = window.innerWidth;
@@ -186,7 +190,9 @@
       windowWidth = window.innerWidth;
     });
   });
-
+  function mapNumberToLetter(num) {
+    return String.fromCharCode(65 + num);
+}
 </script>
 
 <div
@@ -205,9 +211,9 @@
     <!-- I created some utility function to delete and download the database -->
     <!--
     <DownloadTool />
-
+        
     <DeleteTool />
-        -->
+-->
   {/if}
 </div>
 <div class="the-scroll flex min-h-screen overflow-y-auto">
@@ -218,9 +224,9 @@
     transition: background-color 1s ease;
     "
   >
-    <p>
+    <p class="text-left text-xl font-bold mb-2">
       {selectedDocument
-        ? `Grid [${selectedX}, ${selectedY}]`
+        ? `${scaledY}, ${scaledX} `
         : "No document selected"}
     </p>
     {#if selectedDocument}
@@ -228,7 +234,7 @@
         <DocDetails doc={selectedDocument} {attachment} {isReply} />
       </div>
     {/if}
-    <button on:click={handleClick} class="mb-12">
+    <button on:click={handleClick} class="my-6">
       {#if imageView}
         Place an artefact
       {:else}
@@ -311,7 +317,20 @@
 
                     {:else}
                     <div class="grid-cell">
-                      {i},{j}
+                      {#if i === 0}
+                      <p class='text-xl'>
+                        {mapNumberToLetter(j)}
+                      </p>
+                        {#if j === 0}
+                        <p class='text-left text-xl'>
+                        {i + 1}
+                      </p>
+                      {/if}
+                      {:else if j === 0}
+                       <p class='text-left text-xl'>
+                        {i + 1}
+                      </p>
+                      {/if}
                       {#if documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
                         {#each documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
                           <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
