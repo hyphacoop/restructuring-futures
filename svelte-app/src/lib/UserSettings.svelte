@@ -34,8 +34,27 @@
       <button class:phase2={activeComponent === 'share'} class="my-1" on:click={() => activeComponent = 'share'}>Show Share Settings</button>
 <button class:phase2={activeComponent === 'server'} class="my-1" on:click={() => activeComponent = 'server'}>Show Server Settings</button>
 <button  class:phase2={activeComponent === 'invitation'} class="my-1" on:click={() => activeComponent = 'invitation'}>Show Invitation URL</button>
+    </div>
+  <div class="py-12 px-2 flex flex-col xl:flex-row justify-center w-4/5 items-start">
+    
+    
+{#if activeComponent === 'share'}
 
-{#if activeComponent === 'server'}
+  <ShareSettings />
+
+{/if}
+{#if activeComponent === 'identity'}
+
+    <Identity />
+ 
+{/if}
+  {#if activeComponent === 'status'}
+
+      <StatusPanel {status} />
+    
+  {/if}
+
+  {#if activeComponent === 'server'}
   <div>
     <ServerSettings />
   </div> 
@@ -46,20 +65,6 @@
     <InvitationUrl />
   </div> 
 {/if}
-    </div>
-  <div class="py-12 px-2 flex flex-col xl:flex-row justify-center w-4/5 items-start">
-    
-    
-{#if activeComponent === 'share'}
-
-  <ShareSettings />
-
-{/if}
-
-    <Identity />
- 
-      <StatusPanel {status} />
-    
 
   </div>
 
