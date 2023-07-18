@@ -1,7 +1,7 @@
 <script>
 import { get } from 'svelte/store';
-import { onMount } from 'svelte';
-import settings, { shares, updateShares } from "../../store/settings";
+import settings from "../../store/settings";
+import { shares } from "../../store/settings";
 import shareKeypair from "../../store/share";
 
 let selectedShare = get(shareKeypair).shareAddress;
