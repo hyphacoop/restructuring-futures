@@ -8,6 +8,10 @@ export default settings;
 // Create a Svelte store that holds the shares
 export const shares = writable(settings.shares);
 
+settings.onSharesChanged(newShares => {
+    shares.set(newShares);
+});
+
 export function removeShare(shareAddressToRemove) {
     // Remove share from SharedSettings
     const updatedShares = settings.removeShare(shareAddressToRemove);
