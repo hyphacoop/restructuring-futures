@@ -2,7 +2,7 @@
     import replica from "../store/replica";
     import authorKeypair from "../store/identity";
 
-    import Voice from "./Voice.svelte";
+    import Voice from "./Artifacts/Voice.svelte";
 
     import { createEventDispatcher } from "svelte";
 
@@ -10,13 +10,14 @@
     const dispatch = createEventDispatcher();
 
     function isUnchanged(t) {
-        return t == "Reply here";
+        return t == placeholder;
     }
 
     let result;
     let txt = false;
     let voice = false;
-    let text = "Reply here";
+    let text = "";
+    let placeholder = "Type your reply here";
     let lgth = text.length;
   
 
@@ -33,14 +34,15 @@
         });
         console.log("result ", result);
         dispatch("success");
+        text = '';
         return result;
     }
 
     export let doc;
 
     $: if (result !== undefined && result.kind == "success") {
-        text = "Send another reply";
-        text = text;
+        placeholder = "Send another reply";
+        text = "";
     }
 
     function txtReply() {
@@ -62,7 +64,8 @@
 </script>
 
 <div>
-    <button
+    <div>
+    <button class='mb-2'
         on:click={txtReply}>
         📝Text reply
     </button>
@@ -72,10 +75,10 @@
         >
         🔊Voice reply
     </button>
-
+</div>
     {#if txt}
     <p>
-        <textarea bind:value={text} style="width: 100%" />
+        <textarea class='my-2' bind:value={text} placeholder={placeholder} style="width: 100%" />
     </p>
     <p>
         <button disabled={isUnchanged(text)} on:click={sendReply}>
@@ -84,9 +87,7 @@
     </p>
     {/if}
     {#if voice}
-    <p>
         <Voice xy="reply" {doc} />
-    </p>
     {/if}
     <p>
         {#if result}
