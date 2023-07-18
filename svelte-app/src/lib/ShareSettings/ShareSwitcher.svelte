@@ -1,7 +1,7 @@
 <script>
 import { get } from 'svelte/store';
-import settings from "../../store/settings";
-import { shares } from "../../store/settings";
+import { onMount } from 'svelte';
+import settings, { shares, updateShares } from "../../store/settings";
 import shareKeypair from "../../store/share";
 
 let selectedShare = get(shareKeypair).shareAddress;
@@ -17,8 +17,9 @@ function updateShareKeypair(e) {
 }
 
 let shareList = [];
+
 shares.subscribe(value => {
-    shareList = value;
+    shareList = [...value]; 
 });
 </script>
 
