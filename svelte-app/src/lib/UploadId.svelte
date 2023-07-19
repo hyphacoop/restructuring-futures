@@ -65,13 +65,11 @@
 />
 
 <button 
-    class='phase1 tooltip px-8 pb-8'
+    class='tooltip phase1 mx-4 my-2'
     on:click={() => {fileinput.click()}}>
     
     Upload ID
-    <br>
-    <br>
-    <img {src} alt="upload id is a mouse " />
+
     <span class="tooltiptext">It is a JSON file</span>
 </button>
 
