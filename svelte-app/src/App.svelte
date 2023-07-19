@@ -91,7 +91,6 @@
     console.log("showDetails", showDetails);
     console.log("imageView", imageView);
   }
-
 </script>
 
 <main>
@@ -105,22 +104,26 @@
       <div
         class="flex flex-col lg:flex-row items-center mx-16 justify-evenly my-12"
       >
-      <button class='phase1 mx-16 mt-12 text-2xl' on:click={generateID}>Generate new Identity</button>
-      <button class='phase1 mx-16 mt-12 text-2xl' on:click={() => (IDcreated = !IDcreated && showDetails === false)}>Explore the commons</button>
-
-        </div>
-        <div
+        <button class="phase1 mx-16 mt-12 text-2xl" on:click={generateID}
+          >Generate new Identity</button
+        >
+        <button
+          class="phase1 mx-16 mt-12 text-2xl"
+          on:click={() => (IDcreated = !IDcreated && showDetails === false)}
+          >Explore the commons</button
+        >
+      </div>
+      <div
         class="w-1/2 flex flex-col lg:flex-row items-center mx-2 justify-center my-12"
       >
-      <div class="flex flex-row items-center mx-6 my-12">
-        <ValidateId
-          on:validated={handleUpload}
-          on:error={handleError}
-          on:generateNewIdentity={() => (IDcreated = !IDcreated)}
-        />
-          <UploadId on:alias={handleUpload} on:error={handleError} />
-      </div>
-
+        <div class="flex flex-row items-center mx-6 my-12">
+          <ValidateId
+            on:validated={handleUpload}
+            on:error={handleError}
+            on:generateNewIdentity={() => (IDcreated = !IDcreated)}
+            on:alias={handleUpload}
+          />
+        </div>
       </div>
       <MouseBanner />
     </div>
@@ -153,7 +156,7 @@
 <style>
   h1 {
     font-size: var(--font-size-xxl);
-}
+  }
   main {
     display: flex;
     flex-direction: column;
