@@ -4,6 +4,8 @@
     import { createEventDispatcher } from 'svelte';
     import settings from '../store/settings.js';
 
+    import UploadId from './UploadId.svelte';
+
     const dispatch = createEventDispatcher();
 
     let keypairInput = '';
@@ -47,6 +49,8 @@
         <textarea class='px-5 my-2' id="keypair" bind:value={keypairInput} placeholder={`Paste it here:       \n{\n"address": "", \n"secret": ""\n}`}></textarea>
         <button class='phase1 mx-4 my-2' on:click={validateKeypair}>Validate ID</button>
      <!--    <button class='phase1 mx-4 my-2' style="margin-left:10vw;" on:click={generateNewIdentity}>Generate new Identity</button> -->
+    
+     <UploadId on:alias on:error />
     </div>
     {#if error}
         <p class="text-2xl">{error}</p>
