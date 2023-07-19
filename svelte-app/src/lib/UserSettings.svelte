@@ -33,28 +33,28 @@
     <button
       class:phase2={activeComponent === "identity"}
       class="my-1"
-      on:click={() => (activeComponent = "identity")}>Show Identity Info</button
+      on:click={() => (activeComponent = "identity")}>Identity Info</button
     >
     <button
       class:phase2={activeComponent === "status"}
       class="my-1"
-      on:click={() => (activeComponent = "status")}>Show Status Panel</button
+      on:click={() => (activeComponent = "status")}>Status Panel</button
     >
     <button
       class:phase2={activeComponent === "share"}
       class="my-1"
-      on:click={() => (activeComponent = "share")}>Show Share Settings</button
+      on:click={() => (activeComponent = "share")}>Share Settings</button
     >
     <button
       class:phase2={activeComponent === "server"}
       class="my-1"
-      on:click={() => (activeComponent = "server")}>Show Server Settings</button
+      on:click={() => (activeComponent = "server")}>Server Settings</button
     >
     <button
       class:phase2={activeComponent === "invitation"}
       class="my-1"
       on:click={() => (activeComponent = "invitation")}
-      >Show Invitation URL</button
+      >Invitation URL</button
     >
   </div>
   <div
