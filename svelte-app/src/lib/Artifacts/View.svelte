@@ -10,12 +10,15 @@
     export let reply = true;
 
     let artifactTitle;
-
+    
     $: {
         if(selectedDocument){
             if (selectedDocument.text.includes('#Title:') && selectedDocument.text.includes('#Notes:')) {
                 artifactTitle = selectedDocument.text.split("#Title:")[1].split("#Notes:")[0].trim();
-            }  else {
+            } else if (selectedDocument.text.includes('#Title:') && !selectedDocument.text.includes('#Notes:')) {
+                // If only '#Title:' is present, take the whole text after '#Title:' as the title
+                artifactTitle = selectedDocument.text.split("#Title:")[1].trim();
+            } else {
                 // Handle the scenario when '#Title:' or '#Notes:' are not present
                 // This could be setting artifactTitle to some default value or empty string
                 artifactTitle = '';
