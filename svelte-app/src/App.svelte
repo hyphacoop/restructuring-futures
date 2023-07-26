@@ -36,6 +36,8 @@
       // if no author exists, generate a new one
       IDcreated = false;
     }
+    settings.addShare('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a');
+    settings.addSecret('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a', 'bexvgelmf632ecsgvqhhbwgqgmny5vren673canlay2istswfzspq');
   });
 
   // new peer & syncing with server
