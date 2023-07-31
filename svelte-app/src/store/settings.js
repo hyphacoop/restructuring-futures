@@ -1,5 +1,5 @@
 import * as Earthstar from 'earthstar';
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 
 // Create a new instance of the SharedSettings class.
 const settings = new Earthstar.SharedSettings();
@@ -28,3 +28,6 @@ export function removeShare(shareAddressToRemove) {
 export function updateShares(newShares) {
     shares.set(newShares);
 }
+
+// Create a derived store that filters shares to only include "studio" shares
+export const studioShares = derived(shares, $shares => $shares.filter(share => share.includes('studio')));
