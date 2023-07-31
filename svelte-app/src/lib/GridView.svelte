@@ -2,7 +2,7 @@
   import FileSharing from "./FileSharing.svelte";
   import { onMount, afterUpdate } from "svelte";
   import { onDestroy } from "svelte";
-
+  import { get } from 'svelte/store';
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
@@ -10,6 +10,13 @@
   import authorKeypair from "../store/identity";
   import cacheDetails from "../store/cache";
   import { time } from "../store/time";
+  import shareKeypair from "../store/share";
+
+  let currentShare = get(shareKeypair).shareAddress;
+
+  shareKeypair.subscribe(value => {
+    currentShare = value.shareAddress;
+  });
 
   import GridUpload from "./GridUpload.svelte";
   import View from "./Artifacts/View.svelte";
@@ -17,6 +24,7 @@
   import Upload from "./Artifacts/Upload.svelte";
   import DocDetails from "./DocDetails.svelte";
   import OrbitingReplies from "./OrbitingReplies.svelte";
+  import StudioPortal from "./Components/StudioPortal.svelte";
 
   import DownloadTool from "./DownloadTool.svelte";
   import DeleteTool from "./DeleteTool.svelte";
@@ -212,9 +220,9 @@
         -->
   {/if}
 </div>
-<div class="the-scroll flex min-h-screen overflow-y-auto">
+<div class="the-scroll flex flex-row sm:flex-col min-h-screen overflow-y-auto">
   <div
-    class="mx-1 mt-10 w-1/5 side-bar flex flex-col p-8 h-[80vh] fixed z-50"
+    class="mx-1 mt-[-10vh] sm:mt-10 sm:w-1/5 side-bar flex flex-row sm:flex-col p-8 h-auto sm:h-[80vh] fixed z-50"
     style="
     background-color: {currentColor};
     transition: background-color 1s ease;
@@ -223,7 +231,7 @@
     <p class="text-left text-xl font-bold mb-2">
       {selectedDocument
         ? `${scaledY}, ${scaledX} `
-        : "No document selected"}
+        : ""}
     </p>
     {#if selectedDocument}
       <div>
@@ -238,7 +246,7 @@
       {/if}
     </button>
   </div>
-  <div class="w-[80vw] mt-10 ml-[20vw]">
+  <div class="w-full sm:w-[80vw] mt-16 sm:mt-10 sm:ml-[20vw]">
     <div class="my-grid-container-wrapper">
       {#if selectedDocument}
         <div class="artifact-overlay mt-[14vh] h-[80vh] w-4/5 fixed">
@@ -271,6 +279,7 @@
             <h3 class="p-6">No files yet</h3>
           </div>
         {:else}
+        {#if currentShare.includes('commons')}
           {#each LUNAR_PHASE as phase, k (k)}
             <div
               id={`section${k}`}
@@ -371,6 +380,72 @@
               {/each}
             </div>
           {/each}
+          <StudioPortal on:shareUpdated="{fetchDocs}"/>
+          {:else}
+          <div
+          id={`Studio`}
+          class="my-grid-container w-screen"
+          style={`background-color: white; ${
+            isMobile
+            ? 'grid-template-columns: repeat(3, 1fr); grid-template-rows: auto;'
+            : `grid-template-columns: ${col}; grid-template-rows: ${row};`
+        }`}
+        >
+          {#each { length: grid[0] } as _, i (i)}
+            {#each { length: grid[1] } as _, j (j)}
+
+                {#if isMobile}
+
+                    {#if gridState[j][i] && gridState[j][i].length > 0}
+                      <div id={`Studio_cell_${i}_${j}`} class="grid-cell">
+                        {i},{j}
+                        {#each gridState[j][i] as artifact}
+                          <div id={i + j + artifact.doc.textHash + artifact.doc.timestamp} class='orbit-icon-container'>
+                              <OrbitingReplies doc={artifact.doc} />
+                              <div class="orbit-icon">
+                                <Icon {replies} phase={1} doc={artifact.doc} 
+                                on:click={() => selectDocument(artifact.doc)}/>
+                              </div>
+                          </div>
+                        {/each}
+                      </div>
+                    {/if}
+
+                {:else}
+                <div class="grid-cell">
+                  {#if i === 0}
+                  <p class='text-xl'>
+                    {mapNumberToLetter(j)}
+                  </p>
+                    {#if j === 0}
+                    <p class='text-left text-xl'>
+                    {i + 1}
+                  </p>
+                  {/if}
+                  {:else if j === 0}
+                   <p class='text-left text-xl'>
+                    {i + 1}
+                  </p>
+                  {/if}
+                  {#if documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
+                    {#each documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
+                      <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
+                          <OrbitingReplies {doc} />
+                          <div class="orbit-icon">
+                            <Icon {replies} phase=1 
+                              {doc}
+                              on:click={() => selectDocument(doc)} 
+                            />
+                          </div>                      
+                      </div>
+                    {/each}
+                  {/if}
+                </div>
+              {/if}
+            {/each}
+          {/each}
+        </div>
+          {/if}
         {/if}
       </div>
     </div>
