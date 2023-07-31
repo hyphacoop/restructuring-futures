@@ -146,7 +146,7 @@
                         </div>
                     {:else if filetype == "pdf"}
                     <div class="pdfViewer">
-                        <PdfViewer url={data} showButtons={["navigation", "zoom", "print", "download", "pageInfo"]} showBorder={false} />
+                        <PdfViewer url={data} showButtons={["navigation", "pageInfo"]} showBorder={false} />
                     </div>
                         {:else}
                         <p>Attachment type not supported</p>
