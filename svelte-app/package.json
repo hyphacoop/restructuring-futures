@@ -27,6 +27,7 @@
     "qrcode": "^1.5.3",
     "qrcodejs": "^1.0.0",
     "svelte-gravatar": "^1.0.3",
-    "svelte-markdown": "^0.2.3"
+    "svelte-markdown": "^0.2.3",
+    "svelte-pdf": "^1.0.20"
   }
 }

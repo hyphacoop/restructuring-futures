@@ -2,7 +2,7 @@
     import replica from "../store/replica";
     import SvelteMarkdown from "svelte-markdown";
     import { ValidationError } from "earthstar";
-    // import PdfViewer from 'svelte-pdf';
+    import PdfViewer from 'svelte-pdf';
 
     export let doc;
     export let replies;
@@ -22,7 +22,7 @@
         let fileExtension = doc.path.split('.').pop();
 
         if (attachment !== undefined) {
-
+            console.log('fileExtension', fileExtension);
             const docdata = await attachment.bytes();
             console.log("docdata", docdata);
 
@@ -64,6 +64,11 @@
 
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: mimetype })
+                );
+            } else if (fileExtension === "pdf") {
+                filetype = "pdf";
+                attachmentBytes = URL.createObjectURL(
+                    new Blob([bytes], { type: "application/pdf" })
                 );
             } else {
                 filetype = "other";
@@ -124,7 +129,7 @@
     <div class='flex flex-row mb-4 flex-wrap'>
         {#if !dnone}
             <div class='flex flex-col justify-between h-auto'>
-                <div class='mt-2 w-full'>
+                <div class='mt-2'>
                     {#if filetype == "image"}
                         <img src={data} alt={doc.text} />
                     {:else if filetype == "text"}
@@ -132,16 +137,18 @@
                             {@html data}
                         </p>
                     {:else if filetype == "audio"}
-                    <div>
-                        <audio class='w-full' src={data} controls />
+                    <div class='w-auto'>
+                        <audio src={data} controls />
                     </div>
                     {:else if filetype == "markdown"}
                         <div class="markdown">
                             <SvelteMarkdown source={data} />
                         </div>
                     {:else if filetype == "pdf"}
-                        <p>Pdf preview to come</p>
-                    {:else}
+                    <div class="pdfViewer">
+                        <PdfViewer url={data} showButtons={["navigation", "zoom", "print", "download", "pageInfo"]} showBorder={false} />
+                    </div>
+                        {:else}
                         <p>Attachment type not supported</p>
                     {/if}
                 </div>
@@ -193,5 +200,10 @@
     }
     button {
         width: max-content;
+    }
+    .pdfViewer {
+        max-height: 50vh;
+        max-width: 60vw;
+        overflow-y: auto;
     }
 </style>
