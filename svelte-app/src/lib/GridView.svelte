@@ -5,18 +5,29 @@
   import { get } from 'svelte/store';
   import { createEventDispatcher } from "svelte";
 
-  const dispatch = createEventDispatcher();
-
   import authorKeypair from "../store/identity";
   import cacheDetails from "../store/cache";
+  import settings from "../store/settings";
   import { time } from "../store/time";
   import shareKeypair from "../store/share";
+
+  import numberToLetter from "./utils/numberToLetter";
+  import pathToXY from "./utils/pathToXY";
+
+  const dispatch = createEventDispatcher();
 
   let currentShare = get(shareKeypair).shareAddress;
 
   shareKeypair.subscribe(value => {
     currentShare = value.shareAddress;
   });
+
+  function backToCommons() {
+  const shareAddress = '+commons.b7q4gt64yiefosdafnmhvtxz43akzk6gw54aesdahtf4kdgpbyeia';
+  const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
+  shareKeypair.set({shareAddress, secret});
+  switchShare(); // set both shareAddress and secret
+}
 
   import GridUpload from "./GridUpload.svelte";
   import View from "./Artifacts/View.svelte";
@@ -25,13 +36,14 @@
   import DocDetails from "./DocDetails.svelte";
   import OrbitingReplies from "./OrbitingReplies.svelte";
   import StudioPortal from "./Components/StudioPortal.svelte";
+  import ServerList from "./Components/ServerList.svelte";
 
   import DownloadTool from "./DownloadTool.svelte";
   import DeleteTool from "./DeleteTool.svelte";
 
   import { calculateLunarPhase } from './utils/lunarPhase.js';
   import { createObserver, observeElement, disconnectObserver } from './utils/scrollObserver.js';
-  import { LUNAR_PHASE, COLOR_CYCLE } from './utils/constants.js';
+  import { LUNAR_PHASE, COLOR_CYCLE, PHASE_NAME } from './utils/constants.js';
 
   export let showDetails = true;
   export let IDcreated = false;
@@ -39,6 +51,8 @@
   export let isReply = false;
 
   let grid = [6, 9];
+
+  let sectionIndex = 0;
 
   let gridState = Array(grid[0]).fill().map(() => Array(grid[1]).fill(false));
 
@@ -66,7 +80,7 @@
     const callback = (entries) => {
       entries.forEach(entry => {
         if(entry.isIntersecting){
-          let sectionIndex = parseInt(entry.target.getAttribute('id').replace('section', ''));
+          sectionIndex = parseInt(entry.target.getAttribute('id').replace('section', ''));
           currentColor = COLOR_CYCLE[sectionIndex % COLOR_CYCLE.length];
         }
       });
@@ -76,10 +90,12 @@
   }
 
   afterUpdate(() => {
+   if (currentShare.includes('commons')) {
     LUNAR_PHASE.forEach((_, k) => {
       const element = document.querySelector(`#section${k}`);
       observeElement(observer, element);
-    });
+    });}
+
   });
 
 
@@ -89,7 +105,7 @@
 
   let imageView = true;
   let selectedDocument = null;
-  let selectedX, selectedY, scaledX, scaledY;
+  let scaledX, scaledY;
   let uploadView = false;
   let filetype = null;
   let xy = [0, 0];
@@ -102,11 +118,11 @@
 });
 
   $: if (selectedDocument) {
-    let splitPath = selectedDocument.path.split("/");
-    selectedX = splitPath[2];
-    selectedY = splitPath[3];
-    scaledX = Number(selectedX) + 1;
-    scaledY = mapNumberToLetter(Number(selectedY));
+    console.log('if selectedDoc', selectedDocument)
+    let XY = pathToXY(selectedDocument.path);
+    console.log('XY', XY);
+    scaledX = XY[1];
+    scaledY = XY[0];
   }
 
   function selectDocument(doc) {
@@ -124,11 +140,22 @@
     documents = documents.filter((doc) => doc.path.split("/").length <= 6);
     console.log("Docs", documents);
     gridState = calculateLunarPhase(documents);
+    console.log('gridState', gridState);
   };
 
   $cacheDetails.onCacheUpdated(() => {
-    fetchDocs();
+    setTimeout(() => {
+      fetchDocs();
+    }, 500);
   });
+
+  $: {
+    if (documents.length === 0) {
+      setTimeout(() => {
+        fetchDocs();
+      }, 2000);
+    }
+  }
 
   onMount(() => {
   fetchDocs();
@@ -172,11 +199,24 @@
     xy = [0, 0];
   }
 
+  function switchShare() {
+    documents = [];
+    currentShare = get(shareKeypair).shareAddress;
+    setTimeout(() => {
+      fetchDocs();
+    }, 500);
+  }
+
+
+  let sharePart = currentShare.split('+')[1].split('.')[0];
+
  
 
   let windowWidth;
 
   $: windowWidth = window.innerWidth;
+
+  $: console.log(sectionIndex);
 
   $: {
     if (windowWidth <= 768) {
@@ -198,20 +238,16 @@
       windowWidth = window.innerWidth;
     });
   });
-  function mapNumberToLetter(num) {
-    return String.fromCharCode(65 + num);
-}
+
 </script>
 
 <div
-  class="w-screen flex flex-row justify-end h-[10vh]"
+  class="w-screen flex flex-row justify-start h-auto"
   on:click={() => (selectedDocument = null)}
   on:keydown={handleKeydown}
 >
   {#if IDcreated}
-    <button class="h-auto mr-6" on:click={toggleDetails}>
-        {$authorKeypair.address.slice(0, 5)}
-    </button>
+
     <!-- I created some utility function to delete and download the database -->
     <!--
     <DownloadTool />
@@ -221,24 +257,58 @@
   {/if}
 </div>
 <div class="the-scroll flex flex-row sm:flex-col min-h-screen overflow-y-auto">
+  <div class='sm:w-1/5 flex flex-col side-bar fixed '>
+  <button class="ml-6 mt-4 mb-2 h-auto mr-1 border-black" on:click={toggleDetails}>
+    🔮 server customization
+  </button>
+  <p class='ml-6 text-2xl text-left'><b>
+    current alias:
+  </b>{$authorKeypair.address.slice(0, 5)}</p>
   <div
-    class="mx-1 mt-[-10vh] sm:mt-10 sm:w-1/5 side-bar flex flex-row sm:flex-col p-8 h-auto sm:h-[80vh] fixed z-50"
+    class="ml-6 mx-1 sm:mt-4 flex flex-row justify-between sm:flex-col p-8 h-auto sm:h-[80vh] z-50 customBorder"
     style="
     background-color: {currentColor};
     transition: background-color 1s ease;
+    color: #71302B; 
     "
   >
-    <p class="text-left text-xl font-bold mb-2">
-      {selectedDocument
-        ? `${scaledY}, ${scaledX} `
-        : ""}
-    </p>
-    {#if selectedDocument}
-      <div>
-        <DocDetails doc={selectedDocument} {attachment} {isReply} />
-      </div>
-    {/if}
+  {#if selectedDocument}
+  <div>
+    <DocDetails doc={selectedDocument} {attachment} {isReply} />
+  </div>
+{:else}
+<div>
+  <h6 class='text-left'>{sharePart} status</h6>
+  <p class="text-left text-xl font-bold mb-2">
+    {selectedDocument
+      ? `${scaledY}, ${scaledX} `
+      : ""}
+  </p>
+  <div class="text-left font-bold mb-2 truncate ...">
+  Share Address:<br>
+  {currentShare}
+
+  </div>
+  <div class="text-left font-bold mb-2 truncate ...">
+    Currrent {settings.servers.length === 1
+      ? "Server:"
+      : `${settings.servers.length} Servers:`}<br>
+    <ServerList />
+  </div>
+    <div class="flex flex-col justify-left">
+  <p class='text-left'><b>Phase of decay:</b> {PHASE_NAME[sectionIndex]}</p>
+  <p class='text-left'><b>Number of artefacts in the Commons:</b> {documents.length}</p>
+  </div>
+</div>
+<div class='flex flex-col w-full'>
+  {#if !currentShare.includes('commons')}
+  <div class='w-auto'>
+  <button on:click={backToCommons}>take me back to Commons</button>
+  </div>
+  {/if}
+  <div class='w-full'>
     <button on:click={handleClick} class="my-6">
+      
       {#if imageView}
         Place an artefact
       {:else}
@@ -246,14 +316,19 @@
       {/if}
     </button>
   </div>
+</div>
+{/if}
+  
+    </div>
+  </div>
   <div class="w-full sm:w-[80vw] mt-16 sm:mt-10 sm:ml-[20vw]">
-    <div class="my-grid-container-wrapper">
+    <div class="my-grid-container-wrapper pl-4 ml-4">
       {#if selectedDocument}
-        <div class="artifact-overlay mt-[14vh] h-[80vh] w-4/5 fixed">
+        <div class="artifact-overlay ml-24 mt-[12vh] h-[80vh] w-[76vw] fixed">
           <View {selectedDocument} on:close={() => (selectedDocument = null)} />
         </div>
       {:else if !imageView}
-        <div class="relative" style="z-index:51;">
+        <div class="relative pl-6" style="z-index:51;">
           <GridUpload
             {windowWidth} 
             on:success={() => (imageView = !imageView)}
@@ -276,14 +351,14 @@
           <div
             class="flex flex-col items-center justify-center align-middle h-[60vh]"
           >
-            <h3 class="p-6">No files yet</h3>
+            <h3 class="p-6">Looking for artefacts</h3>
           </div>
         {:else}
         {#if currentShare.includes('commons')}
           {#each LUNAR_PHASE as phase, k (k)}
             <div
               id={`section${k}`}
-              class="my-grid-container w-screen"
+              class="my-grid-container w-screen h-full"
               style={`background-color: ${COLOR_CYCLE[k]}; ${
                 isMobile
                 ? 'grid-template-columns: repeat(3, 1fr); grid-template-rows: auto;'
@@ -296,13 +371,13 @@
                     {#if isMobile}
 
                         {#if gridState[j][i] && gridState[j][i].length > 0}
-                          <div id={`phase${k}_cell_${i}_${j}`} class="grid-cell">
+                          <div id={`phase${k}_cell_${i}_${j}`} class="grid-cell h-full">
                             {i},{j}
                             {#each gridState[j][i] as artifact}
-                              <div id={i + j + artifact.doc.textHash + artifact.doc.timestamp} class='orbit-icon-container'>
+                              <div id={i + j + artifact.doc.textHash + artifact.doc.timestamp} class='orbit-icon-container h-full'>
                                 {#if artifact.lunarPhase === k}
                                   <OrbitingReplies doc={artifact.doc} />
-                                  <div class="orbit-icon">
+                                  <div class="orbit-icon h-full">
                                     <Icon {replies} phase={k} doc={artifact.doc} 
                                     on:click={() => selectDocument(artifact.doc)}/>
                                   </div>
@@ -321,10 +396,13 @@
                         {/if}
 
                     {:else}
-                    <div class="grid-cell">
+                    <div id="{j}+{i}+{k}" class="grid-cell 
+                    {j === 0 && i === 0 && k === 0 ? 'first-cell-offset' : ''} 
+                    {i === 0 && j !== 0 && k === 0 ? 'top-row-offset' : ''} 
+                    {j === 0 && !(i === 0 && j === 0 && k === 0) ? 'first-col-offset' : ''}">
                       {#if i === 0}
                       <p class='text-xl'>
-                        {mapNumberToLetter(j)}
+                        {numberToLetter(j)}
                       </p>
                         {#if j === 0}
                         <p class='text-left text-xl'>
@@ -339,14 +417,12 @@
                       {#if documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
                         {#each documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
                           <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
-                            
-                            
 
-                            {#if phase == LUNAR_PHASE[0]}
+                            {#if doc.lunarPhase === k}
                               {#if usTime < doc.deleteAfter - phase == false}
                               <OrbitingReplies {doc} disabled={true} />
                               <div class="orbit-icon">
-                                <Icon {replies} {phase}  {doc} disabled={true} />
+                                <Icon {replies} phase={doc.lunarPhase}  {doc} disabled={true} />
                               </div>
                               {:else}
                               <OrbitingReplies {doc} />
@@ -358,14 +434,15 @@
                               </div>
                               {/if}
                             {:else if (usTime < doc.deleteAfter - phase && usTime > doc.deleteAfter - (phase + 639360000000)) == false}
-                              <OrbitingReplies {doc} disabled={true} />  
+
+                            <OrbitingReplies {doc} disabled={true} />  
                               <div class="orbit-icon">  
-                                <Icon {replies} {phase}  {doc} disabled={true} />
+                                <Icon {replies} phase={doc.lunarPhase}  {doc} disabled={true} />
                               </div>
                             {:else}
                             <OrbitingReplies {doc} />
                               <div class="orbit-icon">
-                                <Icon {replies} {phase}  {doc} on:click={() => selectDocument(doc)} />
+                                <Icon {replies} phase={doc.lunarPhase}  {doc} on:click={() => selectDocument(doc)} />
                               </div>  
                             {/if}
 
@@ -380,11 +457,11 @@
               {/each}
             </div>
           {/each}
-          <StudioPortal on:shareUpdated="{fetchDocs}"/>
+          <StudioPortal on:shareUpdated="{switchShare}"/>
           {:else}
           <div
           id={`Studio`}
-          class="my-grid-container w-screen"
+          class="my-grid-container studio-grid w-screen mb-32"
           style={`background-color: white; ${
             isMobile
             ? 'grid-template-columns: repeat(3, 1fr); grid-template-rows: auto;'
@@ -412,10 +489,10 @@
                     {/if}
 
                 {:else}
-                <div class="grid-cell">
+                <div class="borderstudio">
                   {#if i === 0}
                   <p class='text-xl'>
-                    {mapNumberToLetter(j)}
+                    {numberToLetter(j)}
                   </p>
                     {#if j === 0}
                     <p class='text-left text-xl'>
@@ -454,6 +531,13 @@
 
 
 <style>
+  .customBorder {
+    border: 1px solid #71302B; 
+  }
+  .borderstudio {
+    border: 1px solid rgba(128, 128, 128, 0.35); 
+  }
+
   .orbit-icon-container {
     position: relative;
     display: inline-block;
@@ -462,6 +546,7 @@
   .orbit-icon {
     position: relative;
     z-index: 2;
+    height:100%;
   }
 
   .the-scroll {
@@ -472,16 +557,26 @@
     border-radius: 2px;
     width: 80vw;
     min-height: 100vh;
-    grid-gap: 4px;
+    grid-gap: 0;
   }
 
   .my-grid-container div {
     width: 100%;
+    height:100%;
     flex: 1 0 auto;
   }
 
   .grid-cell {
     border: 0px solid #ccc;
+  }
+  .first-cell-offset {
+    box-shadow: 1.5rem 2rem 0px 0px #fff inset;
+  }
+  .top-row-offset {
+    box-shadow: 0px 2rem 0px 0px #fff inset;
+  }
+  .first-col-offset {
+    box-shadow: 1.5rem 0px 0px 0px #fff inset;
   }
   .my-grid-container-wrapper {
     position: relative;
@@ -490,12 +585,15 @@
 
   .artifact-overlay {
     top: 0;
-    left: 20vw;
+    left: 22.5vw;
     z-index: 5;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     background-color: rgba(255, 255, 255, 1);
     margin-left: 2px;
+  }
+  .studio-grid {
+    grid-gap: 2px;
   }
 </style>
