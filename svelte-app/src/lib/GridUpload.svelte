@@ -89,7 +89,7 @@
 <h4>Select location on map</h4>
 
 <div
-  class="container"
+  class="container mt-8"
   style="grid-template-rows: {row}; grid-template-columns: {col};"
 >
   {#each { length: grid[0] } as _, i (i)}
