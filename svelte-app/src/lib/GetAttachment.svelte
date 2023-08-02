@@ -34,7 +34,8 @@
             if (fileExtension === "md") {
                 filetype = "markdown";
                 filetype = filetype;
-                attachmentBytes = String.fromCharCode(...bytes);
+                var decoder = new TextDecoder("utf-8");
+                attachmentBytes = decoder.decode(new Uint8Array(docdata));
             } else if (fileExtension == "mp3" || (fileExtension == "ogg" || fileExtension == "webm")) {
                 filetype = "audio";
                 mimetype = "audio/" + fileExtension;
