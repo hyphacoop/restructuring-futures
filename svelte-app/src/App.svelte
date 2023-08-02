@@ -6,10 +6,11 @@
   import authorKeypair from "./store/identity.js";
   import replicaDetails from "./store/replica.js";
   import settings from "./store/settings.js";
+  import shareKeypair from "./store/share.js";
 
   import { onMount } from "svelte";
 
-  import Identity from "./lib/Identity.svelte";
+  import Identity from "./lib/Customization/Identity.svelte";
   import UploadId from "./lib/UploadId.svelte";
   import ValidateId from "./lib/ValidateId.svelte";
   import GridView from "./lib/GridView.svelte";
@@ -18,6 +19,7 @@
   import ShareSettings from "./lib/ShareSettings.svelte";
   import UserSettings from "./lib/UserSettings.svelte";
   import MouseBanner from "./lib/MouseBanner.svelte";
+  import Footer from "./lib/Components/Footer.svelte";
 
   let IDcreated = false;
   let showDetails = false;
@@ -26,6 +28,8 @@
   let showUserSettings = false;
 
   let status = undefined;
+
+  console.log('settings', settings)
 
   onMount(async () => {
     if (settings.author) {
@@ -38,6 +42,9 @@
     }
     settings.addShare('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a');
     settings.addSecret('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a', 'bexvgelmf632ecsgvqhhbwgqgmny5vren673canlay2istswfzspq');
+    settings.addShare($shareKeypair.shareAddress);
+    settings.addSecret($shareKeypair.shareAddress, $shareKeypair.shareSecret);
+    console.log(settings.shareSecrets);
   });
 
   // new peer & syncing with server
@@ -154,6 +161,7 @@
     </div>
   {/if}
 </main>
+<Footer />
 
 <style>
   h1 {
