@@ -44,7 +44,7 @@
                         <option value={share}>{share}</option>
                     {/each}
                 </select>
-                <button class='phase1 my-2' on:click="{updateShareKeypair}">enter selected studio</button>
+                <button class='phase1 my-2 mb-24' on:click="{updateShareKeypair}">enter selected studio</button>
         </div>
     </div>
     <style>
