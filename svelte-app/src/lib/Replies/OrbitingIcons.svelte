@@ -5,6 +5,7 @@
   export let doc;
   export let index;
   export let orbitDiameter;
+  export let disabled = false;
 
   let iconContainer;
   let replies = true;
