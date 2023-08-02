@@ -44,7 +44,7 @@
   "
 >
 {#each replies as reply, index (reply.textHash + reply.timestamp)}
-  <OrbitingIcon {doc} {index} {orbitDiameter}/>
+  <OrbitingIcon {doc} {index} {orbitDiameter} {disabled}/>
 {/each}
 </div>
 
@@ -59,7 +59,7 @@
   }
 
   #circle-orbit-container.disabled {
-    filter: blur(1px);
+    filter: blur(5px);
   }
 
   /* ---------- Inner orbit - This is the circles closest to the central point ---------- */

@@ -82,6 +82,10 @@
     max-height: 70px;
   }
 
+
+  .blurred {
+    filter: blur(5px);
+  }
   .small-icon {
     max-width: 30px;
     max-height: 30px;
