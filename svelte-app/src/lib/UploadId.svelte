@@ -63,19 +63,19 @@
     on:change={(e) => onFileSelected(e)}
     bind:this={fileinput}
 />
-
+<div class='flex w-auto lg:w-11/12 items-center align-center flex-col'>
 <button 
-    class='tooltip phase1 mx-4 my-2'
+    class='tooltip phase1 my-2 '
     on:click={() => {fileinput.click()}}>
     
-    Upload ID
+    Upload your current alias in .JSON
 
     <span class="tooltiptext">It is a JSON file</span>
 </button>
-
+</div>
 <style>
     button {
-        text-align: start;
+        text-align: center;
     }
     .tooltip {
   position: relative;
