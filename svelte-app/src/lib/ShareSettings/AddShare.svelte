@@ -28,6 +28,7 @@
         console.log("You have", settings.shares.length, "shares");
         console.log("Your shares are", settings.shares);
       }
+      addSecret();
     }
   
   
@@ -67,29 +68,40 @@
   </script>
   
   <div>
+    <h4>
+      add/remove workspace shares
+    </h4>
+    <div class='flex flex-col justify-start py-2'>
+      <h6 class='text-left py-2'>add shares</h6>
+      <div class='flex flex-col lg:flex-row'>
+      <label for='shareAddress' style='text-align:left;'>
+        Address:
+      <input
+        id='shareAddress'
+        type="text"
+        spellcheck="false"
+        bind:value
+        placeholder="Add a new share address"
+      />
+
+    
+  
     <label for='shareAddress' style='text-align:left;'>
-      Add an existing share address
-    <input
-      id='shareAddress'
-      type="text"
-      spellcheck="false"
-      bind:value
-      placeholder="Add a new share address"
-    />
-  
-    <button on:click={() => addShare(value)}> Submit address </button>
-  
-  
-    {#if showSecret}
+      Secret:
     <input
     type="text"
     spellcheck="false"
     bind:value={sValue}
     placeholder="Add the secret for this share"
   />
+
+  <div>
+    <button class='w-60 phase1 my-4' on:click={() => addShare(value)}> add a share </button> 
+  </div>
+</div>
+  </div>
   
-  <button on:click={() => addSecret()}> Submit address </button>
-  {/if}
+
   
     {#if showWarning}
       <p>
@@ -102,26 +114,6 @@
   
   
   <style>
-    div {
-      text-align: left;
-      padding: 1rem;
-      margin: 0.25rem;
-    }
-    input {
-      width: 90%;
-      height: 1.5rem;
-      font-size: 1rem;
-      resize: none;
-      margin: 0.25rem;
-      padding: 1rem 0.75rem;
-      text-align: center;
-    }
-    button {
-      width: 90%;
-      margin: 0.25rem;
-      padding: 0.25rem;
-      align-items: flex-end;
-      text-align: center;
-    }
+
   </style>
   
