@@ -1,5 +1,5 @@
 <footer class='w-full'>
-  <div class="footer m-3 flex flex-row justify-between">
+  <div class="footer mx-6 flex flex-row justify-between">
     <div class='flex flex-row justify-between w-1/3 ml-8'> 
       <div>
         read manual
