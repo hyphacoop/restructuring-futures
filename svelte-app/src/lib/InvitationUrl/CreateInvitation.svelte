@@ -45,7 +45,11 @@
   function toggleQR() {
     showQR = !showQR;
   }
-
+  function handleClickOutside(event) {
+      if(event.target.id === 'modal') {
+          showQR = false;
+      }
+    }
   </script>
   
   <div>
@@ -69,18 +73,31 @@
         QR code
       </button>
       {#if showQR}
-      <div id="qrcodeContainer" class="ml-1/5 mb-12">
-        <QRCode codeValue={invitationURL} {squareSize} />
+      <div id="modal" on:click={handleClickOutside}>
+        <div id="qrcodeContainer">
+          <QRCode codeValue={invitationURL} {squareSize} />
+        </div>
       </div>
         {/if} 
     {/if}
   </div>
   <style>
+
+    #modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0,0,0,0.5);
+    }
     #qrcodeContainer {
-      position: absolute;
-      left:20vw;
-      bottom: 0;
-      width: 80vw;
+      position: relative;
+      z-index: 10;
+
       height: 80vh;
       background-color: white;
     }
