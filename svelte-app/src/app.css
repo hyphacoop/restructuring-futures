@@ -13,21 +13,21 @@
   box-sizing: border-box;
 }
 
-html {
+* {
   scrollbar-width: auto; /* or thin */
   scrollbar-color: #B44C44 #FFF5D9; /* thumb and track color */
 }
 
-html::-webkit-scrollbar {
-  width: 0.5rem;  /* Adjust to your preference */
+*::-webkit-scrollbar {
+  width: 1rem;  /* Adjust to your preference */
 }
 
-html::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: #FFF5D9;  /* Scroll bar background */
   border: 1px solid #71302B;
 }
 
-html::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   background-color: #B44C44;  /* Scroll bar thumb color */
   border: 1px solid #71302B;
 }
