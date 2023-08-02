@@ -304,7 +304,7 @@ $: {
   </div>
 </div>
 <div class='flex flex-col w-full'>
-  {#if !currentShare.includes('commons')}
+  {#if !isCommons}
   <div class='w-auto'>
   <button on:click={backToCommons}>take me back to Commons</button>
   </div>
@@ -357,7 +357,7 @@ $: {
             <h3 class="p-6">Looking for artefacts</h3>
           </div>
         {:else}
-        {#if currentShare.includes('commons')}
+        {#if isCommons}
           {#each LUNAR_PHASE as phase, k (k)}
             <div
               id={`section${k}`}
