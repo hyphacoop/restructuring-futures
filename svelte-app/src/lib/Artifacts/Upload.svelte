@@ -5,6 +5,7 @@
     import File from "./File.svelte";
 
     import authorKeypair from "../../store/identity";
+    import shareKeypair from "../../store/share";
     import replica from "../../store/replica";
 
     import { createEventDispatcher } from "svelte";
@@ -17,7 +18,6 @@
     let artifactNotes = "";
     let textContent;
     let result;
-    let alias = null;
     let isValid = true;
 
     let timestamp = Date.now();
@@ -37,18 +37,32 @@
         } else {
             textContent = "#Title: " + artifactTitle;
         }
+        let docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!text-input-by-${alias}.md`;
+        
+        let docText =
+        "Text input by " +
+        $authorKeypair.address.slice(1, 5) +
+        " on " +
+        new Date().toLocaleString() +
+        textContent;
 
-        result = await $replica.replica.set($authorKeypair, {
-            path: `/documents/${xy[0]}/${xy[1]}/${timestamp}/!text-input-by-${alias}.md`,
-            text:
-                "Text input by " +
-                $authorKeypair.address.slice(1, 5) +
-                " on " +
-                new Date().toLocaleString() +
-                textContent,
+        let thisDoc = {
+            path: docPath,
+            text: docText,
             attachment: textUint8,
-            deleteAfter: deletionTime,
-        });
+        }
+
+        // Add deleteAfter only if we are in the commons
+        if ($shareKeypair.shareAddress.includes('commons')) {
+            thisDoc.deleteAfter = deletionTime;
+            console.log('added deleteAfter to doc');
+        } else {
+            // else remove the '!' from the path (to make it non-ephemeral)
+            thisDoc.path = docPath.replace('!', ''); 
+            console.log('removed ! from path');
+        }
+
+        result = await $replica.replica.set($authorKeypair, thisDoc);
 
         console.log("Result: ", result);
         if (Earthstar.isErr(result)) {

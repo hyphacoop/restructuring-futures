@@ -2,6 +2,7 @@
     import * as Earthstar from "earthstar";
     import authorKeypair from "../../store/identity";
     import replica from "../../store/replica";
+    import shareKeypair from "../../store/share";
 
     import { createEventDispatcher } from "svelte";
 
@@ -13,9 +14,7 @@
     let recording = false;
     let audioURL = null;
     let blob = null;
-    let alias = null;
-    let dateShared = null;
-    let textContent = null;
+    let alias = $authorKeypair.address.slice(1, 5);
 
     export let xy = undefined;
     export let doc = undefined;
@@ -60,10 +59,11 @@
     }
 
     async function handleUpload() {
+        let textContent;
         if (notes && title) {
-            textContent = "#Title: " + title + "#Notes: " + notes;
+            textContent = `#Title: ${title}#Notes: ${notes}`;
         } else if (title) {
-            textContent = "#Title: " + title;
+            textContent = `#Title: ${title}`;
         } else {
             textContent = "";
         }
@@ -71,58 +71,56 @@
         let timestamp = Date.now();
         let dateShared = new Date().toLocaleString();
         let deletionTime = (Date.now() + 2548800000) * 1000;
-        let mimeType = mediaRecorder.mimeType;
-        if (mimeType === "") {
-            mimeType = "audio/ogg; codecs=opus";
-        }
+        let mimeType = mediaRecorder.mimeType || "audio/ogg; codecs=opus";
         let noCodecs = mimeType.split(";")[0];
         let extension = noCodecs.split("/")[1];
+
         const arrayBuffer = await readBlobAsArrayBuffer(blob);
         const uInt8 = new Uint8Array(arrayBuffer);
-        console.log("mime", mimeType);
-        let alias = $authorKeypair.address.slice(1, 5);
-        // use grid path if xy is defined
-        if (xy !== undefined && xy !== "reply") {
-            // if not in studio, upload to ephemeral path
-            uploadResult = await $replica.replica.set($authorKeypair, {
-                path: `/documents/${xy[0]}/${xy[1]}/${timestamp}/!voice-note-by-${alias}.${extension}`,
-                text:
-                    "Voice note shared by " +
-                    alias +
-                    " on " +
-                    dateShared +
-                    textContent,
-                attachment: uInt8,
-                deleteAfter: deletionTime,
-            });
 
-            dispatch("upload");
-            console.log("Upload Result: ", uploadResult);
-            media = [];
-            // if it is a reply, use the reply path
-        } else if (xy == "reply") {
-            let newPath = doc.path.split("!");
-            const result = await $replica.replica.set($authorKeypair, {
-                text:
-                    alias +
-                    " replied with voice" +
-                    "<br>Shared on " +
-                    dateShared,
-                path:
-                    newPath[0] +
-                    timestamp +
-                    "/" +
-                    "!reply-by-" +
-                    alias +
-                    "." +
-                    extension,
-                deleteAfter: doc.deleteAfter,
-                attachment: uInt8,
-            });
-            console.log("result ", result);
-            dispatch("success");
-            return result;
+        console.log("mime", mimeType);
+        let docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!voice-note-by-${alias}.${extension}`;
+
+        let voiceDoc = {
+            path: docPath,
+            text: `Voice note shared by ${alias} on ${dateShared} ${textContent}`,
+            attachment: uInt8,
         }
+
+        
+
+      
+        if (xy == "reply") {
+        const replyPathParts = doc.path.split("!");
+        voiceDoc.path = `${replyPathParts[0]}${timestamp}/!reply-by-${alias}.${extension}`;
+        voiceDoc.text = `${alias} replied with voice <br>Shared on ${dateShared}`;
+        }
+        console.log('shareKeypair', $shareKeypair)
+        // Add deleteAfter only if we are in the commons
+        if ($shareKeypair.shareAddress.includes('commons')) {
+            if (xy == "reply") { 
+                voiceDoc.deleteAfter = doc.deleteAfter; 
+            }
+            else {
+                voiceDoc.deleteAfter = deletionTime;
+                console.log('added deleteAfter to doc');
+            }
+        } else {
+            // remove the '!' from the path (to make it non-ephemeral)
+            voiceDoc.path = docPath.replace('!', ''); 
+            console.log('removed ! from path');
+        }
+    const result = await $replica.replica.set($authorKeypair, voiceDoc);
+    console.log("Upload Result: ", result);
+
+    // Dispatch the correct event
+    dispatch(xy == "reply" ? "success" : "upload");
+
+    // Clear the media if not a reply
+    media = [];
+
+    return result;
+      
     }
 
     function readBlobAsArrayBuffer(blob) {

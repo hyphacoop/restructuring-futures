@@ -1,6 +1,7 @@
 <script>
   import * as Earthstar from "earthstar";
   import authorKeypair from "../../store/identity";
+  import shareKeypair from "../../store/share";
   import replica from "../../store/replica";
 
   import { createEventDispatcher } from "svelte";
@@ -70,19 +71,33 @@
     let deletionTime = (Date.now() + 2548800000) * 1000;
     // set file to Uint8Array
     let fileUint8 = new Uint8Array(fileReady);
-    // as it is not in studio, write file to the common
-    result = await $replica.replica.set($authorKeypair, {
-      path: `/documents/${xy[0]}/${xy[1]}/${timestamp}/!${finalName}`,
-      text:
+    // set path
+    let docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!${finalName}`;
+    let docText =
         "Shared by " +
         $authorKeypair.address.slice(1, 5) +
         " on " +
         new Date().toLocaleString() +
         " " +
-        textContent,
+        textContent;
+
+    let thisDoc = {
+      path: docPath,
+      text: docText,
       attachment: fileUint8,
-      deleteAfter: deletionTime,
-    });
+    }
+
+    // Add deleteAfter only if we are in the commons
+    if ($shareKeypair.shareAddress.includes('commons')) {
+        thisDoc.deleteAfter = deletionTime;
+        console.log('added deleteAfter to doc');
+    } else {
+        // else remove the '!' from the path (to make it non-ephemeral)
+        thisDoc.path = docPath.replace('!', ''); 
+        console.log('removed ! from path');
+    }
+    
+    result = await $replica.replica.set($authorKeypair, thisDoc);
 
     console.log("Result: ", result);
     if (Earthstar.isErr(result)) {
