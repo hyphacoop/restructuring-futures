@@ -268,9 +268,9 @@ $: {
   <div
     class="ml-6 mx-1 sm:mt-4 flex flex-row justify-between sm:flex-col p-8 h-auto sm:h-[80vh] z-50 customBorder"
     style="
-    background-color: {currentColor};
+    {isCommons ? `background-color: ${currentColor};` : `background-color: white;`}
     transition: background-color 1s ease;
-    color: #71302B; 
+    {isCommons ? `color: #71302B;` : `color: black;`}; 
     "
   >
   {#if selectedDocument}
