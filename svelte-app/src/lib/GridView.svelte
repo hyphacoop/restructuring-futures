@@ -312,6 +312,7 @@ $: {
   <button on:click={backToCommons}>take me back to Commons</button>
   </div>
   {/if}
+  {#if sectionIndex === 0}
   <div class='w-full'>
     <button on:click={handleClick} class="my-6">
       
@@ -322,6 +323,7 @@ $: {
       {/if}
     </button>
   </div>
+  {/if}
 </div>
 {/if}
   
