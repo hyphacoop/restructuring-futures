@@ -1,9 +1,11 @@
 <script>
-  import Identity from "./Identity.svelte";
+  import Identity from "./Customization/Identity.svelte";
   import StatusPanel from "./StatusPanel.svelte";
   import ShareSettings from "./ShareSettings.svelte";
-  import ServerSettings from "./ServerSettings.svelte";
+  import Server from "./Customization/Server.svelte";
   import InvitationUrl from "./InvitationUrl.svelte";
+
+  import Workspace from "./Customization/Workspace.svelte";
 
   import authorKeypair from "../store/identity";
 
@@ -20,61 +22,67 @@
   }
 </script>
 
-<div class="w-screen flex flex-row justify-end h-[10vh]">
-  <button class="h-auto mr-6 phase2" on:click={toggleDetails}>
-    {$authorKeypair.address.slice(0, 5)}
-  </button>
-</div>
-<div class="flex min-h-screen overflow-y-auto">
-  <div
-    class="mx-1 mt-12 w-1/5 paper-yellow flex flex-col p-8 h-[80vh] sticky top-0"
-  >
-    <button class="my-1" on:click={toggleDetails}>Explore the commons</button>
-    <button
-      class:phase2={activeComponent === "identity"}
-      class="my-1"
-      on:click={() => (activeComponent = "identity")}>Identity Info</button
-    >
-    <button
-      class:phase2={activeComponent === "status"}
-      class="my-1"
-      on:click={() => (activeComponent = "status")}>Status Panel</button
-    >
-    <button
-      class:phase2={activeComponent === "share"}
-      class="my-1"
-      on:click={() => (activeComponent = "share")}>Share Settings</button
-    >
-    <button
+<div class="the-scroll flex flex-col sm:flex-row min-h-screen overflow-y-auto">
+  <div class='sm:w-1/5 flex flex-col fixed'>
+    <button class="ml-6 mt-4 mb-2 h-auto mr-1 border-black" on:click={toggleDetails}>
+      🔮 exit server customization
+    </button>
+    <p class='ml-6 text-2xl text-left'><b>
+      current alias:
+    </b>{$authorKeypair.address.slice(0, 5)}</p>
+    <div
+      class="paper-yellow ml-6 mx-1 sm:mt-4 flex flex-row sm:flex-col p-8 h-auto sm:h-[80vh] z-50 customBorder">
+
+      <button
+        class:phase2={activeComponent === "workspace"}
+        class="my-1"
+        on:click={() => (activeComponent = "workspace")}>workspace settings</button
+      >
+      <button
       class:phase2={activeComponent === "server"}
       class="my-1"
-      on:click={() => (activeComponent = "server")}>Server Settings</button
+      on:click={() => (activeComponent = "server")}>server settings</button
     >
-    <button
-      class:phase2={activeComponent === "invitation"}
-      class="my-1"
-      on:click={() => (activeComponent = "invitation")}
-      >Invitation URL</button
-    >
+      <button
+        class:phase2={activeComponent === "identity"}
+        class="my-1"
+        on:click={() => (activeComponent = "identity")}>manage alias</button
+      >
+<!--       <button
+        class:phase2={activeComponent === "share"}
+        class="my-1"
+        on:click={() => (activeComponent = "share")}>Share Settings</button
+      >
+
+      <button
+        class:phase2={activeComponent === "invitation"}
+        class="my-1"
+        on:click={() => (activeComponent = "invitation")}
+        >Invitation URL</button
+      > -->
+    </div>
   </div>
   <div
-    class="py-12 px-2 flex flex-col xl:flex-row justify-center w-4/5 items-start"
+    class="w-full sm:w-[80vw] mt-16 sm:mt-10 sm:ml-[25vw]"
   >
-    {#if activeComponent === "share"}
-      <ShareSettings />
+
+    {#if activeComponent === "workspace"}
+      <Workspace />
     {/if}
-    {#if activeComponent === "identity"}
-      <Identity />
-    {/if}
+
+    {#if activeComponent === "server"}
+    <div>
+      <Server />
+    </div>
+  {/if}
+  {#if activeComponent === "identity"}
+  <Identity />
+{/if}
     {#if activeComponent === "status"}
       <StatusPanel {status} />
     {/if}
 
-    {#if activeComponent === "server"}
-      <div>
-        <ServerSettings />
-      </div>
-    {/if}
+  
 
     {#if activeComponent === "invitation"}
       <div>
@@ -83,3 +91,4 @@
     {/if}
   </div>
 </div>
+
