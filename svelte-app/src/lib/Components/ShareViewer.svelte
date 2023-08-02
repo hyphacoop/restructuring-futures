@@ -1,0 +1,45 @@
+<script>
+    import { shares } from "../../store/settings";
+    import settings from "../../store/settings";
+
+    import CreateInvitation from "../InvitationUrl/CreateInvitation.svelte";
+
+    let shareList = [];
+    
+    shares.subscribe(value => {
+        shareList = [...value]; 
+    });
+
+    $: console.log('shareList', shareList);
+    $: console.log('shareSecrets', settings.shareSecrets);
+</script>
+<div class='flex flex-col items-start'>
+{#if shareList.length > 0}
+{#each shareList as share (share)}
+    <div class="flex flex-col items-start py-2">
+        <p>
+            <b>Address:</b>
+            {share}
+        </p>
+        <p>
+            <b>Secret:</b>
+            {settings.shareSecrets[share]}
+        </p>
+        <p>
+            <b>Type:</b>
+            {share.includes('commons') ? 'Commons' : 'Studio'}
+        </p>
+        <div class="mt-4">
+            <CreateInvitation shareAddress={share} />
+        </div>
+        <hr class="divider w-full mt-4 mb-2">
+    </div>
+
+{/each}
+{/if}
+</div>
+<style>
+hr.divider {
+    border-top: 1px solid black;
+}
+</style>
