@@ -1,7 +1,6 @@
 <script>
     import { createInvitationURL } from "earthstar";
     import settings from "../../store/settings";
-    import shareKeypair from "../../store/share";
     import QRCode from "../QRJS.svelte";
     import { onMount } from 'svelte';
     
@@ -18,16 +17,13 @@
     let copySuccess = false;
     let showQR = false;
   
-
+    export let shareAddress;
   
     let shareDetails;
-    shareKeypair.subscribe(value => {
-      shareDetails = value;
-    });
   
     async function generateInvitationURL() {
       // generate the invitation url
-      const result = await createInvitationURL(shareDetails.shareAddress, settings.servers, shareDetails.secret);
+      const result = await createInvitationURL(shareAddress, settings.servers, settings.shareSecrets[shareAddress]);
       
       // check if the result is an error
       if (typeof result === 'string') {
@@ -53,7 +49,7 @@
   </script>
   
   <div>
-    <button on:click={generateInvitationURL}>Generate Invitation URL</button>
+    <button class='phase1 w-60' on:click={generateInvitationURL}>generate invitation url</button>
     {#if invitationURL}
       <p class="py-2"><strong>Your invitation URL is: </strong>
         <span class='break-all text-xs'>{invitationURL}</span>
