@@ -1,5 +1,10 @@
 <script>
   import { createEventDispatcher } from "svelte";
+  import shareKeypair from "../../store/share";
+
+  import pathToXY from "../utils/pathToXY";
+  import splitTitleAndNotes from "../utils/splitTitleandNote";
+
   const dispatch = createEventDispatcher();
 
   let images = [
@@ -31,8 +36,33 @@
   export let phase;
   export let replies = false;
 
+  
   let currentIcon;
   let deletionTime = doc.deleteAfter;
+  let hovered = false;
+  let textContent, title, note;
+
+  let XY = pathToXY(doc.path);
+  let fileExtension = doc.path.split('.').pop();
+
+  $: if (doc.text !== undefined) {
+    textContent = splitTitleAndNotes(doc.text)
+    title = textContent.title;
+    note = textContent.note;
+  }
+
+  function handleMouseEnter() {
+    if (!disabled) {
+      hovered = true;
+    }
+  }
+
+  function handleMouseLeave() {
+    if (!disabled) {
+      hovered = false;
+    }
+  }
+
 
   function getClick(doc) {
     console.log("clicked");
@@ -45,49 +75,100 @@
     currentIcon = flowerImages;
   }
 
-  let newPhase =
+  let iconPhase =
+    !$shareKeypair.shareAddress.includes("commons") ?
+      1 :
     Math.floor(
       (deletionTime - Date.now()) / (2548800000000 / currentIcon.length)
     ) % currentIcon.length;
+
+    //$: console.log("iconPhase", iconPhase, 'phase', phase, 'title', title);
 </script>
 
 {#if disabled}
-  <div>
+  <div class="icon-container h-full no-event">
     <img
-      src={currentIcon[newPhase]}
+      src={currentIcon[iconPhase]}
       alt="document icon"
-      style="filter: blur(1px);"
+      class="blurred {replies ? 'small-icon' : ''}"
     />
   </div>
 {:else}
-  <div on:click={getClick} on:keypress={getClick}>
+  <div
+    class="icon-container {hovered && !replies ? 'hovered' : ''} {replies ? 'small-icon' : ''}"
+    on:click={getClick}
+    on:keypress={getClick}
+    on:mouseenter={handleMouseEnter}
+    on:mouseleave={handleMouseLeave}
+  >
     <img
-      src={currentIcon[newPhase]}
+      src={currentIcon[iconPhase]}
       alt="document icon, phase #{phase}"
-      class={replies ? "small-icon" : ""}
+      class="{replies ? 'small-icon' : ''}"
     />
+    {#if !replies}
+      <div class="w-full details flex flex-row items-center justify-center">
+        <p>{title}.{fileExtension}</p>
+      </div>
+      {#if hovered}
+      <div class="coordinates">
+        <p>{XY[0]}, {XY[1]}</p>
+      </div>
+      {/if}
+    {/if}
   </div>
 {/if}
 
 <style>
-  div {
+  .icon-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
     width: 100%;
+    transition: transform 0.3s ease, background 0.3s ease, border-bottom 0.3s ease;
+    cursor: pointer;
   }
-  img {
+  .icon-container img {
     max-width: 70px;
     max-height: 70px;
+  }
+
+  .icon-container.hovered {
+    transform: scale(1.25);
+    background: #FFF;
+    border-bottom: 0.25rem solid #00495A;
   }
 
 
   .blurred {
     filter: blur(5px);
   }
-  .small-icon {
-    max-width: 30px;
-    max-height: 30px;
+
+  .details {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 0.8em;
   }
+
+  .coordinates {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    background: rgba(255, 255, 255, 0.7);
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 0.8em;
+  }
+  .no-event {
+    pointer-events: none;
+  }
+  .small-icon {
+    max-width: 40px !important;
+    max-height: 40px !important;
+  }
+
 </style>
