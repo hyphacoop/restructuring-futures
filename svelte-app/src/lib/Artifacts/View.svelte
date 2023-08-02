@@ -48,7 +48,7 @@
         </div>
     {/if}
     {#if reply}
-    <div class="mr-12">
+    <div class="mr-12 pr-8">
         <Reply doc={selectedDocument} />
     </div>
     {/if}
