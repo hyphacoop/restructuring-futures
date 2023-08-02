@@ -1,6 +1,7 @@
 <script>
     import { shares } from "../../store/settings";
     import settings from "../../store/settings";
+     import DownloadTool from "../DownloadTool.svelte";
 
     import CreateInvitation from "../InvitationUrl/CreateInvitation.svelte";
 
@@ -29,9 +30,17 @@
             <b>Type:</b>
             {share.includes('commons') ? 'Commons' : 'Studio'}
         </p>
-        <div class="mt-4">
+        <div class='flex flex-row items-end'>
+        <div class="mt-4 mx-2">
             <CreateInvitation shareAddress={share} />
         </div>
+        <div class="mt-4 mx-2">
+            <button class="phase1" on:click={() => {navigator.clipboard.writeText(share)}}>copy address</button>
+        </div>
+        <div class="mt-4 mx-2">
+        <DownloadTool shareAddress={share} />
+    </div>
+    </div>
         <hr class="divider w-full mt-4 mb-2">
     </div>
 
