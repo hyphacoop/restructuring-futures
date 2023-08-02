@@ -43,14 +43,14 @@
 
     <div class='flex flex-row justify-between w-full'>
     {#if attachment}
-        <div class='attachmentbox'>
+        <div class='attachmentbox pr-12'>
             <GetAttachment doc={selectedDocument} replies='false' />
         </div>
     {/if}
     {#if reply}
-    <div class="mr-12 pr-8">
-        <Reply doc={selectedDocument} />
-    </div>
+        <div class="ml-6 mr-12 pr-8">
+            <Reply doc={selectedDocument} />
+        </div>
     {/if}
     </div>
 </div>
