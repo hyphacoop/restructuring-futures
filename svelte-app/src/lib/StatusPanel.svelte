@@ -38,16 +38,8 @@ $: if (status && status[shareID]) {
       <p> <b>Secret:</b> {$shareKeypair.secret}</p>
      
     </div>
-    {#if settings.servers.length > 0}
-    <div>
-      <p><b> {settings.servers.length === 1 ? 'Server:' : `${settings.servers.length} Servers:`}</b></p>
-      <ul>
-        {#each settings.servers as server, i (i)}
-          <li>{server}</li>
-        {/each}
-      </ul>
-    </div>
-  {/if}
+    
+
     {#if status !== undefined}
     <div class="flex flex-col">
         <div class="flex-col py-4">
