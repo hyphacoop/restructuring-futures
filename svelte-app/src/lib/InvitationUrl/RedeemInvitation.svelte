@@ -45,9 +45,9 @@
     //}
   };
   </script>
-  
-  <input class="my-2" type="text" bind:value={invitationURL} placeholder="Enter invitation URL" />
-  <button on:click={processURL}>Redeem Invitation URL</button>
+  <div class='flex flex-col md:flex-row items-cente space-between'>
+  <input class='mr-2' type="text" bind:value={invitationURL} placeholder="Enter invitation URL" />
+  <div class='mx-2'><button class='phase1' on:click={processURL}>Redeem Invitation URL</button></div>
   {#if error}
     <p>Error: {error.message}</p>
     {:else if success}
@@ -56,10 +56,9 @@
     <p>Parsed Invitation:</p>
     <pre>{JSON.stringify(parsedInvitation, null, 2)}</pre>
   {/if}
+  </div>
 
   <style>
-    input {
-      width: 90%;
-    }
+
   </style>
   
