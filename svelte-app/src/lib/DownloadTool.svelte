@@ -2,7 +2,11 @@
     import replica from "../store/replica";
     import authorKeypair from "../store/identity";
     import cacheDetails from "../store/cache";
+    import replicaDetails from "../store/replica";
+    import shareKeypair from "../store/share";
+    import settings from "../store/settings";
     import { onMount } from "svelte";
+    import { get } from "svelte/store";
 
     import JSZip from "jszip";
 
@@ -10,8 +14,20 @@
     let paths = [];
     let archive = [];
     let counter;
+    let previousShare;
+    let selectedShare;
+    let isHidden = true;
+
+    export let shareAddress;
+    export let isStudio = false;
+
+   
+    shareKeypair.subscribe(value => {
+    selectedShare = value.shareAddress;
+    });
 
     const fetchCounter = async () => {
+        console.log('fetching counter')
         let counterDocs = await $cacheDetails.queryDocs({
             filter: {
                 pathStartsWith: "/counter",
@@ -25,9 +41,6 @@
         }
     };
 
-    onMount(async () => {
-        await fetchCounter();
-    });
 
     
     const incrementCounter = async () => {
@@ -46,14 +59,20 @@
     };
   
     const fetchDocs = async () => {
-        documents = $cacheDetails.queryDocs({
+       
+
+        documents = await $cacheDetails.queryDocs({
             filter: {
                 pathStartsWith: "/documents",
             },
         });
 
+        // Log the documents
+        console.log('docs to archive', documents)
+
         // Extract paths from documents and store in paths array
         paths = documents.map((doc) => doc.path);
+
     };
 
     const fetchAttachments = async (zip) => {
@@ -90,16 +109,36 @@
     };
 
     const createArchive = async () => {
-        let zip = new JSZip();
-        await fetchDocs();
-        await fetchAttachments(zip);
-        await downloadArchive(zip);
-        await incrementCounter();
+
+        try {
+            let zip = new JSZip();
+            await fetchDocs();
+            await fetchAttachments(zip);
+            await downloadArchive(zip);
+            await incrementCounter();
+
+        } catch (error) {
+            console.error("Error during archival:", error);
+
+            
+        };
     };
+
+    $:   if (shareAddress === selectedShare) {
+        isHidden = false;
+    }
+    $: console.log('isStudio', isStudio);
 </script>
+{#if !isHidden}
+    <div class="{!isStudio ? 'phase1' : ''} flex flex-col-reverse">
+    <button on:click={createArchive}>{!isStudio ?  'Create Archive' : 'backup this studio'}</button>
 
-<button on:click={createArchive}>Create Archive</button>
+        {#if counter > 0}
+            <p class="text-left">
+            This button was used {counter}
+            {counter > 1 ? "times" : "time"}
+            </p>
+        {/if}
 
-{#if counter}
-    <p class='text-left'>This button was used {counter} {counter > 1 ? 'times' : 'time' }</p>
+    </div>
 {/if}
