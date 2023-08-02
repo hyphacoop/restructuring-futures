@@ -34,30 +34,33 @@
 
     $: console.log('selectedDocument in ArtifactView', selectedDocument);
 </script>
-{#if artifactTitle}
-<h4 class="mt-12 p-2">{artifactTitle}</h4>
-{/if}
-
-<div class='flex flex-row justify-between w-full'>
-{#if attachment}
-    <div class='attachmentbox'>
-        <GetAttachment doc={selectedDocument} replies='false' />
+<div class='w-full ml-12 mr-8'>
+    {#if artifactTitle}
+    <div class='text-left'>
+        <h4 class="mt-12 p-2">{artifactTitle}</h4>
     </div>
-{/if}
-{#if reply}
-<div class="mr-6">
-    <Reply doc={selectedDocument} />
-</div>
-{/if}
-</div>
+    {/if}
 
+    <div class='flex flex-row justify-between w-full'>
+    {#if attachment}
+        <div class='attachmentbox'>
+            <GetAttachment doc={selectedDocument} replies='false' />
+        </div>
+    {/if}
+    {#if reply}
+    <div class="mr-12">
+        <Reply doc={selectedDocument} />
+    </div>
+    {/if}
+    </div>
+</div>
 <button class='top-right' on:click={close}>close</button>
 
 <style>
     .top-right {
         position: absolute;
         top:10px;
-        right: 10px;
+        right: 20px;
     }
     .attachmentbox {
         width:70%;
