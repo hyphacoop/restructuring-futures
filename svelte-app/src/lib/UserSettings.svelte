@@ -11,7 +11,7 @@
 
   export let status;
 
-  let activeComponent = "identity";
+  let activeComponent = "workspace";
 
   import { createEventDispatcher } from "svelte";
 
