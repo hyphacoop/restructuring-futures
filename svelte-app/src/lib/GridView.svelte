@@ -297,8 +297,10 @@ $: {
     <ServerList />
   </div>
     <div class="flex flex-col justify-left">
-  <p class='text-left'><b>Phase of decay:</b> {PHASE_NAME[sectionIndex]}</p>
-  <p class='text-left'><b>Number of artefacts in the Commons:</b> {documents.length}</p>
+      {#if isCommons}
+       <p class='text-left'><b>Phase of decay:</b> {PHASE_NAME[sectionIndex]}</p>
+      {/if}
+  <p class='text-left'><b>Number of artefacts in the {sharePart}:</b> {documents.length}</p>
   </div>
 </div>
 <div class='flex flex-col w-full'>
