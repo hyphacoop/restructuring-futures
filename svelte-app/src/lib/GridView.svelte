@@ -108,6 +108,8 @@
   let scaledX, scaledY;
   let uploadView = false;
   let filetype = null;
+  let isCommons;
+  let sharePart;
   let xy = [0, 0];
   let col;
   let row;
@@ -207,11 +209,10 @@
     }, 500);
   }
 
-
-  let sharePart = currentShare.split('+')[1].split('.')[0];
-
- 
-
+$: {
+  sharePart = currentShare.split('+')[1].split('.')[0];
+  isCommons = sharePart.includes('commons');
+}
   let windowWidth;
 
   $: windowWidth = window.innerWidth;
