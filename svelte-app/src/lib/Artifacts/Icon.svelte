@@ -90,7 +90,7 @@
     <img
       src={currentIcon[iconPhase]}
       alt="document icon"
-      class="blurred {replies ? 'small-icon' : ''}"
+      class="blurred {replies ? 'small-icon' : ''} {'blurPhase' + iconPhase}"
     />
   </div>
 {:else}
@@ -103,7 +103,7 @@
   >
     <img
       src={currentIcon[iconPhase]}
-      alt="document icon, phase #{phase}"
+      alt="document icon, phase #{iconPhase}"
       class="{replies ? 'small-icon' : ''}"
     />
     {#if !replies}
@@ -141,9 +141,34 @@
   }
 
 
-  .blurred {
-    filter: blur(5px);
+  .blurPhase0 {
+    filter: blur(10px) saturate(20%);
   }
+  .blurPhase1 {
+    filter: blur(9px) saturate(30%);
+  }
+  .blurPhase2 {
+  filter: blur(8px) saturate(40%);
+  }
+  .blurPhase3 {
+    filter: blur(7px) saturate(50%);
+  }
+  .blurPhase4 {
+    filter: blur(6px) saturate(60%);
+  }
+  .blurPhase5 {
+    filter: blur(5px) saturate(70%);
+  }
+  .blurPhase6 {
+    filter: blur(4px) saturate(80%);
+  }
+  .blurPhase7 {
+    filter: blur(3px) saturate(90%);
+  }
+  .blurPhase8 {
+    filter: blur(0px) saturate(100%);
+  }
+
 
   .details {
     position: absolute;
