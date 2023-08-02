@@ -12,12 +12,13 @@
     });
   </script>
   
-  <div bind:this={tooltipDiv} style="position: relative;">
-    <slot></slot>
+  <div bind:this={tooltipDiv} style="display: inline-block; position: relative;">
+   
     {#if showTooltip}
-      <div style="position: absolute; top: 10px; left: 10px; background: lightgray; padding: 10px; border-radius: 5px; z-index: 1;">
-        {text}
-      </div>
+        <div style="position: absolute; top: 20px; left: 0; background: lightgray; padding: 10px; border-radius: 5px; z-index: 1;">
+            {text}
+        </div>
     {/if}
-  </div>
+    <slot></slot>
+</div>
   
