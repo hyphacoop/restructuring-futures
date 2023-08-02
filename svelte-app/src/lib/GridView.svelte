@@ -305,6 +305,9 @@ $: {
 </div>
 <div class='flex flex-col w-full'>
   {#if !isCommons}
+  <div class='w-auto py-4'>
+  <DownloadTool shareAddress={currentShare} isStudio={true} />
+  </div>
   <div class='w-auto'>
   <button on:click={backToCommons}>take me back to Commons</button>
   </div>
