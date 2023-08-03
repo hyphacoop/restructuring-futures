@@ -3,9 +3,9 @@
     import SendReply from "./SendReply.svelte";
 
     export let doc;
+    export let title;
 
     let showDetails = true;
-
 
 </script>
 
@@ -18,7 +18,8 @@
         -->
         
 {#if showDetails}
-<div>
+<div class='w-auto'>
+    <h5 class='mx-4 px-8 text-left'>Artefact: {title}</h5>
     <div class='replies mb-2'>
             <ShowReply {doc} on:success />
     </div>
@@ -29,9 +30,16 @@
 
 
 <style>
+
+h5 {
+    border: 1px solid #71302B;
+background: #FFF5D9; 
+padding:0.5rem;
+}
  .replies {
     overflow-y: scroll;
     height: auto;
     max-height:40vh;
+    
  }
 </style>
