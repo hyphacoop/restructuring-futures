@@ -79,7 +79,7 @@
         }}
         on:keypress|self={() => (showDetails = !showDetails)}>
         {#if !showDetails}
-            <div class="flex flex-col">
+            <div class="flex flex-col items-start" style='align-items: baseline;'>
                 <p on:click={() => {
                     showDetails = !showDetails;
                     dispatch('click', doc);
@@ -189,7 +189,6 @@
         display: flex;
         margin:0.1rem;
         padding:0.1rem;
-        max-width: 150px;
         width: max-content;
     }
     .replies:hover {
