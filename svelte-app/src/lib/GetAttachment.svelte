@@ -142,7 +142,7 @@
                         <audio src={data} controls />
                     </div>
                     {:else if filetype == "markdown"}
-                        <div class="markdown">
+                        <div class="markdown text-3xl">
                             <SvelteMarkdown source={data} />
                         </div>
                     {:else if filetype == "pdf"}
