@@ -2,7 +2,7 @@
     import replica from "../store/replica";
     import authorKeypair from "../store/identity";
 
-    import Voice from "./Artifacts/Voice.svelte";
+    import Voice from "./Artefacts/Voice.svelte";
 
     import { createEventDispatcher } from "svelte";
 

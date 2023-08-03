@@ -69,7 +69,10 @@
         }
 
         let timestamp = Date.now();
-        let dateShared = new Date().toLocaleString();
+        let date = new Date();
+        let readableDate = new Intl.DateTimeFormat('en-US').format(date);
+   
+
         let deletionTime = (Date.now() + 2548800000) * 1000;
         let mimeType = mediaRecorder.mimeType || "audio/ogg; codecs=opus";
         let noCodecs = mimeType.split(";")[0];
@@ -83,7 +86,7 @@
 
         let voiceDoc = {
             path: docPath,
-            text: `Voice note shared by ${alias} on ${dateShared} ${textContent}`,
+            text: `Voice note shared by ${alias} on ${readableDate} ${textContent}`,
             attachment: uInt8,
         }
 
@@ -93,7 +96,7 @@
         if (xy == "reply") {
         const replyPathParts = doc.path.split("!");
         voiceDoc.path = `${replyPathParts[0]}${timestamp}/!reply-by-${alias}.${extension}`;
-        voiceDoc.text = `${alias} replied with voice <br>Shared on ${dateShared}`;
+        voiceDoc.text = `${alias} replied with voice <br>Shared on ${readableDate}`;
         }
         console.log('shareKeypair', $shareKeypair)
         // Add deleteAfter only if we are in the commons

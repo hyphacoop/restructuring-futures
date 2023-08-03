@@ -30,9 +30,9 @@
 }
 
   import GridUpload from "./GridUpload.svelte";
-  import View from "./Artifacts/View.svelte";
-  import Icon from "./Artifacts/Icon.svelte";
-  import Upload from "./Artifacts/Upload.svelte";
+  import View from "./Artefacts/View.svelte";
+  import Icon from "./Artefacts/Icon.svelte";
+  import Upload from "./Artefacts/Upload.svelte";
   import DocDetails from "./DocDetails.svelte";
   import OrbitingReplies from "./OrbitingReplies.svelte";
   import StudioPortal from "./Components/StudioPortal.svelte";
@@ -332,7 +332,7 @@ $: {
   <div class="w-full sm:w-[80vw] mt-16 sm:mt-10 sm:ml-[20vw]">
     <div class="my-grid-container-wrapper pl-4 ml-4">
       {#if selectedDocument}
-        <div class="artifact-overlay ml-24 mt-[12vh] h-[80vh] w-[76vw] fixed">
+        <div class="artefact-overlay -ml-8 mt-[12vh] h-[80vh] w-[76vw] fixed items-stretch borderstudio">
           <View {selectedDocument} on:close={() => (selectedDocument = null)} />
         </div>
       {:else if !imageView}
@@ -381,20 +381,20 @@ $: {
                         {#if gridState[j][i] && gridState[j][i].length > 0}
                           <div id={`phase${k}_cell_${i}_${j}`} class="grid-cell h-full">
                             {i},{j}
-                            {#each gridState[j][i] as artifact}
-                              <div id={i + j + artifact.doc.textHash + artifact.doc.timestamp} class='orbit-icon-container h-full'>
-                                {#if artifact.lunarPhase === k}
-                                  <OrbitingReplies doc={artifact.doc} />
+                            {#each gridState[j][i] as artefact}
+                              <div id={i + j + artefact.doc.textHash + artefact.doc.timestamp} class='orbit-icon-container h-full'>
+                                {#if artefact.lunarPhase === k}
+                                  <OrbitingReplies doc={artefact.doc} />
                                   <div class="orbit-icon h-full">
-                                    <Icon {replies} phase={k} doc={artifact.doc} 
-                                    on:click={() => selectDocument(artifact.doc)}/>
+                                    <Icon {replies} phase={k} doc={artefact.doc} 
+                                    on:click={() => selectDocument(artefact.doc)}/>
                                   </div>
 
                                 {:else}
 
-                                  <OrbitingReplies doc={artifact.doc} disabled={true} />
+                                  <OrbitingReplies doc={artefact.doc} disabled={true} />
                                   <div class="orbit-icon">
-                                    <Icon {replies} {phase}  doc={artifact.doc} disabled={true} />
+                                    <Icon {replies} {phase}  doc={artefact.doc} disabled={true} />
                                   </div>
 
                                 {/if}
@@ -430,7 +430,7 @@ $: {
                               {#if usTime < doc.deleteAfter - phase == false}
                               <OrbitingReplies {doc} disabled={true} />
                               <div class="orbit-icon">
-                                <Icon {replies} phase={doc.lunarPhase}  {doc} disabled={true} />
+                                <Icon {replies} {phase}  {doc} disabled={true} />
                               </div>
                               {:else}
                               <OrbitingReplies {doc} />
@@ -484,12 +484,12 @@ $: {
                     {#if gridState[j][i] && gridState[j][i].length > 0}
                       <div id={`Studio_cell_${i}_${j}`} class="grid-cell">
                         {i},{j}
-                        {#each gridState[j][i] as artifact}
-                          <div id={i + j + artifact.doc.textHash + artifact.doc.timestamp} class='orbit-icon-container'>
-                              <OrbitingReplies doc={artifact.doc} />
+                        {#each gridState[j][i] as artefact}
+                          <div id={i + j + artefact.doc.textHash + artefact.doc.timestamp} class='orbit-icon-container'>
+                              <OrbitingReplies doc={artefact.doc} />
                               <div class="orbit-icon">
-                                <Icon {replies} phase={1} doc={artifact.doc} 
-                                on:click={() => selectDocument(artifact.doc)}/>
+                                <Icon {replies} phase={1} doc={artefact.doc} 
+                                on:click={() => selectDocument(artefact.doc)}/>
                               </div>
                           </div>
                         {/each}
@@ -591,9 +591,9 @@ $: {
     z-index: 50;
   }
 
-  .artifact-overlay {
-    top: 0;
-    left: 22.5vw;
+  .artefact-overlay {
+    top: 0.5rem;
+    left: 21vw;
     z-index: 5;
     display: flex;
     align-items: flex-start;

@@ -9,19 +9,19 @@
     export let attachment = true;
     export let reply = true;
 
-    let artifactTitle;
+    let artefactTitle;
     
     $: {
         if(selectedDocument){
             if (selectedDocument.text.includes('#Title:') && selectedDocument.text.includes('#Notes:')) {
-                artifactTitle = selectedDocument.text.split("#Title:")[1].split("#Notes:")[0].trim();
+                artefactTitle = selectedDocument.text.split("#Title:")[1].split("#Notes:")[0].trim();
             } else if (selectedDocument.text.includes('#Title:') && !selectedDocument.text.includes('#Notes:')) {
                 // If only '#Title:' is present, take the whole text after '#Title:' as the title
-                artifactTitle = selectedDocument.text.split("#Title:")[1].trim();
+                artefactTitle = selectedDocument.text.split("#Title:")[1].trim();
             } else {
                 // Handle the scenario when '#Title:' or '#Notes:' are not present
-                // This could be setting artifactTitle to some default value or empty string
-                artifactTitle = '';
+                // This could be setting artefactTitle to some default value or empty string
+                artefactTitle = '';
             }
         }
     }
@@ -32,38 +32,36 @@
 
 
 
-    $: console.log('selectedDocument in ArtifactView', selectedDocument);
+    $: console.log('selectedDocument in artefactView', selectedDocument);
 </script>
-<div class='w-full ml-12 mr-8'>
-    {#if artifactTitle}
-    <div class='text-left'>
-        <h4 class="mt-12 p-2">{artifactTitle}</h4>
+<div class='w-full ml-4 mr-8'>
+    {#if artefactTitle}
+    <div class='flex flex-row text-left w-full'>
+        <h4 class="mt-12 p-2">{artefactTitle}</h4>
     </div>
     {/if}
 
     <div class='flex flex-row justify-between w-full'>
     {#if attachment}
-        <div class='attachmentbox pr-12'>
+        <div class='attachmentbox pr-12 w-2/3'>
             <GetAttachment doc={selectedDocument} replies='false' />
         </div>
     {/if}
     {#if reply}
-        <div class="ml-6 mr-12 pr-8">
-            <Reply doc={selectedDocument} />
+        <div class="ml-6 mr-2 pr-8n w-1/3">
+            <Reply doc={selectedDocument} title={artefactTitle} />
         </div>
     {/if}
     </div>
 </div>
-<button class='top-right' on:click={close}>close</button>
+<button style="text-decoration: underline;" class='top-right' on:click={close}>exit artefact</button>
 
 <style>
     .top-right {
         position: absolute;
         top:10px;
         right: 20px;
+        border: 0px solid black;
     }
-    .attachmentbox {
-        width:70%;
-        height:100%;
-    }
+
 </style>

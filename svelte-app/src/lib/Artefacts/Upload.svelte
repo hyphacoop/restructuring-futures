@@ -9,13 +9,14 @@
     import replica from "../../store/replica";
 
     import { createEventDispatcher } from "svelte";
+  import { readable } from "svelte/store";
 
     export let filetype;
     export let xy = [0, 0];
 
     let inputArea;
-    let artifactTitle = "";
-    let artifactNotes = "";
+    let artefactTitle = "";
+    let artefactNotes = "";
     let textContent;
     let result;
     let isValid = true;
@@ -26,16 +27,20 @@
     const dispatch = createEventDispatcher();
 
     async function submitText() {
+        // deal with dates
+        let date = new Date();
+        let readableDate = new Intl.DateTimeFormat('en-US').format(date);
+   
         // we convert text to Uint8Array, which is used in earthstar as an attachment
         let textAsBlob = new Blob([inputArea], { type: "text/markdown" });
         let arrayBuffer = await textAsBlob.arrayBuffer();
         let textUint8 = new Uint8Array(arrayBuffer);
         let alias = $authorKeypair.address.slice(1, 5);
-        if (artifactNotes) {
+        if (artefactNotes) {
             textContent =
-                "#Title: " + artifactTitle + "#Notes: " + artifactNotes;
+                "#Title: " + artefactTitle + "#Notes: " + artefactNotes;
         } else {
-            textContent = "#Title: " + artifactTitle;
+            textContent = "#Title: " + artefactTitle;
         }
         let docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!text-input-by-${alias}.md`;
         
@@ -43,7 +48,7 @@
         "Text input by " +
         $authorKeypair.address.slice(1, 5) +
         " on " +
-        new Date().toLocaleString() +
+        readableDate +
         textContent;
 
         let thisDoc = {
@@ -78,7 +83,7 @@
     }
 
     $: {
-        if (artifactTitle && artifactTitle.trim() !== "") {
+        if (artefactTitle && artefactTitle.trim() !== "") {
             isValid = true;
         } else {
             isValid = false;
@@ -102,7 +107,7 @@
                         class="align-left my-2"
                         type="text"
                         placeholder="Enter a title (required)"
-                        bind:value={artifactTitle}
+                        bind:value={artefactTitle}
                     />
                 </div>
                 <div class="flex flex-row justify-between">
@@ -117,16 +122,16 @@
                             <Voice
                                 {xy}
                                 on:upload={confirmUpload}
-                                title={artifactTitle}
-                                notes={artifactNotes}
+                                title={artefactTitle}
+                                notes={artefactNotes}
                                 {isValid}
                             />
                         {:else if filetype === "file"}
                             <File
                                 {xy}
                                 on:upload={confirmUpload}
-                                title={artifactTitle}
-                                notes={artifactNotes}
+                                title={artefactTitle}
+                                notes={artefactNotes}
                                 {isValid}
                             />
                         {/if}
@@ -136,7 +141,7 @@
                         <input
                             type="text"
                             placeholder="Enter optional notes"
-                            bind:value={artifactNotes}
+                            bind:value={artefactNotes}
                         />
                     </div>
                 </div>

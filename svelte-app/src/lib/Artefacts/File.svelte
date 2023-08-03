@@ -44,7 +44,8 @@
     } else {
       textContent = "";
     }
-
+    let date = new Date();
+    let readableDate = new Intl.DateTimeFormat('en-US').format(date);
     // from the file selected
     let fileAttachment = e.target.files[0];
     // remove spaces from file name
@@ -77,7 +78,7 @@
         "Shared by " +
         $authorKeypair.address.slice(1, 5) +
         " on " +
-        new Date().toLocaleString() +
+        readableDate +
         " " +
         textContent;
 

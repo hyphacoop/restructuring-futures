@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import Icon from "../Artifacts/Icon.svelte";
+  import Icon from "../Artefacts/Icon.svelte";
 
   export let doc;
   export let index;

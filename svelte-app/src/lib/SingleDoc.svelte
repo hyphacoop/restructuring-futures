@@ -128,7 +128,7 @@
             width={reaction}
             height={reaction}
         />
-            Artifact
+            artefact
                 </button>
             {#if attachment}
                 <div>
