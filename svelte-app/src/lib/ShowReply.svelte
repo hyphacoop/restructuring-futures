@@ -3,7 +3,7 @@
     import cacheDetails from "../store/cache";
     import { onMount } from "svelte";
 
-    import SingleDoc from "./SingleDoc.svelte";
+    import SingleReply from "./Components/SingleReply.svelte";
 
     export let doc;
 
@@ -62,9 +62,9 @@
             <li id={doc.textHash}>
 
                 {#if doc.text.includes('replied with voice')}
-                <SingleDoc isReply={true} title={doc.text} {doc} attachment={true} on:click={updateUI} on:update={updateUI} reply={false}  />
+                <SingleReply isReply={true} title={doc.text} {doc} attachment={true} on:click={updateUI} on:update={updateUI} />
                 {:else}
-                <SingleDoc isReply={true} title={doc.text} {doc} attachment={false} on:click={updateUI} on:update={updateUI} reply={false} />
+                <SingleReply isReply={true} title={doc.text} {doc} attachment={false} on:click={updateUI} on:update={updateUI} />
                 {/if}
             </li>
             {/each} 
@@ -74,7 +74,7 @@
 </div>
 <div>
     {#if showWarning}
-    <p class="max-content">There are no replies yet.</p>
+    <p>There are no replies yet.</p>
 {:else}
 
 <!--Button to show replies-->
@@ -89,15 +89,10 @@
     }
     li {
         text-align: center;
-        background-color:#D9D9D9;
         color:#222222;
-        padding: 1em;
+        padding: 0.25rem;
         border-radius: 0;
-        margin:1rem;
-        width: fit-content;
+        margin:0.5rem;
         height:auto;
-}
-p.max-content {
-    width:max-content;
 }
 </style>
