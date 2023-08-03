@@ -41,7 +41,7 @@
     export let doc;
 
     $: if (result !== undefined && result.kind == "success") {
-        placeholder = "Send another reply";
+        placeholder = "send another reply";
         text = "";
     }
 
@@ -67,13 +67,13 @@
     <div>
     <button class='mb-2'
         on:click={txtReply}>
-        📝Text reply
+        text reply
     </button>
     
     <button
         on:click={voiceReply}
         >
-        🔊Voice reply
+        voice reply
     </button>
 </div>
     {#if txt}
@@ -82,7 +82,7 @@
     </p>
     <p>
         <button disabled={isUnchanged(text)} on:click={sendReply}>
-            Send Reply
+            send reply
         </button>
     </p>
     {/if}
