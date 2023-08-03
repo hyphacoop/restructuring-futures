@@ -5,7 +5,7 @@
     import PdfViewer from 'svelte-pdf';
 
     export let doc;
-    export let replies;
+    export let replies = false;
     let attachmentBytes;
     let promise;
     let attachmentStatus = false;
@@ -127,10 +127,10 @@
     {#await promise}
         Loading attachment...
     {:then data}
-    <div class='flex flex-row mb-4 flex-wrap'>
+    <div class='flex flex-row {replies === true ? '' : 'mb-16'} flex-wrap'>
         {#if !dnone}
             <div class='flex flex-col justify-between h-auto'>
-                <div class='mt-2'>
+                <div class='{replies === true ? '' : 'mt-16'}'>
                     {#if filetype == "image"}
                         <img src={data} alt={doc.text} />
                     {:else if filetype == "text"}
