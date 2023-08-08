@@ -137,6 +137,7 @@
   .icon-container.hovered {
     transform: scale(1.25);
     background: #FFF;
+    border: 1px solid rgba(0, 0, 0, 0.5);
     border-bottom: 0.25rem solid #00495A;
   }
 
@@ -181,7 +182,7 @@
 
   .coordinates {
     position: absolute;
-    bottom: 100%;
+    bottom: 100.5%;
     left: 0;
     background: rgba(255, 255, 255, 0.7);
     padding: 5px;
