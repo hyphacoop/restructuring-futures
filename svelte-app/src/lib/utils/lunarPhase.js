@@ -1,6 +1,7 @@
 const ONE_WEEK = 7 * 24 * 60 * 60 * 1000 * 1000; // converted to microseconds
 const PHASE_DURATION = [4 * ONE_WEEK, 3 * ONE_WEEK, 2 * ONE_WEEK, ONE_WEEK];
 
+
 export function calculateLunarPhase(documents) {
   let maxX = 0, maxY = 0;
   documents.forEach((doc) => {
@@ -43,4 +44,43 @@ export function calculateLunarPhase(documents) {
     });
 
   return gridState;
+}
+
+
+export function countArtefactsInEachPhase(gridState) {
+  let artefactsInPhase0 = 0;
+  let artefactsInPhase1 = 0;
+  let artefactsInPhase2 = 0;
+  let artefactsInPhase3 = 0;
+
+  // Iterate through the gridState array
+  gridState.forEach(row => {
+      row.forEach(cell => {
+          cell.forEach(artefact => {
+              switch (artefact.lunarPhase) {
+                  case 0:
+                      artefactsInPhase0++;
+                      break;
+                  case 1:
+                      artefactsInPhase1++;
+                      break;
+                  case 2:
+                      artefactsInPhase2++;
+                      break;
+                  case 3:
+                      artefactsInPhase3++;
+                      break;
+                  default:
+                      break;
+              }
+          });
+      });
+  });
+
+  return {
+      artefactsInPhase0,
+      artefactsInPhase1,
+      artefactsInPhase2,
+      artefactsInPhase3
+  };
 }
