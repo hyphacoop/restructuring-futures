@@ -1,6 +1,7 @@
 const ONE_WEEK = 7 * 24 * 60 * 60 * 1000 * 1000; // converted to microseconds
 const PHASE_DURATION = [4 * ONE_WEEK, 3 * ONE_WEEK, 2 * ONE_WEEK, ONE_WEEK];
 
+const now = Date.now() * 1000; // convert to microseconds
 
 export function calculateLunarPhase(documents) {
   let maxX = 0, maxY = 0;
@@ -83,4 +84,38 @@ export function countArtefactsInEachPhase(gridState) {
       artefactsInPhase2,
       artefactsInPhase3
   };
+}
+
+export function calculateSingleDocLunarPhase(doc) {
+  const deleteAfter = doc.deleteAfter;
+  const now = Date.now() * 1000;
+  const timeToDeletion = deleteAfter - now;
+
+  let lunarPhase;
+  if (timeToDeletion > PHASE_DURATION[1]) {
+      lunarPhase = 0;
+  } else if (timeToDeletion > PHASE_DURATION[2]) {
+      lunarPhase = 1;
+  } else if (timeToDeletion > PHASE_DURATION[3]) {
+      lunarPhase = 2;
+  } else {
+      lunarPhase = 3;
+  }
+
+  return {
+      lunarPhase,
+      timeToDeletion
+  };
+}
+
+export function calculateTimeToNextPhase(phase, timeToDeletion, LUNAR_PHASE) {
+  if (phase === 3) {
+    return timeToDeletion; // If it's the last phase, just return the total time to deletion.
+} else if (phase === 2) {
+    return PHASE_DURATION[2] - timeToDeletion;
+} else if (phase === 1) {
+    return PHASE_DURATION[1] - timeToDeletion;
+} else { // for phase 0
+    return PHASE_DURATION[0] - timeToDeletion;
+}
 }
