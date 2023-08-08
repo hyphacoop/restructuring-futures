@@ -519,11 +519,11 @@ $: {
                 {:else}
                 <div class="borderstudio">
                   {#if i === 0}
-                  <p class='text-xl'>
+                  <p class='text-xl absolute ml-20'>
                     {numberToLetter(j)}
                   </p>
                     {#if j === 0}
-                    <p class='text-left text-xl'>
+                    <p class='text-left text-xl absolute'>
                     {i + 1}
                   </p>
                   {/if}
