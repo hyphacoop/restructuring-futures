@@ -16,6 +16,7 @@
   let showDetails = false;
   let title = undefined;
   let note = undefined;
+  let sharedOn = undefined;
   let textContent;
   let content;
   let extended = false;
@@ -23,6 +24,7 @@
   let phase;
   let timeToDeletion;
   let timeToNextPhase;
+  let phaseLabel;
 
   onMount(() => {
     showDetails = true;
@@ -32,7 +34,10 @@
 
     textContent = splitTitleAndNotes(doc.text)
     title = textContent.title;
+    console.log('title', title)
     note = textContent.notes;
+    console.log('note', note)
+    sharedOn = textContent.preface;
     gridLocation = pathToXY(doc.path);
     const result = calculateSingleDocLunarPhase(doc);
     phase = result.lunarPhase;
@@ -50,14 +55,13 @@ function formatDuration(microseconds) {
 let duration;
 $: {
     duration = formatDuration(timeToNextPhase);
-}
+    phaseLabel = phase === 3 ? 'deletion' : PHASE_NAME[phase + 1];
+  }
 
 
 </script>
 
 <div class="my-4 text-left">
-
-  {#if showDetails}
     <div>
       {#if attachment}
       <h6 class='mb-4'>Artefact metadata</h6>
@@ -70,73 +74,35 @@ $: {
         <div class=''><b>Phase:</b>
           {PHASE_NAME[phase]}
         </div>
-        {#if phase === 3}
-        {#if duration.hours > 0}
-            <div><b>Time to deletion:</b> {duration.days} days and {duration.hours} hours</div>
-        {:else}
-            <div><b>Time to deletion:</b> {duration.days} days</div>
-        {/if}
-    {:else}
-        {#if duration.hours > 0}
-            <div><b>Time to {PHASE_NAME[phase + 1]}:</b> {duration.days} days and {duration.hours} hours</div>
-        {:else}
-            <div><b>Time to {PHASE_NAME[phase + 1]}:</b> {duration.days} days</div>
-        {/if}
-    {/if}
-        <table class="my-4">
-          <tr>
-            <td> Attachment type: </td>
-            <td>
-              <strong>
-                {doc.path.split(".")[doc.path.split(".").length - 1]}
-              </strong>
-            </td>
-          </tr>
-          <tr
-            ><td> Attachment size:</td> <td>{doc.attachmentSize / 1000}</td> kb
-          </tr>
-        </table>
-      {/if}
-      {#if title !== undefined}
         <div>
-          {@html title}
+          <b>Time to {phaseLabel}:</b>
+          
+          {#if duration.days > 0}
+            {duration.days} {duration.days > 1 ? 'days' : 'day'}
+            {#if duration.hours > 0} and {/if}
+          {/if}
+        
+          {#if duration.hours > 0}
+            {duration.hours} {duration.hours > 1 ? 'hours' : 'hour'}
+          {/if}
         </div>
-        {#if extended}
-          <ul>
-            {#each content as item}
-              <li>
-                {@html item}
-              </li>
-            {/each}
-          </ul>
-        {/if}
-      {:else}
-        <div class="my-4 break-words">{@html note}</div>
-      {/if}
-        <div class="my-4 break-all">
-          <ul>
-            <li><b>path:</b> {doc.path}</li>
-            <li><b>author:</b> {doc.author}</li>
-            <li><b>share:</b> {doc.share}</li>
-            <li><b>timestamp:</b> {doc.timestamp / 1000}</li>
-          </ul>
+        <div class=''><b>File type:</b>
+          {doc.path.split(".")[doc.path.split(".").length - 1]}
         </div>
-    </div>
-  {/if}
-</div>
+        <div class=''><b>File size:</b>
+          {doc.attachmentSize / 1000} kb
+        </div>
+        <div class=''>
+          <b>Path:</b> {doc.path}
+        </div>
+       
+        <div class='py-2'>
+          <b>Note:</b> {@html note}
+        </div>
 
-<style>
-  li {
-    text-align: left;
-    font-size: 0.86rem;
-    list-style: none;
-  }
-  table {
-    width: 100%;
-  }
-  div ul {
-    padding: 0.25rem;
-    word-break: break-all;
-    width: auto;
-  }
-</style>
+        <div class='py-2'>
+          {@html sharedOn}
+        </div>
+      {/if}
+    </div>
+</div>
