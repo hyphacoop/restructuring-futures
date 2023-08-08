@@ -1,7 +1,6 @@
 const ONE_WEEK = 7 * 24 * 60 * 60 * 1000 * 1000; // converted to microseconds
-const PHASE_DURATION = [4 * ONE_WEEK, 3 * ONE_WEEK, 2 * ONE_WEEK, ONE_WEEK];
+const PHASE_DURATION = [3 * ONE_WEEK, 2 * ONE_WEEK, 1 * ONE_WEEK, 0];
 
-const now = Date.now() * 1000; // convert to microseconds
 
 export function calculateLunarPhase(documents) {
   let maxX = 0, maxY = 0;
@@ -25,24 +24,33 @@ export function calculateLunarPhase(documents) {
 
     const deleteAfter = doc.deleteAfter; 
     const now = Date.now() * 1000; 
+    console.log("now:", now)
     const timeToDeletion = deleteAfter - now;
 
+
     let lunarPhase;
-    if (timeToDeletion > PHASE_DURATION[1]) {
+
+console.log("timeToDeletion:", timeToDeletion);
+console.log("PHASE_DURATION[1]:", PHASE_DURATION[1]);
+console.log("PHASE_DURATION[2]:", PHASE_DURATION[2]);
+console.log("PHASE_DURATION[3]:", PHASE_DURATION[3]);
+    if (timeToDeletion > PHASE_DURATION[0]) {
       lunarPhase = 0;
-    } else if (timeToDeletion > PHASE_DURATION[2]) {
+    } else if (timeToDeletion > PHASE_DURATION[1]) {
       lunarPhase = 1;
-    } else if (timeToDeletion > PHASE_DURATION[3]) {
+    } else if (timeToDeletion > PHASE_DURATION[2]) {
       lunarPhase = 2;
     } else {
       lunarPhase = 3;
     }
 
+    console.log(`Document path: ${doc.path}, x: ${x}, y: ${y}, lunarPhase: ${lunarPhase}, timeToDeletion: ${timeToDeletion}, deleteAfter: ${deleteAfter}, now: ${now}`);
     gridState[y][x].push({ 
         doc: doc,
         lunarPhase: lunarPhase,
       });
     });
+   
 
   return gridState;
 }
@@ -92,11 +100,11 @@ export function calculateSingleDocLunarPhase(doc) {
   const timeToDeletion = deleteAfter - now;
 
   let lunarPhase;
-  if (timeToDeletion > PHASE_DURATION[1]) {
+  if (timeToDeletion > PHASE_DURATION[0]) {
       lunarPhase = 0;
-  } else if (timeToDeletion > PHASE_DURATION[2]) {
+  } else if (timeToDeletion > PHASE_DURATION[1]) {
       lunarPhase = 1;
-  } else if (timeToDeletion > PHASE_DURATION[3]) {
+  } else if (timeToDeletion > PHASE_DURATION[2]) {
       lunarPhase = 2;
   } else {
       lunarPhase = 3;
@@ -108,14 +116,14 @@ export function calculateSingleDocLunarPhase(doc) {
   };
 }
 
-export function calculateTimeToNextPhase(phase, timeToDeletion, LUNAR_PHASE) {
+export function calculateTimeToNextPhase(phase, timeToDeletion) {
   if (phase === 3) {
     return timeToDeletion; // If it's the last phase, just return the total time to deletion.
-} else if (phase === 2) {
-    return PHASE_DURATION[2] - timeToDeletion;
-} else if (phase === 1) {
-    return PHASE_DURATION[1] - timeToDeletion;
-} else { // for phase 0
-    return PHASE_DURATION[0] - timeToDeletion;
-}
+  } else if (phase === 2) {
+    return timeToDeletion - PHASE_DURATION[2];
+  } else if (phase === 1) {
+    return timeToDeletion - PHASE_DURATION[1];
+  } else { // for phase 0
+    return timeToDeletion - PHASE_DURATION[0];
+  }
 }
