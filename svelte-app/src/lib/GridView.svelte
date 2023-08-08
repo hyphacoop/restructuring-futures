@@ -62,7 +62,6 @@
 
   // multiply x 1000 to convert to microseconds
   let usTime = $time.getTime() * 1000;
-  console.log('usTime', usTime)
 
   let isMobile = false;
   let observer;
@@ -157,7 +156,6 @@
     artefactsInPhase1 = counts.artefactsInPhase1;
     artefactsInPhase2 = counts.artefactsInPhase2;
     artefactsInPhase3 = counts.artefactsInPhase3;
-    console.log('counts', counts)
   };
 
   $: {
