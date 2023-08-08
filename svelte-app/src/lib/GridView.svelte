@@ -62,6 +62,7 @@
 
   // multiply x 1000 to convert to microseconds
   let usTime = $time.getTime() * 1000;
+  console.log('usTime', usTime)
 
   let isMobile = false;
   let observer;
@@ -156,6 +157,7 @@
     artefactsInPhase1 = counts.artefactsInPhase1;
     artefactsInPhase2 = counts.artefactsInPhase2;
     artefactsInPhase3 = counts.artefactsInPhase3;
+    console.log('counts', counts)
   };
 
   $: {
@@ -426,7 +428,7 @@ $: {
 
                                   <OrbitingReplies doc={artefact.doc} disabled={true} />
                                   <div class="orbit-icon">
-                                    <Icon {replies} {phase}  doc={artefact.doc} disabled={true} />
+                                    <Icon {replies} phase={k}  doc={artefact.doc} disabled={true} />
                                   </div>
 
                                 {/if}
@@ -458,22 +460,8 @@ $: {
                         {#each documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
                           <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
 
-                            {#if doc.lunarPhase === k}
-                              {#if usTime < doc.deleteAfter - phase == false}
-                              <OrbitingReplies {doc} disabled={true} />
-                              <div class="orbit-icon">
-                                <Icon {replies} {phase}  {doc} disabled={true} />
-                              </div>
-                              {:else}
-                              <OrbitingReplies {doc} />
-                              <div class="orbit-icon">
-                                <Icon {replies} {phase} 
-                                  {doc}
-                                  on:click={() => selectDocument(doc)} 
-                                />
-                              </div>
-                              {/if}
-                            {:else if (usTime < doc.deleteAfter - phase && usTime > doc.deleteAfter - (phase + 639360000000)) == false}
+    
+                            {#if (usTime < doc.deleteAfter - phase && usTime > doc.deleteAfter - (phase + 639360000000)) == false}
 
                             <OrbitingReplies {doc} disabled={true} />  
                               <div class="orbit-icon">  
