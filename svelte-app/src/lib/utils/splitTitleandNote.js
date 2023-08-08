@@ -21,6 +21,7 @@ export default function splitTitleAndNotes(text) {
     }
   
     return {
+      preface: titleSplit[0].trim(),
       title: title,
       notes: notes
     };
