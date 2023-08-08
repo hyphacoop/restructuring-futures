@@ -342,13 +342,13 @@ $: {
   <div class='w-auto py-4'>
   <DownloadTool shareAddress={currentShare} isStudio={true} />
   </div>
-  <div class='w-auto'>
+  <div class='w-auto flex flex-col'>
   <button on:click={backToCommons}>take me back to Commons</button>
   </div>
   {/if}
-  {#if sectionIndex === 0}
-  <div class='w-full'>
-    <button on:click={handleClick} class="my-6">
+  {#if isCommons && sectionIndex === 0 || !isCommons}
+  <div class='w-full flex flex-col py-4'>
+    <button on:click={handleClick}>
       
       {#if imageView}
         Place an artefact
