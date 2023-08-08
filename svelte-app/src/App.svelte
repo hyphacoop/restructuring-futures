@@ -29,6 +29,12 @@
 
   let status = undefined;
 
+  let readManual = false;
+
+  function handleReadManual() {
+    readManual = true;
+  }
+
   console.log('settings', settings)
 
   onMount(async () => {
@@ -151,6 +157,8 @@
         on:toggle={toggleUserSettings}
         {showDetails}
         {IDcreated}
+        {readManual}
+        on:resetManual={() => (readManual = false)}
         on:view={handleView}
         on:details={() => (showUserSettings = true)}
       />
@@ -161,7 +169,7 @@
     </div>
   {/if}
 </main>
-<Footer />
+<Footer on:readmanual={handleReadManual} />
 
 <style>
   h1 {

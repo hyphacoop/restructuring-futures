@@ -27,6 +27,10 @@
   const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
   shareKeypair.set({shareAddress, secret});
   switchShare(); // set both shareAddress and secret
+  selectedDocument = null;
+  imageView = true;
+  readManual = false;
+  dispatch('resetManual');
 }
 
   import GridUpload from "./GridUpload.svelte";
@@ -49,6 +53,7 @@
   export let IDcreated = false;
   export let attachment = true;
   export let isReply = false;
+  export let readManual = false;
 
   let grid = [6, 9];
 
@@ -239,6 +244,37 @@
       fetchDocs();
     }, 500);
   }
+
+$: if (readManual){
+    currentShare = get(shareKeypair).shareAddress;
+    if (currentShare.includes('commons')) {
+      const shareAddress = '+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a';
+      const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
+      shareKeypair.set({shareAddress, secret});
+      switchShare(); // set both shareAddress and secret
+      };
+      setTimeout(() => {
+      fetchDocs();
+    }, 500);
+    setTimeout(() => {
+      selectedDocument = {
+        _localIndex: 2,
+        attachmentHash: "b7hrknufwimzdxqx6wfbo76hkmnmlji6rr7r2wnjzelnwwk3jvxxq",
+        attachmentSize: 108,
+        author: "@xbqy.bawslhcbis7ujno6putocezx74tsozhccashfhlv7hxtyuttp37pa",
+        format: "es.5",
+        path: "/documents/0/0/1691530547348/text-input-by-xbqy.md",
+        share: "+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a",
+        shareSignature: "bei64didblih3syu7uuchqtlnpnqq7grsjjh7pfnttv6wuutp75a7ur3oam2h2xthmm3anpuqqszwqntgdrfivi5ijvihhkxoston4dy",
+        signature: "bs6ssixzdrysg3cx6awirx6465xfufo5kml6gal6ue2scyzppsafgsnx5cyf7b65zlhrrxiwe4wpv3vumgf7yvusctpijhfo6dgo4oba",
+        text: "Text input by xbqy on 8/8/2023#Title: Placeholder manual#Notes: This is to test links to studio artefacts",
+        textHash: "byn2h46gvhtw7exw2rvjiq54fv2ubfhenhebbllpk3egcielzn2la",
+        timestamp: 1691530616881000,
+      };
+    }, 1000);
+    readManual = false;
+    dispatch('resetManual');
+};
 
 $: {
   sharePart = currentShare.split('+')[1].split('.')[0];
@@ -441,7 +477,7 @@ $: {
                     {i === 0 && j !== 0 && k === 0 ? 'top-row-offset' : ''} 
                     {j === 0 && !(i === 0 && j === 0 && k === 0) ? 'first-col-offset' : ''}">
                       {#if i === 0}
-                      <p class='text-xl'>
+                      <p class='text-left text-xl'>
                         {numberToLetter(j)}
                       </p>
                         {#if j === 0}

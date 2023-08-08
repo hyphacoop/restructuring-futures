@@ -1,7 +1,24 @@
+<script>
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
+  function handleReadManualClick() {
+    dispatch('readmanual');
+  }
+
+  function handleReadManualKeydown(event) {
+  if (event.key === 'Enter' || event.key === 'Space') {
+    handleReadManualClick();
+    event.preventDefault();  // prevent the default action for the space key (scrolling)
+  }
+}
+</script>
+
 <footer class='w-full'>
   <div class="footer mx-6 flex flex-row justify-between">
     <div class='flex flex-row justify-between w-1/3 ml-8'> 
-      <div>
+      <div class='link-style' on:click={handleReadManualClick}  on:keydown={handleReadManualKeydown} tabindex="0" role="button">
         read manual
       </div>
       <div>
@@ -34,6 +51,13 @@
       padding: 0.75rem;
       border: 1px solid black;
       background-color:white;
+    }
+    a, .link-style {
+      text-decoration: underline;
+    }
+    a:hover, .link-style:hover {
+      text-underline-offset: 0.25rem;
+      text-decoration-thickness: 0.125rem;
     }
   </style>
   
