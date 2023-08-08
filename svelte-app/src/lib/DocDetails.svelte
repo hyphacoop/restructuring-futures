@@ -4,6 +4,10 @@
   import { onMount } from "svelte";
 
   import splitTitleAndNotes from "./utils/splitTitleandNote";
+  import pathToXY from "./utils/pathToXY";
+  import { calculateSingleDocLunarPhase, calculateTimeToNextPhase } from "./utils/lunarPhase";
+
+  import { PHASE_NAME, LUNAR_PHASE } from "./utils/constants";
 
   export let doc;
   export let attachment = true;
@@ -15,6 +19,10 @@
   let textContent;
   let content;
   let extended = false;
+  let gridLocation;
+  let phase;
+  let timeToDeletion;
+  let timeToNextPhase;
 
   onMount(() => {
     showDetails = true;
@@ -25,22 +33,56 @@
     textContent = splitTitleAndNotes(doc.text)
     title = textContent.title;
     note = textContent.notes;
-
+    gridLocation = pathToXY(doc.path);
+    const result = calculateSingleDocLunarPhase(doc);
+    phase = result.lunarPhase;
+    timeToDeletion = result.timeToDeletion;
+    timeToNextPhase = calculateTimeToNextPhase(phase, timeToDeletion, LUNAR_PHASE);
   }
+
+function formatDuration(microseconds) {
+    const seconds = microseconds / 1000000;
+    const days = Math.floor(seconds / (3600*24));
+    const hours = Math.floor((seconds - days * 3600 * 24) / 3600);
+    return { days, hours };
+}
+
+let duration;
+$: {
+    duration = formatDuration(timeToNextPhase);
+}
+
 
 </script>
 
 <div class="my-4 text-left">
-  <button on:click={() => (showDetails = !showDetails)}>
-    {#if showDetails}
-      📄Hide details
-    {:else}
-      📄Show details
-    {/if}
-  </button>
+
   {#if showDetails}
     <div>
       {#if attachment}
+      <h6 class='mb-4'>Artefact metadata</h6>
+      <div class='pt-2'><b>Title:</b>
+      {title}
+      </div>
+      <div class=''><b>Location:</b>
+        {gridLocation}
+        </div>
+        <div class=''><b>Phase:</b>
+          {PHASE_NAME[phase]}
+        </div>
+        {#if phase === 3}
+        {#if duration.hours > 0}
+            <div><b>Time to deletion:</b> {duration.days} days and {duration.hours} hours</div>
+        {:else}
+            <div><b>Time to deletion:</b> {duration.days} days</div>
+        {/if}
+    {:else}
+        {#if duration.hours > 0}
+            <div><b>Time to {PHASE_NAME[phase + 1]}:</b> {duration.days} days and {duration.hours} hours</div>
+        {:else}
+            <div><b>Time to {PHASE_NAME[phase + 1]}:</b> {duration.days} days</div>
+        {/if}
+    {/if}
         <table class="my-4">
           <tr>
             <td> Attachment type: </td>
