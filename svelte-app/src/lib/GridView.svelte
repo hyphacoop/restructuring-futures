@@ -41,7 +41,7 @@
   import DownloadTool from "./DownloadTool.svelte";
   import DeleteTool from "./DeleteTool.svelte";
 
-  import { calculateLunarPhase } from './utils/lunarPhase.js';
+  import { calculateLunarPhase, countArtefactsInEachPhase } from './utils/lunarPhase.js';
   import { createObserver, observeElement, disconnectObserver } from './utils/scrollObserver.js';
   import { LUNAR_PHASE, COLOR_CYCLE, PHASE_NAME } from './utils/constants.js';
 
@@ -114,6 +114,13 @@
   let col;
   let row;
 
+  let artefactsInPhase0 = 0;
+  let artefactsInPhase1 = 0;
+  let artefactsInPhase2 = 0;
+  let artefactsInPhase3 = 0;
+  let artefactsInCurrentPhase = 0;
+
+
   // Use $cacheDetails to access the current value, or subscribe to changes.
   cacheDetails.subscribe(value => {
     console.log("Cache details changed:", value);
@@ -143,7 +150,31 @@
     console.log("Docs", documents);
     gridState = calculateLunarPhase(documents);
     console.log('gridState', gridState);
+
+    const counts = countArtefactsInEachPhase(gridState);
+    artefactsInPhase0 = counts.artefactsInPhase0;
+    artefactsInPhase1 = counts.artefactsInPhase1;
+    artefactsInPhase2 = counts.artefactsInPhase2;
+    artefactsInPhase3 = counts.artefactsInPhase3;
   };
+
+  $: {
+    switch (sectionIndex) {
+        case 0:
+            artefactsInCurrentPhase = artefactsInPhase0;
+            break;
+        case 1:
+            artefactsInCurrentPhase = artefactsInPhase1;
+            break;
+        case 2:
+            artefactsInCurrentPhase = artefactsInPhase2;
+            break;
+        case 3:
+            artefactsInCurrentPhase = artefactsInPhase3;
+            break;
+    }
+}
+
 
   $cacheDetails.onCacheUpdated(() => {
     setTimeout(() => {
@@ -299,6 +330,7 @@ $: {
     <div class="flex flex-col justify-left">
       {#if isCommons}
        <p class='text-left'><b>Phase of decay:</b> {PHASE_NAME[sectionIndex]}</p>
+       <p class='text-left'><b>Number of artefacts in this phase:</b> {artefactsInCurrentPhase}</p>
       {/if}
   <p class='text-left'><b>Number of artefacts in the {sharePart}:</b> {documents.length}</p>
   </div>
