@@ -24,16 +24,9 @@ export function calculateLunarPhase(documents) {
 
     const deleteAfter = doc.deleteAfter; 
     const now = Date.now() * 1000; 
-    console.log("now:", now)
     const timeToDeletion = deleteAfter - now;
 
-
     let lunarPhase;
-
-console.log("timeToDeletion:", timeToDeletion);
-console.log("PHASE_DURATION[1]:", PHASE_DURATION[1]);
-console.log("PHASE_DURATION[2]:", PHASE_DURATION[2]);
-console.log("PHASE_DURATION[3]:", PHASE_DURATION[3]);
     if (timeToDeletion > PHASE_DURATION[0]) {
       lunarPhase = 0;
     } else if (timeToDeletion > PHASE_DURATION[1]) {
@@ -44,13 +37,11 @@ console.log("PHASE_DURATION[3]:", PHASE_DURATION[3]);
       lunarPhase = 3;
     }
 
-    console.log(`Document path: ${doc.path}, x: ${x}, y: ${y}, lunarPhase: ${lunarPhase}, timeToDeletion: ${timeToDeletion}, deleteAfter: ${deleteAfter}, now: ${now}`);
     gridState[y][x].push({ 
         doc: doc,
         lunarPhase: lunarPhase,
       });
     });
-   
 
   return gridState;
 }
