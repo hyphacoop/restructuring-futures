@@ -5,14 +5,20 @@
         read manual
       </div>
       <div>
-        report bugs
+        <a href="https://github.com/hyphacoop/restructuring-futures/issues/new?assignees=TRIPLEDOUBLEV&labels=bug&projects=&template=bug_report.md&title="
+        target="_blank" rel="noreferrer">
+          report bugs
+        </a>
       </div>
       <div>
-        about
+        <a href="https://github.com/hyphacoop/restructuring-futures/"
+        target="_blank" rel="noreferrer">
+          about
+        </a>
       </div>
     </div>
     <div class='mr-8'>
-      open source project [link to repo???CTA for engagement??] thank funder?
+      built with <a target="_blank" rel="noreferrer" href='https://earthstar-project.org/'>Earthstar</a>
     </div>
   </div>
 </footer>
