@@ -182,7 +182,7 @@
 
   .coordinates {
     position: absolute;
-    bottom: 100.5%;
+    bottom: 101%;
     left: 0;
     background: rgba(255, 255, 255, 0.7);
     padding: 5px;
