@@ -68,7 +68,7 @@ import GetAttachment from "../GetAttachment.svelte";
                 <div class='flex flex-col w-full items-start'>
                     {@html title}
                     {#if textContent !== undefined}
-                        <p class='text-2xl w-full text-left'>{textContent}</p>
+                        <p class='text-2xl w-11/12 text-left'>{textContent}</p>
                     {/if}
                 </div>
                     {#if attachment}
