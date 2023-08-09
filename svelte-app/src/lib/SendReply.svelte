@@ -64,18 +64,20 @@
 </script>
 
 <div>
-    <div>
-    <button class='mb-2'
-        on:click={txtReply}>
-        text reply
-    </button>
-    
-    <button
-        on:click={voiceReply}
-        >
-        voice reply
-    </button>
+    <div class='flex flex-row'>
+        <button class='mb-2 mx-2 phase1'
+            on:click={txtReply}>
+            text reply
+        </button>
+        
+        <button class='mb-2 mx-2 phase1'
+            on:click={voiceReply}
+            >
+            voice reply
+        </button>
+    </div>
 </div>
+
     {#if txt}
     <p>
         <textarea class='my-2' bind:value={text} placeholder={placeholder} style="width: 100%" />
@@ -94,7 +96,6 @@
             <span>{result.kind}</span>
         {/if}
     </p>
-</div>
 
 <style>
 
