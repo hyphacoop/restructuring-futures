@@ -75,10 +75,6 @@
 <div>
     {#if showWarning}
     <p>There are no replies yet.</p>
-{:else}
-
-<!--Button to show replies-->
-    <!--<button on:click={() => getReplies()}>See Replies</button>-->
     {/if}
 </div>
 <style>
@@ -92,7 +88,29 @@
         color:#222222;
         padding: 0.25rem;
         border-radius: 0;
-        margin:0.5rem;
+        margin:0rem;
         height:auto;
+        border-left: 1px solid #22222222;
+        padding-left:1rem;
+        padding-top: 0.5rem;   
+        padding-bottom: 0.5rem;
+        margin-left:1.5rem;
+        position: relative;
+}
+
+li::before {
+    content: "";
+    position: absolute;
+    top: 50%; /* Vertically center */
+    left: 0rem; /* Start from left outside of the li */
+    width: 1rem; /* Width of the line */
+    height: 1px; /* Height of the line (change this if you want thicker line) */
+    background-color: #22222222; /* Color of the line */
+    transform: translateY(-50%); /* Ensure the line is centered */
+}
+
+
+li:last-child {
+  padding-bottom: 1.5rem;
 }
 </style>
