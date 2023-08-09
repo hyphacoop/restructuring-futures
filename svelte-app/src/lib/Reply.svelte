@@ -20,7 +20,7 @@
 {#if showDetails}
 <div class='w-auto'>
     <h5 class='mx-4 px-8 text-left'>Artefact: {title}</h5>
-    <div class='replies mb-2'>
+    <div class='replies'>
             <ShowReply {doc} on:success />
     </div>
         <SendReply {doc} on:success />       
