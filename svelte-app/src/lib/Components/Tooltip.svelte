@@ -12,13 +12,38 @@
     });
   </script>
   
-  <div bind:this={tooltipDiv} style="display: inline-block; position: relative;">
-   
+  <div bind:this={tooltipDiv} class="tooltip">
     {#if showTooltip}
-        <div style="position: absolute; top: 20px; left: 0; background: lightgray; padding: 10px; border-radius: 5px; z-index: 1;">
-            {text}
-        </div>
+      <div class="tooltiptext">{text}</div>
     {/if}
     <slot></slot>
-</div>
+  </div>
   
+
+  <style>
+    .tooltip {
+      display: inline-block;
+      position: relative;
+    }
+  
+    .tooltiptext {
+      visibility: hidden;
+      width: auto;
+      background-color: var(--dark-text-red);
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      top: 110%;
+      left: 50%;
+      margin-left: -60px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
