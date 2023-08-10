@@ -37,7 +37,7 @@
 <div class='w-full ml-4 mr-8'>
     {#if artefactTitle}
     <div class='flex flex-row text-left w-full'>
-        <h4 class="mt-12 p-2">{artefactTitle}</h4>
+        <h4 class="mt-4 p-2">{artefactTitle}</h4>
     </div>
     {/if}
 
