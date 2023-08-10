@@ -54,6 +54,7 @@
   });
 
   // new peer & syncing with server
+  $: if ($replicaDetails) {
   const peer = new Earthstar.Peer();
   peer.addReplica($replicaDetails.replica);
   const sync = peer.sync(import.meta.env.VITE_SERVER_ADDRESS, true);
@@ -74,6 +75,7 @@
     .catch((err) => {
       console.error("Sync failed", err);
     });
+  }
 
   function handleUpload(event) {
     IDcreated = true;
