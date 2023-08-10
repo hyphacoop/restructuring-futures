@@ -246,8 +246,10 @@
   }
 
 $: if (readManual){
+  loadingText = "Loading manual..."
     currentShare = get(shareKeypair).shareAddress;
     if (currentShare.includes('commons')) {
+
       const shareAddress = '+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a';
       const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
       shareKeypair.set({shareAddress, secret});
@@ -271,7 +273,8 @@ $: if (readManual){
         textHash: "byn2h46gvhtw7exw2rvjiq54fv2ubfhenhebbllpk3egcielzn2la",
         timestamp: 1691530616881000,
       };
-    }, 1000);
+      loadingText = "Looking for artefacts..."
+    }, 600);
     readManual = false;
     dispatch('resetManual');
 };
