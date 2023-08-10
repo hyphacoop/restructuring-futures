@@ -204,7 +204,7 @@
     }
     .pdfViewer {
         max-height: 50vh;
-        max-width: 55vw;
+        max-width: 50vw;
         overflow-y: auto;
     }
 </style>
