@@ -72,18 +72,20 @@
         {/if} 
 
 </div>
-<div>
+
     {#if showWarning}
-    <p>There are no replies yet.</p>
-    {/if}
+    <div class='flex flex-col items-start'>
+    <div class='left-line'>There are no replies yet.</div>
 </div>
+    {/if}
+
 <style>
     ul {
         list-style: none;
         padding: 0;
         text-align: left;
     }
-    li {
+    li, .left-line {
         text-align: center;
         color:#222222;
         padding: 0.25rem;
