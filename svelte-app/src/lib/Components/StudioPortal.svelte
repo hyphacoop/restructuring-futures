@@ -31,7 +31,7 @@
     </script>
     <div class='flex flex-col items-center justify-center'>
         <div class='flex flex-col items-center justify-center max-w-3xl mx-auto w-full md:w-1/2'>
-            <Tooltip text="You can choose from any studio you saved in the share in settings. Settings can be accessed from the top left corner under 'workspace settings'.">
+            <Tooltip text="You can choose from any studio you saved in your settings. Settings can be accessed in the server customization in the top left corner and then under 'workspace settings'.">
                 <p>You have reached the Beginning of Studio portals. <br>Choose the Studio you want to enter:</p>
             </Tooltip>
                 <label for="share-switcher" class="text-center">Select Workspace</label>
