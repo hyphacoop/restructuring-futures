@@ -96,10 +96,11 @@ $: {
           <b>Path:</b> {doc.path}
         </div>
        
+        {#if note !== ""}
         <div class='py-2'>
           <b>Note:</b> {@html note}
         </div>
-
+        {/if}
         <div class='py-2'>
           {@html sharedOn}
         </div>
