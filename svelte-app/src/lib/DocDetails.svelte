@@ -12,6 +12,7 @@
   export let doc;
   export let attachment = true;
   export let isReply = false;
+  export let isCommons = true;
 
   let showDetails = false;
   let title = undefined;
@@ -94,7 +95,7 @@ $: {
         <div class=''><b>File size:</b>
           {doc.attachmentSize / 1000} kb
         </div>
-        <div class=''>
+        <div class='break-words'>
           <b>Path:</b> {doc.path}
         </div>
        
