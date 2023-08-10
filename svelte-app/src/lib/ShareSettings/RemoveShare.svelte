@@ -7,11 +7,13 @@
   let removalStatus = '';
   let userInput = '';
   let showModal = false;
-  let sharePart = selectedShare.split('+')[1].split('.')[0];
+  let sharePart;
 
   shareKeypair.subscribe(value => {
     selectedShare = value.shareAddress;
   });
+
+  $: sharePart = selectedShare.split('+')[1].split('.')[0];
 
   function handleRemoveShare() {
     // display the modal
