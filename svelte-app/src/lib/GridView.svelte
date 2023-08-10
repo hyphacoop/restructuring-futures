@@ -14,25 +14,6 @@
   import numberToLetter from "./utils/numberToLetter";
   import pathToXY from "./utils/pathToXY";
 
-  const dispatch = createEventDispatcher();
-
-  let currentShare = get(shareKeypair).shareAddress;
-
-  shareKeypair.subscribe(value => {
-    currentShare = value.shareAddress;
-  });
-
-  function backToCommons() {
-  const shareAddress = '+commons.b7q4gt64yiefosdafnmhvtxz43akzk6gw54aesdahtf4kdgpbyeia';
-  const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
-  shareKeypair.set({shareAddress, secret});
-  switchShare(); // set both shareAddress and secret
-  selectedDocument = null;
-  imageView = true;
-  readManual = false;
-  dispatch('resetManual');
-}
-
   import GridUpload from "./GridUpload.svelte";
   import View from "./Artefacts/View.svelte";
   import Icon from "./Artefacts/Icon.svelte";
@@ -71,6 +52,25 @@
   let isMobile = false;
   let observer;
   let currentColor = COLOR_CYCLE[0];
+
+  const dispatch = createEventDispatcher();
+
+  let currentShare = get(shareKeypair).shareAddress;
+
+  shareKeypair.subscribe(value => {
+    currentShare = value.shareAddress;
+  });
+
+  function backToCommons() {
+  const shareAddress = '+commons.b7q4gt64yiefosdafnmhvtxz43akzk6gw54aesdahtf4kdgpbyeia';
+  const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
+  shareKeypair.set({shareAddress, secret});
+  switchShare(); // set both shareAddress and secret
+  selectedDocument = null;
+  imageView = true;
+  readManual = false;
+  dispatch('resetManual');
+}
 
   function updateObserver() {
     disconnectObserver(observer);
