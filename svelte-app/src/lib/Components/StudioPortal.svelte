@@ -9,11 +9,7 @@
     
     const dispatch = createEventDispatcher();
 
-    let selectedShare = get(shareKeypair).shareAddress;
-    
-    shareKeypair.subscribe(value => {
-      selectedShare = value.shareAddress;
-    });
+    let selectedShare;
     
     function updateShareKeypair() {
       const shareAddress = selectedShare;
@@ -28,6 +24,11 @@
     studioShares.subscribe(value => {
       shareList = [...value]; 
     });
+
+    $: if (shareList.length > 0) {
+        selectedShare = shareList[0];  // Set selectedShare to the first item if it's not already set
+    }
+
     </script>
     <div class='flex flex-col items-center justify-center'>
         <div class='flex flex-col items-center justify-center max-w-3xl mx-auto w-full md:w-1/2'>
@@ -41,7 +42,7 @@
                     class="form-control"
                 >
                     {#each shareList as share (share)}
-                        <option value={share}>{share}</option>
+                        <option value={share} selected={share === selectedShare}>{share}</option>
                     {/each}
                 </select>
                 <button class='phase1 my-2 mb-24' on:click="{updateShareKeypair}">enter selected studio</button>
