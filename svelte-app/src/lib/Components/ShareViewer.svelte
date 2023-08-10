@@ -48,7 +48,17 @@
                 showShareTooltip(share);
             }}>
                 copy address
-                <span class="tooltiptext" class:visible={tooltipStates[share]}>Copied Address</span>
+                <span class="tooltiptext" class:visible={tooltipStates[share]}>address copied </span>
+
+            </button>
+        </div>
+        <div class="mt-4 mx-2">
+            <button class="phase1 tooltip" on:click={() => {
+                navigator.clipboard.writeText(settings.shareSecrets[share]);
+                showShareTooltip(share);
+            }}>
+                copy secret
+                <span class="tooltiptext" class:visible={tooltipStates[share]}>secret copied</span>
 
             </button>
         </div>
@@ -68,7 +78,6 @@ hr.divider {
 }
 
 .tooltip {
-  position: relative;
   display: inline-block;
 }
 
