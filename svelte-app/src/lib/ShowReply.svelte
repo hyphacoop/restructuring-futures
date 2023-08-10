@@ -10,6 +10,15 @@
     let replies = [];
     let showReplies = true;
     let showWarning = false;
+    let expandedReply = null;
+
+    function toggleExpand(hash) {
+        if (expandedReply === hash) {
+            expandedReply = null;
+        } else {
+            expandedReply = hash;
+        }
+    }
 
     const getReplies = (async () => {
         let newPath;
@@ -70,13 +79,16 @@
         <ul>
             {#each replies as doc (doc.signature)}
 
-            <li id={doc.textHash}>
-
+            <li id={doc.textHash} class={expandedReply === doc.textHash ? 'expanded' : ''}>
+                <button class='w-full' on:click={() => toggleExpand(doc.textHash)} 
+                        on:keydown={e => (e.key === 'Enter' || e.key === ' ') && toggleExpand(doc.textHash)}
+                >
                 {#if doc.text.includes('replied with voice')}
                 <SingleReply isReply={true} title={doc.text} {doc} attachment={true} on:click={updateUI} on:update={updateUI} />
                 {:else}
                 <SingleReply isReply={true} title={doc.text} {doc} attachment={false} on:click={updateUI} on:update={updateUI} />
                 {/if}
+                </button>
             </li>
             {/each} 
         </ul>
@@ -91,6 +103,7 @@
     {/if}
 
 <style>
+
     ul {
         list-style: none;
         padding: 0;
@@ -102,6 +115,7 @@
         padding: 0.25rem;
         border-radius: 0;
         margin:0rem;
+        width:auto;
         height:auto;
         border-left: 1px solid #22222222;
         padding-left:1rem;
@@ -109,7 +123,16 @@
         padding-bottom: 0.5rem;
         margin-left:1.5rem;
         position: relative;
-}
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        cursor: pointer;
+    }
+
+    li.expanded {
+        white-space: normal;
+        max-height: none; 
+    }
 
 li::before {
     content: "";
@@ -125,5 +148,25 @@ li::before {
 
 li:last-child {
   padding-bottom: 1.5rem;
+}
+
+button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    -webkit-appearance: none; /* for older versions of Safari */
+    -moz-appearance: none; /* for older versions of Firefox */
+    appearance: none;
+    }
+
+    button:hover {
+    background-color: none;  /* Sample gray background */
+    color: #000;  /* Sample black text color */
+    box-shadow: none;
+    transform: none;
 }
 </style>
