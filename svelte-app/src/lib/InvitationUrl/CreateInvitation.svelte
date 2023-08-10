@@ -52,7 +52,7 @@
     }
   </script>
   
-  <div>
+  <div class='flex flex-col'>
     <button class='phase1 w-60' on:click={generateInvitationURL}>generate invitation url</button>
     {#if invitationURL}
       <p class="py-2"><strong>Your invitation URL is: </strong>
