@@ -12,10 +12,21 @@
     let showWarning = false;
 
     const getReplies = (async () => {
-        let newPath = doc.path.split('!');
+        let newPath;
+        if (doc.path.includes('!')) {
+            newPath = doc.path.split('!')[0];
+        } else {
+            let match = doc.path.match(/(\/documents\/\d+\/\d+\/\d+)/);
+            if (match && match[1]) {
+                newPath = match[1];
+                console.log('newPath', newPath)
+            } else {
+                throw new Error("Invalid path format");
+            }
+        }
         replies = await $cacheDetails.queryDocs({
             filter: {
-                pathStartsWith: newPath[0],
+                pathStartsWith: newPath,
             }
         });
         replies = replies.filter(doc => doc.path.split('/').length > 6);
