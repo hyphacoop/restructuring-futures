@@ -71,6 +71,7 @@ $: {
       <div class=''><b>Location:</b>
         {gridLocation}
         </div>
+        {#if isCommons}
         <div class=''><b>Phase:</b>
           {PHASE_NAME[phase]}
         </div>
@@ -86,6 +87,7 @@ $: {
             {duration.hours} {duration.hours > 1 ? 'hours' : 'hour'}
           {/if}
         </div>
+        {/if}
         <div class=''><b>File type:</b>
           {doc.path.split(".")[doc.path.split(".").length - 1]}
         </div>
