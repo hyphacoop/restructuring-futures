@@ -329,7 +329,7 @@ $: {
 </div>
 <div class="the-scroll flex flex-row sm:flex-col min-h-screen overflow-y-auto">
   <div class='sm:w-1/5 flex flex-col side-bar fixed '>
-  <button class="ml-6 mt-4 mb-2 h-auto mr-1 border-black" on:click={toggleDetails}>
+  <button class="ml-6 mt-4 mb-2 h-auto mr-1" on:click={toggleDetails}>
     🔮 server customization
   </button>
   <p class='ml-6 text-2xl text-left'><b>
@@ -437,7 +437,7 @@ $: {
           {#each LUNAR_PHASE as phase, k (k)}
             <div
               id={`section${k}`}
-              class="my-grid-container w-screen h-full"
+              class="my-grid-container w-screen h-full commons-border {k === 0 ? "top-border" : ""} {k === 3 ? "bottom-border" : ""}"
               style={`background-color: ${COLOR_CYCLE[k]}; ${
                 isMobile
                 ? 'grid-template-columns: repeat(3, 1fr); grid-template-rows: auto;'
@@ -598,6 +598,16 @@ $: {
 <style>
   .customBorder {
     border: 1px solid #71302B; 
+  }
+  .commons-border {
+    border-left: 1px solid #71302B; 
+    border-right: 1px solid #71302B;
+  }
+  .bottom-border {
+    border-bottom: 1px solid #71302B;
+  }
+  .top-border {
+    border-top: 1px solid #71302B;
   }
   .borderstudio {
     border: 1px solid rgba(128, 128, 128, 0.35); 
