@@ -7,10 +7,19 @@
 
     let shareList = [];
     let tooltipStates = {};
+    let tooltipTimers = {};
 
-    function showShareTooltip(share) {
-        tooltipStates[share] = true;
-        setTimeout(() => tooltipStates[share] = false, 2000);
+    function showShareTooltip(share, type) {
+         // Clear any existing timers for this share
+    if (tooltipTimers[share]) {
+        clearTimeout(tooltipTimers[share]);
+    }
+
+    tooltipStates[share] = type;
+
+    tooltipTimers[share] = setTimeout(() => {
+        tooltipStates[share] = null;
+    }, 2000);
 }
     
     shares.subscribe(value => {
@@ -45,20 +54,20 @@
         <div class="mt-4 mx-2">
             <button class="phase1 tooltip" on:click={() => {
                 navigator.clipboard.writeText(share);
-                showShareTooltip(share);
+                showShareTooltip(share, 'address');
             }}>
                 copy address
-                <span class="tooltiptext" class:visible={tooltipStates[share]}>address copied </span>
+                <span class="tooltiptext" class:visible={tooltipStates[share] === 'address'}>address copied </span>
 
             </button>
         </div>
         <div class="mt-4 mx-2">
             <button class="phase1 tooltip" on:click={() => {
                 navigator.clipboard.writeText(settings.shareSecrets[share]);
-                showShareTooltip(share);
+                showShareTooltip(share, 'secret');
             }}>
                 copy secret
-                <span class="tooltiptext" class:visible={tooltipStates[share]}>secret copied</span>
+                <span class="tooltiptext" class:visible={tooltipStates[share] === 'secret'}>secret copied</span>
 
             </button>
         </div>
