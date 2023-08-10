@@ -79,14 +79,14 @@
 </div>
 
     {#if txt}
+    <div class="flex flex-col mx-2 w-11/12">
     <p>
-        <textarea class='my-2' bind:value={text} placeholder={placeholder} style="width: 100%" />
+        <textarea class='my-1' bind:value={text} placeholder={placeholder} style="width: 100%" />
     </p>
-    <p>
         <button disabled={isUnchanged(text)} on:click={sendReply}>
             send reply
         </button>
-    </p>
+</div>
     {/if}
     {#if voice}
         <Voice xy="reply" {doc} />
