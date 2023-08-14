@@ -34,6 +34,11 @@
     }
 
     let deletePath = "";
+
+    async function wipeDocAtPath(deletePath) {
+        const result = await $replica.replica.wipeDocAtPath($authorKeypair, deletePath);
+        console.log("wipe result:", result);
+    }
 </script>
 
 
@@ -42,3 +47,7 @@
         <button on:click={() => deleteTool(deletePath)}>
             Delete tool
         </button>
+        <button on:click={() => wipeDocAtPath(deletePath)}>
+            Wipe tool
+        </button>
+
