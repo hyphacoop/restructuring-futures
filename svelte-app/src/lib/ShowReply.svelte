@@ -86,7 +86,7 @@
                 {#if doc.text.includes('replied with voice')}
                 <SingleReply isReply={true} title={doc.text} {doc} attachment={true} on:click={updateUI} on:update={updateUI} />
                 {:else}
-                <SingleReply isReply={true} title={doc.text} {doc} attachment={false} on:click={updateUI} on:update={updateUI} />
+                <SingleReply isReply={true} title={doc.text} {doc} attachment={false} on:click={updateUI} on:update={updateUI} expanded={expandedReply === doc.textHash}/>
                 {/if}
                 </button>
             </li>
