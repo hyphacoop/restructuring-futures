@@ -1,11 +1,12 @@
 <script>
+    import { createEventDispatcher } from "svelte";
+    import { get } from "svelte/store";
+    
     import replica from "../store/replica";
     import authorKeypair from "../store/identity";
+    import shareKeypair from "../store/share";
 
     import Voice from "./Artefacts/Voice.svelte";
-
-    import { createEventDispatcher } from "svelte";
-
 
     const dispatch = createEventDispatcher();
 
@@ -13,32 +14,69 @@
         return t == placeholder;
     }
 
+    export let doc;
+
     let result;
     let txt = false;
     let voice = false;
     let text = "";
     let placeholder = "Type your reply here";
     let lgth = text.length;
+    let sharePart;
+    let isCommons;
+    let thisDoc = {};
   
+    let currentShare = get(shareKeypair).shareAddress;
 
+    shareKeypair.subscribe(value => {
+    currentShare = value.shareAddress;
+    });
+
+
+    $: {
+    sharePart = currentShare.split('+')[1].split('.')[0];
+    isCommons = sharePart.includes('commons');
+    }
 
     async function sendReply() {
         let alias = $authorKeypair.address.slice(1, 5);
-        let newPath = doc.path.split("!");
-        let deletionTime = doc.deleteAfter;
         let timestamp = Date.now();
-        const result = await $replica.replica.set($authorKeypair, {
-            text: alias + " replied: " + text,
-            path: newPath[0] + timestamp + "/" + "!reply-by-" + alias,
-            deleteAfter: deletionTime,
-        });
+        let oldPath = doc.path;
+        console.log("oldPath", oldPath);
+
+        let basePath;
+        let ephemerality;
+
+        if (isCommons) {
+            // split by '!' for commons
+            let splitPath = oldPath.split("!");
+            basePath = splitPath[0];
+            ephemerality = '!';
+        } else {
+            // use regex to split at timestamp for studio
+            let match = oldPath.match(/(\/documents\/\d+\/\d+\/\d+)/);
+            if (match && match[1]) {
+                basePath = match[1];
+            } else {
+                throw new Error("Invalid path format for studio");
+            }
+            ephemerality = '';
+        }
+        let newPath = basePath + "/" + timestamp + "/" + ephemerality + "reply-by-" + alias;
+        let docText = alias + " replied: " + text;
+        thisDoc.text = docText;
+        thisDoc.path = newPath;
+
+        if (isCommons) {
+            thisDoc.deletionTime = doc.deleteAfter;
+        }
+        const result = await $replica.replica.set($authorKeypair, thisDoc);
+
         console.log("result ", result);
         dispatch("success");
         text = '';
         return result;
     }
-
-    export let doc;
 
     $: if (result !== undefined && result.kind == "success") {
         placeholder = "send another reply";
@@ -79,7 +117,7 @@
 </div>
 
     {#if txt}
-    <div class="flex flex-col mx-2 w-11/12">
+    <div class="flex flex-col mx-2w-11/12">
     <p>
         <textarea class='my-1' bind:value={text} placeholder={placeholder} style="width: 100%" />
     </p>
