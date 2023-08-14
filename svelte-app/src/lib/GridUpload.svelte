@@ -85,7 +85,7 @@
     </div>
   </div>
 {/if}
-<div class="w-4/5">
+<div class="pb-32 background-white">
 <h4>Select location on map</h4>
 
 <div
@@ -121,6 +121,7 @@
     position: absolute;
     bottom: 100%;
     text-align:left;
+    background-color:white;
   }
   .container {
     position: relative;
@@ -156,5 +157,8 @@
   }
   .brown {
     color: #71302B;
+  }
+  .background-white {
+    background-color: #fff;
   }
 </style>
