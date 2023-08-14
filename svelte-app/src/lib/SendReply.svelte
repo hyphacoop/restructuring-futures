@@ -65,6 +65,7 @@
         let newPath;
         if (isCommons) {
             newPath = basePath + timestamp + "/" + ephemerality + "reply-by-" + alias;
+            thisDoc.deleteAfter = doc.deleteAfter;
         } else {
             newPath = basePath + "/" + timestamp + "/reply-by-" + alias;
         }
@@ -73,9 +74,6 @@
         thisDoc.text = docText;
         thisDoc.path = newPath;
 
-        if (isCommons) {
-            thisDoc.deletionTime = doc.deleteAfter;
-        }
         const result = await $replica.replica.set($authorKeypair, thisDoc);
         console.log('newPath', newPath);
         console.log("result ", result);
