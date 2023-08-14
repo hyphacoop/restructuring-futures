@@ -1,0 +1,25 @@
+html {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f2f2f2;
+}
+#file-attachments {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+
+input {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.image_view {
+    max-height:50px;
+}
+.img_container {
+    max-height:50px;
+}
