@@ -3,6 +3,7 @@
     import { ReplicaDriverWeb } from "earthstar/browser";
 
     import { onMount } from "svelte";
+    import { createEventDispatcher } from "svelte";
 
     import GridSelector from "./GridSelector.svelte";
     import settings from "../../store/settings";
@@ -11,8 +12,9 @@
     import replica from "../../store/replica";
 
     import splitTitleAndNotes from "../utils/splitTitleandNote";
+    import StudioPortal from "./StudioPortal.svelte";
 
-    
+    const dispatch = createEventDispatcher();
 
     export let windowWidth;
     let xy = [];
@@ -61,6 +63,7 @@
                 historyMode: "latest",
                 filter: {
                     author: $authorKeypair.address,
+                    pathStartsWith: "/documents",
                 },
                 limit: 10,
             });
@@ -113,11 +116,13 @@
         }
 
         const attachmentBytes = await getAttachment(selectedArtefact);
+        let originalExtension = selectedArtefact.path.split(".").pop();
         
         let date = new Date();
         let alias = $authorKeypair.address.slice(1, 5);
         let basePath = `/documents/${xy[0]}/${xy[1]}/${date.getTime()}/!shared-from-the-studio-by-${alias}`;
-        let docPath = attachmentBytes ? `${basePath}.md` : basePath;
+        
+        let docPath = attachmentBytes ? `${basePath}.${originalExtension}` : basePath + ".md";
 
         let deletionTime = (Date.now() + 2548800000) * 1000;
 
@@ -148,9 +153,13 @@
 
 
     {#if showArtefacts}
-<div style="position: fixed; z-index: 52;" class="mt-12 pt-2">
+<div style="position: fixed; z-index: 52;" class="mt-16 pt-4">
     <div class="container">
-    <h5 class='ml-8 mt-8 text-left'>Place Artefact from the Studio</h5>
+    <h4 class='ml-8 mt-8 text-left'>Place Artefact from the Studio</h4>
+    {#if allArtefactsFromStudios.length === 0}
+        <h5 class='ml-8 mt-8 text-left'>no artefacts found in the studio</h5>
+        <StudioPortal noArtefacts={true} on:shareUpdated/>
+    {:else}
     <ul>
         {#each allArtefactsFromStudios as artefact (`${artefact.textHash}-${artefact.timestamp}`)} <!-- Assuming each artefact has an id for key -->
             <li>
@@ -161,6 +170,7 @@
             </li>
         {/each}
     </ul>
+    {/if}
 </div>
 </div>
     {:else if showGrid}
