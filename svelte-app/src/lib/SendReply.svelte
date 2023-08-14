@@ -62,7 +62,13 @@
             }
             ephemerality = '';
         }
-        let newPath = basePath + "/" + timestamp + "/" + ephemerality + "reply-by-" + alias;
+        let newPath;
+        if (isCommons) {
+            newPath = basePath + timestamp + "/" + ephemerality + "reply-by-" + alias;
+        } else {
+            newPath = basePath + "/" + timestamp + "/reply-by-" + alias;
+        }
+
         let docText = alias + " replied: " + text;
         thisDoc.text = docText;
         thisDoc.path = newPath;
@@ -71,7 +77,7 @@
             thisDoc.deletionTime = doc.deleteAfter;
         }
         const result = await $replica.replica.set($authorKeypair, thisDoc);
-
+        console.log('newPath', newPath);
         console.log("result ", result);
         dispatch("success");
         text = '';
