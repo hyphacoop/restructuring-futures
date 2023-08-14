@@ -102,7 +102,7 @@
     on:mouseleave={handleMouseLeave}
   >
     <img
-      src={currentIcon[iconPhase]}
+      src={currentIcon[currentIcon.length - 1 - iconPhase]}
       alt="document icon, phase #{iconPhase}"
       class="{replies ? 'small-icon' : ''}"
     />
