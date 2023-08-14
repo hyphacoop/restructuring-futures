@@ -10,6 +10,8 @@
     const dispatch = createEventDispatcher();
 
     let selectedShare;
+
+    export let noArtefacts = false;
     
     function updateShareKeypair() {
       const shareAddress = selectedShare;
@@ -30,12 +32,23 @@
     }
 
     </script>
-    <div class='flex flex-col items-center justify-center'>
-        <div class='flex flex-col items-center justify-center max-w-3xl mx-auto w-full md:w-1/2'>
+
+    <div class='flex flex-col {noArtefacts ? "ml-8" : "items-center justify-center mt-12"}'>
+        <div class='flex flex-col {noArtefacts ? "" : "items-center justify-center mx-auto"} max-w-3xl w-full md:w-1/2'>
             <Tooltip text="You can choose from any studio you saved in your settings. Settings can be accessed in the server customization in the top left corner and then under 'workspace settings'.">
-                <p>You have reached the Beginning of Studio portals. <br>Choose the Studio you want to enter:</p>
+                {#if !noArtefacts}
+                <p>You have reached the Beginning of Studio portals.</p>
+                
+                {:else}
+                <p class='text-left my-4'>proceed to the studio to place your artefact.</p>
+                {/if}
             </Tooltip>
-                <label for="share-switcher" class="text-center">Select Workspace</label>
+            <div class='flex flex-col items-start pt-8 {noArtefacts ? "" : "items-center justify-center mx-auto"}'>
+                {#if !noArtefacts}
+                <label for="share-switcher" class="text-left">
+                    <p>Choose the Studio you want to enter:</p>
+                    </label>
+                {/if}
                 <select
                     id="share-switcher"
                     bind:value="{selectedShare}"
@@ -46,20 +59,16 @@
                     {/each}
                 </select>
                 <button class='phase1 my-2 mb-24' on:click="{updateShareKeypair}">enter selected studio</button>
+       
+            </div>    
         </div>
     </div>
     <style>
         p {
             font-size: 1.2rem;
-            margin-bottom: 1rem;
         }
         label {
             display: block;
-        }
-        div {
-            text-align: left;
-            padding: 1rem;
-            margin: 0.25rem;
         }
         select {
             width: 90%;
