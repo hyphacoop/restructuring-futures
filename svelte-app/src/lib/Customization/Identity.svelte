@@ -218,12 +218,12 @@
 
     <div>
       <div>
-        <h5 class="my-4"><b>generate a new alias</b></h5>
+        <h5 class="mt-12"><b>generate a new alias</b></h5>
 
-        <div class="w-4/5 lg:w-3/5">You can aways assume a new identity.</div>
+        <div class="w-auto">You can always assume a new identity.</div>
 
-        <button class="phase1 my-8" on:click={() => generateID("r")}>
-          generate another identity
+        <button class="phase1 my-4" on:click={() => generateID("r")}>
+          generate alias
         </button>
       </div>
     </div>
