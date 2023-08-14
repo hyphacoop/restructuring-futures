@@ -329,6 +329,12 @@ $: {
     });
   });
 
+
+  function resetView() {
+    selectedDocument = null;
+    imageView = true;
+    showPlace = false;
+  }
 </script>
 
 <div
@@ -437,7 +443,7 @@ $: {
   <div class="w-full sm:w-[80vw] mt-16 sm:mt-10 sm:ml-[20vw]">
     <div class="my-grid-container-wrapper pl-4 ml-4">
       {#if showPlace}
-      <PlaceFromStudio {windowWidth} />
+      <PlaceFromStudio {windowWidth} on:hideWindow={resetView} />
       {/if}
       {#if selectedDocument}
         <div class="artefact-overlay -ml-8 mt-[12vh] h-[80vh] w-[76vw] fixed items-stretch borderstudio">

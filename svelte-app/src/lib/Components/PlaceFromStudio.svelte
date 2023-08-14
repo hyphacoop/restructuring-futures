@@ -43,6 +43,11 @@
         placeArtefact();
     }
 
+    function hideWindow() {
+        showArtefacts = false;
+        dispatch("hideWindow");
+    }
+
     let allArtefactsFromStudios = [];
 
     onMount(async () => {
@@ -158,7 +163,7 @@
     <h4 class='ml-8 mt-8 text-left'>Place Artefact from the Studio</h4>
     {#if allArtefactsFromStudios.length === 0}
         <h5 class='ml-8 mt-8 text-left'>no artefacts found in the studio</h5>
-        <StudioPortal noArtefacts={true} on:shareUpdated/>
+        <StudioPortal noArtefacts={true} on:shareUpdated={hideWindow}/>
     {:else}
     <ul>
         {#each allArtefactsFromStudios as artefact (`${artefact.textHash}-${artefact.timestamp}`)} <!-- Assuming each artefact has an id for key -->
