@@ -29,6 +29,7 @@
   import { calculateLunarPhase, countArtefactsInEachPhase } from './utils/lunarPhase.js';
   import { createObserver, observeElement, disconnectObserver } from './utils/scrollObserver.js';
   import { LUNAR_PHASE, COLOR_CYCLE, PHASE_NAME } from './utils/constants.js';
+  import PlaceFromStudio from "./Components/PlaceFromStudio.svelte";
 
   export let showDetails = true;
   export let IDcreated = false;
@@ -36,7 +37,10 @@
   export let isReply = false;
   export let readManual = false;
 
+
   let grid = [6, 9];
+
+  let loadingText = "Looking for artefacts..."
 
   let sectionIndex = 0;
 
@@ -151,16 +155,24 @@
         pathStartsWith: "/documents",
       },
     });
-    documents = documents.filter((doc) => doc.path.split("/").length <= 6);
+        
+    // Filter out documents by path length and empty or whitespace-only text content
+    documents = documents.filter((doc) => {
+        return doc.path.split("/").length <= 6 && doc.text.trim() !== "";
+    });
+
     console.log("Docs", documents);
+    if (isCommons){
     gridState = calculateLunarPhase(documents);
     console.log('gridState', gridState);
+
 
     const counts = countArtefactsInEachPhase(gridState);
     artefactsInPhase0 = counts.artefactsInPhase0;
     artefactsInPhase1 = counts.artefactsInPhase1;
     artefactsInPhase2 = counts.artefactsInPhase2;
     artefactsInPhase3 = counts.artefactsInPhase3;
+    } 
   };
 
   $: {
@@ -198,6 +210,13 @@
   onMount(() => {
   fetchDocs();
 });
+
+  let showPlace = false;
+
+  function PlaceFromStudioFunction() {
+    showPlace = !showPlace;
+    imageView = !imageView;
+  }
 
   function handleClick() {
     imageView = !imageView;
@@ -345,7 +364,7 @@ $: {
   >
   {#if selectedDocument}
   <div>
-    <DocDetails doc={selectedDocument} {attachment} {isReply} />
+    <DocDetails doc={selectedDocument} {attachment} {isReply} {isCommons}/>
   </div>
 {:else}
 <div>
@@ -384,16 +403,31 @@ $: {
   </div>
   {/if}
   {#if isCommons && sectionIndex === 0 || !isCommons}
-  <div class='w-full flex flex-col py-4'>
-    <button on:click={handleClick}>
-      
-      {#if imageView}
-        Place an artefact
+    <div class='w-full flex flex-col py-4'>
+      {#if isCommons}
+        <button on:click={PlaceFromStudioFunction}>
+        
+          {#if imageView}
+            Place artefact from the studio
+          {:else}
+            Back to viewing
+          {/if}
+
+        </button>
       {:else}
-        Back to viewing
+        <button on:click={handleClick}>
+        
+        {#if imageView}
+          Place an artefact
+        {:else}
+          Back to viewing
+        {/if}
+
+      </button>
       {/if}
-    </button>
-  </div>
+
+    </div>
+
   {/if}
 </div>
 {/if}
@@ -402,12 +436,15 @@ $: {
   </div>
   <div class="w-full sm:w-[80vw] mt-16 sm:mt-10 sm:ml-[20vw]">
     <div class="my-grid-container-wrapper pl-4 ml-4">
+      {#if showPlace}
+      <PlaceFromStudio {windowWidth} />
+      {/if}
       {#if selectedDocument}
         <div class="artefact-overlay -ml-8 mt-[12vh] h-[80vh] w-[76vw] fixed items-stretch borderstudio">
           <View {selectedDocument} on:close={() => (selectedDocument = null)} />
         </div>
-      {:else if !imageView}
-        <div class="relative pl-6" style="z-index:51;">
+      {:else if !imageView && !showPlace}
+        <div class="relative pt-12" style="z-index:51;">
           <GridUpload
             {windowWidth} 
             on:success={() => (imageView = !imageView)}
@@ -430,7 +467,7 @@ $: {
           <div
             class="flex flex-col items-center justify-center align-middle h-[60vh]"
           >
-            <h3 class="p-6">Looking for artefacts</h3>
+            <h3 class="p-6">{loadingText}</h3>
           </div>
         {:else}
         {#if isCommons}
@@ -476,23 +513,12 @@ $: {
 
                     {:else}
                     <div id="{j}+{i}+{k}" class="grid-cell 
-                    {j === 0 && i === 0 && k === 0 ? 'first-cell-offset' : ''} 
-                    {i === 0 && j !== 0 && k === 0 ? 'top-row-offset' : ''} 
-                    {j === 0 && !(i === 0 && j === 0 && k === 0) ? 'first-col-offset' : ''}">
-                      {#if i === 0}
-                      <p class='text-left text-xl'>
-                        {numberToLetter(j)}
-                      </p>
-                        {#if j === 0}
-                        <p class='text-left text-xl'>
-                        {i + 1}
-                      </p>
-                      {/if}
-                      {:else if j === 0}
-                       <p class='text-left text-xl'>
-                        {i + 1}
-                      </p>
-                      {/if}
+                    {i === 0 && k === 0 ? 'top-row-offset' : ''} 
+                    {j === 0 ? 'first-col-offset' : ''}"
+                    data-letter={i === 0 ? numberToLetter(j) : ''}
+                    data-number={j === 0 ? i + 1 : ''}
+                    >
+                   
                       {#if documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
                         {#each documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
                           <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
@@ -643,16 +669,30 @@ $: {
 
   .grid-cell {
     border: 0px solid #ccc;
+    position: relative;
   }
-  .first-cell-offset {
-    box-shadow: 1.5rem 2rem 0px 0px #fff inset;
+
+    /* Display the letter on top of the cell */
+
+.grid-cell.top-row-offset::before {
+    content: attr(data-letter); 
+    position: absolute;
+    left: 0;
+    top: -2rem;
+    transform: translateX(100%);
+    font-size: 1.25rem;
+line-height: 1.75rem;
   }
-  .top-row-offset {
-    box-shadow: 0px 2rem 0px 0px #fff inset;
+
+  .grid-cell.first-col-offset::after {
+    content: attr(data-number); 
+    position: absolute;
+    left: -1.5rem;
+    top: 0;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
-  .first-col-offset {
-    box-shadow: 1.5rem 0px 0px 0px #fff inset;
-  }
+
   .my-grid-container-wrapper {
     position: relative;
     z-index: 50;
