@@ -10,9 +10,6 @@
     let alias;
     let src = 'images/upload-img.png';
 
-    export let identityPg = false;
-
-
 
     // read identity file as json
     function readFileAsync(file) {
@@ -31,22 +28,8 @@
         let fileAttachment = e.target.files[0];
         let fileReady = await readFileAsync(fileAttachment);
         try {
-            let keypairObject = JSON.parse(fileReady);
-            
-            console.log(typeof keypairObject);
-            console.log('fileReady', fileReady);
-            // @ts-ignore
-            let authorAddress = keypairObject.address;
-            console.log('authorAddress', authorAddress)
-            // @ts-ignore
-            let authorSecret = keypairObject.secret;
-            console.log('authorSecret', authorSecret)
-            authorKeypair.set({
-                            address: authorAddress,
-                            secret: authorSecret,
-                        });
-            alias = authorAddress.slice(1, 5);
-            dispatch('alias', alias);
+          let keypairObject = JSON.parse(fileReady);
+          dispatch('newIdentity', keypairObject); // Dispatch the entire new identity.
         } catch (error) {
             dispatch('error');
         }

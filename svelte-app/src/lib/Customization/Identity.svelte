@@ -83,13 +83,6 @@
     }
   }
 
-  function handleAlias(event) {
-    console.log("event", event);
-    newAlias = event.detail;
-    value = newAlias;
-    uploadWarning = false;
-  }
-
   function handleError() {
     uploadWarning = true;
   }
@@ -102,7 +95,7 @@
     if (settings.author) {
       // if an author already exists, use it
       authorKeypair.set(settings.author);
-    } else {
+    } else if (!$authorKeypair || !$authorKeypair.address) {
       // if no author exists, generate a new one
       generateID("r");
     }
@@ -110,6 +103,16 @@
 
   function handleEdit() {
     editing = !editing;
+  }
+
+  function handleNewIdentity(event) {
+      let newIdentity = event.detail;
+
+      // Set the new identity in the store and wherever else is needed.
+      authorKeypair.set(newIdentity);
+
+      // Save the identity to the settings or wherever else you need to.
+      settings.author = newIdentity;
   }
 </script>
 
@@ -183,9 +186,8 @@
         </div>
       <div>
         <UploadId
-          on:alias={handleAlias}
+          on:newIdentity={handleNewIdentity}
           on:error={handleError}
-          identityPg={true}
         />
       </div>
     </div>
