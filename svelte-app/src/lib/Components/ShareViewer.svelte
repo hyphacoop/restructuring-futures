@@ -1,9 +1,11 @@
 <script>
     import { shares } from "../../store/settings";
     import settings from "../../store/settings";
+    import { statusStore } from "../../store/status";
      import DownloadTool from "../DownloadTool.svelte";
 
     import CreateInvitation from "../InvitationUrl/CreateInvitation.svelte";
+  import StatusPanel from "./StatusPanel.svelte";
 
     let shareList = [];
     let tooltipStates = {};
@@ -33,7 +35,7 @@
 </script>
 <div class='flex flex-col items-start'>
 {#if shareList.length > 0}
-{#each shareList as share (share)}
+{#each shareList as share, index (index)}
     <div class="flex flex-col items-start py-2">
         <p>
             <b>Address:</b>
@@ -72,8 +74,14 @@
             </button>
         </div>
         <div class="mt-4 mx-2">
-        <DownloadTool shareAddress={share} />
-    </div>
+            {#if $statusStore[share]}
+            <div class="mt-4 mx-2">
+                <StatusPanel shareID={share} />
+            </div>
+            {/if}
+            <DownloadTool shareAddress={share} />
+        </div>
+
     </div>
         <hr class="divider w-full mt-4 mb-2">
     </div>
