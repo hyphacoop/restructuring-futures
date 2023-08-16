@@ -21,7 +21,7 @@
     let showGrid = false;
     let showArtefacts = true;
     let studioReplica;
-    let textContent;
+    let deletionTime;
 
     $: {
         console.log('studioShares', studioShares);
@@ -60,9 +60,6 @@
                 driver: new ReplicaDriverWeb(share),
             });
             console.log('authorKeypair address', $authorKeypair.address)
-            
-            const everything = await studioReplica.getAllDocs();
-            console.log('everything', everything);
             
             let results = await studioReplica.queryDocs({
                 historyMode: "latest",
@@ -114,6 +111,53 @@
      return null;
  }
 
+ const fetchReplies = async (basePath) => {
+    console.log('basePath', basePath)
+    const allDocs = await studioReplica.queryDocs({
+        filter: {
+            pathStartsWith: basePath,
+        },
+    });
+        
+    // Filter out documents by path length and empty or whitespace-only text content
+    let onlyReplies = allDocs.filter((doc) => {
+        return doc.path.split("/").length >= 7 && doc.text.trim() !== "";
+    });
+    console.log('ALL REPLIES: ', onlyReplies)
+    return onlyReplies;
+};
+
+const placeReplies = async (docs, basePath, deletionTime) => {
+    for (let doc of docs) {
+        let date = new Date();
+        let filename = doc.path.split('/').pop();
+        console.log('filename', filename);
+        console.log('received doc attempt:', doc);
+        if (filename.includes('.')) {
+            const attachmentBytes = await getAttachment(doc);
+            if (attachmentBytes) {
+                doc.attachment = attachmentBytes;
+            }
+        }
+        console.log('basePath', basePath);
+        let tempPath = basePath.split('!')[0];
+        let newPath = tempPath + `${date.getTime()}/!` + filename;
+        let reply = {
+            path: newPath,
+            deleteAfter: deletionTime,
+            text: doc.text
+        } 
+        console.log('reply to validate path', reply)
+        console.log('upload doc attempt:', doc);
+        const result = await $replica.replica.set($authorKeypair, reply);
+        console.log('replies result:', result);
+
+        if (Earthstar.isErr(result)) {
+            console.error(result);
+        }
+    }
+};
+
     async function placeArtefact() {
         if (!selectedArtefact) {
             console.error("No artefact selected");
@@ -125,11 +169,11 @@
         
         let date = new Date();
         let alias = $authorKeypair.address.slice(1, 5);
-        let basePath = `/documents/${xy[0]}/${xy[1]}/${date.getTime()}/!shared-from-the-studio-by-${alias}`;
+        let newPath = `/documents/${xy[0]}/${xy[1]}/${date.getTime()}/!shared-from-the-studio-by-${alias}`;
         
-        let docPath = attachmentBytes ? `${basePath}.${originalExtension}` : basePath + ".md";
+        let docPath = attachmentBytes ? `${newPath}.${originalExtension}` : newPath + ".md";
 
-        let deletionTime = (Date.now() + 2548800000) * 1000;
+        deletionTime = (Date.now() + 2548800000) * 1000;
 
         let thisDoc = {
             path: docPath,
@@ -142,20 +186,19 @@
         }
 
         let result = await $replica.replica.set($authorKeypair, thisDoc);
-
         console.log("Result: ", result);
+        // Fetch all replies at the given path
+        let pathForReplies = selectedArtefact.path.substring(0, selectedArtefact.path.lastIndexOf('/'));
+        console.log('pathForReplies', pathForReplies);
+        let replies = await fetchReplies(pathForReplies);
+
+        // Place them in the commons
+        let transferedReplies = await placeReplies(replies, newPath, deletionTime);
         if (Earthstar.isErr(result)) {
             console.error(result);
         }
     }
 </script>
-
-
-
-
-
-    
-
 
     {#if showArtefacts}
 <div style="position: fixed; z-index: 52;" class="mt-16 pt-4">
