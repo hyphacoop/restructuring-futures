@@ -7,6 +7,8 @@
   import replicaDetails from "./store/replica.js";
   import settings from "./store/settings.js";
   import shareKeypair from "./store/share.js";
+  import { statusStore } from './store/status.js';
+
 
   import { onMount } from "svelte";
 
@@ -15,7 +17,7 @@
   import ValidateId from "./lib/ValidateId.svelte";
   import GridView from "./lib/GridView.svelte";
   import GridUpload from "./lib/GridUpload.svelte";
-  import StatusPanel from "./lib/StatusPanel.svelte";
+  import StatusPanel from "./lib/Components/StatusPanel.svelte";
   import ShareSettings from "./lib/ShareSettings.svelte";
   import UserSettings from "./lib/UserSettings.svelte";
   import MouseBanner from "./lib/MouseBanner.svelte";
@@ -50,21 +52,23 @@
     settings.addSecret('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a', 'bexvgelmf632ecsgvqhhbwgqgmny5vren673canlay2istswfzspq');
     settings.addShare($shareKeypair.shareAddress);
     settings.addSecret($shareKeypair.shareAddress, $shareKeypair.shareSecret);
-    console.log(settings.shareSecrets);
+    createNewPeer();
   });
 
-  // new peer & syncing with server
-  $: if ($replicaDetails) {
+  function createNewPeer() {
+    console.log('replicaDetails_$$$', $replicaDetails)
   const peer = new Earthstar.Peer();
   peer.addReplica($replicaDetails.replica);
   const sync = peer.sync(import.meta.env.VITE_SERVER_ADDRESS, true);
   const server = settings.addServer(import.meta.env.VITE_SERVER_ADDRESS);
   console.log(server);
 
+  
   sync.onStatusChange((newStatus) => {
     status = newStatus;
     console.log(newStatus);
-    status = status;
+    statusStore.set(status);
+    console.log('status', status)
   });
 
   sync
@@ -75,7 +79,15 @@
     .catch((err) => {
       console.error("Sync failed", err);
     });
+  
   }
+
+  // new peer & syncing with server
+  $: if ($replicaDetails) {
+    console.log('replicaDetails changed', $replicaDetails);
+    createNewPeer();
+  }
+ 
 
   function handleUpload(event) {
     IDcreated = true;
@@ -167,7 +179,7 @@
     </div>
   {:else if IDcreated && showUserSettings}
     <div class="w-full">
-      <UserSettings {status} on:toggle={toggleUserSettings} />
+      <UserSettings on:toggle={toggleUserSettings} />
     </div>
   {/if}
 </main>
