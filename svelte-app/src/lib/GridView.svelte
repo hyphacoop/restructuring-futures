@@ -248,13 +248,6 @@
     filetype = null;
     xy = [0, 0];
   }
-  function backToView() {
-    uploadView = false;
-    imageView = true;
-    selectedDocument = null;
-    filetype = null;
-    xy = [0, 0];
-  }
 
   function switchShare() {
     documents = [];
@@ -464,7 +457,7 @@ $: {
           {filetype}
           {xy}
           on:success={successfulUpload}
-          on:close={backToView}
+          on:close={successfulUpload}
         />
         </div>
       {/if}
