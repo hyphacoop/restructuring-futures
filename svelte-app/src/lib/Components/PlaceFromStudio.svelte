@@ -13,6 +13,9 @@
 
     import splitTitleAndNotes from "../utils/splitTitleandNote";
     import StudioPortal from "./StudioPortal.svelte";
+    import ArtefactPreview from "./ArtefactPreview.svelte";
+
+    import { extractDateFromPath } from "../utils/attachmentHelper";
 
     const dispatch = createEventDispatcher();
 
@@ -201,23 +204,26 @@ const placeReplies = async (docs, basePath, deletionTime) => {
 </script>
 
     {#if showArtefacts}
-<div style="position: fixed; z-index: 52;" class="mt-16 pt-4">
+<div style="position: absolute; z-index: 52;" class="mt-16 pt-4">
     <div class="container">
     <h4 class='ml-8 mt-8 text-left'>Place Artefact from the Studio</h4>
     {#if allArtefactsFromStudios.length === 0}
         <h5 class='ml-8 mt-8 text-left'>no artefacts found in the studio</h5>
         <StudioPortal noArtefacts={true} on:shareUpdated={hideWindow}/>
     {:else}
-    <ul>
+   <div  class='flex flex-row flex-wrap mx-2 justify-center '>
         {#each allArtefactsFromStudios as artefact (`${artefact.textHash}-${artefact.timestamp}`)} <!-- Assuming each artefact has an id for key -->
-            <li>
+            <div class='m-1 flex flex-col'>
+
                 <button on:click={() => handleSelectArtefact(artefact)}>
-                    {getTitle(artefact.text) ? `${getTitle(artefact.text)} - ${artefact.path}` : artefact.path}
+
+                    <ArtefactPreview doc={artefact} {studioReplica} />
+                    {getTitle(artefact.text) ? `${getTitle(artefact.text)} - Shared on ${extractDateFromPath(artefact.path)}` : artefact.path}
                 </button>
                 <!-- Displaying the title if available followed by the path. You can adjust this accordingly. -->
-            </li>
+            </div>
         {/each}
-    </ul>
+        </div>
     {/if}
 </div>
 </div>
