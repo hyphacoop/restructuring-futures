@@ -82,21 +82,23 @@
         const uInt8 = new Uint8Array(arrayBuffer);
 
         console.log("mime", mimeType);
-        let docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!voice-note-by-${alias}.${extension}`;
 
         let voiceDoc = {
-            path: docPath,
             text: `Voice note shared by ${alias} on ${readableDate} ${textContent}`,
             attachment: uInt8,
         }
 
-        
-
       
         if (xy == "reply") {
-        const replyPathParts = doc.path.split("!");
-        voiceDoc.path = `${replyPathParts[0]}${timestamp}/!reply-by-${alias}.${extension}`;
-        voiceDoc.text = `${alias} replied with voice <br>Shared on ${readableDate}`;
+            console.log('og doc path:', doc.path)
+            const replyPathParts = doc.path.substring(0, doc.path.lastIndexOf('/'));
+            console.log('replypathparts', replyPathParts)
+            voiceDoc.path = `${replyPathParts}/${timestamp}/!reply-by-${alias}.${extension}`;
+            console.log('if reply docPath:', voiceDoc.path)
+            voiceDoc.text = `${alias} replied with voice <br>Shared on ${readableDate}`;
+        } else {
+            let docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!voice-note-by-${alias}.${extension}`;
+            voiceDoc.path = docPath;
         }
         console.log('shareKeypair', $shareKeypair)
         // Add deleteAfter only if we are in the commons
@@ -110,9 +112,10 @@
             }
         } else {
             // remove the '!' from the path (to make it non-ephemeral)
-            voiceDoc.path = docPath.replace('!', ''); 
+            voiceDoc.path = voiceDoc.path.replace('!', ''); 
             console.log('removed ! from path');
         }
+    console.log('voiceDoc path', voiceDoc.path)
     const result = await $replica.replica.set($authorKeypair, voiceDoc);
     console.log("Upload Result: ", result);
 
