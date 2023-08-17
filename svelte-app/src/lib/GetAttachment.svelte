@@ -18,10 +18,12 @@
     $: buttonText = dnone ? 'Show attachment' : 'Hide attachment';
 
     async function getAttachment(doc) {
+        console.log('getting attachment')
         const attachment = await $replica.replica.getAttachment(doc);
         let fileExtension = doc.path.split('.').pop();
 
         if (attachment !== undefined) {
+            console.log('attachment found')
             console.log('fileExtension', fileExtension);
             const docdata = await attachment.bytes();
             console.log("docdata", docdata);
