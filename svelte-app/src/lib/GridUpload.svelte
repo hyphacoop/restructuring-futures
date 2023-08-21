@@ -120,6 +120,7 @@
     width:100%;
     position: absolute;
     bottom: 100%;
+    line-height:1.5;
     text-align:left;
     background-color:white;
   }
