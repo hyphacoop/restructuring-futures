@@ -9,6 +9,7 @@
     import { get } from "svelte/store";
 
     import JSZip from "jszip";
+    import Tooltip from "./Components/Tooltip.svelte";
 
     let documents = [];
     let paths = [];
@@ -131,8 +132,9 @@
 </script>
 {#if !isHidden}
     <div class="{!isStudio ? 'phase1' : ''} flex flex-col-reverse">
-    <button on:click={createArchive}>{!isStudio ?  'Create Archive' : 'backup this studio'}</button>
-
+        <Tooltip text='backing up {isStudio ? 'your studio' : 'the commons'} by downloading a zip file'>
+            <button class='w-full' on:click={createArchive}>{!isStudio ?  'Create Archive' : 'backup this studio'}</button>
+        </Tooltip>
         {#if counter > 0}
             <p class="text-left">
             This button was used {counter}
