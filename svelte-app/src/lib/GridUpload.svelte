@@ -4,6 +4,7 @@
   import TextInput from "./TextInput.svelte";
 
   export let windowWidth;
+  export let pages;
 
   let grid;
   let col;
@@ -30,9 +31,10 @@
   let clicked = false;
   let fileSelection = false;
   let clickedPos = ["0px", "0px"];
+  let selectedPage;
 
   function selectNupload(i, j) {
-    start = [i, j];
+    start = [i, j, selectedPage];
 
     clicked = !clicked;
     check_active([i, j]);
@@ -86,7 +88,14 @@
   </div>
 {/if}
 <div class="pb-32 background-white">
-<h4>Select location on map</h4>
+<h4 class='pb-2'>Select page   <span class="inline-dropdown">
+  <select bind:value={selectedPage} id="pageDropdown">
+    {#each pages as page}
+      <option value={page.pageNumber}># {page.pageNumber}</option>
+    {/each}
+  </select>
+</span>
+then location on map</h4>
 
 <div
   class="container mt-8"
@@ -113,8 +122,7 @@
 </div>
 </div>
 </div>
-<!-- Displays coordinates of selected area 
-      <strong>Coords:</strong> {start} {end[0] ? '-' : ''} {end} -->
+
 <style>
   h4 { 
     width:100%;
@@ -162,4 +170,21 @@
   .background-white {
     background-color: #fff;
   }
+
+  .inline-dropdown select {
+  background: transparent;
+  border: 1px solid #71302B;
+  padding:0.5rem 1rem;
+  line-height: inherit;
+  outline: none;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.inline-dropdown select:hover, .inline-dropdown select:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
 </style>
