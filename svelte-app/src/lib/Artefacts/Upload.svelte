@@ -9,7 +9,6 @@
     import replica from "../../store/replica";
 
     import { createEventDispatcher } from "svelte";
-  import { readable } from "svelte/store";
 
     export let filetype;
     export let xy = [0, 0];
