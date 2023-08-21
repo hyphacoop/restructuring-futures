@@ -29,7 +29,10 @@
   import { calculateLunarPhase, countArtefactsInEachPhase } from './utils/lunarPhase.js';
   import { createObserver, observeElement, disconnectObserver } from './utils/scrollObserver.js';
   import { LUNAR_PHASE, COLOR_CYCLE, PHASE_NAME } from './utils/constants.js';
+  import { extractPageNumber } from "./utils/extractPageNumber";
+
   import PlaceFromStudio from "./Components/PlaceFromStudio.svelte";
+  import CreatePage from "./Components/CreatePage.svelte";
 
   export let showDetails = true;
   export let IDcreated = false;
@@ -39,6 +42,8 @@
 
 
   let grid = [6, 9];
+  let pages = [];
+  let allPagesDocs;
 
   let loadingText = "Looking for artefacts..."
 
@@ -172,7 +177,22 @@
     artefactsInPhase1 = counts.artefactsInPhase1;
     artefactsInPhase2 = counts.artefactsInPhase2;
     artefactsInPhase3 = counts.artefactsInPhase3;
-    } 
+
+    } else {
+      // Group documents by page
+      let groupedDocs = {};
+
+      documents.forEach(doc => {
+        const pageNumber = extractPageNumber(doc.path);
+        if (!groupedDocs[pageNumber]) {
+            groupedDocs[pageNumber] = [];
+        }
+        groupedDocs[pageNumber].push(doc);
+    });
+
+    allPagesDocs = Object.values(groupedDocs);
+    console.log('allPagesDocs', allPagesDocs);
+    }
   };
 
   $: {
@@ -209,6 +229,13 @@
 
   onMount(() => {
   fetchDocs();
+  if (!isCommons){
+  pages = allPagesDocs.map((docs, index) => ({
+            pageNumber: index + 1, // This assumes pages are in sequential order
+            documents: docs
+        }));
+  console.log('pages: ', pages)
+}
 });
 
   let showPlace = false;
@@ -549,8 +576,9 @@ $: {
           {/each}
           <StudioPortal on:shareUpdated="{switchShare}"/>
           {:else}
+          {#each pages as page (page.pageNumber)}
           <div
-          id={`Studio`}
+          id={`Studio-page${page.pageNumber}`}
           class="my-grid-container studio-grid w-screen mb-32"
           style={`background-color: white; ${
             isMobile
@@ -579,23 +607,13 @@ $: {
                     {/if}
 
                 {:else}
-                <div class="borderstudio">
-                  {#if i === 0}
-                  <p class='text-xl absolute ml-20'>
-                    {numberToLetter(j)}
-                  </p>
-                    {#if j === 0}
-                    <p class='text-left text-xl absolute'>
-                    {i + 1}
-                  </p>
-                  {/if}
-                  {:else if j === 0}
-                   <p class='text-left text-xl'>
-                    {i + 1}
-                  </p>
-                  {/if}
-                  {#if documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
-                    {#each documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
+                <div class="borderstudio relative {i === 0 ? 'top-row-offset' : ''} 
+                    {j === 0 ? 'first-col-offset' : ''}"
+                    data-letter={i === 0 ? numberToLetter(j) : ''}
+                    data-number={j === 0 ? i + 1 : ''}>
+                
+                  {#if page.documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
+                    {#each page.documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
                       <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
                           <OrbitingReplies {doc} />
                           <div class="orbit-icon">
@@ -611,7 +629,11 @@ $: {
               {/if}
             {/each}
           {/each}
+          <p>page {page.pageNumber}</p>
         </div>
+
+        {/each}
+        <CreatePage on:createPage={fetchDocs}/>
           {/if}
         {/if}
       </div>
@@ -673,7 +695,7 @@ $: {
 
     /* Display the letter on top of the cell */
 
-.grid-cell.top-row-offset::before {
+.top-row-offset::before {
     content: attr(data-letter); 
     position: absolute;
     left: 0;
@@ -683,7 +705,7 @@ $: {
 line-height: 1.75rem;
   }
 
-  .grid-cell.first-col-offset::after {
+.first-col-offset::after {
     content: attr(data-number); 
     position: absolute;
     left: -1.5rem;
