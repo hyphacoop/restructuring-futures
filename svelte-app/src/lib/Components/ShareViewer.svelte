@@ -2,10 +2,10 @@
     import { shares } from "../../store/settings";
     import settings from "../../store/settings";
     import { statusStore } from "../../store/status";
-     import DownloadTool from "../DownloadTool.svelte";
+    import DownloadTool from "../DownloadTool.svelte";
 
     import CreateInvitation from "../InvitationUrl/CreateInvitation.svelte";
-  import StatusPanel from "./StatusPanel.svelte";
+    import StatusPanel from "./StatusPanel.svelte";
 
     let shareList = [];
     let tooltipStates = {};
@@ -53,10 +53,14 @@
             {share.includes('commons') ? 'Commons' : 'Studio'}
         </p>
         </div>
-        {#if $statusStore[share] && $statusStore[share].docs && Object.keys($statusStore[share].docs).length > 0}
-        <div class="ml-8">
-            <StatusPanel shareID={share} />
-        </div>
+        {#if $statusStore[share]}
+            {#if $statusStore[share].docs}
+                {#if Object.keys($statusStore[share].docs).length > 0}        
+                <div class="ml-8">
+                    <StatusPanel shareID={share} />
+                </div>
+                {/if}
+            {/if}
         {/if}
     </div>
         <div class='flex flex-row items-end'>
