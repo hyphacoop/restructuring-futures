@@ -12,8 +12,7 @@
 
   let fileinput;
   let result;
-  let studio;
-  let offering;
+  let docPath;
   let textContent;
   let errorMessage = '';
 
@@ -73,7 +72,13 @@
     // set file to Uint8Array
     let fileUint8 = new Uint8Array(fileReady);
     // set path
-    let docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!${finalName}`;
+    if (xy.length >= 3 && xy[2] > 1) {
+          docPath = `/documents/page${xy[2]}/${xy[0]}/${xy[1]}/${timestamp}/!${finalName}`;
+      } else {
+          docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!${finalName}`;
+    }
+
+
     let docText =
         "Shared by " +
         $authorKeypair.address.slice(1, 5) +
@@ -93,9 +98,11 @@
         thisDoc.deleteAfter = deletionTime;
         console.log('added deleteAfter to doc');
     } else {
-        // else remove the '!' from the path (to make it non-ephemeral)
-        thisDoc.path = docPath.replace('!', ''); 
-        console.log('removed ! from path');
+      if (docPath.includes('!')) {
+                thisDoc.path = docPath.replace('!', '');
+            } else {
+                thisDoc.path = docPath;
+          }
     }
     
     result = await $replica.replica.set($authorKeypair, thisDoc);
