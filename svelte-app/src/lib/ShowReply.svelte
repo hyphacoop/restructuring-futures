@@ -25,7 +25,7 @@
         if (doc.path.includes('!')) {
             newPath = doc.path.split('!')[0];
         } else {
-            let match = doc.path.match(/(\/documents\/\d+\/\d+\/\d+)/);
+            let match = doc.path.match(/(\/documents\/(page\d+\/)?\d+\/\d+)/);
             if (match && match[1]) {
                 newPath = match[1];
                 console.log('newPath', newPath)
@@ -38,7 +38,11 @@
                 pathStartsWith: newPath,
             }
         });
-        replies = replies.filter(doc => doc.path.split('/').length > 6);
+        if (newPath.includes('/page')) {
+            replies = replies.filter(doc => doc.path.split('/').length > 7);
+        } else {
+            replies = replies.filter(doc => doc.path.split('/').length > 6);
+        }
         showReplies = true;
     });
 
