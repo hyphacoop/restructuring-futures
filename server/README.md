@@ -1,4 +1,13 @@
+# Running the Earthstar Server
+
+You have two options to run the Earthstar server:
+
+1. Using Docker (suitable for containerized environments)
+2. Directly with Deno (for those who prefer not to use Docker)
+
 Docker images are separated in two categories. Raspberry Pi and other operating systems. 
+
+## 1. Using Docker  
 
 To run the Dockerfile provided, you first need to ensure you have Docker installed on your machine. Once you've done that, you can follow the steps below to build and run your Docker image.
 
@@ -22,6 +31,19 @@ Run your Docker Container: Now you can run your Docker container from your newly
 
 This command tells Docker to run a new container from the deno-server image. The -p flags bind the ports inside the Docker container to ports on your machine, so you can access your Deno server.
 
+## 2. Running Directly with Deno
+
+Prerequisites: Ensure you have Deno installed on your machine. If not, you can find installation instructions [here](https://deno.com/manual@v1.11.3/getting_started/installation).
+
+Steps:
+
+1. Navigate to the Server Directory: Go to the appropriate folder that contains server.ts (/server/raspberry-pi/ or /server/others/).
+2. Run the Server: Use the following command:
+
+`deno run --allow-all server.ts`
+
+The server should now be running. If you have any issues, please issue a [bug report](https://github.com/hyphacoop/restructuring-futures/issues/new?assignees=TRIPLEDOUBLEV&labels=bug&projects=&template=bug_report.md&title=)
+  
 To test the server, you will need the IP address of the machine that is running the server.
 
 Here is how you can obtain this IP address based on your machine's OS:
@@ -60,6 +82,8 @@ In the ip addr show command output, under your network interface (like eth0 or w
 Remember, these instructions provide the private IP address that your machine has been assigned in your local network. These addresses are usually not accessible from the Internet, but they can be used by other devices on the same local network to reach your machine.
 
 With this IP address, you can now test syncing.
+
+## Testing the Server
 
 If you don't want to download deno, you can use the web app to connect to the server.
 You have two options available
