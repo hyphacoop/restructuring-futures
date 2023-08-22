@@ -52,8 +52,8 @@
                                 {@html data}
                             </p>
                         {:else if filetype == "audio"}
-                        <div class='w-auto'>
-                            <audio src={data} controls />
+                        <div class='audioWrapper'>
+                            <audio class='w-full' src={data} controls />
                         </div>
                         {:else if filetype == "markdown"}
                             <div class="markdown text-3xl">
@@ -77,16 +77,18 @@
     .textbox {
         width:100%;
         max-width:60vw;
+        max-height: 200px;
     }
     img {
         height: 200px;
         width: 200px;
+        object-fit: contain;
     }
     audio {
         border-radius: 0.5rem;
     }
     .markdown {
-        max-height: 50vh;
+        max-height: 200px;
         max-width: 60vw;
         overflow: scroll;
         text-align: left;
@@ -96,8 +98,15 @@
         overflow: auto;
     }
     .pdfViewer {
-        max-height: 50vh;
-        max-width: 50vw;
-        overflow-y: auto;
+        max-width: 200px;
+        max-height: 200px;
+        overflow: auto;
+    }
+    .audioWrapper {
+        width: 200px;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 </style>
