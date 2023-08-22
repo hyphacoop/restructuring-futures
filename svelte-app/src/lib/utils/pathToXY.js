@@ -4,8 +4,7 @@ export default function pathToXY(path) {
     let splitPath = path.split("/");
 
     let selectedX, selectedY;
-    console.log('splitPath', splitPath)
-    console.log('splitPath length', splitPath.length)
+    
     // If there's no additional page subfolder
     if (splitPath.length === 6) {
         selectedX = splitPath[2];
