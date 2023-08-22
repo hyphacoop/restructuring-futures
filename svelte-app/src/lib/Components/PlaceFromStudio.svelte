@@ -69,11 +69,23 @@
                 filter: {
                     author: $authorKeypair.address,
                     pathStartsWith: "/documents",
-                },
-                limit: 10,
+                }
             });
             console.log("Results for share:", share, results);
-            results = results.filter((doc) => doc.path.split("/").length <= 6);
+            results = results.filter((doc) => {
+                if (!doc.text.trim()) {
+                return false; // Filters out empty or whitespace-only documents
+            }
+                    // Check if the path matches the format /documents/pageX/newPage
+            if (/^\/documents\/page\d+\/newPage$/.test(doc.path)) {
+                return false;
+            }
+            if (doc.path.includes('/page')) {
+                    return doc.path.split("/").length <= 7;
+                } else {
+                    return doc.path.split("/").length <= 6;
+                }
+            });
             console.log("Filtered results:", results);
             return results;
             
@@ -82,8 +94,6 @@
     console.error("Error fetching artefacts:", error);
 }
         }
-
-
 
 
         let promises = sharesValue.map(share => fetchArtefactsFromShare(share));
@@ -124,7 +134,16 @@
         
     // Filter out documents by path length and empty or whitespace-only text content
     let onlyReplies = allDocs.filter((doc) => {
-        return doc.path.split("/").length >= 7 && doc.text.trim() !== "";
+        // Check if the document text is non-empty
+        if (doc.text.trim() === "") {
+            return false;
+        }
+        // If the path contains '/page', allow path length of 8, otherwise, allow length of 7
+        if (doc.path.includes('/page')) {
+            return doc.path.split("/").length >= 8;
+        } else {
+            return doc.path.split("/").length >= 7;
+        }
     });
     console.log('ALL REPLIES: ', onlyReplies)
     return onlyReplies;
