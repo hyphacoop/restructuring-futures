@@ -122,6 +122,7 @@
   let scaledX, scaledY;
   let uploadView = false;
   let filetype = null;
+  let showStudio = false;
   let isCommons;
   let sharePart;
   let xy = [0, 0];
@@ -161,13 +162,16 @@
       },
     });
         
+
+    if (isCommons){
+
     // Filter out documents by path length and empty or whitespace-only text content
     documents = documents.filter((doc) => {
         return doc.path.split("/").length <= 6 && doc.text.trim() !== "";
     });
 
     console.log("Docs", documents);
-    if (isCommons){
+
     gridState = calculateLunarPhase(documents);
     console.log('gridState', gridState);
 
@@ -179,19 +183,27 @@
     artefactsInPhase3 = counts.artefactsInPhase3;
 
     } else {
+      console.log('looking for pages');
       // Group documents by page
       let groupedDocs = {};
 
       documents.forEach(doc => {
         const pageNumber = extractPageNumber(doc.path);
+        const pathDepth = pageNumber === 1 ? 6 : 7;
         if (!groupedDocs[pageNumber]) {
             groupedDocs[pageNumber] = [];
         }
-        groupedDocs[pageNumber].push(doc);
+        if (doc.path.split("/").length <= pathDepth && doc.text.trim() !== "") {
+          groupedDocs[pageNumber].push(doc);
+        }
+        console.log(groupedDocs, 'groupedDocs');
     });
 
     allPagesDocs = Object.values(groupedDocs);
     console.log('allPagesDocs', allPagesDocs);
+    setTimeout(() => {
+        showStudio = true;
+      }, 500);
     }
   };
 
@@ -229,13 +241,6 @@
 
   onMount(() => {
   fetchDocs();
-  if (!isCommons){
-  pages = allPagesDocs.map((docs, index) => ({
-            pageNumber: index + 1, // This assumes pages are in sequential order
-            documents: docs
-        }));
-  console.log('pages: ', pages)
-}
 });
 
   let showPlace = false;
@@ -321,6 +326,13 @@ $: if (readManual){
 $: {
   sharePart = currentShare.split('+')[1].split('.')[0];
   isCommons = sharePart.includes('commons');
+  if (!isCommons && allPagesDocs !== undefined){
+    pages = allPagesDocs.map((docs, index) => ({
+        pageNumber: index + 1, // This assumes pages are in sequential order
+        documents: docs
+    }));
+    console.log('pages: ', pages)
+        };
 }
   let windowWidth;
 
@@ -476,6 +488,7 @@ $: {
             on:success={() => (imageView = !imageView)}
             on:upload={() => (imageView = !imageView)}
             on:selected={handleSelection}
+            {pages}
           />
         </div>
       {:else if uploadView}
@@ -576,6 +589,7 @@ $: {
           {/each}
           <StudioPortal on:shareUpdated="{switchShare}"/>
           {:else}
+          {#if showStudio}
           {#each pages as page (page.pageNumber)}
           <div
           id={`Studio-page${page.pageNumber}`}
@@ -612,8 +626,8 @@ $: {
                     data-letter={i === 0 ? numberToLetter(j) : ''}
                     data-number={j === 0 ? i + 1 : ''}>
                 
-                  {#if page.documents.find((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j)}
-                    {#each page.documents.filter((doc) => parseInt(doc.path.split("/")[2]) == i && parseInt(doc.path.split("/")[3]) == j) as doc (doc.textHash + doc.timestamp)}
+                  {#if page.documents.find((doc) => parseInt(doc.path.split("/")[page.pageNumber === 1 ? 2 : 3]) == i && parseInt(doc.path.split("/")[page.pageNumber === 1 ? 3 : 4]) == j)}
+                    {#each page.documents.filter((doc) => parseInt(doc.path.split("/")[page.pageNumber === 1 ? 2 : 3]) == i && parseInt(doc.path.split("/")[page.pageNumber === 1 ? 3 : 4]) == j) as doc (doc.textHash + doc.timestamp)}
                       <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
                           <OrbitingReplies {doc} />
                           <div class="orbit-icon">
@@ -629,11 +643,12 @@ $: {
               {/if}
             {/each}
           {/each}
-          <p>page {page.pageNumber}</p>
+          <p class='text-left'>page {page.pageNumber}</p>
         </div>
 
         {/each}
         <CreatePage on:createPage={fetchDocs}/>
+        {/if}
           {/if}
         {/if}
       </div>
