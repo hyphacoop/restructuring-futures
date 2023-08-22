@@ -53,6 +53,8 @@
     settings.addSecret('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a', 'bexvgelmf632ecsgvqhhbwgqgmny5vren673canlay2istswfzspq');
     settings.addShare($shareKeypair.shareAddress);
     settings.addSecret($shareKeypair.shareAddress, $shareKeypair.shareSecret);
+    console.log('settings', settings)
+    console.log('settings.shareSecrets', settings.shareSecrets)
     createNewPeer();
   });
 
