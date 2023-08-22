@@ -17,6 +17,7 @@
     let artefactTitle = "";
     let artefactNotes = "";
     let textContent;
+    let docPath;
     let result;
     let isValid = true;
 
@@ -26,6 +27,7 @@
     const dispatch = createEventDispatcher();
 
     async function submitText() {
+        console.log("xy is: ", [xy])
         // deal with dates
         let date = new Date();
         let readableDate = new Intl.DateTimeFormat('en-US').format(date);
@@ -41,8 +43,12 @@
         } else {
             textContent = "#Title: " + artefactTitle;
         }
-        let docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!text-input-by-${alias}.md`;
-        
+        if (xy.length >= 3 && xy[2] > 1) {
+            docPath = `/documents/page${xy[2]}/${xy[0]}/${xy[1]}/${timestamp}/!text-input-by-${alias}.md`;
+        } else {
+            docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!text-input-by-${alias}.md`;
+        }
+
         let docText =
         "Text input by " +
         $authorKeypair.address.slice(1, 5) +
@@ -61,9 +67,11 @@
             thisDoc.deleteAfter = deletionTime;
             console.log('added deleteAfter to doc');
         } else {
-            // else remove the '!' from the path (to make it non-ephemeral)
-            thisDoc.path = docPath.replace('!', ''); 
-            console.log('removed ! from path');
+            if (docPath.includes('!')) {
+                thisDoc.path = docPath.replace('!', '');
+            } else {
+                thisDoc.path = docPath;
+            }
         }
 
         result = await $replica.replica.set($authorKeypair, thisDoc);
