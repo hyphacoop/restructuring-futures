@@ -99,7 +99,7 @@
             voiceDoc.text = `${alias} replied with voice <br>Shared on ${readableDate}`;
         } else {
             if (xy.length >= 3 && xy[2] > 1) {
-                docPath = `/documents/page${xy[2]}/${xy[0]}/${xy[1]}/${timestamp}/!text-input-by-${alias}.md`;
+                docPath = `/documents/page${xy[2]}/${xy[0]}/${xy[1]}/${timestamp}/!voice-note-by-${alias}.${extension}`;
             } else {
                 docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!voice-note-by-${alias}.${extension}`;
             }
