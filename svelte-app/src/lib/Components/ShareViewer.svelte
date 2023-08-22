@@ -37,6 +37,9 @@
 {#if shareList.length > 0}
 {#each shareList as share, index (index)}
     <div class="flex flex-col items-start py-2">
+        <div class="flex flex-row justify-between">
+            <div class="flex flex-col items-start py-2">
+
         <p>
             <b>Address:</b>
             {share}
@@ -49,6 +52,13 @@
             <b>Type:</b>
             {share.includes('commons') ? 'Commons' : 'Studio'}
         </p>
+        </div>
+        {#if $statusStore[share] && $statusStore[share].docs && Object.keys($statusStore[share].docs).length > 0}
+        <div class="ml-8">
+            <StatusPanel shareID={share} />
+        </div>
+        {/if}
+    </div>
         <div class='flex flex-row items-end'>
         <div class="mt-4 mx-2">
             <CreateInvitation shareAddress={share} />
@@ -74,11 +84,7 @@
             </button>
         </div>
         <div class="mt-4 mx-2">
-            {#if $statusStore[share]}
-            <div class="mt-4 mx-2">
-                <StatusPanel shareID={share} />
-            </div>
-            {/if}
+
             <DownloadTool shareAddress={share} />
         </div>
 
