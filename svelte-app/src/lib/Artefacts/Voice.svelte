@@ -9,6 +9,7 @@
     const dispatch = createEventDispatcher();
 
     let uploadResult;
+    let docPath;
     let media = [];
     let mediaRecorder = null;
     let recording = false;
@@ -97,7 +98,11 @@
             console.log('if reply docPath:', voiceDoc.path)
             voiceDoc.text = `${alias} replied with voice <br>Shared on ${readableDate}`;
         } else {
-            let docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!voice-note-by-${alias}.${extension}`;
+            if (xy.length >= 3 && xy[2] > 1) {
+                docPath = `/documents/page${xy[2]}/${xy[0]}/${xy[1]}/${timestamp}/!text-input-by-${alias}.md`;
+            } else {
+                docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!voice-note-by-${alias}.${extension}`;
+            }
             voiceDoc.path = docPath;
         }
         console.log('shareKeypair', $shareKeypair)
@@ -112,7 +117,11 @@
             }
         } else {
             // remove the '!' from the path (to make it non-ephemeral)
-            voiceDoc.path = voiceDoc.path.replace('!', ''); 
+            if (docPath.includes('!')) {
+                voiceDoc.path = docPath.replace('!', '');
+            } else {
+                voiceDoc.path = docPath;
+            }
             console.log('removed ! from path');
         }
     console.log('voiceDoc path', voiceDoc.path)
@@ -204,11 +213,6 @@
     }
     div {
         margin: 0.5rem;
-    }
-    .auto-width {
-        width: -webkit-fill-available;
-        width: -moz-available;
-        width: 100%;
     }
     button:disabled {
         background-color: #ccc;
