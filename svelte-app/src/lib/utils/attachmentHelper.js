@@ -3,7 +3,7 @@ export async function getAttachment(doc, replica) {
     const attachment = await replica.getAttachment(doc);
     let fileExtension = doc.path.split('.').pop();
 
-    if (attachment !== undefined) {
+    if (attachment !== undefined && typeof attachment.bytes === 'function') {
         console.log('fileExtension', fileExtension);
         const docdata = await attachment.bytes();
         console.log("docdata", docdata);
