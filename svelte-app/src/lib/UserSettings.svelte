@@ -5,11 +5,14 @@
 
   import authorKeypair from "../store/identity";
 
-  let activeComponent = "workspace";
 
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
+
+  export let initialView = "workspace";
+    
+  let activeComponent = initialView;
 
   function toggleDetails() {
     dispatch("toggle");
@@ -28,7 +31,7 @@
       <b> current alias: </b>{$authorKeypair.address.slice(0, 5)}
     </p>
     <div
-      class="paper-yellow ml-6 mx-1 sm:mt-4 flex flex-row sm:flex-col p-8 h-auto sm:h-[80vh] z-50 customBorder"
+      class="paper-yellow customBorder ml-6 mx-1 sm:mt-4 flex flex-row sm:flex-col p-8 h-auto sm:h-[80vh] z-50 customBorder"
     >
       <button
         class:phase2={activeComponent === "workspace"}
@@ -63,3 +66,8 @@
     {/if}
   </div>
 </div>
+<style>
+   .customBorder {
+    border: 1px solid #71302B; 
+  }
+</style>
