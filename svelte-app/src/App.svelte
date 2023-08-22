@@ -28,6 +28,7 @@
   let imageView = true;
   let showWarning = false;
   let showUserSettings = false;
+  let initialView = 'workspace';
 
   let status = undefined;
 
@@ -96,7 +97,9 @@
 
   function generateID() {
     IDcreated = true;
+    showDetails = false;
     showUserSettings = true;
+    initialView = 'identity';
   }
 
   function handleError(event) {
@@ -179,7 +182,7 @@
     </div>
   {:else if IDcreated && showUserSettings}
     <div class="w-full">
-      <UserSettings on:toggle={toggleUserSettings} />
+      <UserSettings on:toggle={toggleUserSettings} {initialView} />
     </div>
   {/if}
 </main>
