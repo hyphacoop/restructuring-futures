@@ -54,7 +54,7 @@
             ephemerality = '!';
         } else {
             // use regex to split at timestamp for studio
-            let match = oldPath.match(/(\/documents\/page?\d*\/\d+\/\d+)/);
+            let match = oldPath.match(/(\/documents\/(page\d+\/)?\d+\/\d+\/\d+)/);
             if (match && match[1]) {
                 basePath = match[1];
             } else {
