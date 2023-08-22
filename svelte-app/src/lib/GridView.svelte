@@ -226,6 +226,7 @@
 
 
   $cacheDetails.onCacheUpdated(() => {
+    console.log('cache updated');
     setTimeout(() => {
       fetchDocs();
     }, 500);
@@ -233,6 +234,7 @@
 
   $: {
     if (documents.length === 0) {
+      console.log('no docs');
       setTimeout(() => {
         fetchDocs();
       }, 2000);
@@ -240,6 +242,7 @@
   }
 
   onMount(() => {
+    console.log('onMount')
   fetchDocs();
 });
 
