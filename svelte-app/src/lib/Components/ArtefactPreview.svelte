@@ -61,7 +61,7 @@
                             </div>
                         {:else if filetype == "pdf"}
                         <div class="pdfViewer">
-                            <PdfViewer url={data} showButtons={["navigation", "pageInfo"]} showBorder={false} />
+                            <PdfViewer {data} url={data} showButtons={["navigation", "pageInfo"]} showBorder={false} />
                         </div>
                         {:else}
                             {filetype}
