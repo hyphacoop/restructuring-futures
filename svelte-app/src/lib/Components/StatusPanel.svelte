@@ -35,7 +35,7 @@ if ($statusStore && $statusStore[shareID]) {
            {funStatus}
         </h5>
         <p>
-            <strong>{sent}</strong> {sent <= 1 ? 'document' : 'documents'} shared with other friends
+            <strong>{sent}</strong> {sent <= 1 ? 'document' : 'documents'} shared 
         </p>
         <p>
             <strong>{received}</strong> {received <= 1 ? 'document' : 'documents'} received 
