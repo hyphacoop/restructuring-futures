@@ -186,18 +186,25 @@
       console.log('looking for pages');
       // Group documents by page
       let groupedDocs = {};
+// First, filter the documents based on the same criteria
+    documents = documents.filter(doc => {
+    const pageNumber = extractPageNumber(doc.path);
+    const pathDepth = pageNumber === 1 ? 6 : 7;
+    return doc.path.split("/").length <= pathDepth && doc.path.split("/").length >= 5 && doc.text.trim() !== "";
+});
 
-      documents.forEach(doc => {
-        const pageNumber = extractPageNumber(doc.path);
-        const pathDepth = pageNumber === 1 ? 6 : 7;
-        if (!groupedDocs[pageNumber]) {
-            groupedDocs[pageNumber] = [];
-        }
-        if (doc.path.split("/").length <= pathDepth && doc.text.trim() !== "") {
-          groupedDocs[pageNumber].push(doc);
-        }
-        console.log(groupedDocs, 'groupedDocs');
-    });
+// Now, group the filtered documents by page number
+  documents.forEach(doc => {
+    const pageNumber = extractPageNumber(doc.path);
+    if (!groupedDocs[pageNumber]) {
+        groupedDocs[pageNumber] = [];
+    }
+    groupedDocs[pageNumber].push(doc);
+});
+
+// Logs
+console.log(groupedDocs, 'groupedDocs');
+
 
     allPagesDocs = Object.values(groupedDocs);
     console.log('allPagesDocs', allPagesDocs);
@@ -481,7 +488,7 @@ $: {
       <PlaceFromStudio {windowWidth} on:hideWindow={resetView} />
       {/if}
       {#if selectedDocument}
-        <div class="artefact-overlay -ml-8 mt-[12vh] h-[80vh] w-[76vw] fixed items-stretch borderstudio">
+        <div class="artefact-overlay customBorder mt-[12vh] h-[80vh] w-[76vw] fixed items-stretch">
           <View {selectedDocument} on:close={() => (selectedDocument = null)} />
         </div>
       {:else if !imageView && !showPlace}
@@ -739,7 +746,7 @@ line-height: 1.75rem;
 
   .artefact-overlay {
     top: 0.5rem;
-    left: 21vw;
+    left: 21.5vw;
     z-index: 5;
     display: flex;
     align-items: flex-start;
