@@ -56,7 +56,7 @@
         {#if $statusStore[share]}
             {#if $statusStore[share].docs}
                 {#if Object.keys($statusStore[share].docs).length > 0}        
-                <div class="ml-8">
+                <div class="ml-16">
                     <StatusPanel shareID={share} />
                 </div>
                 {/if}
@@ -87,7 +87,7 @@
 
             </button>
         </div>
-        <div class="mt-4 mx-2">
+        <div class="mt-4 ml-16">
 
             <DownloadTool shareAddress={share} />
         </div>
