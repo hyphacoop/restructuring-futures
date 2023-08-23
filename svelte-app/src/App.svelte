@@ -49,10 +49,23 @@
       // if no author exists, generate a new one
       IDcreated = false;
     }
-    settings.addShare('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a');
-    settings.addSecret('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a', 'bexvgelmf632ecsgvqhhbwgqgmny5vren673canlay2istswfzspq');
-    settings.addShare($shareKeypair.shareAddress);
-    settings.addSecret($shareKeypair.shareAddress, $shareKeypair.shareSecret);
+      // Add a share and check the result
+      const studioResult = settings.addShare('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a');
+    
+    if (Array.isArray(studioResult)) {
+      // If the result is an array, the share was added successfully
+      settings.addSecret('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a', 'bexvgelmf632ecsgvqhhbwgqgmny5vren673canlay2istswfzspq');
+    } else if (studioResult instanceof Earthstar.ValidationError) {
+      // Handle the validation error
+      console.error("Failed to add share due to validation error:", studioResult.message);
+    }
+
+    const shareResult = settings.addShare($shareKeypair.shareAddress);
+    if (Array.isArray(shareResult)) {
+      settings.addSecret($shareKeypair.shareAddress, $shareKeypair.shareSecret);
+    } else if (shareResult instanceof Earthstar.ValidationError) {
+      console.error("Failed to add share due to validation error:", shareResult.message);
+    }
     console.log('settings', settings)
     console.log('settings.shareSecrets', settings.shareSecrets)
     createNewPeer();
