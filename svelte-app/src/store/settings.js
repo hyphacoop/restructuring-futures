@@ -30,4 +30,4 @@ export function updateShares(newShares) {
 }
 
 // Create a derived store that filters shares to only include "studio" shares
-export const studioShares = derived(shares, $shares => $shares.filter(share => share.includes('studio')));
+export const studioShares = derived(shares, $shares => $shares.filter(share => !share.includes('commons')));
