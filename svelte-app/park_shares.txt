@@ -1,0 +1,7 @@
++secretstudio.boxceqn6sdqh3buv7fdptkt5hpl6xec7ujjswho45drxjas2kkbja
+bmbphm5dgsns5hsbjkopogacqpvsqup5drkpq6dvfchcpqegwmohq
+
+shareAddress: "+lafontaine.bxswd5plaom5qca3qi5yz65tlwm2o4l6xeqv5vbcrltd7iuarqpjq", secret: "bfqop5hn3hisb576xdcexyzzcz6ipquormkeiymui4yrvnudt5bia"
+
++bonjour.b7yuxuayeodokx4xvug6vbjdkodbyhyhck455saieydpilsdhr5pa
+biwg4gto4cg3ximxlxxvq6kdl6jilhgf5unvarp67esqv5q55z52q
