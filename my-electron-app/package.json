@@ -1,0 +1,44 @@
+{
+  "name": "restructuring-futures",
+  "version": "1.0.0",
+  "description": "Restructuring Futures",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron . --no-sandbox",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "Restructuring Futures",
+  "license": "ISC",
+  "build": {
+    "appId": "hyphacoop.github.io/restructuring-futures",
+    "productName": "Restructuring Futures",
+    "directories": {
+      "output": "build"
+    },
+    "files": [
+      "main.js",
+      "index.html",
+      "index.cjs",
+      "assets/**/*",
+      "icons/**/*",
+      "images/**/*",
+      "favicon.ico",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  },
+  "devDependencies": {
+    "electron": "^26.1.0",
+    "electron-builder": "^24.6.3"
+  }
+}
