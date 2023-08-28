@@ -33,7 +33,6 @@
         shareKeypair.set({ shareAddress: null, secret: null });
       }
     }
-
     // clear the user input and close the modal
     userInput = '';
     showModal = false;
@@ -67,17 +66,17 @@
 
 {#if showModal}
 <div class="modal">
-  <div class="modal-content w-2/3 lg:w-1/6">
+  <div class="modal-content w-2/3">
     <div class='flex flex-col justify-start'>
     <h5 class='text-left'>removing the following share from your workspace:</h5>
-    <p class='pt-2 text-left truncate ...'><b>
+    <p class='pt-4 text-left truncate ...'><b>
       Address:
     </b>{selectedShare}<br></p>
     <p class='pb-2 text-left truncate ...'>
     <b>Secret:</b>
     {settings.shareSecrets[selectedShare]}<br>
 </p>
-    <h6 class='text-left'>type the name of this share to remove it from your browser's memory</h6>
+    <h6 class='pt-2 text-left'>type the name of this share to remove it from your browser's memory</h6>
 
     <div class='flex flex-col py-2'>
     <p class=' truncate ...'>+
