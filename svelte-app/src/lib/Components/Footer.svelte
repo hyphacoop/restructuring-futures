@@ -18,9 +18,11 @@
 <footer class='w-full'>
   <div class="footer mx-6 flex flex-row justify-between">
     <div class='flex flex-row justify-between w-1/3 ml-8'> 
-      <div class='link-style' on:click={handleReadManualClick}  on:keydown={handleReadManualKeydown} tabindex="0" role="button">
+      <!--
+        <div class='link-style' on:click={handleReadManualClick}  on:keydown={handleReadManualKeydown} tabindex="0" role="button">
         read manual
       </div>
+      -->
       <div>
         <a href="https://github.com/hyphacoop/restructuring-futures/issues/new?assignees=TRIPLEDOUBLEV&labels=bug&projects=&template=bug_report.md&title="
         target="_blank" rel="noreferrer">
