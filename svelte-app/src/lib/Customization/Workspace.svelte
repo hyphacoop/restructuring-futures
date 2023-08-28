@@ -3,8 +3,9 @@
     import AddShare from "../ShareSettings/AddShare.svelte";
     import Tooltip from "../Components/Tooltip.svelte";
     import RemoveShare from "../ShareSettings/RemoveShare.svelte";
-  import RedeemInvitation from "../InvitationUrl/RedeemInvitation.svelte";
+    import RedeemInvitation from "../InvitationUrl/RedeemInvitation.svelte";
 </script>
+
 <div class='flex flex-col items-start pb-24'>
     <h3>
         workspace settings
@@ -14,6 +15,7 @@
         <Tooltip text='tool tip on hover explaining what "shares" means'><sup class="font-features sups">?</sup></Tooltip>
 
     </h4>
+    
     <ShareViewer />
     <AddShare />
     <RedeemInvitation />
