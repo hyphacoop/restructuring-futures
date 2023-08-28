@@ -50,11 +50,11 @@
       IDcreated = false;
     }
       // Add a share and check the result
-      const studioResult = settings.addShare('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a');
+      const studioResult = settings.addShare('+studio.bs36kywtfq52ad3upxdjxzdvjwccnwvdg23b3yltpik5jzn5ek3za');
     
     if (Array.isArray(studioResult)) {
       // If the result is an array, the share was added successfully
-      settings.addSecret('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a', 'bexvgelmf632ecsgvqhhbwgqgmny5vren673canlay2istswfzspq');
+      settings.addSecret('+studio.bs36kywtfq52ad3upxdjxzdvjwccnwvdg23b3yltpik5jzn5ek3za', 'b7f67r7dhcqxrqgiu4q3zrzuw26lvtqnauigng22na36urhlmywha');
     } else if (studioResult instanceof Earthstar.ValidationError) {
       // Handle the validation error
       console.error("Failed to add share due to validation error:", studioResult.message);
