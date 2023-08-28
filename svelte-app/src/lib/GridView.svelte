@@ -71,7 +71,7 @@
   });
 
   function backToCommons() {
-  const shareAddress = '+commons.b7q4gt64yiefosdafnmhvtxz43akzk6gw54aesdahtf4kdgpbyeia';
+  const shareAddress = '+commons.bx74mp53odwosieejh5hfxfv26c35qbzenelstspygcpalbusyo3q';
   const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
   shareKeypair.set({shareAddress, secret});
   switchShare(); // set both shareAddress and secret
@@ -396,7 +396,7 @@ $: {
 </div>
 <div class="the-scroll flex flex-row sm:flex-col min-h-screen overflow-y-auto">
   <div class='sm:w-1/5 flex flex-col side-bar fixed '>
-  <button class="ml-6 mt-4 mb-2 h-auto mr-1" on:click={toggleDetails}>
+  <button class="ml-6 mt-4 mb-2 h-auto mr-1 truncate ..." on:click={toggleDetails}>
     🔮 server customization
   </button>
   <p class='ml-6 text-2xl text-left'><b>
