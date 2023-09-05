@@ -8,6 +8,7 @@
     export let doc;
 
     let replies = [];
+    let unfilteredReplies = [];
     let showReplies = true;
     let showWarning = false;
     let expandedReply = null;
@@ -33,15 +34,15 @@
                 throw new Error("Invalid path format");
             }
         }
-        replies = await $cacheDetails.queryDocs({
+        unfilteredReplies = await $cacheDetails.queryDocs({
             filter: {
                 pathStartsWith: newPath,
             }
         });
         if (newPath.includes('/page')) {
-            replies = replies.filter(doc => doc.path.split('/').length > 8);
+            replies = unfilteredReplies.filter(doc => doc.path.split('/').length > 7);
         } else {
-            replies = replies.filter(doc => doc.path.split('/').length > 7);
+            replies = unfilteredReplies.filter(doc => doc.path.split('/').length > 6);
         }
         showReplies = true;
     });
