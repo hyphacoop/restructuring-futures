@@ -23,6 +23,11 @@
   import MouseBanner from "./lib/MouseBanner.svelte";
   import Footer from "./lib/Components/Footer.svelte";
 
+
+  const studioShareAddress = import.meta.env.VITE_STUDIO_SHARE_ADDRESS;
+  const studioSecret = import.meta.env.VITE_STUDIO_SECRET;
+
+
   let IDcreated = false;
   let showDetails = false;
   let imageView = true;
@@ -50,11 +55,11 @@
       IDcreated = false;
     }
       // Add a share and check the result
-      const studioResult = settings.addShare('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a');
+      const studioResult = settings.addShare(studioShareAddress);
     
     if (Array.isArray(studioResult)) {
       // If the result is an array, the share was added successfully
-      settings.addSecret('+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a', 'bexvgelmf632ecsgvqhhbwgqgmny5vren673canlay2istswfzspq');
+      settings.addSecret(studioShareAddress, studioSecret);
     } else if (studioResult instanceof Earthstar.ValidationError) {
       // Handle the validation error
       console.error("Failed to add share due to validation error:", studioResult.message);

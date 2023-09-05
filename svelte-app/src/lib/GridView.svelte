@@ -40,6 +40,8 @@
   export let isReply = false;
   export let readManual = false;
 
+  const studioShareAddress = import.meta.env.VITE_STUDIO_SHARE_ADDRESS;
+  const studioSecret = import.meta.env.VITE_STUDIO_SECRET;
 
   let grid = [6, 9];
   let pages = [];
@@ -303,9 +305,8 @@ $: if (readManual){
   loadingText = "Loading manual..."
     currentShare = get(shareKeypair).shareAddress;
     if (currentShare.includes('commons')) {
-
-      const shareAddress = '+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a';
-      const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
+      let shareAddress = studioShareAddress;
+      let secret = studioSecret;
       shareKeypair.set({shareAddress, secret});
       switchShare(); // set both shareAddress and secret
       };
