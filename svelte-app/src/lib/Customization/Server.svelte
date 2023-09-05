@@ -12,7 +12,7 @@ $: console.log('settings.servers', $servers);
       Server settings
   </h3>
   <h4>
-    Current {$servers.length <= 2
+    Current {$servers.length <= 1
       ? "Server:"
       : `${$servers.length} Servers:`}
   </h4>
