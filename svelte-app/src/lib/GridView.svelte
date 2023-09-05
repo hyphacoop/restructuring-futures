@@ -376,6 +376,7 @@ $: {
     selectedDocument = null;
     imageView = true;
     showPlace = false;
+    switchShare();
   }
 </script>
 
