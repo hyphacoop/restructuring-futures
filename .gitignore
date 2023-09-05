@@ -1,1 +1,5 @@
-my-electron-app/node_modules
+electron-app/node_modules
+electron-app/assets
+electron-app/build
+electron-app/icons
+electron-app/images
