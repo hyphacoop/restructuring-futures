@@ -12,6 +12,13 @@ settings.onSharesChanged(newShares => {
     shares.set(newShares);
 });
 
+// Create a Svelte store that holds the servers
+export const servers = writable(settings.servers);
+
+settings.onServersChanged(newServers => {
+    servers.set(newServers);
+});
+
 export function removeShare(shareAddressToRemove) {
     // Remove share from SharedSettings
     const updatedShares = settings.removeShare(shareAddressToRemove);
