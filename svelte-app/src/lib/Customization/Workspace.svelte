@@ -3,7 +3,7 @@
     import AddShare from "../ShareSettings/AddShare.svelte";
     import Tooltip from "../Components/Tooltip.svelte";
     import RemoveShare from "../ShareSettings/RemoveShare.svelte";
-  import RedeemInvitation from "../InvitationUrl/RedeemInvitation.svelte";
+    import RedeemInvitation from "../InvitationUrl/RedeemInvitation.svelte";
 </script>
 <div class='flex flex-col items-start pb-24'>
     <h3>
