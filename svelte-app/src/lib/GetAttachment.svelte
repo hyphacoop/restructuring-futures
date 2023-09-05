@@ -35,14 +35,11 @@
 
             if (fileExtension === "md") {
                 filetype = "markdown";
-                filetype = filetype;
                 var decoder = new TextDecoder("utf-8");
                 attachmentBytes = decoder.decode(new Uint8Array(docdata));
-            } else if (fileExtension == "mp3" || (fileExtension == "ogg" || fileExtension == "webm")) {
+            } else if (["mp3", "ogg", "webm"].includes(fileExtension)) {
                 filetype = "audio";
                 mimetype = "audio/" + fileExtension;
-                filetype = filetype;
-                mimetype = mimetype;
                 console.log("this is audio");
                 console.log(filetype, mimetype);
                 attachmentBytes = URL.createObjectURL(
@@ -50,21 +47,17 @@
                 );
             } else if (fileExtension === "txt") {
                 filetype = "text";
-                filetype = filetype;
                 console.log(filetype);
                 //attachmentBytes = String.fromCharCode(...bytes);
                 var decoder = new TextDecoder("utf-8");
                 attachmentBytes = decoder.decode(Uint8Array.from(bytes));
-            } else if (fileExtension == "png" || (fileExtension == "gif" || fileExtension == "jpeg")) {
+            } else if (["png", "gif", "jpeg"].includes(fileExtension)) {
                 filetype = "image";
 
                 console.log("this is an image");
                 console.log("fileExtension " + fileExtension);
 
                 mimetype = "image/" + fileExtension;
-                filetype = filetype;
-                mimetype = mimetype;
-
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: mimetype })
                 );
@@ -75,7 +68,7 @@
                 );
             } else {
                 filetype = "other";
-                filetype = filetype;
+
                 console.log(filetype);
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: "application/octet-stream" })
@@ -129,22 +122,24 @@
     {#await promise}
         Loading attachment...
     {:then data}
-    <div class='flex flex-row {replies === true ? '' : 'mb-16'} flex-wrap'>
+    <div class='w-auto flex flex-row {replies === true ? '' : 'mb-16'} flex-wrap'>
         {#if !dnone}
             <div class='flex flex-col justify-between h-auto'>
                 <div class='{replies === true ? '' : 'mt-16'}'>
                     {#if filetype == "image"}
-                        <img src={data} alt={doc.text} />
+                        <div class='w-auto'>
+                            <img src={data} alt={doc.text} />
+                        </div>
                     {:else if filetype == "text"}
                         <p class='my-6 textbox'>
                             {@html data}
                         </p>
                     {:else if filetype == "audio"}
-                    <div class='w-auto'>
+                    <div class='w-3/5'>
                         <audio src={data} controls />
                     </div>
                     {:else if filetype == "markdown"}
-                        <div class="markdown text-3xl">
+                        <div class="markdown text-3xl w-auto">
                             <SvelteMarkdown source={data} />
                         </div>
                     {:else if filetype == "pdf"}
@@ -185,15 +180,15 @@
         max-width:60vw;
     }
     img {
-        max-height: 50vh;
-        max-width: 60vw;
+        object-fit: contain;
+        padding-left:1rem;
+        max-height: 100%;
+        max-width: 100%;
     }
     audio {
         border-radius: 0.5rem;
     }
     .markdown {
-        max-height: 50vh;
-        max-width: 60vw;
         overflow: scroll;
         text-align: left;
         background-color: #ffffff;
