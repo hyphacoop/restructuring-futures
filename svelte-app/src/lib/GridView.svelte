@@ -484,13 +484,13 @@ $: {
   
     </div>
   </div>
-  <div class="w-full sm:w-[80vw] mt-16 sm:mt-10 sm:ml-[20vw]">
+  <div class="w-auto mt-16 sm:mt-10 sm:ml-[20vw]">
     <div class="my-grid-container-wrapper pl-4 ml-4">
       {#if showPlace}
       <PlaceFromStudio {windowWidth} on:hideWindow={resetView} />
       {/if}
       {#if selectedDocument}
-        <div class="artefact-overlay customBorder mt-[12vh] h-[80vh] w-[76vw] fixed items-stretch">
+        <div class="artefact-overlay customBorder mt-[12vh] h-[80vh] w-auto fixed items-stretch">
           <View {selectedDocument} on:close={() => (selectedDocument = null)} />
         </div>
       {:else if !imageView && !showPlace}
@@ -704,7 +704,7 @@ $: {
   .my-grid-container {
     display: grid;
     border-radius: 2px;
-    width: 80vw;
+    width: auto;
     min-height: 100vh;
     grid-gap: 0;
   }
