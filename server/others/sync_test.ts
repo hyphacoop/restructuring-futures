@@ -1,4 +1,4 @@
-import * as Earthstar from "https://deno.land/x/earthstar@v10.2.0/mod.ts";
+import * as Earthstar from "https://deno.land/x/earthstar@v10.2.2/mod.ts";
 
 const SHARE_TO_SYNC =
         "+chatroom.bghrat2j2szeym5ql7egdppduxjhytfoqsryfa4axea7y4gnphvsq";

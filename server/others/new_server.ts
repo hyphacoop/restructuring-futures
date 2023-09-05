@@ -1,5 +1,5 @@
-import * as Earthstar from "https://deno.land/x/earthstar@v10.2.1/mod.ts";
-import { DocDriverSqliteFfi } from "https://deno.land/x/earthstar@v10.2.1/src/replica/doc_drivers/sqlite_ffi.ts";
+import * as Earthstar from "https://deno.land/x/earthstar@v10.2.2/mod.ts";
+import { DocDriverSqliteFfi } from "https://deno.land/x/earthstar@v10.2.2/src/replica/doc_drivers/sqlite_ffi.ts";
 
 // Start the server.
 console.log("Starting up server...");
