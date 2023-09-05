@@ -1,8 +1,8 @@
 import { writable } from 'svelte/store';
 
 const initialKeypair = {
-    "shareAddress": "+commons.b7q4gt64yiefosdafnmhvtxz43akzk6gw54aesdahtf4kdgpbyeia",
-    "secret": "bigzorlvyjy5fy5a3kglfzcyfzramsic3cihj4rqphmd6x5wo5jcq"
+    "shareAddress": import.meta.env.VITE_COMMONS_ADDRESS,
+    "secret": import.meta.env.VITE_COMMONS_SECRET
 };
 
 const shareKeypair = writable(initialKeypair);
