@@ -9,13 +9,6 @@
 
 </script>
 
-
-    
-    
-        <!--<button class="phase1" on:click={handleClick}>
-            ↩️Replies
-        </button>
-        -->
         
 {#if showDetails}
 <div class='w-auto'>
