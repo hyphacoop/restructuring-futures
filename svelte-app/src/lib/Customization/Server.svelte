@@ -3,22 +3,26 @@
   import AddServer from "../Server/AddServer.svelte";
   import RemoveServer from "../Server/RemoveServer.svelte";
 
-  import settings from "../../store/settings";
+  import { servers } from "../../store/settings";
+
+$: console.log('settings.servers', $servers);
 </script>
 <div class='flex flex-col items-start pb-24'>
   <h3>
       Server settings
   </h3>
   <h4>
-    Currrent {settings.servers.length === 1
+    Current {$servers.length <= 2
       ? "Server:"
-      : `${settings.servers.length} Servers:`}
+      : `${$servers.length} Servers:`}
   </h4>
   <div class='my-4'>
+    
     <ServerList />
 
   </div>
-<AddServer />
-<RemoveServer />
+
+  <AddServer />
+  <RemoveServer />
 
 </div>

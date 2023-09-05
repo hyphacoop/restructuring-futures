@@ -1,19 +1,25 @@
 <script>
-  import settings from "../../store/settings";
+ import { servers } from "../../store/settings";
+
+ $: console.log('servers', servers);
 </script>
 
-{#if settings.servers.length > 0}
+{#if $servers.length > 0}
   <div>
-   
+   {#key $servers.length}
     <ul class='ml-0'>
-      {#each settings.servers as server, i (i)}
+      {#each $servers as server, i (i)}
         <li>{server}</li>
       {/each}
     </ul>
+   {/key}
   </div>
 {/if}
+
 <style>
   ul {
     list-style-type: inherit;
+    padding-left:1.1rem;
   }
+  
 </style>
