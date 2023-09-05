@@ -34,7 +34,7 @@
 
     $: console.log('selectedDocument in artefactView', selectedDocument);
 </script>
-<div class='w-full ml-4 mr-8'>
+<div class='w-full ml-4 mr-8 pr-4'>
     {#if artefactTitle}
     <div class='flex flex-row text-left w-full'>
         <h4 class="mt-4 p-2">{artefactTitle}</h4>
