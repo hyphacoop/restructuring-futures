@@ -1,5 +1,5 @@
-const ONE_WEEK = 7 * 24 * 60 * 60 * 1000 * 1000; // converted to microseconds
-const PHASE_DURATION = [3 * ONE_WEEK, 2 * ONE_WEEK, 1 * ONE_WEEK, 0];
+const QUARTER_CYCLE = 639360000000; // converted to microseconds
+const PHASE_DURATION = [QUARTER_CYCLE * 3, QUARTER_CYCLE * 2, QUARTER_CYCLE * 1, 0];
 
 
 export function calculateLunarPhase(documents) {
