@@ -223,26 +223,31 @@ const placeReplies = async (docs, basePath, deletionTime) => {
 </script>
 
     {#if showArtefacts}
-<div style="position: absolute; z-index: 52;" class="mt-16 pt-4">
+<div style="position: fixed; z-index: 52;" class="mt-16 pt-4">
     <div class="container">
     <h4 class='ml-8 mt-8 text-left'>Place Artefact from the Studio</h4>
     {#if allArtefactsFromStudios.length === 0}
         <h5 class='ml-8 mt-8 text-left'>no artefacts found in the studio</h5>
         <StudioPortal noArtefacts={true} on:shareUpdated={hideWindow}/>
     {:else}
-   <div  class='flex flex-row flex-wrap mx-2 justify-center '>
-        {#each allArtefactsFromStudios as artefact (`${artefact.textHash}-${artefact.timestamp}`)} <!-- Assuming each artefact has an id for key -->
-            <div class='m-1 flex flex-col'>
-
-                <button on:click={() => handleSelectArtefact(artefact)}>
-
-                    <ArtefactPreview doc={artefact} {studioReplica} />
-                    {getTitle(artefact.text) ? `${getTitle(artefact.text)} - Shared on ${extractDateFromPath(artefact.path)}` : artefact.path}
+    <div class='flex flex-row flex-wrap mx-2 justify-center '>
+        {#each allArtefactsFromStudios as artefact (`${artefact.textHash}-${artefact.timestamp}`)}
+            <div class='m-1 flex flex-col w-64 h-64'> <!-- Assuming a fixed width of 16rem and height of 20rem as an example. Adjust accordingly. -->
+                
+                <button class='flex flex-col h-full justify-between' on:click={() => handleSelectArtefact(artefact)}> <!-- This makes the button flex and occupies full height -->
+    
+                    <div class='flex w-full'> <!-- This makes the preview occupy 80% of the height -->
+                        <ArtefactPreview doc={artefact} {studioReplica} />
+                    </div>
+                    
+                    <div class="h-1/6 text-center flex items-center justify-center"> <!-- This makes the text occupy 20% of the height and centers the text -->
+                        {getTitle(artefact.text) ? `${getTitle(artefact.text)} - Shared on ${extractDateFromPath(artefact.path)}` : artefact.path}
+                    </div>
+    
                 </button>
-                <!-- Displaying the title if available followed by the path. You can adjust this accordingly. -->
             </div>
         {/each}
-        </div>
+    </div>
     {/if}
 </div>
 </div>
