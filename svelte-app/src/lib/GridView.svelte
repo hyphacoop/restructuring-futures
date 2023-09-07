@@ -299,6 +299,8 @@ console.log(groupedDocs, 'groupedDocs');
     setTimeout(() => {
       fetchDocs();
     }, 500);
+    showPlace = false;
+    imageView = true;
   }
 
 $: if (readManual){
