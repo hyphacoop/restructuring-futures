@@ -4,6 +4,7 @@
     import Tooltip from "../Components/Tooltip.svelte";
     import RemoveShare from "../ShareSettings/RemoveShare.svelte";
     import RedeemInvitation from "../InvitationUrl/RedeemInvitation.svelte";
+  import GenerateShare from "../ShareSettings/GenerateShare.svelte";
 </script>
 <div class='flex flex-col items-start pb-24'>
     <h3>
@@ -18,5 +19,5 @@
     <AddShare />
     <RedeemInvitation />
     <RemoveShare />
-
+    <GenerateShare />
 </div>

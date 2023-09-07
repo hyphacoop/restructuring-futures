@@ -37,18 +37,23 @@
     }
   };
 </script>
+<h6 class='text-left'>generate new share</h6>
+<div class='flex flex-col md:flex-row space-between w-auto'>
+  
+  <input
+    class='mr-2'
+    id="dbName"
+    type="text"
+    bind:value={shareName}
+    placeholder="Enter share name"
+  />
+  <div class='mx-2'>
+<button class='phase1' on:click={generateNewShareKeypair}>Generate New Share Keypair</button>
+</div>
+  </div>
 
 <div>
-  <label for="dbName"
-    >Generate a new share keypair
-    <input
-      id="dbName"
-      type="text"
-      bind:value={shareName}
-      placeholder="Enter share name"
-    /></label
-  >
-  <button on:click={generateNewShareKeypair}>Generate New Share Keypair</button>
+ 
 </div>
 {#if error}
   <p>Error: {error.message}</p>
@@ -64,25 +69,5 @@
 {/if}
 
 <style>
-    div {
-        text-align: left;
-        padding: 1rem;
-        margin: 0.25rem;
-    }
-  input {
-    width: 90%;
-    height: 1.5rem;
-    font-size: 1rem;
-    resize: none;
-    margin: 0.25rem;
-    padding: 1rem 0.75rem;
-    text-align: center;
-  }
-  button {
-    width: 90%;
-    margin: 0.25rem;
-    padding: 0.25rem;
-    align-items: flex-end;
-    text-align: center;
-  }
+
 </style>
