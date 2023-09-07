@@ -31,7 +31,12 @@
         }
 
         function findNextPageNumber(docs) {
-            const pageNumbers = docs.map(doc => extractPageNumber(doc.path));
+            // Filter out docs with undefined or empty text
+            const validDocs = docs.filter(doc => doc.text && doc.text.trim() !== "");
+
+            // Get page numbers from valid documents
+            const pageNumbers = validDocs.map(doc => extractPageNumber(doc.path));
+            
             const maxPageNumber = Math.max(...pageNumbers);
             // if no pages are found, next page is page 2, else add 1.
             return (maxPageNumber === 0) ? 2 : maxPageNumber + 1;
