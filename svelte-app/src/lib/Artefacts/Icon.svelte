@@ -82,7 +82,6 @@
       (deletionTime - Date.now()) / (2548800000000 / currentIcon.length)
     ) % currentIcon.length;
 
-    //$: console.log("iconPhase", iconPhase, 'phase', phase, 'title', title);
 </script>
 
 {#if disabled}
@@ -143,31 +142,31 @@
 
 
   .blurPhase0 {
-    filter: blur(10px) saturate(20%);
+    filter: blur(12px) saturate(20%);
   }
   .blurPhase1 {
-    filter: blur(9px) saturate(30%);
+    filter: blur(11px) saturate(30%);
   }
   .blurPhase2 {
-  filter: blur(8px) saturate(40%);
+  filter: blur(10px) saturate(40%);
   }
   .blurPhase3 {
-    filter: blur(7px) saturate(50%);
+    filter: blur(9px) saturate(50%);
   }
   .blurPhase4 {
-    filter: blur(6px) saturate(60%);
+    filter: blur(8px) saturate(60%);
   }
   .blurPhase5 {
-    filter: blur(5px) saturate(70%);
+    filter: blur(7px) saturate(70%);
   }
   .blurPhase6 {
-    filter: blur(4px) saturate(80%);
+    filter: blur(6px) saturate(80%);
   }
   .blurPhase7 {
-    filter: blur(3px) saturate(90%);
+    filter: blur(5px) saturate(90%);
   }
   .blurPhase8 {
-    filter: blur(0px) saturate(100%);
+    filter: blur(4px) saturate(100%);
   }
 
 
