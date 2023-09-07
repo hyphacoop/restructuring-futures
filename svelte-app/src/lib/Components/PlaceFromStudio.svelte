@@ -216,6 +216,7 @@ const placeReplies = async (docs, basePath, deletionTime) => {
 
         // Place them in the commons
         let transferedReplies = await placeReplies(replies, newPath, deletionTime);
+        dispatch("artefactPlaced");
         if (Earthstar.isErr(result)) {
             console.error(result);
         }

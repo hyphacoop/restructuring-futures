@@ -498,7 +498,7 @@ $: {
   <div class="w-auto mt-16 sm:mt-10 sm:ml-[20vw]">
     <div class="my-grid-container-wrapper w-auto pl-4 ml-4">
       {#if showPlace}
-      <PlaceFromStudio {windowWidth} on:hideWindow={resetView} />
+      <PlaceFromStudio {windowWidth} on:hideWindow={resetView} on:artefactPlaced={fetchDocs}/>
       {/if}
       {#if selectedDocument}
         <div class="artefact-overlay customBorder mt-[12vh] h-[80vh] w-auto fixed">
