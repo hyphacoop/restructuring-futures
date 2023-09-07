@@ -188,16 +188,25 @@
       console.log('looking for pages');
       // Group documents by page
       let groupedDocs = {};
-// First, filter the documents based on the same criteria
+
+     
+    // First, filter the documents based on the same criteria
     documents = documents.filter(doc => {
-    const pageNumber = extractPageNumber(doc.path);
+    const pageNumber = extractPageNumber(doc);
     const pathDepth = pageNumber === 1 ? 6 : 7;
-    return doc.path.split("/").length <= pathDepth && doc.path.split("/").length >= 5 && doc.text.trim() !== "";
+
+     // look for additionnal pages
+     const isNewPageFormat = doc.path.endsWith('/newPage') && doc.text.trim() !== "";
+    return (
+      (doc.path.split("/").length <= pathDepth && doc.path.split("/").length >= 5 && doc.text.trim() !== "") || 
+        isNewPageFormat
+        );
 });
 
 // Now, group the filtered documents by page number
   documents.forEach(doc => {
-    const pageNumber = extractPageNumber(doc.path);
+    const pageNumber = extractPageNumber(doc);
+    console.log('pageNumber', pageNumber);
     if (!groupedDocs[pageNumber]) {
         groupedDocs[pageNumber] = [];
     }
