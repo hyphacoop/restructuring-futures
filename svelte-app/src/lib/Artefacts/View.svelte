@@ -30,9 +30,6 @@
         dispatch("close");
     }
 
-
-
-    $: console.log('selectedDocument in artefactView', selectedDocument);
 </script>
 <div class='w-full ml-4 mr-8 pr-4'>
     {#if artefactTitle}

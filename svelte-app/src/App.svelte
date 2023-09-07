@@ -87,9 +87,9 @@
   
   sync.onStatusChange((newStatus) => {
     status = newStatus;
-    console.log(newStatus);
+    //console.log(newStatus);
     statusStore.set(status);
-    console.log('status', status)
+    //console.log('status', status)
   });
 
   sync

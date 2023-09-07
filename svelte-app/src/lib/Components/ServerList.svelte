@@ -1,7 +1,7 @@
 <script>
  import { servers } from "../../store/settings";
 
- $: console.log('servers', servers);
+ // $: console.log('servers', servers);
 </script>
 
 {#if $servers.length > 0}

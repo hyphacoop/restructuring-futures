@@ -31,24 +31,23 @@ import GetAttachment from "../GetAttachment.svelte";
 
 
     $: if (title !== undefined && title.includes("<br>")) {
-        console.log("title A", title)
+
         content = title.split("<br>");
         let splitContent = content[1].split('Shared ');
-        console.log('splitContent', splitContent)
+
         dateTime = splitContent[1].split(','); 
-        console.log('dateTime', dateTime)
-        console.log("content", content)
+
         title = content.shift();
-        console.log("new title", title)
+
         title = title + dateTime[0];
         extended = true;
-        console.log("content", content)
+
     } else if (title !== undefined && !title.includes("voice")) {
-        console.log("title B", title);
+
         content = doc.text;
-        console.log('no voice content', content)
+
         let aliasReplied = content.split(': ');
-        console.log('content split', aliasReplied)
+
         title = aliasReplied[0] + ' on ' + readableTimestamp;
         textContent = aliasReplied[1];
 

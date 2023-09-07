@@ -26,7 +26,7 @@
             console.log('attachment found')
             console.log('fileExtension', fileExtension);
             const docdata = await attachment.bytes();
-            console.log("docdata", docdata);
+            //console.log("docdata", docdata);
 
             let bytes = new Uint8Array(docdata.length);
             for (var i = 0; i < docdata.length; i++) {
@@ -55,7 +55,6 @@
                 filetype = "image";
 
                 console.log("this is an image");
-                console.log("fileExtension " + fileExtension);
 
                 mimetype = "image/" + fileExtension;
                 attachmentBytes = URL.createObjectURL(
@@ -111,7 +110,6 @@
         }
     }
 
-    $: console.log("selectedDoc in GetAttachment", doc);
 </script>
 <!--
 <button on:click={() => (isVisible = !isVisible)}>

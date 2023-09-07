@@ -144,7 +144,6 @@
 });
 
   $: if (selectedDocument) {
-    console.log('if selectedDoc', selectedDocument)
     let XY = pathToXY(selectedDocument.path);
     console.log('XY', XY);
     scaledX = XY[1];
@@ -172,10 +171,10 @@
         return doc.path.split("/").length <= 6 && doc.text.trim() !== "";
     });
 
-    console.log("Docs", documents);
+    //console.log("Docs", documents);
 
     gridState = calculateLunarPhase(documents);
-    console.log('gridState', gridState);
+    //console.log('gridState', gridState);
 
 
     const counts = countArtefactsInEachPhase(gridState);
@@ -206,7 +205,7 @@
 // Now, group the filtered documents by page number
   documents.forEach(doc => {
     const pageNumber = extractPageNumber(doc);
-    console.log('pageNumber', pageNumber);
+    //console.log('pageNumber', pageNumber);
     if (!groupedDocs[pageNumber]) {
         groupedDocs[pageNumber] = [];
     }
