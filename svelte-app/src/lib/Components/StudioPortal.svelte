@@ -4,6 +4,7 @@
     import { studioShares } from "../../store/settings";
     import shareKeypair from "../../store/share";
     import Tooltip from "./Tooltip.svelte"; 
+    import { onMount } from 'svelte';
 
     import { createEventDispatcher } from 'svelte';
     
@@ -27,9 +28,11 @@
       shareList = [...value]; 
     });
 
-    $: if (shareList.length > 0) {
-        selectedShare = shareList[0];  // Set selectedShare to the first item if it's not already set
+    onMount(() => {
+    if (shareList.length > 0) {
+        selectedShare = shareList[0];
     }
+});
 
     </script>
 
@@ -53,9 +56,12 @@
                     id="share-switcher"
                     bind:value="{selectedShare}"
                     class="form-control"
+                    on:change={e => { 
+                        selectedShare = e.target.value;
+                    }}
                 >
                     {#each shareList as share (share)}
-                        <option value={share} selected={share === selectedShare}>{share}</option>
+                        <option value={share}>{share}</option>
                     {/each}
                 </select>
                 <button class='phase1 my-2 mb-24' on:click="{updateShareKeypair}">enter selected studio</button>
