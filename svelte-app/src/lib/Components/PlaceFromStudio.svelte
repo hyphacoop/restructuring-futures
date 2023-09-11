@@ -266,6 +266,7 @@ const placeReplies = async (docs, basePath, deletionTime) => {
     grid-gap: 1px;
     background: #ffffff;
     z-index: 98;
+    overflow-y: auto;
   }
 
 </style>
