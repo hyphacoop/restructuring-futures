@@ -35,7 +35,14 @@
       </div>
     </div>
     <div class='mr-8'>
-      built with <a target="_blank" rel="noreferrer" href='https://earthstar-project.org/'>Earthstar</a>
+      built with 
+        <a target="_blank" rel="noreferrer" href='https://earthstar-project.org/'>
+          Earthstar
+        </a>
+       with the support of the 
+       <a target="_blank" rel="noreferrer" href='https://canadacouncil.ca'>
+        Canada Council for the Arts
+      </a>
     </div>
   </div>
 </footer>
