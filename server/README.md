@@ -1,4 +1,4 @@
-# Running the Earthstar Server
+# Running an Earthstar Server locally
 
 You have two options to run the Earthstar server:
 
