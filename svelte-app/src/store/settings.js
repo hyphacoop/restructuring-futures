@@ -32,6 +32,19 @@ export function removeShare(shareAddressToRemove) {
     }
 }
 
+export function removeSecret(shareAddress) {	
+  // Remove share from SharedSettings
+  const updatedShares = settings.removeSecret(shareAddress);
+  console.log('updatedShares', updatedShares);
+  if (Array.isArray(updatedShares)) {
+      // Update the shares from SharedSettings
+      shares.set(updatedShares);
+  } else {
+      // handle ValidationError here
+      console.error(updatedShares);
+  }
+}
+
 export function updateShares(newShares) {
     shares.set(newShares);
 }
