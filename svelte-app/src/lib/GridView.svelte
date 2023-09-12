@@ -500,7 +500,7 @@ $: {
       <PlaceFromStudio {windowWidth} on:hideWindow={resetView} on:artefactPlaced={fetchDocs}/>
       {/if}
       {#if selectedDocument}
-        <div class="artefact-overlay customBorder mt-[12vh] h-[80vh] w-4/5 fixed">
+        <div class="artefact-overlay customBorder mt-[12vh] h-[80vh] w-4/5 fixed max-w-overlay">
           <View {selectedDocument} on:close={() => (selectedDocument = null)} />
         </div>
       {:else if !imageView && !showPlace}
