@@ -10,6 +10,8 @@
   import settings from "../store/settings";
   import { time } from "../store/time";
   import shareKeypair from "../store/share";
+  import { studioGridStore, setIsCellOccupied } from '../store/studioGridState';
+
 
   import numberToLetter from "./utils/numberToLetter";
   import pathToXY from "./utils/pathToXY";
@@ -214,6 +216,17 @@
 
 // Logs
 console.log(groupedDocs, 'groupedDocs');
+
+// Convert groupedDocs to a format which includes the gridState
+$studioGridStore = {}; // Reset the store initially
+
+for (let pageKey in groupedDocs) {
+    let pageNumber = parseInt(pageKey);
+    setIsCellOccupied(groupedDocs[pageKey], pageNumber);
+}
+
+// Logs
+console.log($studioGridStore, 'studioGridStore');
 
 
     allPagesDocs = Object.values(groupedDocs);
@@ -435,12 +448,13 @@ $: {
       : ""}
   </p>
   <div class="text-left font-bold mb-2 truncate ...">
-  Share Address:<br>
-  {currentShare}
-
+    Share Address:
+    <p>
+      {currentShare}
+    </p>
   </div>
-  <div class="text-left font-bold mb-2 truncate ...">
-    Currrent {settings.servers.length === 1
+  <div class="text-left font-bold mb-2">
+    Current {settings.servers.length === 1
       ? "Server:"
       : `${settings.servers.length} Servers:`}<br>
     <ServerList />
@@ -589,12 +603,12 @@ $: {
 
                             <OrbitingReplies {doc} disabled={true} />  
                               <div class="orbit-icon">  
-                                <Icon {replies} phase={doc.lunarPhase}  {doc} disabled={true} />
+                                <Icon {replies} phase={k}  {doc} disabled={true} />
                               </div>
                             {:else}
                             <OrbitingReplies {doc} />
                               <div class="orbit-icon">
-                                <Icon {replies} phase={doc.lunarPhase}  {doc} on:click={() => selectDocument(doc)} />
+                                <Icon {replies} phase={k}  {doc} on:click={() => selectDocument(doc)} />
                               </div>  
                             {/if}
 
@@ -653,7 +667,7 @@ $: {
                       <div id={doc.textHash + doc.timestamp} class='orbit-icon-container'>
                           <OrbitingReplies {doc} />
                           <div class="orbit-icon">
-                            <Icon {replies} phase=1 
+                            <Icon {replies} phase=0 
                               {doc}
                               on:click={() => selectDocument(doc)} 
                             />
