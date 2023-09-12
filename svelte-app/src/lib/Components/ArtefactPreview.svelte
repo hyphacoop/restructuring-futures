@@ -46,7 +46,7 @@
                 <div class='flex flex-col items-center h-auto'>
 
                         {#if filetype == "image"}
-                            <img src={data} alt={doc.text} />
+                            <img src={data} alt={doc.text} class="mx-auto" />
                         {:else if filetype == "text"}
                             <p class='my-6 textbox'>
                                 {@html data}
@@ -56,7 +56,7 @@
                             <audio class='w-full' src={data} controls />
                         </div>
                         {:else if filetype == "markdown"}
-                            <div class="markdown text-3xl">
+                            <div class="markdown text-3xl self-end">
                                 <SvelteMarkdown source={data} />
                             </div>
                         {:else if filetype == "pdf"}
@@ -76,8 +76,9 @@
 <style>
     .textbox {
         width:100%;
-        max-width:60vw;
+        max-width:200px;
         max-height: 200px;
+        overflow: scroll;
     }
     img {
         height: 200px;
@@ -89,7 +90,7 @@
     }
     .markdown {
         max-height: 200px;
-        max-width: 60vw;
+        max-width: 200px;
         overflow: scroll;
         text-align: left;
         background-color: #ffffff;
