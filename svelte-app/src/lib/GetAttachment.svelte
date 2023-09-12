@@ -123,9 +123,9 @@
     <div class='w-auto flex flex-row {replies === true ? '' : 'mb-16'} flex-wrap'>
         {#if !dnone}
             <div class='flex flex-col justify-between h-auto'>
-                <div class='{replies === true ? '' : 'mt-16'}'>
+                <div class='{replies === true ? '' : 'mt-4'}'>
                     {#if filetype == "image"}
-                        <div class='w-auto'>
+                        <div class='w-auto h-auto'>
                             <img src={data} alt={doc.text} />
                         </div>
                     {:else if filetype == "text"}
@@ -180,7 +180,7 @@
     img {
         object-fit: contain;
         padding-left:1rem;
-        max-height: 100%;
+        max-height: 65vh;
         max-width: 100%;
     }
     audio {
@@ -193,6 +193,7 @@
         padding: 0.5rem;
         color:black;
         overflow: auto;
+        word-break: break-word;
     }
     button {
         width: max-content;
