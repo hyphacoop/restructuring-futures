@@ -1,7 +1,7 @@
 <script>
  import { servers } from "../../store/settings";
+  import Tooltip from "./Tooltip.svelte";
 
- // $: console.log('servers', servers);
 </script>
 
 {#if $servers.length > 0}
@@ -9,7 +9,11 @@
    {#key $servers.length}
     <ul class='ml-0'>
       {#each $servers as server, i (i)}
-        <li>{server}</li>
+        <li>
+          <Tooltip text={server}>
+            <p class='w-full truncate ...' style="max-width: 150px;">{server}</p>
+          </Tooltip>
+          </li>
       {/each}
     </ul>
    {/key}
@@ -18,8 +22,8 @@
 
 <style>
   ul {
-    list-style-type: inherit;
-    padding-left:1.1rem;
+    list-style-type: none;
+    padding-left:-1.1rem;
   }
   
 </style>
