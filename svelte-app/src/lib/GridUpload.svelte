@@ -2,6 +2,8 @@
   import FileSharing from "./FileSharing.svelte";
   import Voice from "./Voice.svelte";
   import TextInput from "./TextInput.svelte";
+  import { studioGridStore } from '../store/studioGridState.js';
+
 
   export let windowWidth;
   export let pages;
@@ -10,6 +12,21 @@
   let col;
   let row;
   let is_active;
+  let start = [];
+  let clicked = false;
+  let fileSelection = false;
+  let clickedPos = ["0px", "0px"];
+  let selectedPage = pages && pages[0] && pages[0].pageNumber;
+
+  let currentOccupiedGrid = [];
+  $: {
+    if ($studioGridStore[selectedPage]) {
+      currentOccupiedGrid = $studioGridStore[selectedPage];
+  } else {
+      currentOccupiedGrid = Array(grid[0]).fill(0).map(() => Array(grid[1]).fill(false));
+  }
+  console.log("Current Occupied Grid for Page ", selectedPage, ":", currentOccupiedGrid);
+}
 
   $: {
     if (windowWidth <= 768) {
@@ -26,12 +43,6 @@
       .fill(0)
       .map((_) => Array(grid[1]).fill(false));
   }
-  
-  let start = [];
-  let clicked = false;
-  let fileSelection = false;
-  let clickedPos = ["0px", "0px"];
-  let selectedPage;
 
   function selectNupload(i, j) {
     start = [i, j, selectedPage];
@@ -101,21 +112,30 @@ then location on map</h4>
   class="container mt-8"
   style="grid-template-rows: {row}; grid-template-columns: {col};"
 >
-  {#each { length: grid[0] } as _, i (i)}
-    {#each { length: grid[1] } as _, j (j)}
+{#each Array(grid[0]).fill() as _, i (i)}
+   {#each Array(grid[1]).fill() as _, j (j)}
       <div
         class:active={is_active[i][j]}
-        on:click={() => selectNupload(i, j)}
-        on:keypress={() => selectNupload(i, j)}
+        class:occupied={currentOccupiedGrid[i] && currentOccupiedGrid[i][j]}
+        on:click={currentOccupiedGrid[i] && currentOccupiedGrid[i][j] ? undefined : () => selectNupload(i, j)}
+        on:keypress={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                if (!(currentOccupiedGrid[i] && currentOccupiedGrid[i][j])) {
+                    selectNupload(i, j);
+                }
+            }
+        }}
         style="
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100%;
-      "
-    >
-    {mapNumberToLetter(j)}, {i+1}
-      </div>
+        "
+      >
+      {#if !(currentOccupiedGrid[i] && currentOccupiedGrid[i][j])}
+        {mapNumberToLetter(j)}, {i+1}
+      {/if}      
+    </div>
     {/each}
   {/each}
 </div>
@@ -146,15 +166,39 @@ then location on map</h4>
 
   .container div {
     background: #fff;
+    transition: background-color 0.3s;
   }
 
-  .container div:hover {
-    background: #fff5d9;
+  .container div:hover:not(.occupied) {
+      background: #fff5d9;
   }
 
   .container div.active {
     background: #e15f55;
   }
+
+  .container div.occupied {
+    position: relative;
+    cursor: not-allowed;
+}
+
+.container div.occupied::before,
+.container div.occupied::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    background: red;
+    transition: all 0.3s;
+}
+
+.container div.occupied::before {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    width: 110%; /* adjust based on your requirements */
+}
+
 
   .modal {
     margin-left:-10%;
