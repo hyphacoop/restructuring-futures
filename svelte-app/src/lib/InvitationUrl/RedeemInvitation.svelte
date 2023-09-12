@@ -45,7 +45,7 @@
     //}
   };
   </script>
-  <div class='flex flex-col md:flex-row items-cente space-between'>
+  <div class='flex flex-col md:flex-row space-between'>
   <input class='mr-2' type="text" bind:value={invitationURL} placeholder="Enter invitation URL" />
   <div class='mx-2'><button class='phase1' on:click={processURL}>Redeem Invitation URL</button></div>
   {#if error}
