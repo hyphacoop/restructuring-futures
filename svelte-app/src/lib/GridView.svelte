@@ -758,7 +758,6 @@ line-height: 1.75rem;
 
   .artefact-overlay {
     width: stretch;
-    width: -moz-available;
     top: 0.5rem;
     z-index: 5;
     display: flex;
