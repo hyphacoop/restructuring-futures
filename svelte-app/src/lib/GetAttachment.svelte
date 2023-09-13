@@ -111,16 +111,12 @@
     }
 
 </script>
-<!--
-<button on:click={() => (isVisible = !isVisible)}>
-    {isVisible ? "📎Attachment" : "📎Attachment"}
-</button>
--->
+
 {#if isVisible}
     {#await promise}
         Loading attachment...
     {:then data}
-    <div class='w-auto flex flex-row {replies === true ? '' : 'mb-16'} flex-wrap'>
+    <div class='w-auto flex flex-row {replies === true ? 'mr-4 pr-4' : 'mb-16'} flex-wrap'>
         {#if !dnone}
             <div class='flex flex-col justify-between h-auto'>
                 <div class='{replies === true ? '' : 'mt-4'}'>
@@ -133,7 +129,7 @@
                             {@html data}
                         </p>
                     {:else if filetype == "audio"}
-                    <div class='w-3/5'>
+                    <div>
                         <audio src={data} controls />
                     </div>
                     {:else if filetype == "markdown"}
@@ -150,16 +146,17 @@
                 </div>
             </div>
         {/if}
+        {#if !attachmentStatus}
             {#if attachmentBytes !== undefined && replies !== 'true'}
             <div class='flex flex-row mb-4 items-end pb-8'>
                 <p class='mx-4'>
-                    {#if !attachmentStatus}
+
                         <button on:click={handleClick(doc)}> Get attachment </button>
                   <!--   {:else}
                         <button on:click={() => (dnone = !dnone)}>
                             {buttonText}
                         </button> -->
-                    {/if}
+
                 </p>
               <!--   <p class='mx-4'>
                     <button on:click={() => Download()}>
@@ -167,6 +164,7 @@
                     </button>
                 </p> -->
             </div>
+            {/if}
             {/if}
             </div>
     {/await}
@@ -185,6 +183,7 @@
     }
     audio {
         border-radius: 0.5rem;
+        width:99%;
     }
     .markdown {
         overflow: scroll;
