@@ -589,7 +589,7 @@ $: {
                     {:else}
                     <div id="{j}+{i}+{k}" class="grid-cell 
                     {i === 0 && k === 0 ? 'top-row-offset' : ''} 
-                    {j === 0 ? 'first-col-offset' : ''}"
+                    {j === 0 && imageView ? 'first-col-offset' : ''}"
                     data-letter={i === 0 ? numberToLetter(j) : ''}
                     data-number={j === 0 ? i + 1 : ''}
                     >
@@ -623,7 +623,6 @@ $: {
               {/each}
             </div>
           {/each}
-          <StudioPortal on:shareUpdated="{switchShare}"/>
           {:else}
           {#if showStudio}
           {#each pages as page (page.pageNumber)}
@@ -658,7 +657,7 @@ $: {
 
                 {:else}
                 <div class="borderstudio relative {i === 0 ? 'top-row-offset' : ''} 
-                    {j === 0 ? 'first-col-offset' : ''}"
+                    {j === 0 && imageView ? 'first-col-offset' : ''}"
                     data-letter={i === 0 ? numberToLetter(j) : ''}
                     data-number={j === 0 ? i + 1 : ''}>
                 
@@ -687,6 +686,7 @@ $: {
         {/if}
           {/if}
         {/if}
+        <StudioPortal on:shareUpdated="{switchShare}"/>
       </div>
     </div>
   </div>
