@@ -70,9 +70,9 @@ import GetAttachment from "../GetAttachment.svelte";
                     {/if}
                 </div>
                     {#if attachment}
-                    <div>
+                    
                         <GetAttachment {doc} replies={isReply}/>
-                    </div>
+                    
                     {/if}
             
            
