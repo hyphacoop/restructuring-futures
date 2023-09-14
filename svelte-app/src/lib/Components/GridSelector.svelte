@@ -1,5 +1,6 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { commonsGridStore } from "../../store/GridState";
 
     const dispatch = createEventDispatcher();
 
@@ -19,6 +20,12 @@
 
     let start = [];
     let clicked = false;
+    let currentOccupiedGrid = {};
+
+    $: {
+        currentOccupiedGrid = $commonsGridStore;
+        console.log("Current Occupied Grid:", currentOccupiedGrid);
+    }
 
     function selectNupload(i, j) {
         start = [i, j];
@@ -40,15 +47,18 @@
     }
 </script>
 
-<div style="position: fixed; z-index: 52;" class="mt-12 pt-2">
+<div style="position: fixed; z-index: 52;" class="mt-16 pt-4">
     <div class="container" style="grid-template-rows: {row}; grid-template-columns: {col};">
         {#each { length: grid[0] } as _, i (i)}
             {#each { length: grid[1] } as _, j (j)}
                 <div
                     class:active={is_active[i][j]}
-                    on:click={() => selectNupload(i, j)}
+                    class:occupied={currentOccupiedGrid[i] && currentOccupiedGrid[i][j]}
+                    on:click={currentOccupiedGrid[i] && currentOccupiedGrid[i][j] ? undefined : () => selectNupload(i, j)}
                     style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                    {#if !(currentOccupiedGrid[i] && currentOccupiedGrid[i][j])}
                     {mapNumberToLetter(j)}, {i+1}
+                  {/if}   
                 </div>
             {/each}
         {/each}
@@ -72,11 +82,33 @@
     background: #fff;
   }
 
-  .container div:hover {
-    background: #fff5d9;
+  .container div:hover:not(.occupied) {
+      background: #fff5d9;
   }
 
   .container div.active {
     background: #e15f55;
   }
+
+  .container div.occupied {
+    position: relative;
+    cursor: not-allowed;
+}
+
+.container div.occupied::before,
+.container div.occupied::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    background: red;
+    transition: all 0.3s;
+}
+
+.container div.occupied::before {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    width: 100%;
+}
 </style>
