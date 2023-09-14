@@ -28,7 +28,7 @@
             mediaRecorder.stop();
             let mimeType = mediaRecorder.mimeType;
             if (mimeType === "") {
-                mimeType = "audio/ogg; codecs=opus";
+                mimeType = "audio/webm";
             }
             console.log("mediaRecorder", mediaRecorder);
             console.log("mediaRecorder mime", mediaRecorder.mimeType);
@@ -47,7 +47,8 @@
             const stream = await navigator.mediaDevices.getUserMedia({
                 audio: true,
             });
-            mediaRecorder = new MediaRecorder(stream);
+            const options = { mimeType: 'audio/webm' };
+            mediaRecorder = new MediaRecorder(stream, options);
 
             mediaRecorder.start();
 
@@ -75,9 +76,14 @@
    
 
         let deletionTime = (Date.now() + 2548800000) * 1000;
-        let mimeType = mediaRecorder.mimeType || "audio/ogg; codecs=opus";
+        let mimeType = mediaRecorder.mimeType || "audio/webm";
         let noCodecs = mimeType.split(";")[0];
         let extension = noCodecs.split("/")[1];
+        if (extension === 'webm') {
+            // TODO: If desired, convert to mp3 format here (may need an external library)
+            // For now, just set the extension to webm
+            extension = 'webm';
+        }
 
         const arrayBuffer = await readBlobAsArrayBuffer(blob);
         const uInt8 = new Uint8Array(arrayBuffer);
@@ -163,7 +169,7 @@
     <div class="text-left m-2">
         <h5 class="m-2">Review your recording</h5>
         <audio controls class="my-6 mx-2">
-            <source src={audioURL} type="audio/ogg" />
+            <source src={audioURL} type="audio/webm" />
             Your browser does not support the audio element.
         </audio>
         {#if !isValid}
