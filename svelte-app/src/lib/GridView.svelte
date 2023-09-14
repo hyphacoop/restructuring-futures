@@ -179,6 +179,10 @@
     //console.log('gridState', gridState);
 
 
+    $commonsGridStore = {}; // Reset the store initially
+    // Check isCommonsCellOccupied
+    isCommonsCellOccupied(documents);
+    console.log('commonsGridStore', $commonsGridStore);
     const counts = countArtefactsInEachPhase(gridState);
     artefactsInPhase0 = counts.artefactsInPhase0;
     artefactsInPhase1 = counts.artefactsInPhase1;
@@ -476,7 +480,7 @@ $: {
   <button on:click={backToCommons}>take me back to Commons</button>
   </div>
   {/if}
-  {#if isCommons && sectionIndex === 0 || !isCommons}
+  {#if (isCommons && sectionIndex === 0) || !isCommons || !imageView}
     <div class='w-full flex flex-col py-4'>
       {#if isCommons}
         <button on:click={PlaceFromStudioFunction}>
