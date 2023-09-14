@@ -37,9 +37,10 @@
         address: value,
         secret: sValue,
       }
+
       const testIt = await Earthstar.Crypto.checkKeypairIsValid(testValues);
-      console.log(value, typeof value)
-      console.log(sValue, typeof sValue)
+      console.log('share', value, typeof value)
+      console.log('secret', sValue, typeof sValue)
       console.log(testIt)
       if (Earthstar.isErr(testIt)) {
         showWarning = true;
