@@ -10,7 +10,7 @@
   import settings from "../store/settings";
   import { time } from "../store/time";
   import shareKeypair from "../store/share";
-  import { studioGridStore, setIsCellOccupied } from '../store/studioGridState';
+  import { studioGridStore, setIsCellOccupied, commonsGridStore, isCommonsCellOccupied } from '../store/GridState';
 
 
   import numberToLetter from "./utils/numberToLetter";

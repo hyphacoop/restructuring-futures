@@ -3,6 +3,7 @@ import { writable } from 'svelte/store';
 const defaultState = {};
 
 export const studioGridStore = writable(defaultState);
+export const commonsGridStore = writable(defaultState);
 
 export function setIsCellOccupied(documents, pageNumber) {
     const maxX = 9;
@@ -28,4 +29,23 @@ export function setIsCellOccupied(documents, pageNumber) {
         state[pageNumber] = occupiedGrid;
         return state;
     });
+}
+
+
+export function isCommonsCellOccupied(documents) {
+    const maxX = 9;
+    const maxY = 6;
+
+    let docGridState = Array(maxY).fill().map(() => Array(maxX).fill().map(() => []));
+
+    documents.forEach((doc) => {
+        const x = parseInt(doc.path.split("/")[3]); 
+        const y = parseInt(doc.path.split("/")[2]);
+        docGridState[y][x].push(doc);
+    });
+
+    let occupiedGrid = docGridState.map(row => row.map(cell => cell.length > 0));
+
+    // Update the store with the new grid state for the commons
+    commonsGridStore.set(occupiedGrid); // Set the whole store to the new state
 }

@@ -2,7 +2,7 @@
   import FileSharing from "./FileSharing.svelte";
   import Voice from "./Voice.svelte";
   import TextInput from "./TextInput.svelte";
-  import { studioGridStore } from '../store/studioGridState.js';
+  import { studioGridStore } from '../store/GridState.js';
 
 
   export let windowWidth;
@@ -99,7 +99,7 @@
   </div>
 {/if}
 <div class="pb-32 background-white">
-<h4 class='pb-2'>Select page   <span class="inline-dropdown">
+<h4 class='py-6'>Select page   <span class="inline-dropdown">
   <select bind:value={selectedPage} id="pageDropdown">
     {#each pages as page}
       <option value={page.pageNumber}># {page.pageNumber}</option>
@@ -196,7 +196,7 @@ then location on map</h4>
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%) rotate(-45deg);
-    width: 110%; /* adjust based on your requirements */
+    width: 110%; /* adjust based on desired look */
 }
 
 
