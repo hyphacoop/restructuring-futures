@@ -81,10 +81,10 @@
         {#if replies === undefined}
             {getReplies()}
         {:else if showReplies}
-        <ul>
+        <div class='flex flex-col'>
             {#each replies as doc (doc.signature)}
 
-            <li id={doc.textHash} class={expandedReply === doc.textHash ? 'expanded' : ''}>
+            <div id={doc.textHash} class={expandedReply === doc.textHash ? 'expanded' : ''}>
                 <button class='w-full' on:click={() => toggleExpand(doc.textHash)} 
                         on:keydown={e => (e.key === 'Enter' || e.key === ' ') && toggleExpand(doc.textHash)}
                 >
@@ -94,9 +94,9 @@
                 <SingleReply isReply={true} title={doc.text} {doc} attachment={false} on:click={updateUI} on:update={updateUI} expanded={expandedReply === doc.textHash}/>
                 {/if}
                 </button>
-            </li>
+            </div>
             {/each} 
-        </ul>
+        </div>
         {/if} 
 
 </div>
@@ -109,12 +109,12 @@
 
 <style>
 
-    ul {
+    div div {
         list-style: none;
         padding: 0;
         text-align: left;
     }
-    li, .left-line {
+    div div div, .left-line {
         text-align: center;
         color:#222222;
         padding: 0.25rem;
@@ -134,16 +134,16 @@
         cursor: pointer;
     }
 
-    li.expanded {
+    div.expanded {
         white-space: normal;
         max-height: none; 
     }
 
-li::before {
+div div div::before {
     content: "";
     position: absolute;
     top: 50%; /* Vertically center */
-    left: 0rem; /* Start from left outside of the li */
+    left: 0rem; /* Start from left outside of the div */
     width: 1rem; /* Width of the line */
     height: 1px; /* Height of the line (change this if you want thicker line) */
     background-color: #22222222; /* Color of the line */
