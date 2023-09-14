@@ -31,16 +31,16 @@
     }
 
 </script>
-<div class='w-full ml-4 mr-8 pr-4'>
+<div class='w-full h-full flex flex-col ml-4 mr-8 pr-4'>
     {#if artefactTitle}
     <div class='flex flex-row text-left w-full'>
         <h4 class="mt-4 p-2">{artefactTitle}</h4>
     </div>
     {/if}
 
-    <div class='flex flex-row justify-between w-full'>
+    <div class='flex flex-row justify-between w-full h-4/5'>
     {#if attachment}
-        <div class='attachmentbox pr-12 w-2/3'>
+        <div class='attachmentbox pr-12 w-2/3 overflow-y-scroll'>
             <GetAttachment doc={selectedDocument} replies='false' />
         </div>
     {/if}
