@@ -12,6 +12,13 @@ settings.onSharesChanged(newShares => {
     shares.set(newShares);
 });
 
+// Create a Svelte store that holds the secrets
+export const secrets = writable(settings.shareSecrets);
+
+settings.onShareSecretsChanged(newSecrets => {
+    secrets.set(newSecrets);
+});
+
 // Create a Svelte store that holds the servers
 export const servers = writable(settings.servers);
 

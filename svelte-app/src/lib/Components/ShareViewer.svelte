@@ -1,5 +1,5 @@
 <script>
-    import { shares } from "../../store/settings";
+    import { shares, secrets } from "../../store/settings";
     import settings from "../../store/settings";
     import { statusStore } from "../../store/status";
     import DownloadTool from "../DownloadTool.svelte";
@@ -35,7 +35,7 @@
 </script>
 <div class='flex flex-col items-start'>
 {#if shareList.length > 0}
-{#each shareList as share, index (index)}
+{#each shareList as share (share)}
     <div class="flex flex-col items-start py-2">
         <div class="flex flex-row justify-between">
             <div class="flex flex-col items-start py-2">
@@ -44,16 +44,18 @@
             <b>Address:</b>
             {share}
         </p>
-        <p>
-            <b>Secret:</b>
-            {settings.shareSecrets[share]}
-        </p>
+        {#if $secrets[share]}
+            <p>
+                <b>Secret:</b>
+                {$secrets[share]}
+            </p>
+        {/if}
         <p>
             <b>Type:</b>
             {share.includes('commons') ? 'Commons' : 'Studio'}
         </p>
         </div>
-        {#if $statusStore[share]}
+<!--         {#if $statusStore[share]}
             {#if $statusStore[share].docs}
                 {#if Object.keys($statusStore[share].docs).length > 0}        
                 <div class="ml-16">
@@ -61,7 +63,7 @@
                 </div>
                 {/if}
             {/if}
-        {/if}
+        {/if} -->
     </div>
         <div class='flex flex-row items-end'>
         <div class="mt-4 mx-2">
