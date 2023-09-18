@@ -22,7 +22,7 @@
 
   <style>
     .tooltip {
-      display: inline-block;
+      display: block;
       position: relative;
     }
   
