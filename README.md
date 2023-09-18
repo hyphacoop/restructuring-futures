@@ -10,6 +10,10 @@ The prototype from Phase 1 [lives here](https://github.com/hyphacoop/crispy-cous
 
 If you want to run the [svelte app](https://github.com/hyphacoop/restructuring-futures/tree/main/svelte-app) locally, you can run the following commands in your terminal after downloading [node](https://nodejs.org/en/) and cloning this github repository.
 
+1. download [Node.js](https://nodejs.org/en)
+2. clone this [repository](https://github.com/hyphacoop/restructuring-futures)
+3. run the following commands:
+
 ```
 cd svelte-app
 npm install
