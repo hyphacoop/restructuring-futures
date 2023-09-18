@@ -5,31 +5,9 @@
   import pathToXY from "../utils/pathToXY";
   import splitTitleAndNotes from "../utils/splitTitleandNote";
 
+  import { mountains, flowers, planets, rivers, wishbones } from "../utils/icons"
+
   const dispatch = createEventDispatcher();
-
-  let images = [
-    "icons/mountain-phase-0-02.png",
-    "icons/mountain-phase-1-02.png",
-    "icons/mountain-phase-2-02.png",
-    "icons/mountain-phase-3-02.png",
-    "icons/mountain-phase-4-02.png",
-    "icons/mountain-phase-5-02.png",
-    "icons/mountain-phase-6-02.png",
-    "icons/mountain-phase-7-02.png",
-    "icons/mountain-phase-8-02.png",
-  ];
-
-  let flowerImages = [
-    "icons/flower-phase-0-02.png",
-    "icons/flower-phase-1-02.png",
-    "icons/flower-phase-2-02.png",
-    "icons/flower-phase-3-02.png",
-    "icons/flower-phase-4-02.png",
-    "icons/flower-phase-5-02.png",
-    "icons/flower-phase-6-02.png",
-    "icons/flower-phase-7-02.png",
-    "icons/flower-phase-8-02.png",
-  ];
 
   export let doc;
   export let disabled = false;
@@ -70,9 +48,15 @@
   }
 
   if (doc.path.endsWith(".md")) {
-    currentIcon = images;
+    currentIcon = mountains;
+  } else if (["png", "gif", "jpeg"].includes(fileExtension)) {
+    currentIcon = flowers;
+  } else if (["mp3", "ogg", "webm"].includes(fileExtension)) {
+    currentIcon = rivers;
+  } else if (fileExtension === "pdf") {
+    currentIcon = wishbones;
   } else {
-    currentIcon = flowerImages;
+    currentIcon = planets;
   }
 
   let iconPhase =
@@ -88,7 +72,7 @@
   <div class="icon-container h-full no-event">
     <img
       src={currentIcon[iconPhase]}
-      alt="document icon"
+      alt="document icon is in phase #{phase}"
       class="blurred {replies ? 'small-icon' : ''} {'blurPhase' + iconPhase}"
     />
   </div>
