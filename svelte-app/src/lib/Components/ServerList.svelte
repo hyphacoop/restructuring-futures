@@ -1,29 +1,32 @@
 <script>
- import { servers } from "../../store/settings";
+  import { servers } from "../../store/settings";
   import Tooltip from "./Tooltip.svelte";
+
+  export let truncate = false;
 
 </script>
 
 {#if $servers.length > 0}
   <div>
    {#key $servers.length}
-    <ul class='ml-0'>
+    <div class='ml-0'>
       {#each $servers as server, i (i)}
-        <li>
+        <div class='text-left'>
+          {#if truncate}
           <Tooltip text={server}>
-            <p class='w-full truncate ...' style="max-width: 150px;">{server}</p>
+            <p class='truncate ... w-full'>{server}</p>
           </Tooltip>
-          </li>
+        {:else}
+          <p>{server}</p>
+        {/if}
+        </div>
       {/each}
-    </ul>
+      </div>
    {/key}
   </div>
 {/if}
 
 <style>
-  ul {
-    list-style-type: none;
-    padding-left:-1.1rem;
-  }
+
   
 </style>
