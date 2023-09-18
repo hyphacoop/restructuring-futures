@@ -3,6 +3,13 @@
   import { shares, removeShare } from "../../store/settings";
   import shareKeypair from "../../store/share";
   import settings from "../../store/settings";
+
+  // Derived store to get shares excluding the current share
+  import { derived } from "svelte/store";
+  const availableShares = derived([shares, shareKeypair], ([$shares, $shareKeypair]) => 
+    $shares.filter(share => share !== $shareKeypair.shareAddress)
+  );
+
   let selectedShare = get(shareKeypair).shareAddress;
   let removalStatus = '';
   let userInput = '';
@@ -32,6 +39,8 @@
       if (currentShare === selectedShare) {
         shareKeypair.set({ shareAddress: null, secret: null });
       }
+    } else {
+      removalStatus = `The share could not be removed. <br>Please type the name of the share you want to remove.<br>This is the section between the '+' and '.'`;
     }
 
     // clear the user input and close the modal
@@ -51,7 +60,7 @@
 <label class='text-left' for="share-switcher">this action is irreversible</label>
 <div class='flex flex-col 2xl:flex-row'>
 <select id="share-selecter" bind:value="{selectedShare}" class="form-control my-2 w-3/5">
-  {#each $shares as share (share)}
+  {#each $availableShares as share (share)}
     <option value={share}>{share}</option>
   {/each}
 </select>
@@ -61,13 +70,13 @@
 </button>
 
 </div>
-<p>{removalStatus}</p>
+<p class='text-left'>{@html removalStatus}</p>
 </div>
 
 
 {#if showModal}
 <div class="modal">
-  <div class="modal-content w-2/3 lg:w-1/6">
+  <div class="modal-content w-2/3 lg:w-2/5">
     <div class='flex flex-col justify-start'>
     <h5 class='text-left'>removing the following share from your workspace:</h5>
     <p class='pt-2 text-left truncate ...'><b>
