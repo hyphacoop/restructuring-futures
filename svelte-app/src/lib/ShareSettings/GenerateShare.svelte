@@ -9,33 +9,55 @@
   let newKeypair;
 
   const generateNewShareKeypair = async () => {
-    try {
-      newKeypair = await Earthstar.Crypto.generateShareKeypair(shareName);
-      console.log(newKeypair);
-      if (settings) {
-        const addShareResult = settings.addShare(newKeypair.shareAddress);
-        const addSecretResult = settings.addSecret(
-          newKeypair.shareAddress,
-          newKeypair.secret
-        );
-
-        // Check if results are not ValidationErrors
-        if (
-          typeof addShareResult !== "string" &&
-          typeof addSecretResult !== "string"
-        ) {
-          success = true;
-          error = null;
-          updateShares(settings.shares);
-        } else {
-          throw new Error("Error adding new share keypair");
-        }
-      }
-    } catch (e) {
-      error = e;
-      success = false;
+  try {
+    // Validate shareName before attempting to generate
+    if (!isValidShareName(shareName)) {
+      throw new Error("Share name contains invalid characters");
     }
-  };
+
+    newKeypair = await Earthstar.Crypto.generateShareKeypair(shareName);
+    console.log(newKeypair);
+    if (settings) {
+      const addShareResult = settings.addShare(newKeypair.shareAddress);
+      const addSecretResult = settings.addSecret(
+        newKeypair.shareAddress,
+        newKeypair.secret
+      );
+
+      // Check if results are not ValidationErrors
+      if (
+        typeof addShareResult !== "string" &&
+        typeof addSecretResult !== "string"
+      ) {
+        success = true;
+        error = null;
+        updateShares(settings.shares);
+      } else {
+        throw new Error("Error adding new share keypair");
+      }
+    }
+  } catch (e) {
+    console.error(e); // Log the error for debugging
+    error = e;
+    success = false;
+  }
+};
+
+const isValidShareName = (name) => {
+  // Check the length
+  if (name.length < 1 || name.length > 15) {
+    return false;
+  }
+
+  // Check the first character to ensure it's not a digit
+  if (/\d/.test(name[0])) {
+    return false;
+  }
+
+  // Check if the name contains only valid characters: lowercase letters and numbers
+  const regex = /^[a-z0-9]+$/;
+  return regex.test(name);
+};
 </script>
 <div>
 
@@ -59,7 +81,15 @@
  
 </div>
 {#if error}
-  <p>Error: {error.message}</p>
+  <div class='error-info text-left'>
+    <p>Error: {error.message}</p>
+    <p>Please ensure the share name meets the following requirements:</p>
+    <ul>
+      <li>MUST be 1 to 15 characters long, inclusive.</li>
+      <li>MUST only contain digits 0-9 and lowercase ASCII letters a-z.</li>
+      <li>MUST NOT start with a digit.</li>
+    </ul>
+  </div>
 {:else if success}
   <div class='text-left'>
     <p>Successfully generated new share keypair!</p>
