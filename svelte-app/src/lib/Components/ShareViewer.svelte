@@ -8,6 +8,7 @@
 
     import CreateInvitation from "../InvitationUrl/CreateInvitation.svelte";
     import StatusPanel from "./StatusPanel.svelte";
+    import StudioPortal from './StudioPortal.svelte';
 
     let shareList = [];
     let tooltipStates = {};
@@ -38,8 +39,13 @@
 
 </script>
 
-<div class='flex flex-row items-start mb-4'>
-    <button 
+<div class='flex flex-row items-start'>
+    
+    <div>
+        <StudioPortal commons={true} topOfCommons={true} />
+    </div>
+</div>
+<button 
       class='{showItems ? "phase1" : "phase2"}' 
       on:click={() => showItems = !showItems}
       >
@@ -49,7 +55,6 @@
         show list
       {/if}
     </button>
-</div>
 
 <div class='flex flex-col items-start'>
     {#if showItems}

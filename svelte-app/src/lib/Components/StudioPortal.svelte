@@ -1,7 +1,7 @@
 <script>
     import { get } from 'svelte/store';
     import settings from "../../store/settings";
-    import { studioShares } from "../../store/settings";
+    import { studioShares, commonsShares } from "../../store/settings";
     import shareKeypair from "../../store/share";
     import Tooltip from "./Tooltip.svelte"; 
     import { onMount } from 'svelte';
@@ -14,7 +14,8 @@
 
     export let noArtefacts = false;
     export let topOfCommons = false;
-    
+    export let commons = false;
+   
     function updateShareKeypair() {
       const shareAddress = selectedShare;
       const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
@@ -23,13 +24,26 @@
       dispatch('shareUpdated');
     }
     
+    let studioList = [];
+    let commonsList = [];
     let shareList = [];
     
     studioShares.subscribe(value => {
-      shareList = [...value]; 
+      studioList = [...value]; 
+    });
+
+    commonsShares.subscribe(value => {
+      commonsList = [...value]; 
     });
 
     onMount(() => {
+        if (commons) {
+        shareList = commonsList;
+    } else {
+        shareList = studioList;
+    }
+
+    
     if (shareList.length > 0) {
         selectedShare = shareList[0];
     }
@@ -52,8 +66,12 @@
             <div class='flex {topOfCommons ? "flex-row pb-4" : "flex-col w-full pt-8"} items-start {noArtefacts ? "" : "items-center justify-center mx-auto"}'>
                 {#if !noArtefacts}
                 <label for="share-switcher" class="text-left {topOfCommons ? 'w-full' : 'w-auto mb-4'}">
+                    {#if commons}
+                    <p>You can travel to an alternative commons</p>
+                    {:else}
                     <p>Choose the Studio you want to enter:</p>
-                    </label>
+                    {/if}    
+                </label>
                 {/if}
                 <select
                     id="share-switcher"
@@ -67,7 +85,9 @@
                         <option value={share}>{share}</option>
                     {/each}
                 </select>
-                <button class='phase1 my-2 {topOfCommons ? 'w-4/5 ml-4' : 'w-auto mb-24'}' on:click="{updateShareKeypair}">enter selected studio</button>
+                <button class='phase1 my-2 {topOfCommons ? 'w-4/5 ml-4' : 'w-auto mb-24'}' on:click="{updateShareKeypair}">
+                    enter {commons ? 'commons' : 'studio'}
+                </button>
        
             </div>    
         </div>
