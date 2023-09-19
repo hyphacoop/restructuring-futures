@@ -116,7 +116,8 @@
     {#await promise}
         Loading attachment...
     {:then data}
-    <div class='w-auto flex flex-row {replies === true ? 'mr-4 pr-4' : 'mb-16'} flex-wrap'>
+    <div class='flex flex-row {replies ? 'mr-4 pr-4 w-full' : 'mb-16 w-auto'} flex-wrap'>
+
         {#if !dnone}
             <div class='flex flex-col justify-between w-4/5 h-auto'>
                 <div class='{replies === true ? '' : 'mt-4'}'>
@@ -129,7 +130,7 @@
                             {@html data}
                         </p>
                     {:else if filetype == "audio"}
-                    <div>
+                    <div class='w-full'>
                         <audio src={data} controls />
                     </div>
                     {:else if filetype == "markdown"}
