@@ -37,6 +37,9 @@
     }
   };
 </script>
+<div>
+
+  <div class='flex flex-col justify-start py-2'>
 <h6 class='text-left'>generate new share</h6>
 <div class='flex flex-col md:flex-row space-between w-auto'>
   
@@ -52,7 +55,7 @@
 </div>
   </div>
 
-<div>
+</div>
  
 </div>
 {#if error}
