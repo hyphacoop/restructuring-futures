@@ -128,7 +128,7 @@
     $:   if (shareAddress === selectedShare) {
         isHidden = false;
     }
-    $: console.log('isStudio', isStudio);
+
 </script>
 {#if !isHidden}
     <div class="{!isStudio ? 'phase1' : ''} flex flex-col-reverse">
