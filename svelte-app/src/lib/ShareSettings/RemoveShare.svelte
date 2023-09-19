@@ -39,13 +39,12 @@
       if (currentShare === selectedShare) {
         shareKeypair.set({ shareAddress: null, secret: null });
       }
+      // clear the user input and close the modal
+      userInput = '';
+      showModal = false;
     } else {
       removalStatus = `The share could not be removed. <br>Please type the name of the share you want to remove.<br>This is the section between the '+' and '.'`;
     }
-
-    // clear the user input and close the modal
-    userInput = '';
-    showModal = false;
   }
   function handleCancel() {
     // clear the user input and close the modal
@@ -70,7 +69,7 @@
 </button>
 
 </div>
-<p class='text-left'>{@html removalStatus}</p>
+
 </div>
 
 
@@ -93,6 +92,7 @@
       <input type="text" bind:value={userInput} placeholder="{sharePart}">
       .{selectedShare.split('.')[1]}
     </p>
+    <p class='text-left'>{@html removalStatus}</p>
     <div class='flex flex-row justify-between'>
     <button class='py-2 m-4' on:click="{handleConfirmRemoveShare}">remove this share</button>
     <button class='py-2 m-4' on:click="{handleCancel}">cancel</button>
