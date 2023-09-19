@@ -1,11 +1,20 @@
 <script>
     import { parseInvitationURL } from 'earthstar';
     import settings from "../../store/settings";
+    import { onMount } from "svelte";
+    import { params } from 'svelte-spa-router';
     
-    let invitationURL = '';
+    let invitationURL = $params ? $params[0] : null;
     let parsedInvitation;
     let error;
     let success = false;
+
+    onMount(() => {
+        if (($params && $params['*'])) {
+            invitationURL = `earthstar://${$params['*']}`;
+            processURL();
+        }
+    });
   
 
     const parseURL = async () => {
