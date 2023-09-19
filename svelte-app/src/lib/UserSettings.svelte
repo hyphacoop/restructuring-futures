@@ -25,7 +25,7 @@
       class="ml-6 mt-4 mb-2 h-auto mr-1 border-black"
       on:click={toggleDetails}
     >
-      🔮 exit server customization
+      🔮 exit app customization
     </button>
     <p class="ml-6 text-2xl text-left">
       <b> current alias: </b>{$authorKeypair.address.slice(0, 5)}
