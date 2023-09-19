@@ -331,6 +331,9 @@ console.log($studioGridStore, 'studioGridStore');
     selectedDocument = null;
     filetype = null;
     xy = [0, 0];
+    setTimeout(() => {
+      fetchDocs();
+    }, 500);
   }
 
   function switchShare() {
@@ -552,7 +555,7 @@ $: {
         />
         </div>
       {/if}
-      <div class="flex flex-col w-auto">
+      <div class="flex flex-col w-auto mt-6">
         {#if documents.length === 0}
           <div
             class="flex flex-col items-center justify-center align-middle h-[60vh]"
