@@ -1,3 +1,10 @@
+# Customizing the app
+
+- Durations, colours and name for each phase of the Commons can be edited in `svelte-app/src/lib/utils/constants.js`
+- Icons image are set in `svelte-app/src/lib/utils/icons.js` and loaded in this component `svelte-app/src/lib/Artefacts/Icon.svelte`
+- Earthstar settings such as Server, Commons and default studio addresses are set in a .env file in `svelte-app/`. An example exist as `svelte-app/.env.example`
+
+
 # Svelte + Vite
 
 This template should help get you started developing with Svelte in Vite.
