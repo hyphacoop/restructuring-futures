@@ -45,6 +45,9 @@
   const studioShareAddress = import.meta.env.VITE_STUDIO_SHARE_ADDRESS;
   const studioSecret = import.meta.env.VITE_STUDIO_SECRET;
 
+  const MAX_RETRIES = 8;
+  let retryCount = 0;
+
   let grid = [6, 9];
   let pages = [];
   let allPagesDocs;
@@ -75,7 +78,8 @@
   });
 
   function backToCommons() {
-  const shareAddress = '+commons.b7q4gt64yiefosdafnmhvtxz43akzk6gw54aesdahtf4kdgpbyeia';
+  loadingText = 'Looking for artefacts...';
+  const shareAddress = import.meta.env.VITE_COMMONS_ADDRESS;
   const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
   shareKeypair.set({shareAddress, secret});
   switchShare(); // set both shareAddress and secret
@@ -190,6 +194,7 @@
     artefactsInPhase3 = counts.artefactsInPhase3;
 
     } else {
+      loadingText = 'Looking for artefacts...';
       console.log('looking for pages');
       // Group documents by page
       let groupedDocs = {};
@@ -267,13 +272,23 @@ console.log($studioGridStore, 'studioGridStore');
   });
 
   $: {
-    if (documents.length === 0) {
+  if (documents.length === 0) {
+    if (retryCount < MAX_RETRIES) {
       console.log('no docs');
+      retryCount++;
       setTimeout(() => {
         fetchDocs();
       }, 2000);
+      loadingText = 'Looking for artefacts...';
+    } else {
+      // If max retries reached
+      loadingText = 'No artefacts were found';
     }
+  } else {
+    // Reset retry count if documents are found
+    retryCount = 0;
   }
+}
 
   onMount(() => {
     console.log('onMount')
@@ -546,7 +561,7 @@ $: {
           </div>
         {:else}
         {#if isCommons}
-        <StudioPortal topOfCommons={true}/>
+        <StudioPortal topOfCommons={true} on:shareUpdated="{switchShare}" />
           {#each LUNAR_PHASE as phase, k (k)}
             <div
               id={`section${k}`}
@@ -624,6 +639,7 @@ $: {
               {/each}
             </div>
           {/each}
+                  <StudioPortal on:shareUpdated="{switchShare}"/>
           {:else}
           {#if showStudio}
           {#each pages as page (page.pageNumber)}
@@ -684,10 +700,11 @@ $: {
 
         {/each}
         <CreatePage on:createPage={fetchDocs}/>
+        <StudioPortal on:shareUpdated="{switchShare}"/>
         {/if}
           {/if}
         {/if}
-        <StudioPortal on:shareUpdated="{switchShare}"/>
+
       </div>
     </div>
   </div>
