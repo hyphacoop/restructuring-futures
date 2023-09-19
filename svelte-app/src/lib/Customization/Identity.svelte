@@ -118,7 +118,7 @@
 
 <div class="w-full text-left">
   <div class="flex flex-col items-start pb-24">
-    <div class="w-4/5 lg:w-3/5 flex flex-row justify-between items-end">
+    <div class="w-4/5 flex flex-row justify-between items-end">
       <div class="flex flex-col">
         <h3>manage alias</h3>
         <h4 class="my-4">
@@ -155,7 +155,7 @@
         </button>
       </div>
     </div>
-    <div class="w-4/5 lg:w-3/5 flex flex-row justify-between">
+    <div class="w-4/5 flex flex-row justify-between">
         <div class='text-left flex-grow'>
             {#if showWarning}
             <blockquote in:fly={{ y: 50, duration: 2000 }}>
@@ -191,7 +191,7 @@
         />
       </div>
     </div>
-    <div class="w-4/5 lg:w-3/5">
+    <div class="w-4/5 2xl:w-3/5 pt-4 mt-2">
       Your alias (the identity you assume on this platform when interacting with
       others) is represented by the keypair seen below. It contains an address
       and a secret. If you intend on using the same alias consistently, it is
