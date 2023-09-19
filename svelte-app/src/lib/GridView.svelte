@@ -182,7 +182,7 @@
     $commonsGridStore = {}; // Reset the store initially
     // Check isCommonsCellOccupied
     isCommonsCellOccupied(documents);
-    console.log('commonsGridStore', $commonsGridStore);
+
     const counts = countArtefactsInEachPhase(gridState);
     artefactsInPhase0 = counts.artefactsInPhase0;
     artefactsInPhase1 = counts.artefactsInPhase1;
@@ -451,9 +451,9 @@ $: {
       ? `${scaledY}, ${scaledX} `
       : ""}
   </p>
-  <div class="text-left font-bold mb-2 truncate ...">
+  <div class="text-left font-bold mb-2">
     Share Address:
-    <p>
+    <p class='truncate ...'>
       {currentShare}
     </p>
   </div>
@@ -461,7 +461,7 @@ $: {
     Current {settings.servers.length === 1
       ? "Server:"
       : `${settings.servers.length} Servers:`}<br>
-    <ServerList />
+    <ServerList truncate={true} />
   </div>
     <div class="flex flex-col justify-left">
       {#if isCommons}
