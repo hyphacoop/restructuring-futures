@@ -27,6 +27,7 @@
 
     $: {
     if (doc) {
+        filetype = getFileExt(doc);
         promise = getAttachmentObject(doc);
         attachmentStatus = true;
         dnone = false;
