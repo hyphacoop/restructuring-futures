@@ -413,15 +413,11 @@ $: {
   on:click={() => (selectedDocument = null)}
   on:keydown={handleKeydown}
 >
-  {#if IDcreated}
-
     <!-- I created some utility function to delete and download the database -->
     <!--
-    <DownloadTool />
-
     <DeleteTool />
         -->
-  {/if}
+
 </div>
 <div class="the-scroll flex flex-row sm:flex-col min-h-screen overflow-y-auto">
   <div class='sm:w-1/5 flex flex-col side-bar fixed '>
