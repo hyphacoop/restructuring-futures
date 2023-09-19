@@ -11,13 +11,13 @@
         workspace settings
     </h3>
     <h4>
-        all workspace shares
-        <Tooltip text='tool tip on hover explaining what "shares" means'><sup class="font-features sups">?</sup></Tooltip>
+        list of known workspaces
+        <Tooltip text='A workspace is a collection of artefacts that you can share with others'><sup class="font-features sups">?</sup></Tooltip>
 
     </h4>
     <ShareViewer />
         <h4 class='pb-4'>
-      add/remove workspace shares
+      add/remove workspaces
     </h4>
     <GenerateShare />
     <AddShare />

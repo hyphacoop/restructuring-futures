@@ -466,7 +466,7 @@ $: {
       : ""}
   </p>
   <div class="text-left font-bold mb-2">
-    Share Address:
+    Workspace Address:
     <p class='truncate ...'>
       {currentShare}
     </p>

@@ -80,7 +80,7 @@
         type="text"
         spellcheck="false"
         bind:value
-        placeholder="Add a new share address"
+        placeholder="Add a new workspace address"
       />
 
     

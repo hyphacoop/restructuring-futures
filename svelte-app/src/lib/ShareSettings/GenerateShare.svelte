@@ -33,7 +33,7 @@
         error = null;
         updateShares(settings.shares);
       } else {
-        throw new Error("Error adding new share keypair");
+        throw new Error("Error adding new workspace keypair");
       }
     }
   } catch (e) {
@@ -62,7 +62,7 @@ const isValidShareName = (name) => {
 <div>
 
   <div class='flex flex-col justify-start py-2'>
-<h6 class='text-left'>generate new share</h6>
+<h6 class='text-left'>generate new workspace</h6>
 <div class='flex flex-col md:flex-row space-between w-auto'>
   
   <input
@@ -73,7 +73,7 @@ const isValidShareName = (name) => {
     placeholder="Enter share name"
   />
   <div class='mx-2'>
-<button class='phase1' on:click={generateNewShareKeypair}>Generate New Share Keypair</button>
+<button class='phase1' on:click={generateNewShareKeypair}>Generate New Workspace Keypair</button>
 </div>
   </div>
 
@@ -92,12 +92,12 @@ const isValidShareName = (name) => {
   </div>
 {:else if success}
   <div class='text-left'>
-    <p>Successfully generated new share keypair!</p>
+    <p>Successfully generated new workspace keypair!</p>
     {#if newKeypair}
       <p>{newKeypair.shareAddress}</p>
       <p>{newKeypair.secret}</p>
     {/if}
-    <p>This new share has been added to your workspace.</p>
+    <p>This new keypair has been added to your workspace.</p>
   </div>
 {/if}
 
