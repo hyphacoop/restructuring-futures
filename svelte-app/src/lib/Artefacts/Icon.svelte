@@ -18,7 +18,7 @@
   let currentIcon;
   let deletionTime = doc.deleteAfter;
   let hovered = false;
-  let textContent, title, note;
+  let textContent, title, note, filetype, imagetype;
 
   let XY = pathToXY(doc.path);
   let fileExtension = doc.path.split('.').pop();
@@ -49,14 +49,24 @@
 
   if (doc.path.endsWith(".md")) {
     currentIcon = mountains;
+    filetype = 'text';
+    imagetype = 'mountain';
   } else if (["png", "gif", "jpeg"].includes(fileExtension)) {
     currentIcon = flowers;
+    filetype = 'image';
+    imagetype = 'flower';
   } else if (["mp3", "ogg", "webm"].includes(fileExtension)) {
     currentIcon = rivers;
+    filetype = 'audio';
+    imagetype = 'river';
   } else if (fileExtension === "pdf") {
     currentIcon = wishbones;
+    filetype = 'pdf';
+    imagetype = 'wishbone';
   } else {
     currentIcon = planets;
+    filetype = 'unknown';
+    imagetype = 'planet';
   }
 
   let iconPhase =
@@ -72,7 +82,8 @@
   <div class="icon-container h-full no-event">
     <img
       src={currentIcon[iconPhase]}
-      alt="document icon is in phase #{phase}"
+      alt='a blurry {imagetype} made of {filetype} is in phase #{phase + 1}'
+      data-path={doc.path}
       class="blurred {replies ? 'small-icon' : ''} {'blurPhase' + iconPhase}"
     />
   </div>
@@ -86,7 +97,8 @@
   >
     <img
       src={currentIcon[currentIcon.length - 1 - iconPhase]}
-      alt="document icon, phase #{iconPhase}"
+      alt='a {imagetype} made of {filetype} is in phase #{phase + 1}'
+      data-path={doc.path}
       class="{replies ? 'small-icon' : ''}"
     />
     {#if !replies}
