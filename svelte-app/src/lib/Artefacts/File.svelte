@@ -9,16 +9,17 @@
   const dispatch = createEventDispatcher();
 
   export let xy = [0, 0];
-
+  export let title = undefined;
+  export let notes = undefined;
+  export let isValid = false;
+  export let selectedFile;
+  
   let fileinput;
   let result;
   let docPath;
   let textContent;
   let errorMessage = '';
-
-  export let title = undefined;
-  export let notes = undefined;
-  export let isValid = true;
+  let currentDoc;
 
   function readFileAsync(file) {
     return new Promise((resolve, reject) => {
@@ -104,8 +105,11 @@
                 thisDoc.path = docPath;
           }
     }
+    currentDoc = thisDoc
+  };
     
-    result = await $replica.replica.set($authorKeypair, thisDoc);
+  async function uploadFile() {
+    result = await $replica.replica.set($authorKeypair, currentDoc);
 
     console.log("Result: ", result);
     if (Earthstar.isErr(result)) {
@@ -115,7 +119,6 @@
       console.log("Success!");
       dispatch("upload");
     }
-    return result;
   }
 
   $: result = result;
@@ -124,11 +127,12 @@
 <div>
   <div class="text-left">
     <h5 class="m-2">Upload a file</h5>
-    <div>Start by entering your title and the optional note.</div>
-    <div>Once the file is selected, it will be automatically uploaded.</div>
-    {#if !isValid}
-      <div>The upload button is disabled because a title is required.</div>
+    <div>Select the file and enter a title.</div>
+    <div>You can also add a note.</div>
+    {#if !(isValid && currentDoc)}
+      <div>The upload button is disabled because a file and a title are required.</div>
     {/if}
+    <div class='flex flex-row w-full space-between'>
     <button
       class="phase1 m-2"
       on:click={() => {
@@ -137,18 +141,26 @@
       on:keypress={() => {
         fileinput.click();
       }}
-      disabled={!isValid}
+
     >
-      file upload
+      select file
     </button>
 
     <input
-      style="display:none"
-      type="file"
-      accept=".jpg, .jpeg, .png, .gif, .txt, .pdf, .md, .webm, .mp3, .ogg, .wav"
-      on:change={(e) => onFileSelected(e)}
-      bind:this={fileinput}
-    />
+    style="display:none"
+    type="file"
+    accept=".jpg, .jpeg, .png, .gif, .txt, .pdf, .md, .webm, .mp3, .ogg, .wav"
+    on:change={onFileSelected}
+    bind:this={fileinput}
+/>
+<button
+    class="phase1 m-2"
+    on:click={uploadFile}
+    disabled={!(isValid && currentDoc)}
+>
+    upload
+</button>
+</div>
   </div>
   {#if result}
     <p>

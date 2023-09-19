@@ -20,6 +20,7 @@
     let docPath;
     let result;
     let isValid = true;
+    let selectedFile;
 
     let timestamp = Date.now();
     let deletionTime = (Date.now() + 2548800000) * 1000;
@@ -139,6 +140,7 @@
                                 on:upload={confirmUpload}
                                 title={artefactTitle}
                                 notes={artefactNotes}
+                                bind:selectedFile={selectedFile}
                                 {isValid}
                             />
                         {/if}
