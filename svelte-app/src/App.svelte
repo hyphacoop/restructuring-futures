@@ -22,6 +22,7 @@
   import UserSettings from "./lib/UserSettings.svelte";
   import MouseBanner from "./lib/MouseBanner.svelte";
   import Footer from "./lib/Components/Footer.svelte";
+  import Tooltip from "./lib/Components/Tooltip.svelte";
 
 
   const studioShareAddress = import.meta.env.VITE_STUDIO_SHARE_ADDRESS;
@@ -159,11 +160,13 @@
         <button class="phase1 mx-16 mt-12 text-2xl" on:click={generateID}
           >Generate new Identity</button
         >
+        <Tooltip text='You will need an identity in order to interact with the artefacts'>
         <button
           class="phase1 mx-16 mt-12 text-2xl"
           on:click={() => (IDcreated = !IDcreated && showDetails === false)}
           >Explore the commons</button
         >
+      </Tooltip>
       </div>
       <div
         class="w-1/2 flex flex-col lg:flex-row items-center mx-2 justify-center my-12"
