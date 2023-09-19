@@ -41,7 +41,7 @@
     <div class='flex flex-row justify-between w-full h-4/5'>
     {#if attachment}
         <div class='attachmentbox pr-12 w-2/3 overflow-y-scroll'>
-            <GetAttachment doc={selectedDocument} replies='false' />
+            <GetAttachment doc={selectedDocument} replies={false} />
         </div>
     {/if}
     {#if reply}
