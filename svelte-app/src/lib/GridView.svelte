@@ -508,7 +508,7 @@ $: {
   
     </div>
   </div>
-  <div class="w-4/5 mt-16 sm:mt-10 sm:ml-[20vw]">
+  <div class="w-4/5 mt-16 sm:mt-4 sm:ml-[20vw]">
     <div class="my-grid-container-wrapper w-auto pl-4 ml-4">
       {#if showPlace}
       <PlaceFromStudio {windowWidth} on:hideWindow={resetView} on:artefactPlaced={fetchDocs}/>
@@ -546,6 +546,7 @@ $: {
           </div>
         {:else}
         {#if isCommons}
+        <StudioPortal topOfCommons={true}/>
           {#each LUNAR_PHASE as phase, k (k)}
             <div
               id={`section${k}`}
