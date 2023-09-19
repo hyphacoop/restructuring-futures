@@ -16,9 +16,12 @@
 
     </h4>
     <ShareViewer />
-    <AddShare />
-    <RedeemInvitation />
-    <RemoveShare />
+        <h4 class='pb-4'>
+      add/remove workspace shares
+    </h4>
     <GenerateShare />
+    <AddShare />
+    <RemoveShare />
+    <RedeemInvitation />
     
 </div>
