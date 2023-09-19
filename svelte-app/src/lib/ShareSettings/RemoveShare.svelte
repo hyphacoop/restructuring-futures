@@ -55,17 +55,17 @@
   $: shares; // subscribe to changes in shares
 
 </script>
-<div class='flex flex-col justify-start py-6'>
+<div class='flex flex-col justify-start py-2'>
 <h6 class='text-left'>remove shares</h6>
 <label class='text-left' for="share-switcher">this action is irreversible</label>
-<div class='flex flex-col 2xl:flex-row'>
+<div class='flex flex-col lg:flex-row'>
 <select id="share-selecter" bind:value="{selectedShare}" class="form-control my-2 w-3/5">
   {#each $availableShares as share (share)}
     <option value={share}>{share}</option>
   {/each}
 </select>
 
-<button class='phase1 w-2/5 m-2'on:click="{handleRemoveShare}">
+<button class='phase1 w-2/5 my-2 ml-4'on:click="{handleRemoveShare}">
   remove share
 </button>
 
