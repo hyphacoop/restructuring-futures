@@ -69,11 +69,9 @@
   </script>
   
   <div>
-    <h4>
-      add/remove workspace shares
-    </h4>
+
     <div class='flex flex-col justify-start py-2'>
-      <h6 class='text-left py-2'>add shares</h6>
+      <h6 class='text-left pt-2'>add existing share</h6>
       <div class='flex flex-col lg:flex-row'>
       <label for='shareAddress' style='text-align:left;'>
         Address:
@@ -97,7 +95,7 @@
   />
 
   <div>
-    <button class='w-60 phase1 my-4' on:click={() => addShare(value)}> add a share </button> 
+    <button class='w-60 phase1 mt-2 mb-1' on:click={() => addShare(value)}> add a share </button> 
   </div>
 </div>
   </div>
