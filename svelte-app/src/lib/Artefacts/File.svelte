@@ -37,13 +37,7 @@
   }
 
   async function onFileSelected(e) {
-    if (notes && title) {
-      textContent = "#Title: " + title + "#Notes: " + notes;
-    } else if (title) {
-      textContent = "#Title: " + title;
-    } else {
-      textContent = "";
-    }
+
     let date = new Date();
     let readableDate = new Intl.DateTimeFormat('en-US').format(date);
     // from the file selected
@@ -84,9 +78,7 @@
         "Shared by " +
         $authorKeypair.address.slice(1, 5) +
         " on " +
-        readableDate +
-        " " +
-        textContent;
+        readableDate;
 
     let thisDoc = {
       path: docPath,
@@ -109,6 +101,16 @@
   };
     
   async function uploadFile() {
+    if (notes && title) {
+      textContent = "#Title: " + title + "#Notes: " + notes;
+    } else if (title) {
+      textContent = "#Title: " + title;
+    } else {
+      textContent = "";
+    }
+
+    currentDoc.text += " " + textContent;
+    
     result = await $replica.replica.set($authorKeypair, currentDoc);
 
     console.log("Result: ", result);
