@@ -4,6 +4,8 @@
   import shareKeypair from "../../store/share";
   import replica from "../../store/replica";
 
+  import isValidPath from "../utils/pathValidation";
+
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
@@ -12,7 +14,6 @@
   export let title = undefined;
   export let notes = undefined;
   export let isValid = false;
-  export let selectedFile;
   
   let fileinput;
   let result;
@@ -40,8 +41,6 @@
   }
 
   async function onFileSelected(e) {
-
-
     let date = new Date();
     let readableDate = new Intl.DateTimeFormat('en-US').format(date);
     // from the file selected
@@ -83,6 +82,12 @@
           docPath = `/documents/${xy[0]}/${xy[1]}/${timestamp}/!${finalName}`;
     }
 
+     // Validate the path
+     const validationResult = isValidPath(docPath);
+    if (!validationResult.isValid) {
+        errorMessage = validationResult.errorMessage;
+        return; // Exit the function early since the path is invalid
+    }
 
     let docText =
         "Shared by " +
