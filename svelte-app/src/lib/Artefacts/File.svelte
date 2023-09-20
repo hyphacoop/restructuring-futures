@@ -20,6 +20,9 @@
   let textContent;
   let errorMessage = '';
   let currentDoc;
+  let allFormats = ["JPG", "jpg", "jpeg", "PNG", "png", "GIF", "gif", "MP3", "mp3", "OGG", "ogg", "WEBM", "webm"];
+  let supportedFormats = Array.from(new Set(allFormats.map(format => format.toLowerCase())));
+  let acceptFormats = supportedFormats.join(", .");
 
   function readFileAsync(file) {
     return new Promise((resolve, reject) => {
@@ -38,6 +41,7 @@
 
   async function onFileSelected(e) {
 
+
     let date = new Date();
     let readableDate = new Intl.DateTimeFormat('en-US').format(date);
     // from the file selected
@@ -48,6 +52,12 @@
     let safeName = removeSpace.replace(/[@·,\/#!$%\^&\*;:{}=\-`~()]/g, "");
     // get file extension
     let extension = safeName.split(".").pop();
+    // add error message, if file extension is not supported
+    if (!supportedFormats.includes(extension.toLowerCase())) {
+        errorMessage = `Unsupported file format. Supported formats are: ${supportedFormats.join(', ')}`;
+        return;
+    }
+
     // get file name without extension
     let fileNoExt = safeName.split(".")[safeName.split(".").length - 2];
     // set final file name
@@ -110,7 +120,7 @@
     }
 
     currentDoc.text += " " + textContent;
-    
+
     result = await $replica.replica.set($authorKeypair, currentDoc);
 
     console.log("Result: ", result);
@@ -130,9 +140,14 @@
   <div class="text-left">
     <h5 class="m-2">Upload a file</h5>
     <div>Select the file and enter a title.</div>
+    <div>Supported file formats: {supportedFormats.join(', ')}</div>
     <div>You can also add a note.</div>
+
+    {#if errorMessage}
+        <div class="error">{errorMessage}</div>
+    {/if}
     {#if !(isValid && currentDoc)}
-      <div>The upload button is disabled because a file and a title are required.</div>
+      <div>The upload button is disabled because a title and a file in a supported format are required.</div>
     {/if}
     <div class='flex flex-row w-full space-between'>
     <button
@@ -151,7 +166,7 @@
     <input
     style="display:none"
     type="file"
-    accept=".jpg, .jpeg, .png, .gif, .txt, .pdf, .md, .webm, .mp3, .ogg, .wav"
+    accept={acceptFormats}
     on:change={onFileSelected}
     bind:this={fileinput}
 />
@@ -181,4 +196,9 @@
     background-color: #ccc;
     cursor: not-allowed;
   }
+  .error {
+    color: red;
+    margin-top: 1rem;
+  }
+
 </style>
