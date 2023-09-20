@@ -26,19 +26,12 @@
     let studioReplica;
     let deletionTime;
 
-    $: {
-        console.log('studioShares', studioShares);
-        console.log('showGrid', showGrid);
-        console.log('showArtefacts', showArtefacts);
-    }
-
     // Use the value of studioShares
     let sharesValue;
     studioShares.subscribe(value => {
         sharesValue = value;
     });
 
-    console.log('sharesValue', sharesValue)
 
     function handleSelection(event) {
         xy = event.detail;
@@ -56,13 +49,12 @@
     onMount(async () => {
         const fetchArtefactsFromShare = async (share) => {
             try {
-            console.log('processing share', share);
+
             const shareSecret = settings.shareSecrets[share];
-            console.log('shareSecret', shareSecret)
+
             studioReplica = new Earthstar.Replica({
                 driver: new ReplicaDriverWeb(share),
             });
-            console.log('authorKeypair address', $authorKeypair.address)
             
             let results = await studioReplica.queryDocs({
                 historyMode: "latest",
@@ -71,7 +63,6 @@
                     pathStartsWith: "/documents",
                 }
             });
-            console.log("Results for share:", share, results);
             results = results.filter((doc) => {
                 if (!doc.text.trim()) {
                 return false; // Filters out empty or whitespace-only documents
@@ -86,7 +77,6 @@
                     return doc.path.split("/").length <= 6;
                 }
             });
-            console.log("Filtered results:", results);
             return results;
             
         } 
@@ -99,7 +89,6 @@
         let promises = sharesValue.map(share => fetchArtefactsFromShare(share));
 
         let results = await Promise.all(promises);
-        console.log('results', results)
         allArtefactsFromStudios = results.flat();
     });
 
@@ -125,7 +114,6 @@
  }
 
  const fetchReplies = async (basePath) => {
-    console.log('basePath', basePath)
     const allDocs = await studioReplica.queryDocs({
         filter: {
             pathStartsWith: basePath,
@@ -145,7 +133,6 @@
             return doc.path.split("/").length >= 7;
         }
     });
-    console.log('ALL REPLIES: ', onlyReplies)
     return onlyReplies;
 };
 
@@ -153,15 +140,12 @@ const placeReplies = async (docs, basePath, deletionTime) => {
     for (let doc of docs) {
         let date = new Date();
         let filename = doc.path.split('/').pop();
-        console.log('filename', filename);
-        console.log('received doc attempt:', doc);
         if (filename.includes('.')) {
             const attachmentBytes = await getAttachment(doc);
             if (attachmentBytes) {
                 doc.attachment = attachmentBytes;
             }
         }
-        console.log('basePath', basePath);
         let tempPath = basePath.split('!')[0];
         let newPath = tempPath + `${date.getTime()}/!` + filename;
         let reply = {
@@ -169,10 +153,7 @@ const placeReplies = async (docs, basePath, deletionTime) => {
             deleteAfter: deletionTime,
             text: doc.text
         } 
-        console.log('reply to validate path', reply)
-        console.log('upload doc attempt:', doc);
         const result = await $replica.replica.set($authorKeypair, reply);
-        console.log('replies result:', result);
 
         if (Earthstar.isErr(result)) {
             console.error(result);
@@ -211,12 +192,12 @@ const placeReplies = async (docs, basePath, deletionTime) => {
         console.log("Result: ", result);
         // Fetch all replies at the given path
         let pathForReplies = selectedArtefact.path.substring(0, selectedArtefact.path.lastIndexOf('/'));
-        console.log('pathForReplies', pathForReplies);
         let replies = await fetchReplies(pathForReplies);
 
         // Place them in the commons
         let transferedReplies = await placeReplies(replies, newPath, deletionTime);
         dispatch("artefactPlaced");
+        console.log("transferedReplies: ", transferedReplies);
         if (Earthstar.isErr(result)) {
             console.error(result);
         }
