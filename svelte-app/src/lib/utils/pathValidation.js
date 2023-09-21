@@ -58,10 +58,16 @@ export default function isValidPath(path) {
 
   // Check each segment of the path
   const segments = path.split("/");
+
+  let count = 0;
   for (let segment of segments) {
-    if (segment.length === 0) {
-      errorMessage = "Segment cannot be empty.";
-      return { isValid: false, errorMessage };
+
+    if (count > 0){
+        if (segment.length === 0) {
+            errorMessage = "Segment cannot be empty.";
+        }
+        count++;
+        return { isValid: false, errorMessage };
     }
   }
 
