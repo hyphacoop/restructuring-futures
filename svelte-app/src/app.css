@@ -39,6 +39,10 @@ body {
   overflow-x: hidden;
 }
 
+.markdown a {
+  text-decoration: underline;
+}
+
 .card {
   padding: 2em;
 }
