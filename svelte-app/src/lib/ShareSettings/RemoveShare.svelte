@@ -23,6 +23,7 @@
   $: sharePart = selectedShare.split('+')[1].split('.')[0];
 
   function handleRemoveShare() {
+    removalStatus = '';
     // display the modal
     showModal = true;
   }
@@ -31,17 +32,11 @@
     if (userInput === sharePart) {
       removeShare(selectedShare);
 
-      // Update the removal status
-      removalStatus = `Share ${selectedShare} has been removed.`;
-  
-      // After removing, if the removed share was the current one, unset it
-      const currentShare = get(shareKeypair).shareAddress;
-      if (currentShare === selectedShare) {
-        shareKeypair.set({ shareAddress: null, secret: null });
-      }
+
       // clear the user input and close the modal
       userInput = '';
       showModal = false;
+      removalStatus = `You successfully removed +${sharePart}.`;
     } else {
       removalStatus = `The share could not be removed. <br>Please type the name of the share you want to remove.<br>This is the section between the '+' and '.'`;
     }
@@ -51,6 +46,13 @@
     userInput = '';
     showModal = false;
   }
+
+  function closeModal(event) {
+    if (event.target.classList.contains('modal')) {
+      handleCancel();
+    }
+  }
+
   $: shares; // subscribe to changes in shares
 
 </script>
@@ -68,13 +70,18 @@
   remove share
 </button>
 
+
 </div>
+<!-- Display the removalStatus message -->
+{#if removalStatus}
+  <p class='text-left'>{@html removalStatus}</p>
+{/if}
 
 </div>
 
 
 {#if showModal}
-<div class="modal">
+<div class="modal" on:click="{closeModal}">
   <div class="modal-content w-2/3 lg:w-2/5">
     <div class='flex flex-col justify-start'>
     <h5 class='text-left'>removing the following share from your workspace:</h5>
