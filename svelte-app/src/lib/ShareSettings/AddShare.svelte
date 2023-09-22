@@ -10,6 +10,7 @@
     let showWarning = false;
     let errorMsg = undefined;
     let showSecret = false;
+    let confirmationMsg = false;
     
   
     function addShare(value) {
@@ -29,6 +30,9 @@
         console.log("Your shares are", settings.shares);
       }
       addSecret();
+      if (!showWarning) {
+            confirmationMsg = true;
+        }
     }
   
   
@@ -56,6 +60,9 @@
         console.log("You have", settings.shares.length, "shares");
         console.log("Your shares are", settings.shares);
         console.log('You know the secret to these shares:', settings.shareSecrets);
+         if (!showWarning) {
+            confirmationMsg = true;
+        }
       }
     }
   
@@ -101,7 +108,11 @@
   </div>
   
 
-  
+   {#if confirmationMsg}
+        <p class="text-left">
+            Share and/or secret successfully added!
+        </p>
+    {/if}
     {#if showWarning}
       <p>
         <strong> 
