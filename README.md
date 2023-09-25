@@ -38,6 +38,46 @@ npm run build
 npm run deploy
 ```
 
+## Moderation
+
+The app contains a Delete Tool that allows for moderation. Ephemeral documents can be deleted by setting their deleteAfter properties in the very near future. Non-ephemeral documents' data can be wiped to get rid of undesirable content.
+In order to achieve this, you will need to:
+
+1. Enable the Delete Tool
+2. Obtain the undesirable document's path
+
+### Enabling the Delete Tool
+
+If you're running the app locally and wish to enable the `DeleteTool` functionality, you can do so by uncommenting a specific block of code:
+
+1. Navigate to the file: [`svelte-app/src/lib/GridView.svelte`](https://github.com/hyphacoop/restructuring-futures/blob/main/svelte-app/src/lib/GridView.svelte) 
+2. Go to lines [434 to 437](https://github.com/hyphacoop/restructuring-futures/blob/main/svelte-app/src/lib/GridView.svelte#L434-L437) in the above file.
+3. Uncomment the `<DeleteTool />` section by removing the surrounding `<!--` and `-->`.
+
+\```svelte
+<!--
+<DeleteTool />
+-->
+\```
+
+### Finding the Document Path
+
+To identify the path of any document:
+
+- **Using the App Interface**: Once an artefact is selected, the path to that document can be viewed in the artefact metadata located in the sidebar.
+  
+- **Checking the Source Code**: If the artefact can't be selected through the interface, you can find its path by inspecting the source code. Look for the `data-path` attribute of the artefact icon you would like to delete. For instance:
+
+\```html
+<img src="icons/mountain-phase-5-02.png" alt="a mountain made of text is in phase #1" data-path="/documents/1/1/1695057834045/!shared-from-the-studio-by-bort.md" class=" s-CYjQHmkSPAe4">
+\```
+
+### Document Management
+
+- **In the Studio**: Use the **Wipe button**. Documents within the studio should be wiped. This means removing the document's data. Empty documents are filtered out and not shown in the app.
+  
+- **In the Commons**: Use the **Delete button**. Since the Commons uses ephemeral documents, they can be directly deleted via their deleteAfter properties.
+
 ## Building with Earthstar
 
 We use github pages to host prototypes found in the [web folder](https://hyphacoop.github.io/restructuring-futures/web/).
