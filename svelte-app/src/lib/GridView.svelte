@@ -431,7 +431,7 @@ $: {
   on:click={() => (selectedDocument = null)}
   on:keydown={handleKeydown}
 >
-    <!-- I created some utility function to delete and download the database -->
+    <!-- Here is the DeleteTool -->
     <!--
     <DeleteTool />
         -->
