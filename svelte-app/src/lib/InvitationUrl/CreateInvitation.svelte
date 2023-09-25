@@ -1,4 +1,6 @@
 <script>
+    import { slide } from 'svelte/transition';
+
     import { createInvitationURL } from "earthstar";
     import settings from "../../store/settings";
     import QRCode from "../QRJS.svelte";
@@ -13,6 +15,7 @@
       });
     });
 
+    let showInvitationURL = false;
     let invitationURL = '';
     let copySuccess = false;
     let showQR = false;
@@ -22,6 +25,9 @@
     let shareDetails;
   
     async function generateInvitationURL() {
+      // show/hide the invitation url and reset copy state
+      showInvitationURL = !showInvitationURL;
+      copySuccess = false;
       // generate the invitation url
       const result = await createInvitationURL(shareAddress, settings.servers, settings.shareSecrets[shareAddress]);
       
@@ -54,8 +60,8 @@
   
   <div class='flex flex-col'>
     <button class='phase1 w-60' on:click={generateInvitationURL}>generate invitation url</button>
-    {#if invitationURL}
-      <p class="py-2"><strong>Your invitation URL is: </strong>
+    {#if showInvitationURL}
+      <p transition:slide|local class="py-2 w-60"><strong>Your invitation URL is: </strong>
         <span class='break-all text-xs'>{invitationURL}</span>
       </p>
     {#if !copySuccess}
@@ -63,6 +69,8 @@
       {:else}
       <button on:click={copyToClipboard}>URL copied to clipboard!</button>
       {/if}
+            <!-- Hide the QR code until mobile version is ready -->
+      <!--
       <button class='mt-2' on:click={toggleQR}>
         
         {#if showQR}
@@ -72,6 +80,7 @@
         {/if}
         QR code
       </button>
+
       {#if showQR}
       <div id="modal" on:click={handleClickOutside}>
         <div id="qrcodeContainer">
@@ -79,10 +88,11 @@
         </div>
       </div>
         {/if} 
+        -->
     {/if}
   </div>
   <style>
-
+/* 
     #modal {
         position: fixed;
         top: 0;
@@ -100,5 +110,5 @@
 
       height: 80vh;
       background-color: white;
-    }
+    } */
   </style>
