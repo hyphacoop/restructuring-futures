@@ -53,13 +53,14 @@ $: {
     } else {
         shareList = studioList;
     }
-
-    
-    if (shareList.length > 0) {
-        selectedShare = shareList[0];
-    }
 }
 
+
+onMount(() => {
+if (shareList.length > 0) {
+        selectedShare = shareList[0];
+    }
+});
     </script>
 {#if shouldDisplay}
     <div class='flex {topOfCommons ? "flex-row" : "flex-col"} {noArtefacts ? "ml-8" : "items-center justify-center mt-2 mb-8"}'>
