@@ -8,7 +8,7 @@
     import settings from "../store/settings.js";
     import shareKeypair from "../store/share.js";
     import { statusStore } from '../store/status.js';
-  
+    import { showUserSettingsStore } from '../store/showUserSettings.js';
   
     import { onMount } from "svelte";
   
@@ -42,6 +42,14 @@
     function handleReadManual() {
       readManual = true;
     }
+
+    
+    showUserSettingsStore.subscribe(value => {
+      showUserSettings = value;
+      console.log('showUserSettings', showUserSettings)
+    });
+
+    $: console.log('showUserSettings', showUserSettings);
   
     console.log('settings', settings)
   
