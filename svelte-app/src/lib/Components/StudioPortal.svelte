@@ -47,7 +47,7 @@
         }
     });
 
-    onMount(() => {
+$: {
         if (commons) {
         shareList = commonsList;
     } else {
@@ -58,7 +58,7 @@
     if (shareList.length > 0) {
         selectedShare = shareList[0];
     }
-});
+}
 
     </script>
 {#if shouldDisplay}
