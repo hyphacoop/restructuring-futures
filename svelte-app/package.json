@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "postinstall": "./setup-env.sh",
     "dev": "vite",
     "build": "vite build && (mkdir -p ./dist/web/ || true) && cp -r ../web/ ./dist/web/",
     "preview": "vite preview",
