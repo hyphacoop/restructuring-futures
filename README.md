@@ -54,11 +54,11 @@ If you're running the app locally and wish to enable the `DeleteTool` functional
 2. Go to lines [434 to 437](https://github.com/hyphacoop/restructuring-futures/blob/main/svelte-app/src/lib/GridView.svelte#L434-L437) in the above file.
 3. Uncomment the `<DeleteTool />` section by removing the surrounding `<!--` and `-->`.
 
-\```svelte
+```svelte
 <!--
 <DeleteTool />
 -->
-\```
+```
 
 ### Finding the Document Path
 
@@ -68,9 +68,9 @@ To identify the path of any document:
   
 - **Checking the Source Code**: If the artefact can't be selected through the interface, you can find its path by inspecting the source code. Look for the `data-path` attribute of the artefact icon you would like to delete. For instance:
 
-\```html
+```html
 <img src="icons/mountain-phase-5-02.png" alt="a mountain made of text is in phase #1" data-path="/documents/1/1/1695057834045/!shared-from-the-studio-by-bort.md" class=" s-CYjQHmkSPAe4">
-\```
+```
 
 ### Document Management
 
