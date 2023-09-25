@@ -12,28 +12,39 @@
 
     let selectedShare;
 
+    const defaultCommonsAddress = import.meta.env.VITE_COMMONS_ADDRESS;
+
     export let noArtefacts = false;
     export let topOfCommons = false;
     export let commons = false;
    
     function updateShareKeypair() {
-      const shareAddress = selectedShare;
-      const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
-      shareKeypair.set({shareAddress, secret}); // set both shareAddress and secret
-      // dispatch a 'shareUpdated' event
-      dispatch('shareUpdated');
+        const shareAddress = selectedShare;
+        const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
+        shareKeypair.set({shareAddress, secret}); // set both shareAddress and secret
+        // dispatch a 'shareUpdated' event
+        dispatch('shareUpdated');
     }
     
     let studioList = [];
     let commonsList = [];
     let shareList = [];
+    let shouldDisplay = true;
     
     studioShares.subscribe(value => {
-      studioList = [...value]; 
+        studioList = [...value]; 
     });
 
     commonsShares.subscribe(value => {
-      commonsList = [...value]; 
+        commonsList = [...value]; 
+        // Check if commonsList has more than just the default address
+        if (commons) {
+            if (commonsList.length > 1 || (commonsList.length === 1 && commonsList[0] !== defaultCommonsAddress)) {
+                shouldDisplay = true;
+            } else {
+                shouldDisplay = false;
+            }
+        }
     });
 
     onMount(() => {
@@ -50,7 +61,7 @@
 });
 
     </script>
-
+{#if shouldDisplay}
     <div class='flex {topOfCommons ? "flex-row" : "flex-col"} {noArtefacts ? "ml-8" : "items-center justify-center mt-2 mb-8"}'>
         <div class='flex {topOfCommons ? "flex-row" : "flex-col"} {noArtefacts ? "" : "items-center justify-center mx-auto"} max-w-4xl w-full'>
             {#if !topOfCommons}
@@ -63,6 +74,7 @@
                     {/if}
                 </Tooltip>
             {/if}
+
             <div class='flex {topOfCommons ? "flex-row pb-4" : "flex-col w-full pt-8"} items-start {noArtefacts ? "" : "items-center justify-center mx-auto"}'>
                 {#if !noArtefacts}
                 <label for="share-switcher" class="text-left {topOfCommons ? 'w-full' : 'w-auto mb-4'}">
@@ -90,8 +102,10 @@
                 </button>
        
             </div>    
+
         </div>
     </div>
+    {/if}
     <style>
         p {
             font-size: 1.2rem;
