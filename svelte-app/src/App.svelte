@@ -205,7 +205,7 @@
     </div>
   {:else if IDcreated && showUserSettings}
     <div class="w-full">
-      <UserSettings on:toggle={toggleUserSettings} {initialView} />
+      <UserSettings on:toggle={toggleUserSettings} {initialView} on:shareUpdated={toggleUserSettings}/>
     </div>
   {/if}
 </main>

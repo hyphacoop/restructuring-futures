@@ -15,7 +15,7 @@
         <Tooltip text='A workspace is a collection of artefacts that you can share with others'><sup class="font-features sups">?</sup></Tooltip>
 
     </h4>
-    <ShareViewer />
+    <ShareViewer on:shareUpdated />
         <h4 class='pb-4'>
       add/remove workspaces
     </h4>

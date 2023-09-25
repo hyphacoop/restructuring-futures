@@ -42,7 +42,7 @@
 <div class='flex flex-row items-start'>
     
     <div>
-        <StudioPortal commons={true} topOfCommons={true} />
+        <StudioPortal commons={true} topOfCommons={true} on:shareUpdated />
     </div>
 </div>
 <button 

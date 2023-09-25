@@ -53,7 +53,7 @@
   </div>
   <div class="w-full sm:w-[80vw] mt-16 sm:mt-10 sm:ml-[25vw]">
     {#if activeComponent === "workspace"}
-      <Workspace />
+      <Workspace on:shareUpdated />
     {/if}
 
     {#if activeComponent === "server"}
