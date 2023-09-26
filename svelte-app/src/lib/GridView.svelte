@@ -533,7 +533,9 @@ $: {
           </div>
         {:else}
         {#if isCommons}
-        <StudioPortal topOfCommons={true} on:shareUpdated="{switchShare}" />
+          {#if !isMobile}
+            <StudioPortal topOfCommons={true} on:shareUpdated="{switchShare}" />
+          {/if}
           {#each LUNAR_PHASE as phase, k (k)}
             <div
               id={`section${k}`}
@@ -548,8 +550,10 @@ $: {
                 {#each { length: grid[1] } as _, j (j)}
 
                     {#if isMobile}
-
-                        {#if gridState[j][i] && gridState[j][i].length > 0}
+                    <h3>
+                      Please visit this page on a larger screen.
+                    </h3>
+                       <!--  Future mobile grid {#if gridState[j][i] && gridState[j][i].length > 0}
                           <div id={`phase${k}_cell_${i}_${j}`} class="grid-cell h-full">
                             {i},{j}
                             {#each gridState[j][i] as artefact}
@@ -559,7 +563,7 @@ $: {
                                   <div class="orbit-icon h-full">
                                     <Icon {replies} phase={k} doc={artefact.doc} 
                                     on:click={() => selectDocument(artefact.doc)}/>
-                                  </div>
+                                  </div> 
 
                                 {:else}
 
@@ -573,7 +577,7 @@ $: {
                             {/each}
                           </div>
                         {/if}
-
+-->
                     {:else}
                     <div id="{j}+{i}+{k}" class="grid-cell 
                     {i === 0 && k === 0 ? 'top-row-offset' : ''} 
@@ -628,7 +632,9 @@ $: {
             {#each { length: grid[1] } as _, j (j)}
 
                 {#if isMobile}
-
+                    <h3>
+                      Please visit this page on a larger screen.
+                    </h3>
                     {#if gridState[j][i] && gridState[j][i].length > 0}
                       <div id={`Studio_cell_${i}_${j}`} class="grid-cell">
                         {i},{j}

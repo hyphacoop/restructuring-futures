@@ -128,6 +128,22 @@
     showUserSettings = !showUserSettings;
   }
 
+
+  // inform users that this app is not optimized on mobile
+  let windowWidth;
+  let isMobile = false;
+
+  $: windowWidth = window.innerWidth;
+
+$: {
+  if (windowWidth <= 768) {
+    isMobile = true;
+      } else {
+    isMobile = false;
+   
+  }
+}
+
 </script>
 
 <main>
@@ -138,6 +154,11 @@
     <div class="my-12">
       <h1>Eccentric Networks</h1>
       <h4>Collaboration space for the unconnected</h4>
+      {#if isMobile}
+      <h5 class='mt-6 w-1/2 mx-auto'>
+        This app has not been optimized for smaller screens. Please use this app on desktop.
+      </h5>
+      {:else}
       <div
         class="flex flex-col lg:flex-row items-center mx-16 justify-evenly my-12"
       >
@@ -147,7 +168,7 @@
         <Tooltip text='You will need an identity in order to interact with the artefacts'>
         <button
           class="phase1 mx-16 mt-12 text-2xl"
-          on:click={() => (IDcreated = !IDcreated && showDetails === false)}
+          on:click={() => (IDcreated === true && showDetails === false)}
           >Explore the commons</button
         >
       </Tooltip>
@@ -165,6 +186,7 @@
         </div>
       </div>
       <MouseBanner />
+      {/if}
     </div>
     {#if showWarning === true}
       <blockquote transition:fly={{ y: 200, duration: 2000 }}>
@@ -180,7 +202,6 @@
       <GridView
         on:toggle={toggleUserSettings}
         {showDetails}
-        {IDcreated}
         on:view={handleView}
         on:details={() => (showUserSettings = true)}
       />
