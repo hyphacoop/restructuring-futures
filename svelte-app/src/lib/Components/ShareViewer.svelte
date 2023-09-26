@@ -16,6 +16,9 @@
 
     let showItems = true;
 
+    const defaultStudio = import.meta.env.VITE_STUDIO_SHARE_ADDRESS;
+    const defaultCommons = import.meta.env.VITE_COMMONS_ADDRESS;
+
     function showShareTooltip(share, type) {
          // Clear any existing timers for this share
     if (tooltipTimers[share]) {
@@ -78,19 +81,22 @@
             <p>
                 <b>Type:</b>
                 {share.includes('commons') ? 'Commons' : 'Studio'}
+                {share === defaultStudio || share === defaultCommons ? ' (default)' : ''}
             </p>
             </div>
-            {#key share}
-                {#if $statusStore[share]}
-                    {#if $statusStore[share].docs}
-                        {#if Object.keys($statusStore[share].docs).length > 0}        
-                        <div class="ml-16">
-                            <StatusPanel shareID={share} />
-                        </div>
+            {#if $statusStore}
+                {#key share}
+                    {#if $statusStore[share]}
+                        {#if $statusStore[share].docs}
+                            {#if Object.keys($statusStore[share].docs).length > 0}        
+                            <div class="ml-16">
+                                <StatusPanel shareID={share} />
+                            </div>
+                            {/if}
                         {/if}
-                    {/if}
-                {/if} 
-            {/key}
+                    {/if} 
+                {/key}
+            {/if}
         </div>
             <div class='flex flex-row items-end'>
             <div class="mt-4 mx-2">
