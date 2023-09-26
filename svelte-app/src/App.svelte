@@ -39,8 +39,6 @@
   let status = undefined;
 
 
-  console.log('settings', settings)
-
   onMount(async () => {
     if (settings.author) {
       // if an author already exists, use it
@@ -67,18 +65,15 @@
     } else if (shareResult instanceof Earthstar.ValidationError) {
       console.error("Failed to add share due to validation error:", shareResult.message);
     }
-    console.log('settings', settings)
-    console.log('settings.shareSecrets', settings.shareSecrets)
     createNewPeer();
   });
 
   function createNewPeer() {
-    console.log('replicaDetails_$$$', $replicaDetails)
+
   const peer = new Earthstar.Peer();
   peer.addReplica($replicaDetails.replica);
   const sync = peer.sync(import.meta.env.VITE_SERVER_ADDRESS, true);
   const server = settings.addServer(import.meta.env.VITE_SERVER_ADDRESS);
-  console.log(server);
 
   
   sync.onStatusChange((newStatus) => {
@@ -101,7 +96,6 @@
 
   // new peer & syncing with server
   $: if ($replicaDetails) {
-    console.log('replicaDetails changed', $replicaDetails);
     createNewPeer();
   }
  
@@ -134,11 +128,6 @@
     showUserSettings = !showUserSettings;
   }
 
-  $: {
-    console.log("IDcreated", IDcreated);
-    console.log("showDetails", showDetails);
-    console.log("imageView", imageView);
-  }
 </script>
 
 <main>

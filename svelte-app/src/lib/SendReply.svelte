@@ -42,7 +42,7 @@
         let alias = $authorKeypair.address.slice(1, 5);
         let timestamp = Date.now();
         let oldPath = doc.path;
-        console.log("oldPath", oldPath);
+        //console.log("oldPath", oldPath);
 
         let basePath;
         let ephemerality;
@@ -75,8 +75,8 @@
         thisDoc.path = newPath;
 
         const result = await $replica.replica.set($authorKeypair, thisDoc);
-        console.log('newPath', newPath);
-        console.log("result ", result);
+        //console.log('newPath', newPath);
+        //console.log("result ", result);
         dispatch("success");
         text = '';
         return result;
@@ -102,7 +102,9 @@
         lgth = text.length;
     }
 
-    $: console.log('result', result);
+    $:  if (result !== undefined) {
+        console.log('result', result);
+    }
 </script>
 
 <div>

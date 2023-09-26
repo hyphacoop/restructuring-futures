@@ -2,20 +2,20 @@
 import { statusStore } from '../../store/status.js';
 
 export let shareID;
-console.log('shareID', shareID);
+//console.log('shareID', shareID);
 let getDocStatus, sent, received, requested, funStatus;
 
 
 
 // Update status-related variables reactively when status changes
 $: {
-    console.log('statusStore', $statusStore);
+    //console.log('statusStore', $statusStore);
 if ($statusStore && $statusStore[shareID]) {
     let shareData = $statusStore[shareID];
-    console.log('shareData', shareData);
+    //console.log('shareData', shareData);
     if (shareData) {
         getDocStatus = shareData.docs
-        console.log('getDocStatus', getDocStatus)
+        //console.log('getDocStatus', getDocStatus)
         funStatus = getDocStatus.status;
         sent = getDocStatus.sentCount;
         received = getDocStatus.receivedCount;

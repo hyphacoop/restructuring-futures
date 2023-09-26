@@ -36,10 +36,10 @@
         shareList = [...value]; 
         value.forEach(share => tooltipStates[share] = false);
     });
-
+/* 
     $: console.log('shareList', shareList);
     $: console.log('shareSecrets', settings.shareSecrets);
-
+ */
 </script>
 
 <div class='flex flex-row items-start'>

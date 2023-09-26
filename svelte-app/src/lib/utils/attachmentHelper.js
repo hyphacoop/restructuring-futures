@@ -4,9 +4,9 @@ export async function getAttachment(doc, replica) {
     let fileExtension = doc.path.split('.').pop();
 
     if (attachment !== undefined && typeof attachment.bytes === 'function') {
-        console.log('fileExtension', fileExtension);
+        //console.log('fileExtension', fileExtension);
         const docdata = await attachment.bytes();
-        console.log("docdata", docdata);
+        //console.log("docdata", docdata);
 
         let bytes = new Uint8Array(docdata.length);
         for (var i = 0; i < docdata.length; i++) {
@@ -23,15 +23,15 @@ export async function getAttachment(doc, replica) {
             case "webm":
                 filetype = "audio";
                 mimetype = "audio/" + fileExtension;
-                console.log("this is audio");
-                console.log(filetype, mimetype);
+                //console.log("this is audio");
+                //console.log(filetype, mimetype);
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: mimetype })
                 );
                 break;
             case "txt":
                 filetype = "text";
-                console.log(filetype);
+                //console.log(filetype);
                 //attachmentBytes = String.fromCharCode(...bytes);
                 var decoder = new TextDecoder("utf-8");
                 attachmentBytes = decoder.decode(Uint8Array.from(bytes));
@@ -41,8 +41,8 @@ export async function getAttachment(doc, replica) {
             case "jpg":
             case "gif":
                 filetype = "image";
-                console.log("this is an image");
-                console.log("fileExtension " + fileExtension);
+                //console.log("this is an image");
+                //console.log("fileExtension " + fileExtension);
                 mimetype = "image/" + fileExtension;
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: mimetype })
@@ -56,13 +56,13 @@ export async function getAttachment(doc, replica) {
                 break;
             default:
                 filetype = "other";
-                console.log(filetype);
+                //console.log(filetype);
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: "application/octet-stream" })
                 );
             }
-            console.log('filetype in helper function:', filetype)
-            console.log('bytes',    attachmentBytes)
+            //console.log('filetype in helper function:', filetype)
+            //console.log('bytes',    attachmentBytes)
         return attachmentBytes;
     }
 }
@@ -94,10 +94,10 @@ export function getFileExt(doc) {
             break;
         default:
             filetype = "other";
-            console.log(filetype);
+            //console.log(filetype);
             break;
         }
-        console.log('filetype in fileExt function:', filetype)
+        //console.log('filetype in fileExt function:', filetype)
     return filetype;
 }
 

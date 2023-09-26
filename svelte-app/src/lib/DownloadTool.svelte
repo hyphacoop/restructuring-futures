@@ -55,7 +55,6 @@
             path: "/counter/number",
             text: newCounterValue,
         });
-        console.log('new count', result);
         counter = newCounterValue;
     };
   
@@ -68,8 +67,6 @@
             },
         });
 
-        // Log the documents
-        console.log('docs to archive', documents)
 
         // Extract paths from documents and store in paths array
         paths = documents.map((doc) => doc.path);

@@ -34,9 +34,7 @@
 
     textContent = splitTitleAndNotes(doc.text)
     title = textContent.title;
-    console.log('title', title)
     note = textContent.notes;
-    console.log('note', note)
     sharedOn = textContent.preface;
     gridLocation = pathToXY(doc.path);
     const result = calculateSingleDocLunarPhase(doc);

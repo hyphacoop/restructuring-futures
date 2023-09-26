@@ -29,7 +29,7 @@
             let match = doc.path.match(/(\/documents\/(page\d+\/)?\d+\/\d+\/\d+)/);
             if (match && match[1]) {
                 newPath = match[1];
-                console.log('newPath', newPath)
+                //console.log('newPath', newPath)
             } else {
                 throw new Error("Invalid path format");
             }

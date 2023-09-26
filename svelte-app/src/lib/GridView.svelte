@@ -50,7 +50,7 @@
   let grid = [6, 9];
   let pages = [];
   let allPagesDocs;
-
+  let currentCacheDetails;
   let loadingText = "Looking for artefacts..."
 
   let sectionIndex = 0;
@@ -77,7 +77,6 @@
   });
 
   function backToCommons() {
-  loadingText = 'Looking for artefacts...';
   const shareAddress = import.meta.env.VITE_COMMONS_ADDRESS;
   const secret = settings.shareSecrets[shareAddress]; // retrieve the secret
   shareKeypair.set({shareAddress, secret});
@@ -141,14 +140,14 @@
   let artefactsInCurrentPhase = 0;
 
 
-  // Use $cacheDetails to access the current value, or subscribe to changes.
+  // Use $cacheDetails or currentCacheDetails to get updated.
   cacheDetails.subscribe(value => {
-    console.log("Cache details changed:", value);
+    currentCacheDetails = value;
 });
 
   $: if (selectedDocument) {
     let XY = pathToXY(selectedDocument.path);
-    console.log('XY', XY);
+
     scaledX = XY[1];
     scaledY = XY[0];
   }
@@ -193,7 +192,7 @@
 
     } else {
       loadingText = 'Looking for artefacts...';
-      console.log('looking for pages');
+      //console.log('looking for pages');
       // Group documents by page
       let groupedDocs = {};
 
@@ -222,7 +221,7 @@
 });
 
 // Logs
-console.log(groupedDocs, 'groupedDocs');
+//console.log(groupedDocs, 'groupedDocs');
 
 // Convert groupedDocs to a format which includes the gridState
 $studioGridStore = {}; // Reset the store initially
@@ -233,11 +232,11 @@ for (let pageKey in groupedDocs) {
 }
 
 // Logs
-console.log($studioGridStore, 'studioGridStore');
+//console.log($studioGridStore, 'studioGridStore');
 
 
     allPagesDocs = Object.values(groupedDocs);
-    console.log('allPagesDocs', allPagesDocs);
+    //console.log('allPagesDocs', allPagesDocs);
     setTimeout(() => {
         showStudio = true;
       }, 500);
@@ -263,7 +262,6 @@ console.log($studioGridStore, 'studioGridStore');
 
 
   $cacheDetails.onCacheUpdated(() => {
-    console.log('cache updated');
     setTimeout(() => {
       fetchDocs();
     }, 500);
@@ -272,7 +270,6 @@ console.log($studioGridStore, 'studioGridStore');
   $: {
   if (documents.length === 0) {
     if (retryCount < MAX_RETRIES) {
-      console.log('no docs');
       retryCount++;
       setTimeout(() => {
         fetchDocs();
@@ -289,7 +286,6 @@ console.log($studioGridStore, 'studioGridStore');
 }
 
   onMount(() => {
-    console.log('onMount')
   fetchDocs();
 });
 
@@ -320,8 +316,8 @@ console.log($studioGridStore, 'studioGridStore');
     selectedDocument = null;
     filetype = event.detail.type;
     xy = event.detail.location;
-    console.log("filetype", filetype);
-    console.log("xy", xy);
+    //console.log("filetype", filetype);
+    //console.log("xy", xy);
   }
   function successfulUpload() {
     uploadView = false;
@@ -355,14 +351,14 @@ $: {
         pageNumber: index + 1, // This assumes pages are in sequential order
         documents: docs
     }));
-    console.log('pages: ', pages)
+    //console.log('pages: ', pages)
         };
 }
   let windowWidth;
 
   $: windowWidth = window.innerWidth;
 
-  $: console.log(sectionIndex);
+  $: sectionIndex;
 
   $: {
     if (windowWidth <= 768) {
@@ -423,7 +419,7 @@ $: {
   >
   {#if selectedDocument}
   <div>
-    <DocDetails doc={selectedDocument} {attachment} {isReply} {isCommons}/>
+    <DocDetails doc={selectedDocument} {attachment} {isCommons}/>
   </div>
 {:else}
 <div>

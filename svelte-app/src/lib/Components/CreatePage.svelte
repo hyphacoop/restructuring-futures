@@ -15,7 +15,7 @@
     onMount(async () => {
         // Initialize page number when the component is mounted
         nextPageNumber = await fetchPages();
-        console.log('nextPageNumber', nextPageNumber);
+
     });
     
     async function fetchPages() {

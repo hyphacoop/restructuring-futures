@@ -43,7 +43,6 @@
 
 
   function getClick(doc) {
-    console.log("clicked");
     dispatch("click", doc);
   }
 
