@@ -1,7 +1,7 @@
 {
-  "name": "restructuring-futures",
+  "name": "eccentric-networks",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "postinstall": "./setup-env.sh",
