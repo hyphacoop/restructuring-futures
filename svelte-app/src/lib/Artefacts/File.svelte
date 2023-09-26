@@ -21,9 +21,9 @@
   let textContent;
   let errorMessage = '';
   let currentDoc;
-  let allFormats = ["JPG", "jpg", "jpeg", "PNG", "png", "GIF", "gif", "MP3", "mp3", "OGG", "ogg", "WEBM", "webm"];
+  let allFormats = ["JPG", "jpg", "jpeg", "JPEG", "PNG", "png", "GIF", "gif", "MP3", "mp3", "OGG", "ogg", "WEBM", "webm"];
   let supportedFormats = Array.from(new Set(allFormats.map(format => format.toLowerCase())));
-  let acceptFormats = supportedFormats.join(", .");
+  let acceptFormats = allFormats.join(", .");
 
   function readFileAsync(file) {
     return new Promise((resolve, reject) => {
