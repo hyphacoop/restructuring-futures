@@ -1,25 +1,11 @@
-<script>
-  import { createEventDispatcher } from 'svelte';
-
-  const dispatch = createEventDispatcher();
-
-  function handleReadManualClick() {
-    dispatch('readmanual');
-  }
-
-  function handleReadManualKeydown(event) {
-  if (event.key === 'Enter' || event.key === 'Space') {
-    handleReadManualClick();
-    event.preventDefault();  // prevent the default action for the space key (scrolling)
-  }
-}
-</script>
-
 <footer class='w-full'>
   <div class="footer mx-6 flex flex-row justify-between">
     <div class='flex flex-row justify-between w-1/3 ml-8'> 
-      <div class='link-style' on:click={handleReadManualClick}  on:keydown={handleReadManualKeydown} tabindex="0" role="button">
-        read manual
+      <div>
+        <a href="https://docs.google.com/document/d/1wIBZQP5sueNfqXHAQgkw7sO-m2qB5wnfbRHEv_zxE_4/edit?usp=sharing"
+        target="_blank" rel="noreferrer">
+          read manual
+        </a>
       </div>
       <div>
         <a href="https://github.com/hyphacoop/restructuring-futures/issues/new?assignees=TRIPLEDOUBLEV&labels=bug&projects=&template=bug_report.md&title="

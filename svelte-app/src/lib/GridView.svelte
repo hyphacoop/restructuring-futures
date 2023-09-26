@@ -40,7 +40,6 @@
   export let IDcreated = false;
   export let attachment = true;
   export let isReply = false;
-  export let readManual = false;
 
   const studioShareAddress = import.meta.env.VITE_STUDIO_SHARE_ADDRESS;
   const studioSecret = import.meta.env.VITE_STUDIO_SECRET;
@@ -85,8 +84,6 @@
   switchShare(); // set both shareAddress and secret
   selectedDocument = null;
   imageView = true;
-  readManual = false;
-  dispatch('resetManual');
 }
 
   function updateObserver() {
@@ -346,38 +343,6 @@ console.log($studioGridStore, 'studioGridStore');
     imageView = true;
   }
 
-$: if (readManual){
-  loadingText = "Loading manual..."
-    currentShare = get(shareKeypair).shareAddress;
-    if (currentShare.includes('commons')) {
-      let shareAddress = studioShareAddress;
-      let secret = studioSecret;
-      shareKeypair.set({shareAddress, secret});
-      switchShare(); // set both shareAddress and secret
-      };
-      setTimeout(() => {
-      fetchDocs();
-    }, 500);
-    setTimeout(() => {
-      selectedDocument = {
-        _localIndex: 2,
-        attachmentHash: "b7hrknufwimzdxqx6wfbo76hkmnmlji6rr7r2wnjzelnwwk3jvxxq",
-        attachmentSize: 108,
-        author: "@xbqy.bawslhcbis7ujno6putocezx74tsozhccashfhlv7hxtyuttp37pa",
-        format: "es.5",
-        path: "/documents/0/0/1691530547348/text-input-by-xbqy.md",
-        share: "+studio.bywytquv2ypa7qqwtj3gbuel5fnqh6w5n5yecdqbwzsr4keativ3a",
-        shareSignature: "bei64didblih3syu7uuchqtlnpnqq7grsjjh7pfnttv6wuutp75a7ur3oam2h2xthmm3anpuqqszwqntgdrfivi5ijvihhkxoston4dy",
-        signature: "bs6ssixzdrysg3cx6awirx6465xfufo5kml6gal6ue2scyzppsafgsnx5cyf7b65zlhrrxiwe4wpv3vumgf7yvusctpijhfo6dgo4oba",
-        text: "Text input by xbqy on 8/8/2023#Title: Placeholder manual#Notes: This is to test links to studio artefacts",
-        textHash: "byn2h46gvhtw7exw2rvjiq54fv2ubfhenhebbllpk3egcielzn2la",
-        timestamp: 1691530616881000,
-      };
-      loadingText = "Looking for artefacts..."
-    }, 600);
-    readManual = false;
-    dispatch('resetManual');
-};
 
 $: {
   sharePart = currentShare.split('+')[1].split('.')[0];
@@ -434,7 +399,7 @@ $: {
     <!-- Here is the DeleteTool -->
     <!--
     <DeleteTool />
-        -->
+            -->
 
 </div>
 <div class="the-scroll flex flex-row sm:flex-col min-h-screen overflow-y-auto">
