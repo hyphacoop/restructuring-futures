@@ -25,7 +25,7 @@
   } else {
       currentOccupiedGrid = Array(grid[0]).fill(0).map(() => Array(grid[1]).fill(false));
   }
-  console.log("Current Occupied Grid for Page ", selectedPage, ":", currentOccupiedGrid);
+  //console.log("Current Occupied Grid for Page ", selectedPage, ":", currentOccupiedGrid);
 }
 
   $: {
