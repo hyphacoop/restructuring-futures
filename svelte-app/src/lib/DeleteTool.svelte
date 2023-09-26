@@ -45,9 +45,9 @@
 <button on:click={cleanup}>Clean up DB</button>
         <textarea bind:value={deletePath}></textarea>
         <button on:click={() => deleteTool(deletePath)}>
-            Delete tool
+            Delete tool for the commons
         </button>
         <button on:click={() => wipeDocAtPath(deletePath)}>
-            Wipe tool
+            Wipe tool for the studio
         </button>
 
