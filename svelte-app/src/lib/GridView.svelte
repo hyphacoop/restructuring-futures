@@ -52,7 +52,7 @@
   let allPagesDocs;
   let currentCacheDetails;
   let loadingText = "Looking for artefacts..."
-
+  let alias = $authorKeypair.address.slice(0, 5)
   let sectionIndex = 0;
 
   let gridState = Array(grid[0]).fill().map(() => Array(grid[1]).fill(false));
@@ -408,7 +408,9 @@ $: {
   </button>
   <p class='ml-6 text-2xl text-left'><b>
     current alias:
-  </b>{$authorKeypair.address.slice(0, 5)}</p>
+  </b>{alias.length > 0 ? alias : 'none'}
+</p>
+
   <div
     class="ml-6 mx-1 sm:mt-4 flex flex-row justify-between sm:flex-col p-8 h-auto sm:h-[80vh] z-50 customBorder"
     style="
@@ -450,6 +452,13 @@ $: {
   </div>
 </div>
 <div class='flex flex-col w-full'>
+  {#if (alias.length === 0)}
+  <p class='mx-2 text-2xl text-left'>
+    <b>
+      you will need an identity in order to interact with this app
+  </b>
+  </p>
+  {/if}
   {#if !isCommons}
   <div class='w-auto py-4'>
   <DownloadTool shareAddress={currentShare} isStudio={true} />
