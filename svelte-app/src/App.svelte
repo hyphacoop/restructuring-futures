@@ -112,6 +112,12 @@
     initialView = 'identity';
   }
 
+  function exploreCommons() {
+    IDcreated = true;
+    showDetails = false;
+    showUserSettings = false;
+  }
+
   function handleError(event) {
     showWarning = true;
   }
@@ -168,7 +174,7 @@ $: {
         <Tooltip text='You will need an identity in order to interact with the artefacts'>
         <button
           class="phase1 mx-16 mt-12 text-2xl"
-          on:click={() => (IDcreated === true && showDetails === false)}
+          on:click={exploreCommons}
           >Explore the commons</button
         >
       </Tooltip>
