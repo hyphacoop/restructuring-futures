@@ -1,5 +1,5 @@
 {
-  "name": "restructuring-futures",
+  "name": "eccentric-networks",
   "version": "1.0.0",
   "description": "Restructuring Futures",
   "main": "main.js",
@@ -13,7 +13,7 @@
   "license": "ISC",
   "build": {
     "appId": "hyphacoop.github.io/restructuring-futures",
-    "productName": "Restructuring Futures",
+    "productName": "Eccentric Networks",
     "directories": {
       "output": "build"
     },
