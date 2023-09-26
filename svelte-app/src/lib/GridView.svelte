@@ -160,6 +160,7 @@
 
   // fetch documents
   const fetchDocs = async () => {
+    loadingText = 'Looking for artefacts...';
     documents = $cacheDetails.queryDocs({
       filter: {
         pathStartsWith: "/documents",
@@ -334,11 +335,13 @@ console.log($studioGridStore, 'studioGridStore');
   }
 
   function switchShare() {
+    retryCount = 0;
+    loadingText = '';
     documents = [];
     currentShare = get(shareKeypair).shareAddress;
     setTimeout(() => {
       fetchDocs();
-    }, 500);
+    }, 800);
     showPlace = false;
     imageView = true;
   }
@@ -525,7 +528,12 @@ $: {
           <div
             class="flex flex-col items-center justify-center align-middle h-[60vh]"
           >
-            <h3 class="p-6">{loadingText}</h3>
+            <h3 class="p-6">
+              {loadingText}
+            </h3>
+              {#if (loadingText === 'No artefacts were found')}
+                <StudioPortal topOfCommons={true} on:shareUpdated="{switchShare}" />
+              {/if}
           </div>
         {:else}
         {#if isCommons}
