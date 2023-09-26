@@ -18,13 +18,12 @@
     $: buttonText = dnone ? 'Show attachment' : 'Hide attachment';
 
     async function getAttachment(doc) {
-        console.log('getting attachment')
+
         const attachment = await $replica.replica.getAttachment(doc);
         let fileExtension = doc.path.split('.').pop();
 
         if (attachment !== undefined) {
-            console.log('attachment found')
-            console.log('fileExtension', fileExtension);
+
             const docdata = await attachment.bytes();
             //console.log("docdata", docdata);
 
@@ -40,22 +39,16 @@
             } else if (["mp3", "ogg", "webm"].includes(fileExtension)) {
                 filetype = "audio";
                 mimetype = "audio/" + fileExtension;
-                console.log("this is audio");
-                console.log(filetype, mimetype);
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: mimetype })
                 );
             } else if (fileExtension === "txt") {
                 filetype = "text";
-                console.log(filetype);
                 //attachmentBytes = String.fromCharCode(...bytes);
                 var decoder = new TextDecoder("utf-8");
                 attachmentBytes = decoder.decode(Uint8Array.from(bytes));
             } else if (["png", "gif", "jpeg"].includes(fileExtension)) {
                 filetype = "image";
-
-                console.log("this is an image");
-
                 mimetype = "image/" + fileExtension;
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: mimetype })
@@ -67,8 +60,6 @@
                 );
             } else {
                 filetype = "other";
-
-                console.log(filetype);
                 attachmentBytes = URL.createObjectURL(
                     new Blob([bytes], { type: "application/octet-stream" })
                 );
@@ -85,16 +76,15 @@
 
     function Download() {
         let element = document.createElement("a");
-        console.log(attachmentBytes + "attachmentBytes");
         if (attachmentBytes.split(":")[0] !== "blob") {
-            console.log("attachmentBytes is a string");
+
             attachmentBytes = URL.createObjectURL(new Blob([attachmentBytes]));
-            console.log("attachmentBytes is now a blob");
+
         }
-        console.log("type of attachmentBytes ", typeof attachmentBytes);
+
         let file = attachmentBytes;
         let filename = doc.path.split("/")[doc.path.split("/").length - 1];
-        console.log("type of file", typeof file);
+
         element.href = file;
         element.download = filename.slice(1);
         element.style.display = "none";
