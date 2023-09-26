@@ -45,10 +45,10 @@
       border: 1px solid black;
       background-color:white;
     }
-    a, .link-style {
+    a {
       text-decoration: underline;
     }
-    a:hover, .link-style:hover {
+    a:hover {
       text-underline-offset: 0.25rem;
       text-decoration-thickness: 0.125rem;
     }
