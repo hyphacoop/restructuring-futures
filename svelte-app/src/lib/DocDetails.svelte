@@ -11,7 +11,6 @@
 
   export let doc;
   export let attachment = true;
-  export let isReply = false;
   export let isCommons = true;
 
   let showDetails = false;
@@ -43,7 +42,7 @@
     const result = calculateSingleDocLunarPhase(doc);
     phase = result.lunarPhase;
     timeToDeletion = result.timeToDeletion;
-    timeToNextPhase = calculateTimeToNextPhase(phase, timeToDeletion, LUNAR_PHASE);
+    timeToNextPhase = calculateTimeToNextPhase(phase, timeToDeletion);
   }
 
 function formatDuration(microseconds) {
