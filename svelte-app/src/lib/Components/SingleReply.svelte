@@ -14,7 +14,6 @@ import GetAttachment from "../GetAttachment.svelte";
     let readableTimestamp = undefined;
 
     if (timestampInMilliseconds !== undefined) {
-        console.log("timestampInMilliseconds", timestampInMilliseconds)
         readableTimestamp = new Intl.DateTimeFormat('en-US').format(timestampInMilliseconds);
     }
 
