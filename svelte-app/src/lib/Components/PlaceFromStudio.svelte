@@ -6,8 +6,7 @@
     import { createEventDispatcher } from "svelte";
 
     import GridSelector from "./GridSelector.svelte";
-    import settings from "../../store/settings";
-    import { studioShares } from '../../store/settings'; // Adjust path accordingly
+    import { studioShares } from '../../store/settings';
     import authorKeypair from "../../store/identity";
     import replica from "../../store/replica";
 
@@ -25,6 +24,18 @@
     let showArtefacts = true;
     let studioReplica;
     let deletionTime;
+
+    let replicasByShare = {};
+
+      // Function to initialize or update a replica for a given share address
+      function initReplica(share) {
+        if (!replicasByShare[share]) {
+            console.log(`Creating new replica for share: ${share}`);
+            replicasByShare[share] = new Earthstar.Replica({
+                driver: new ReplicaDriverWeb(share)
+            });
+        }
+    }
 
     // Use the value of studioShares
     let sharesValue;
@@ -47,50 +58,45 @@
     let allArtefactsFromStudios = [];
 
     onMount(async () => {
-        const fetchArtefactsFromShare = async (share) => {
-            try {
+        studioShares.subscribe(values => {
+            values.forEach(share => initReplica(share));
+        });
+    const fetchArtefactsFromShare = async (share) => {
+        try {
 
-            const shareSecret = settings.shareSecrets[share];
-
-            studioReplica = new Earthstar.Replica({
-                driver: new ReplicaDriverWeb(share),
-            });
-            
-            let results = await studioReplica.queryDocs({
+            let results = await replicasByShare[share].queryDocs({
                 historyMode: "latest",
                 filter: {
                     author: $authorKeypair.address,
                     pathStartsWith: "/documents",
                 }
             });
-            results = results.filter((doc) => {
-                if (!doc.text.trim()) {
-                return false; // Filters out empty or whitespace-only documents
-            }
-                    // Check if the path matches the format /documents/pageX/newPage
-            if (/^\/documents\/page\d+\/newPage$/.test(doc.path)) {
-                return false;
-            }
-            if (doc.path.includes('/page')) {
-                    return doc.path.split("/").length <= 7;
-                } else {
-                    return doc.path.split("/").length <= 6;
-                }
+
+            results = results.filter(doc => {
+                if (!doc.text.trim()) return false;
+                if (/^\/documents\/page\d+\/newPage$/.test(doc.path)) return false;
+                const segments = doc.path.split("/");
+                return doc.path.includes('/page') ? segments.length <= 7 : segments.length <= 6;
             });
+
             return results;
-            
-        } 
-         catch (error) {
-    console.error("Error fetching artefacts:", error);
-}
+        } catch (error) {
+            console.error("Error fetching artefacts:", error);
+            return []; // Return empty array to safely use flat later
         }
+    }
 
+    let shares = sharesValue || []; // Ensure sharesValue is defined and an array
+    let promises = shares.map(share => fetchArtefactsFromShare(share));
 
-        let promises = sharesValue.map(share => fetchArtefactsFromShare(share));
-
+    try {
         let results = await Promise.all(promises);
         allArtefactsFromStudios = results.flat();
-    });
+        console.log("All artefacts from studios:", allArtefactsFromStudios);
+    } catch (error) {
+        console.error("Error handling all artefacts fetching:", error);
+    }
+});
 
     let selectedArtefact;
 
@@ -106,15 +112,16 @@
     }
 
     async function getAttachment(doc) {
-     const attachment = await studioReplica.getAttachment(doc);
+     const attachment = await replicasByShare[doc.share].getAttachment(doc);
      if (attachment && typeof attachment.bytes === 'function') {
+        console.log("Attachment bytes: ", await attachment.bytes());
          return await attachment.bytes();
      }
      return null;
  }
 
- const fetchReplies = async (basePath) => {
-    const allDocs = await studioReplica.queryDocs({
+ const fetchReplies = async (basePath, share) => {
+    const allDocs = await replicasByShare[share].queryDocs({
         filter: {
             pathStartsWith: basePath,
         },
@@ -192,7 +199,7 @@ const placeReplies = async (docs, basePath, deletionTime) => {
         console.log("Result: ", result);
         // Fetch all replies at the given path
         let pathForReplies = selectedArtefact.path.substring(0, selectedArtefact.path.lastIndexOf('/'));
-        let replies = await fetchReplies(pathForReplies);
+        let replies = await fetchReplies(pathForReplies, selectedArtefact.share);
 
         // Place them in the commons
         let transferedReplies = await placeReplies(replies, newPath, deletionTime);
@@ -219,7 +226,7 @@ const placeReplies = async (docs, basePath, deletionTime) => {
                 <button class='flex flex-col h-full justify-between' on:click={() => handleSelectArtefact(artefact)}> <!-- This makes the button flex and occupies full height -->
     
                     <div class='flex w-full'> <!-- This makes the preview occupy 80% of the height -->
-                        <ArtefactPreview doc={artefact} {studioReplica} />
+                        <ArtefactPreview doc={artefact} studioReplica={replicasByShare[artefact.share]} />
                     </div>
                     
                     <div class="h-1/6 text-center flex items-center justify-center"> <!-- This makes the text occupy 20% of the height and centers the text -->
