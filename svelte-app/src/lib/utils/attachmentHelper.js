@@ -1,5 +1,5 @@
 export async function getAttachment(doc, replica) {
-    let filetype, attachmentBytes, mimetype;
+    let filetype, attachmentBytes, mimetype, decoder;
     const attachment = await replica.getAttachment(doc);
     let fileExtension = doc.path.split('.').pop();
 
@@ -15,7 +15,7 @@ export async function getAttachment(doc, replica) {
         switch (fileExtension) {
             case "md":
                 filetype = "markdown";
-                var decoder = new TextDecoder("utf-8");
+                decoder = new TextDecoder("utf-8");
                 attachmentBytes = decoder.decode(new Uint8Array(docdata));
                 break;
             case "mp3":
@@ -33,7 +33,7 @@ export async function getAttachment(doc, replica) {
                 filetype = "text";
                 //console.log(filetype);
                 //attachmentBytes = String.fromCharCode(...bytes);
-                var decoder = new TextDecoder("utf-8");
+                decoder = new TextDecoder("utf-8");
                 attachmentBytes = decoder.decode(Uint8Array.from(bytes));
                 break;
             case "png":
