@@ -1,5 +1,4 @@
 <script>
-    import replicaDetails from "../../store/replica";
     import SvelteMarkdown from "svelte-markdown";
     import PdfViewer from 'svelte-pdf';
     import { onMount } from "svelte";
@@ -19,21 +18,18 @@
         let bytes = await getAttachment(doc, studioReplica);
 
         console.log('filetype preview', filetype);
+        attachmentStatus = true;
 
         return bytes;
     }
 
-    filetype = getFileExt(doc);
-
-    $: {
-    if (doc) {
-        filetype = getFileExt(doc);
-        promise = getAttachmentObject(doc);
-        attachmentStatus = true;
-        dnone = false;
-        console.log(promise)
+    onMount( async () => {
+        if (doc) {
+            filetype = getFileExt(doc);
+            promise = getAttachmentObject(doc);
+            dnone = false;
         }
-    }
+    });
 
 </script>
 
